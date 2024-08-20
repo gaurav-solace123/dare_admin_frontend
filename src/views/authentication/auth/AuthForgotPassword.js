@@ -1,0 +1,51 @@
+import React from 'react';
+import {
+    Box,
+    Typography,
+    FormGroup,
+    FormControlLabel,
+    Button,
+    Stack,
+    Checkbox
+} from '@mui/material';
+import { Link } from 'react-router-dom';
+
+import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
+
+const AuthForgotPassword = ({ title, subtitle, subtext }) => (
+    <>
+        {title ? (
+            <Typography fontWeight="700" variant="h2" mb={1}>
+                {title}
+            </Typography>
+        ) : null}
+
+        {subtext}
+
+        <Stack>
+            <Box>
+                <Typography variant="subtitle1"
+                    fontWeight={600} component="label" htmlFor='username' mb="5px">Email</Typography>
+                <CustomTextField id="username" variant="outlined" fullWidth />
+            </Box>
+           
+          
+        </Stack>
+        <Box mt='10px'>
+            <Button
+                color="primary"
+                variant="contained"
+                size="large"
+                fullWidth
+                component={Link}
+                to="/"
+                type="submit"
+            >
+                Submit
+            </Button>
+        </Box>
+        {subtitle}
+    </>
+);
+
+export default AuthForgotPassword;
