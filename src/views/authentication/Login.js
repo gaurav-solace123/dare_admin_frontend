@@ -39,10 +39,10 @@ const Login2 = () => {
             alignItems="center"
           >
             <Card elevation={9} sx={{ p: 4, zIndex: 1, width: '100%', maxWidth: '500px' }}>
-              <Box display="flex" alignItems="center" justifyContent="center" color={'#337ab7'}
+              <Box display="flex" alignItems="center" justifyContent="center" color={'#337ab7'} m={'5px'}
               fontSize={'calc(1.3rem + .6vw)'} fontWeight={700 }>
-                {/* <Logo /> */}
-                Login
+                <Logo />
+                {/* Login */}
               </Box>
               <AuthLogin
                 // subtext={
