@@ -1,7 +1,7 @@
 {
     "isMock": false,
-    "base_url":"http://localhost:3000",
+    "base_url":"192.168.1.19:3000",
     "backend": {
-        "baseurl": ""
+        "baseurl": "https://many-times-join.loca.lt"
     }
 }

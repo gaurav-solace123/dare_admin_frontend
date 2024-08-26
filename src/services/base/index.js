@@ -1,9 +1,9 @@
 import axios from "axios";
 // Importing config from a JSON file
-import config from "@/src/config/config.json";
-import { getSession } from "next-auth/react";
-import useSession from "@/src/hooks/useSession";
-import Cookies from "js-cookie";
+import config from "../../config/config.json";
+// import { getSession } from "next-auth/react";
+// import useSession from "@/src/hooks/useSession";
+// import Cookies from "js-cookie";
 
 const serviceConfig = {
   timeout: 45000,
@@ -22,7 +22,8 @@ const getServiceInstance = (baseURL) => {
   serviceInstance.isCancel = axios.isCancel;
 
   serviceInstance.interceptors.request.use(async (config) => {
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmM4MjIzODYxYmE0NmI0ZGMyMTk0ZTgiLCJlbWFpbCI6InN1cGVyYWRtaW5AZGFyZS5jb20iLCJfX3YiOjAsImlhdCI6MTcyNDY3NTA3MiwiZXhwIjoxNzI1Mjc5ODcyfQ.uN8Uy111_d8Wo0noNcdam6JpWOH5THsPcTseyCIq1zY'
     console.log("sessionfromAPi",token)
     const modifiedConfig = {
       ...config,
@@ -31,7 +32,8 @@ const getServiceInstance = (baseURL) => {
       modifiedConfig.headers["Authorization"] = `gxczMcoDRtr9Qv9bgLkfjTZHNjZqcOuU95Q06O5lEurYzzql2AUkBrPvBT0r5sj5modLHZBQ7jHljae3PYT1Ry43gKIPQstB`;
      }else{
       if (token) {
-        modifiedConfig.headers["Authorization"] = `Bearer ${JSON.parse(token)}`;
+        // modifiedConfig.headers["Authorization"] = `Bearer ${JSON.parse(token)}`;
+        modifiedConfig.headers["Authorization"] = `Bearer ${token}`;
       }
      }
     return modifiedConfig;

@@ -1,6 +1,6 @@
 // Import serviceV1 wherever you need to make API calls
 import serviceV1 from "./base"; // Adjust the import path as needed
-import Config from "@/src/config/config.json";
+import Config from "../config/config.json";
 
 // Example usage in a component or module
 export const getData = async (apiName) => {
