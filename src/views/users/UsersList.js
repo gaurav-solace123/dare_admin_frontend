@@ -21,24 +21,24 @@ import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import {  getData } from '../../services/services';
 import Api from '../../services/constant';
 
-function createData(id, name, calories, fat, carbs, protein) {
-  return { id, name, calories, fat, carbs, protein };
+function createData(id, firstName, userRole, userName, mobileNumber, email) {
+  return { id, firstName, userRole,email, userName, mobileNumber,  };
 }
 
 const rows = [
-  createData(1, 'Cupcake', 305, 3.7, 67, 4.3),
-  createData(2, 'Donut', 452, 25.0, 51, 4.9),
-  createData(3, 'Eclair', 262, 16.0, 24, 6.0),
-  createData(4, 'Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData(5, 'Gingerbread', 356, 16.0, 49, 3.9),
-  createData(6, 'Honeycomb', 408, 3.2, 87, 6.5),
-  createData(7, 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData(8, 'Jelly Bean', 375, 0.0, 94, 0.0),
-  createData(9, 'KitKat', 518, 26.0, 65, 7.0),
-  createData(10, 'Lollipop', 392, 0.2, 98, 0.0),
-  createData(11, 'Marshmallow', 318, 0, 81, 2.0),
-  createData(12, 'Nougat', 360, 19.0, 9, 37.0),
-  createData(13, 'Oreo', 437, 18.0, 63, 4.0),
+  createData(1, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(2, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(3, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(4, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(5, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(6, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(7, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(8, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(9, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(10,'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(11,'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(12,'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(13,'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -64,10 +64,11 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'name', numeric: false, label: 'Name' },
-  { id: 'calories', numeric: true, label: 'Email' },
-  { id: 'fat', numeric: true, label: 'Username' },
-  { id: 'carbs', numeric: true, label: 'Mobile' },
+  { id: 'firstName', numeric: false, label: 'Name' },
+  { id: 'userRole', numeric: true, label: 'Role' },
+  { id: 'email', numeric: true, label: 'Email' },
+  { id: 'userName', numeric: true, label: 'Username' },
+  { id: 'mobileNumber', numeric: true, label: 'Mobile' },
   { id: 'actions', numeric: true, label: 'Actions' },
 ];
 
@@ -125,7 +126,7 @@ function EnhancedTableToolbar() {
 
 export default function EnhancedTable() {
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
+  const [orderBy, setOrderBy] = React.useState('userRole');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [listData, setListData] = React.useState([])
@@ -201,10 +202,11 @@ export default function EnhancedTable() {
             <TableBody>
               {visibleRows.map((row) => (
                 <TableRow key={row.id}>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell align="right">{row.calories}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
-                  <TableCell align="right">{row.carbs}</TableCell>\
+                  <TableCell>{row.firstName}</TableCell>
+                  <TableCell align="right">{row.userRole}</TableCell>
+                  <TableCell align="right">{row.email}</TableCell>
+                  <TableCell align="right">{row.userName}</TableCell>
+                  <TableCell align="right">{row.mobileNumber}</TableCell>
                   <TableCell align="right">
                   <Tooltip title="Edit user">
                     <NavLink to={'/users/edit-user'} state={{

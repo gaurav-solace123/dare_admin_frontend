@@ -1,8 +1,9 @@
-import { useMediaQuery, Box, Drawer } from '@mui/material';
+import { useMediaQuery, Box, Drawer, Typography } from '@mui/material';
 import SidebarItems from './SidebarItems';
 import { Upgrade } from './Updrade';
 import { Sidebar, Logo } from 'react-mui-sidebar';
-import logo from '../../../assets/images/logos/dark1-logo.svg'
+import logo from '../../../assets/images/dareLogo.png'
+import { margin, width } from '@mui/system';
 
 const MSidebar = (props) => {
 
@@ -19,9 +20,23 @@ const MSidebar = (props) => {
       backgroundColor: '#eff2f7',
       borderRadius: '15px',
     },
+    
+  };
+  const logoContainerStyles = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 'auto',
+    marginBottom: '16px', // Optional
+    '.Logo MuiTypography-root':{
+      margin:'auto'
+    }
   };
 
-
+  const logoStyles = {
+    width: '150px', // Adjust width
+    height: 'auto', // Maintain aspect ratio
+  };
   if (lgUp) {
     return (
       <Box
@@ -64,7 +79,9 @@ const MSidebar = (props) => {
               {/* ------------------------------------------- */}
               {/* Logo */}
               {/* ------------------------------------------- */}
-              <Logo img={logo} />
+              <Box className={"Logo"} sx={logoContainerStyles}>
+                <Logo img={logo} sx={logoStyles} />
+              </Box>    
               <Box>
                 {/* ------------------------------------------- */}
                 {/* Sidebar Items */}
@@ -106,7 +123,7 @@ const MSidebar = (props) => {
         {/* Logo */}
         {/* ------------------------------------------- */}
 
-        <Logo img={logo} />
+        <Logo img={logo} sx={{ width: '150px', height: 'auto' }}/>
 
         {/* ------------------------------------------- */}
         {/* Sidebar For Mobile */}

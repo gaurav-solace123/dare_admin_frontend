@@ -23,7 +23,7 @@ const getServiceInstance = (baseURL) => {
 
   serviceInstance.interceptors.request.use(async (config) => {
     // const token = localStorage.getItem('token');
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmM4MjIzODYxYmE0NmI0ZGMyMTk0ZTgiLCJlbWFpbCI6InN1cGVyYWRtaW5AZGFyZS5jb20iLCJfX3YiOjAsImlhdCI6MTcyNDY3NTA3MiwiZXhwIjoxNzI1Mjc5ODcyfQ.uN8Uy111_d8Wo0noNcdam6JpWOH5THsPcTseyCIq1zY'
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmNkYmRmZjcwNWRiZDZlZThiNTEzYmUiLCJlbWFpbCI6InN1cGVyYWRtaW5AZGFyZS5jb20iLCJfX3YiOjAsImlhdCI6MTcyNDc1OTkwNywiZXhwIjoxNzI1MzY0NzA3fQ.NBt6NaF3_wTIskOQ3ijDuxkS8iJKhPxPjIC1i4RJ3CQ'
     console.log("sessionfromAPi",token)
     const modifiedConfig = {
       ...config,

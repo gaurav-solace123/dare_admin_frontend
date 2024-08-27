@@ -23,7 +23,7 @@ const AddEditUser = ({ title = 'Add user', subtitle, subtext }) => {
     const validationSchema = Yup.object({
         firstName: Yup.string().required('First Name is required.'),
         lastName: Yup.string().required('Last Name is required.'),
-        username: Yup.string().required('Username is required.'),
+        userName: Yup.string().required('userName is required.'),
         email: Yup.string().email('Enter a valid email.').required('Email is required.'),
         password: Yup.string().min(8, 'Password should be at least 8 characters.').required('Password is required.'),
         confirmPassword: Yup.string()
@@ -69,12 +69,14 @@ console.log('loaction', location)
         const payload = { 
             firstName:values?.firstName,
             lastName:values?.lastName,
-            username:values?.username,
+            userName:values?.userName,
             email:values?.email,
             userRole:values?.userRole,
             password:values?.password,
          };
-       
+       if(id){
+        payload._id=id;
+       }
 
     //     const filteredPayload = Object.fromEntries(
     //       Object.entries(updateValues).filter(([key, value]) => value !== "" && value !== null)
@@ -85,13 +87,10 @@ console.log('loaction', location)
             : postData(`${Api?.createUser}`, payload));
     
           if (result?.success) {
+            
             setIsLoading(false);
             showToast(result?.message);
-            handleAddForm(
-              id,
-              navigateToView ? true : false,
-              navigateToView ? navigateToView : false
-            );
+           navigate('/users')
           } else {
             setIsLoading(false);
           }
@@ -119,7 +118,7 @@ console.log('loaction', location)
                 initialValues={{
                     firstName: '',
                     lastName: '',
-                    username: '',
+                    userName: '',
                     email: '',
                     password: '',
                     confirmPassword: '',
@@ -136,7 +135,7 @@ console.log('loaction', location)
                             
                             <Grid container spacing={2}>
                             <Grid item xs={12}>
-                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="userRole">Select userRole</Typography>
+                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="userRole">Select user role</Typography>
                                     <Field
                                         as={TextField}
                                         id="userRole"
@@ -179,15 +178,15 @@ console.log('loaction', location)
                                 </Grid>
 
                                 <Grid item xs={6}>
-                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="username">Username</Typography>
+                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="userName">Username</Typography>
                                     <Field
                                         as={TextField}
-                                        id="username"
-                                        name="username"
+                                        id="userName"
+                                        name="userName"
                                         variant="outlined"
                                         fullWidth
-                                        error={touched.username && Boolean(errors.username)}
-                                        helperText={<ErrorMessage name="username" />}
+                                        error={touched.userName && Boolean(errors.userName)}
+                                        helperText={<ErrorMessage name="userName" />}
                                     />
                                 </Grid>
 
