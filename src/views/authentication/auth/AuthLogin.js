@@ -13,10 +13,12 @@ import { Link } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import useCustomToast from '../../../hooks/CustomToastHook';
+import { postData } from '../../../services/services';
+import Api from '../../../services/constant';
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
-    username: Yup.string()
+    email: Yup.string()
         .email('Enter a valid email.')
         .required('Email is required.'),
     password: Yup.string()
@@ -28,10 +30,34 @@ const validationSchema = Yup.object({
 const AuthLogin = ({ title, subtitle, subtext }) => {
     
     const { showToast, ToastComponent } = useCustomToast();
-    console.log('showToast',showToast)
-//   useEffect(()=>{
-//     showToast('hello world')
-//   },[])
+
+    const onSubmit = async (values) => {
+        const userValues = {
+          email: values.email,
+          password: values.password,
+        };
+        try {
+          setIsLoading(true);
+          const result = await postData(Api.userLogin, userValues);
+          console.log("resultsdjsh",result)
+          if (result?.success) {
+            localStorage.setItem("token", JSON.stringify(result?.data?.successResult?.token.replace("Bearer ", "")));
+            localStorage.setItem("userData", JSON.stringify(result?.data?.successResult?.user));
+            setUserData(result?.data?.successResult?.user);
+            setCookie("token", result?.data?.successResult?.token.replace("Bearer ", ""), 365); // The cookie will persist for 30 days
+    
+            router.push("/profile")
+            setIsLoading(false);
+          } else {
+            setIsLoading(false);
+            showToast(result?.response?.data?.message, "", "error");
+          }
+        } catch (error) {
+          console.error(error);
+        }
+        
+      };
+   
     return (
         <>
             {title ? (
@@ -44,31 +70,27 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
 
             <Formik
                 initialValues={{
-                    username: '',
+                    email: '',
                     password: ''
                 }}
                 validationSchema={validationSchema}
-                onSubmit={(values) => {
-                    // Handle form submission
-                    console.log('Form Submitted', values);
-                }}
+                onSubmit={onSubmit}
             >
                 {({ touched, errors, isSubmitting }) => (
                     <Form>
                         <Stack>
                             <Box mt={2}>
                                 <Typography variant="subtitle1" marginBottom={20}
-                                    fontWeight={600} component="label" htmlFor='username'>Email</Typography>
+                                    fontWeight={600} component="label" htmlFor='email'>Email</Typography>
                                 <Field
-                                    className="login-helperText"
-                                    as={TextField}
-                                    id="username"
-                                    name="username"
-                                    variant="outlined"
-                                    fullWidth
-                                    error={touched.username && Boolean(errors.username)}
-                                    helperText={<ErrorMessage name="username"/>}
-                                />
+                                        as={TextField}
+                                        id="email"
+                                        name="email"
+                                        variant="outlined"
+                                        fullWidth
+                                        error={touched.email && Boolean(errors.email)}
+                                        helperText={<ErrorMessage name="email" />}
+                                    />
                             </Box>
                             <Box mt="25px">
                                 <Typography variant="subtitle1"
