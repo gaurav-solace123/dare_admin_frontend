@@ -84,7 +84,9 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            //  align={headCell.numeric ? 'left' : 'right'}
+             align="center"
+            // style={{textAlign:'center'}}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
@@ -94,7 +96,7 @@ function EnhancedTableHead(props) {
             >
               {headCell.label}
               {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
+                <Box component="span" sx={visuallyHidden}  >
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
               ) : null}
@@ -117,6 +119,9 @@ function EnhancedTableToolbar() {
       </Typography>
       <Tooltip title="Add user">
         <IconButton onClick={() => navigate('/users/add-user')}>
+        <Typography sx={{ flex: '1 1 100%' }} variant="h6" >
+        Add User
+      </Typography>
           <AddIcon />
         </IconButton>
       </Tooltip>
@@ -199,15 +204,15 @@ export default function EnhancedTable() {
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
             />
-            <TableBody>
+            <TableBody >
               {visibleRows.map((row) => (
                 <TableRow key={row.id}>
-                  <TableCell>{row.firstName}</TableCell>
-                  <TableCell align="right">{row.userRole}</TableCell>
-                  <TableCell align="right">{row.email}</TableCell>
-                  <TableCell align="right">{row.userName}</TableCell>
-                  <TableCell align="right">{row.mobileNumber}</TableCell>
-                  <TableCell align="right">
+                  <TableCell align="center">{row.firstName}</TableCell>
+                  <TableCell align="center">{row.userRole}</TableCell>
+                  <TableCell align="center">{row.email}</TableCell>
+                  <TableCell align="center">{row.userName}</TableCell>
+                  <TableCell align="center">{row.mobileNumber}</TableCell>
+                  <TableCell align="center">
                   <Tooltip title="Edit user">
                     <NavLink to={'/users/edit-user'} state={{
                       id:row?.userId
