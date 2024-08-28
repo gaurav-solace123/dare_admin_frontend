@@ -1,7 +1,7 @@
 {
-    "isMock": false,
-    "base_url":"192.168.1.19:3000",
+    "isMock": true,
+    "base_url":"http://localhost:5173/mock",
     "backend": {
-        "baseurl": "http://192.168.1.22:3000"
+        "baseurl": "http://192.168.1.22:3000/v1"
     }
 }

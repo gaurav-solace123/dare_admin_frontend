@@ -1,0 +1,20 @@
+{
+	"status": 200,
+	"message": "User created successfully!",
+	"data": {
+		"userRole": "Facilitator",
+		"firstName": "aileen",
+		"lastName": "boone",
+		"userName": "geguxa",
+		"email": "mailto:myne@mailinator.com",
+		"accountApproved": false,
+		"isArchive": false,
+		"isIntialized": false,
+		"mailingAddress": null,
+		"mobileNumber": null,
+		"_id": "66cd9b37b8c51f8ba74e68b1",
+		"_created_at": "2024-08-27T09:24:08.000Z",
+		"_updated_at": "2024-08-27T09:24:08.004Z",
+		"__v": 0
+	}
+}

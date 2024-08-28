@@ -20,26 +20,13 @@ import AddIcon from '@mui/icons-material/Add';
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import {  getData } from '../../services/services';
 import Api from '../../services/constant';
+import AddEditUser from './AddEditUser';
 
-function createData(id, firstName, userRole, userName, mobileNumber, email) {
-  return { id, firstName, userRole,email, userName, mobileNumber,  };
+function createData(_id, firstName, userRole, userName, mobileNumber, email) {
+  return { _id, firstName, userRole,email, userName, mobileNumber,  };
 }
 
-const rows = [
-  createData(1, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(2, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(3, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(4, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(5, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(6, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(7, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(8, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(9, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(10,'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(11,'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(12,'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(13,'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-];
+
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) return -1;
@@ -83,19 +70,19 @@ function EnhancedTableHead(props) {
       <TableRow>
         {headCells.map((headCell) => (
           <TableCell
-            key={headCell.id}
+            key={headCell?._id}
             //  align={headCell.numeric ? 'left' : 'right'}
              align="center"
             // style={{textAlign:'center'}}
-            sortDirection={orderBy === headCell.id ? order : false}
+            sortDirection={orderBy === headCell?._id ? order : false}
           >
             <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
+              active={orderBy === headCell?._id}
+              direction={orderBy === headCell?._id ? order : 'asc'}
+              onClick={createSortHandler(headCell?._id)}
             >
               {headCell.label}
-              {orderBy === headCell.id ? (
+              {orderBy === headCell?._id ? (
                 <Box component="span" sx={visuallyHidden}  >
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
@@ -109,23 +96,42 @@ function EnhancedTableHead(props) {
 }
 
 function EnhancedTableToolbar() {
+  const [isModalOpen, setModalOpen] = React.useState(false);
 
+    // Function to handle opening the modal
+    const handleOpenModal = () => {
+        setModalOpen(true);
+    };
+
+    // Function to handle closing the modal
+    const handleCloseModal = () => {
+        setModalOpen(false);
+    };
   
-  const navigate = useNavigate();
   return (
+    <>
     <Toolbar>
       <Typography sx={{ flex: '1 1 100%' }} variant="h6">
         Users
       </Typography>
       <Tooltip title="Add user">
-        <IconButton onClick={() => navigate('/users/add-user')}>
-        <Typography sx={{ flex: '1 1 100%' }} variant="h6" >
+        <IconButton onClick={handleOpenModal}>
+        <Typography sx={{ flex: '1 1 100%' }} variant="h6"  >
         Add User
       </Typography>
           <AddIcon />
         </IconButton>
       </Tooltip>
     </Toolbar>
+    {
+ <AddEditUser
+ open={isModalOpen}
+ onClose={handleCloseModal}
+ title="Add User"
+ subtitle="Fill out the form to add a new user"
+/>
+      }
+    </>
   );
 }
 
@@ -135,7 +141,7 @@ export default function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [listData, setListData] = React.useState([])
-  
+ 
   const [isLoading, setIsLoading] = React.useState(false);
   const [totalCount, setTotalCount] = React.useState('')
 
@@ -157,21 +163,22 @@ export default function EnhancedTable() {
   const loadData = async (pageNumber, pageSize,filters) => {
     try {
       
-      let searchQuery = `?pageIndex=${pageNumber}&pageSize=${pageSize}`;
+      // let searchQuery = `?pageIndex=${pageNumber}&pageSize=${pageSize}`;
+      let searchQuery =''
       for (const key in filters) {
         if (filters[key] !== "") {
           searchQuery += `&${key}=${encodeURIComponent(filters[key])}`;
         }
       }
       const result = await getData(`${Api?.listUsers}${searchQuery}`);
-      if (result?.success) {
+      if (result?.status== 200) {
        if (pageNumber > 1) {
-          setListData(result?.data?.successResult?.result);
+          setListData(result?.data?.users);
         } else {
-          setListData([...listData, ...result?.data?.successResult?.result]);
+          setListData([...listData, ...result?.data?.users]);
         }
         setIsLoading(false);
-        setTotalCount(result.data.successResult?.count);
+        // setTotalCount(result.data.successResult?.count);
         
       } else {
         setIsLoading(false);
@@ -183,13 +190,13 @@ export default function EnhancedTable() {
 
   const visibleRows = React.useMemo(
     () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
+      stableSort(listData, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage,
       ),
-    [order, orderBy, page, rowsPerPage],
+    [order, orderBy, page, rowsPerPage,listData],
   );
-
+console.log('visibleRows', visibleRows)
   React.useEffect(()=>{
     loadData(page,rowsPerPage)
   },[])
@@ -206,7 +213,7 @@ export default function EnhancedTable() {
             />
             <TableBody >
               {visibleRows.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow key={row?._id}>
                   <TableCell align="center">{row.firstName}</TableCell>
                   <TableCell align="center">{row.userRole}</TableCell>
                   <TableCell align="center">{row.email}</TableCell>
@@ -215,7 +222,7 @@ export default function EnhancedTable() {
                   <TableCell align="center">
                   <Tooltip title="Edit user">
                     <NavLink to={'/users/edit-user'} state={{
-                      id:row?.userId
+                      id:row?._id
                     }}>
 
                   <MoreVertOutlinedIcon  />
@@ -231,13 +238,15 @@ export default function EnhancedTable() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={listData.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+   
     </Box>
+
   );
 }

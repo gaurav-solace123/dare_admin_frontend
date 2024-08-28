@@ -14,16 +14,18 @@ import useCustomToast from '../../hooks/CustomToastHook';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getData, patchData, postData } from '../../services/services';
 import Api from '../../services/constant';
+import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
+import CustomModal from '../../components/Modal';
 
 
 
-const AddEditUser = ({ title = 'Add user', subtitle, subtext }) => {
+const AddEditUser = ({ title = 'Add user', subtitle, subtext,open ,onClose}) => {
     //constants
     // Validation schema using Yup
     const validationSchema = Yup.object({
         firstName: Yup.string().required('First Name is required.'),
         lastName: Yup.string().required('Last Name is required.'),
-        userName: Yup.string().required('userName is required.'),
+        userName: Yup.string().required('Username is required.'),
         email: Yup.string().email('Enter a valid email.').required('Email is required.'),
         password: Yup.string().min(8, 'Password should be at least 8 characters.').required('Password is required.'),
         confirmPassword: Yup.string()
@@ -86,11 +88,10 @@ console.log('loaction', location)
             ? patchData(`${Api?.updateUser}/${id}`, payload)
             : postData(`${Api?.createUser}`, payload));
     
-          if (result?.success) {
-            
+          if (result?.status==200) {
             setIsLoading(false);
             showToast(result?.message);
-           navigate('/users')
+            onClose()
           } else {
             setIsLoading(false);
           }
@@ -106,13 +107,33 @@ console.log('loaction', location)
       },[])
     return (
         <>
-            {title ? (
+            {/* {title ? (
                 <Typography fontWeight="700" variant="h2" mb={1}>
                     {title}
                 </Typography>
             ) : null}
 
-            {subtext}
+            {subtext} */}
+            <CustomModal
+        open={open}
+        handleClose={onClose}
+        title="Add User"
+        // actions={
+        //   <>
+        //     <Button onClick={setIsLoading} color="secondary">
+        //       Cancel
+        //     </Button>
+        //     <Button
+        //       color="primary"
+        //       variant="contained"
+        //       onClick={() => formikRef.current.submitForm()}
+        //     >
+        //       Submit
+        //     </Button>
+        //   </>
+        // }
+      >
+
 
             <Formik
                 initialValues={{
@@ -135,9 +156,9 @@ console.log('loaction', location)
                             
                             <Grid container spacing={2}>
                             <Grid item xs={12}>
-                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="userRole">Select user role</Typography>
+                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="userRole">Select User Role</Typography>
                                     <Field
-                                        as={TextField}
+                                        as={CustomTextField}
                                         id="userRole"
                                         name="userRole"
                                         select
@@ -155,7 +176,7 @@ console.log('loaction', location)
                                 <Grid item xs={6}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="firstName">First Name</Typography>
                                     <Field
-                                        as={TextField}
+                                        as={CustomTextField}
                                         id="firstName"
                                         name="firstName"
                                         variant="outlined"
@@ -167,7 +188,7 @@ console.log('loaction', location)
                                 <Grid item xs={6}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="lastName">Last Name</Typography>
                                     <Field
-                                        as={TextField}
+                                        as={CustomTextField}
                                         id="lastName"
                                         name="lastName"
                                         variant="outlined"
@@ -180,7 +201,7 @@ console.log('loaction', location)
                                 <Grid item xs={6}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="userName">Username</Typography>
                                     <Field
-                                        as={TextField}
+                                        as={CustomTextField}
                                         id="userName"
                                         name="userName"
                                         variant="outlined"
@@ -193,7 +214,7 @@ console.log('loaction', location)
                                 <Grid item xs={6}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="email">Email</Typography>
                                     <Field
-                                        as={TextField}
+                                        as={CustomTextField}
                                         id="email"
                                         name="email"
                                         variant="outlined"
@@ -206,7 +227,7 @@ console.log('loaction', location)
                                 <Grid item xs={6}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="password">Password</Typography>
                                     <Field
-                                        as={TextField}
+                                        as={CustomTextField}
                                         id="password"
                                         name="password"
                                         type="password"
@@ -220,7 +241,7 @@ console.log('loaction', location)
                                 <Grid item xs={6}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="confirmPassword">Confirm Password</Typography>
                                     <Field
-                                        as={TextField}
+                                        as={CustomTextField}
                                         id="confirmPassword"
                                         name="confirmPassword"
                                         type="password"
@@ -237,7 +258,7 @@ console.log('loaction', location)
                             <Grid item xs={6}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="mailingAddress">Mailing address</Typography>
                                     <Field
-                                        as={TextField}
+                                        as={CustomTextField}
                                         id="mailingAddress"
                                         name="mailingAddress"
                                         variant="outlined"
@@ -250,7 +271,7 @@ console.log('loaction', location)
                                 <Grid item xs={6}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="mobileNumber">Mobile No</Typography>
                                     <Field
-                                        as={TextField}
+                                        as={CustomTextField}
                                         id="mobileNumber"
                                         name="mobileNumber"
                                         variant="outlined"
@@ -273,7 +294,7 @@ console.log('loaction', location)
                                         type="button"
                                         onClick={() => {
                                             // Handle cancel
-                                            navigate('/users');
+                                            onClose()
                                         }}
                                     >
                                         Cancel
@@ -297,8 +318,9 @@ console.log('loaction', location)
                     </Form>
                 )}
             </Formik>
+            </CustomModal>
 
-            {subtitle}
+            {/* {subtitle} */}
             <ToastComponent />
         </>
     );
