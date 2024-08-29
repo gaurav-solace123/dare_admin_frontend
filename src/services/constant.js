@@ -1,13 +1,13 @@
 const Api = {
     //users
-    userLogin:'/v1/auth/login',
-    forgotPassword:'/v1/auth/forgot-password',
-    resetPassword:'/v1/auth/reset-password',
-    verifyToken:'/v1/auth/verify-password-token',
-    createUser:'/v1/users/create',
-    viewUser:'/v1/users/view',
-    updateUser:'/v1/users/update',
-    listUsers:'/v1/users/list',
+    userLogin:'/auth/login',
+    forgotPassword:'/auth/forgot-password',
+    resetPassword:'/auth/reset-password',
+    verifyToken:'/auth/verify-password-token',
+    createUser:'/users/create',
+    viewUser:'/users/view',
+    updateUser:'/users/update',
+    listUsers:'/users/list',
 
 };
 

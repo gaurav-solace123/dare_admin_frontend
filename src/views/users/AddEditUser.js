@@ -134,7 +134,7 @@ console.log('loaction', location)
                         <Stack spacing={2}>
                             {/* First Name and Last Name in one row */}
                             
-                            <Grid container  width={'100%'}>
+                            <Grid container width={'100%'}>
                             <Grid item xs={12} p={'7px'} >
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="userRole">Select user role</Typography>
                                     <Field
@@ -264,7 +264,7 @@ console.log('loaction', location)
                             </Grid>
                             {/* Submit and Cancel buttons */}
 
-                            <Grid container >
+                            <Grid container spacing={2}>
                                 <Grid item xs={6} p={'7px'}>
                                     <Button
                                         color="secondary"

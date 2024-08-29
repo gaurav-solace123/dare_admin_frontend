@@ -1,0 +1,28 @@
+{
+    "status": 200,
+    "message": "Retrieve the list of users successfully",
+    "data": {
+      "users": [
+        {
+          "_id": "66cd81c08df979e9a1c8a8c8",
+          "userRole": "Facilitator",
+          "firstName": "Miller",
+          "lastName": "Williams",
+          "userName": "Miller Williams",
+          "email": "miller@yopmail.com",
+          "accountApproved": true,
+          "isArchive": true,
+          "isIntialized": false,
+          "displayName": "Miller Williams",
+          "mailingAddress": "test mailing address",
+          "mobileNumber": "9878765654",
+          "_created_at": "2024-08-27T07:35:28.997Z",
+          "_updated_at": "2024-08-27T07:35:28.998Z",
+          "__v": 0
+        }
+      ],
+      "total": 1,
+      "page": "1",
+      "limit": "10"
+    }
+}
