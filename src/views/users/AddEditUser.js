@@ -17,7 +17,7 @@ import Api from '../../services/constant';
 
 
 
-const AddEditUser = ({ title = 'Add user', subtitle, subtext }) => {
+const AddEditUser = ({ title = 'Add user', subtitle, subtext,cancel }) => {
     //constants
     // Validation schema using Yup
     const validationSchema = Yup.object({
@@ -91,6 +91,7 @@ console.log('loaction', location)
             setIsLoading(false);
             showToast(result?.message);
            navigate('/users')
+           cancel()
           } else {
             setIsLoading(false);
           }
@@ -130,11 +131,11 @@ console.log('loaction', location)
             >
                 {({ touched, errors, isSubmitting }) => (
                     <Form>
-                        <Stack spacing={3}>
+                        <Stack spacing={2}>
                             {/* First Name and Last Name in one row */}
                             
-                            <Grid container spacing={2}>
-                            <Grid item xs={12}>
+                            <Grid container  width={'100%'}>
+                            <Grid item xs={12} p={'7px'} >
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="userRole">Select user role</Typography>
                                     <Field
                                         as={TextField}
@@ -152,7 +153,7 @@ console.log('loaction', location)
                                         <MenuItem value="Instructor">Instructor</MenuItem>
                                     </Field>
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="firstName">First Name</Typography>
                                     <Field
                                         as={TextField}
@@ -164,7 +165,7 @@ console.log('loaction', location)
                                         helperText={<ErrorMessage name="firstName" />}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="lastName">Last Name</Typography>
                                     <Field
                                         as={TextField}
@@ -177,7 +178,7 @@ console.log('loaction', location)
                                     />
                                 </Grid>
 
-                                <Grid item xs={6}>
+                                <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="userName">Username</Typography>
                                     <Field
                                         as={TextField}
@@ -190,7 +191,7 @@ console.log('loaction', location)
                                     />
                                 </Grid>
 
-                                <Grid item xs={6}>
+                                <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="email">Email</Typography>
                                     <Field
                                         as={TextField}
@@ -203,7 +204,7 @@ console.log('loaction', location)
                                     />
                                 </Grid>
 
-                                <Grid item xs={6}>
+                                <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="password">Password</Typography>
                                     <Field
                                         as={TextField}
@@ -217,7 +218,7 @@ console.log('loaction', location)
                                     />
                                 </Grid>
 
-                                <Grid item xs={6}>
+                                <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="confirmPassword">Confirm Password</Typography>
                                     <Field
                                         as={TextField}
@@ -234,7 +235,7 @@ console.log('loaction', location)
                               
                             {formikRef?.current?.values?.userRole=='Instructor'&&
                             <>
-                            <Grid item xs={6}>
+                            <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="mailingAddress">Mailing address</Typography>
                                     <Field
                                         as={TextField}
@@ -247,7 +248,7 @@ console.log('loaction', location)
                                     />
                                 </Grid>
 
-                                <Grid item xs={6}>
+                                <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="mobileNumber">Mobile No</Typography>
                                     <Field
                                         as={TextField}
@@ -263,8 +264,8 @@ console.log('loaction', location)
                             </Grid>
                             {/* Submit and Cancel buttons */}
 
-                            <Grid container spacing={2}>
-                                <Grid item xs={6}>
+                            <Grid container >
+                                <Grid item xs={6} p={'7px'}>
                                     <Button
                                         color="secondary"
                                         variant="outlined"
@@ -273,13 +274,14 @@ console.log('loaction', location)
                                         type="button"
                                         onClick={() => {
                                             // Handle cancel
+                                            cancel()
                                             navigate('/users');
                                         }}
                                     >
                                         Cancel
                                     </Button>
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={6} p={'7px'}>
                                     <Button
                                         color="primary"
                                         variant="contained"

@@ -1,3 +1,5 @@
+import { border, borderColor, color, fontFamily, textAlign } from "@mui/system";
+
 const typography = {
   fontFamily: "'Plus Jakarta Sans', sans-serif;",
   h1: {
@@ -24,13 +26,31 @@ const typography = {
     lineHeight: '1.6rem',
   },
   h5: {
+    fontFamily:"Stamped",
     fontWeight: 600,
     fontSize: '1.125rem',
     lineHeight: '1.6rem',
   },
+  tableHead:{
+// color:"white",
+fontSize: '1.125rem',
+fontWeight: 900,
+textAlign:"center",
+borderColor:'#bce8f1',
+border:'3px'
+  },
+  tableText:{
+    fontWeight: 400,
+    fontSize: '1rem',
+  },
   h6: {
     fontWeight: 600,
-    fontSize: '1rem',
+    fontSize: '1.2rem',
+    lineHeight: '1.2rem',
+  },
+  tableTitle: {
+    fontWeight: 800,
+    fontSize: '1.5rem',
     lineHeight: '1.2rem',
   },
   button: {
@@ -50,7 +70,9 @@ const typography = {
   },
   subtitle1: {
     fontSize: '0.875rem',
-    fontWeight: 400,
+    fontWeight: 'bold',
+    color:'grey',
+
   },
   subtitle2: {
     fontSize: '0.875rem',

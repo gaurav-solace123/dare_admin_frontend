@@ -15,7 +15,7 @@ const NavGroup = ({ item }) => {
     }),
   );
   return (
-    <ListSubheaderStyle>{item.subheader}</ListSubheaderStyle>
+    <ListSubheaderStyle>{item?.subheader}</ListSubheaderStyle>
   );
 };
 

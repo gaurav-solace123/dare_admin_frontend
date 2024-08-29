@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
+// import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -20,6 +20,12 @@ import AddIcon from '@mui/icons-material/Add';
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import {  getData } from '../../services/services';
 import Api from '../../services/constant';
+import { Badge, Button, Modal } from '@mui/material';
+import { IconBellRinging } from '@tabler/icons-react';
+import Table from './component/CustomTable';
+import CustomTable from './component/CustomTable';
+import AddEditUser from './AddEditUser';
+import { borderRadius } from '@mui/system';
 
 function createData(id, firstName, userRole, userName, mobileNumber, email) {
   return { id, firstName, userRole,email, userName, mobileNumber,  };
@@ -27,18 +33,18 @@ function createData(id, firstName, userRole, userName, mobileNumber, email) {
 
 const rows = [
   createData(1, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(2, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(3, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(4, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(5, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(6, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(7, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(8, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(9, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(10,'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(11,'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(12,'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(13,'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(2, 'omkar', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(3, 'shubh', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(4, 'raj', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(5, 'grut', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(6, 'hi', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(7, 'cii', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(8, 'dii', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(9, 'cii', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(10,'mll', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(11,'koo', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(12,'buu', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(13,'foo', 'Student', 'test@gmail.com','Miller Williams',9878765654),
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -66,68 +72,14 @@ function stableSort(array, comparator) {
 const headCells = [
   { id: 'firstName', numeric: false, label: 'Name' },
   { id: 'userRole', numeric: true, label: 'Role' },
+  { id: 'mobileNumber', numeric: true, label: 'Mobile' },
   { id: 'email', numeric: true, label: 'Email' },
   { id: 'userName', numeric: true, label: 'Username' },
-  { id: 'mobileNumber', numeric: true, label: 'Mobile' },
+  
   { id: 'actions', numeric: true, label: 'Actions' },
 ];
 
-function EnhancedTableHead(props) {
-  const { order, orderBy, onRequestSort } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
 
-  return (
-    <TableHead>
-      <TableRow>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            //  align={headCell.numeric ? 'left' : 'right'}
-             align="center"
-            // style={{textAlign:'center'}}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}  >
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-function EnhancedTableToolbar() {
-
-  
-  const navigate = useNavigate();
-  return (
-    <Toolbar>
-      <Typography sx={{ flex: '1 1 100%' }} variant="h6">
-        Users
-      </Typography>
-      <Tooltip title="Add user">
-        <IconButton onClick={() => navigate('/users/add-user')}>
-        <Typography sx={{ flex: '1 1 100%' }} variant="h6" >
-        Add User
-      </Typography>
-          <AddIcon />
-        </IconButton>
-      </Tooltip>
-    </Toolbar>
-  );
-}
 
 export default function EnhancedTable() {
   const [order, setOrder] = React.useState('asc');
@@ -138,106 +90,35 @@ export default function EnhancedTable() {
   
   const [isLoading, setIsLoading] = React.useState(false);
   const [totalCount, setTotalCount] = React.useState('')
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const styleModel = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 500,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    borderRadius:"5px",
+    boxShadow: 24,
+    p: 2,
   };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const loadData = async (pageNumber, pageSize,filters) => {
-    try {
-      
-      let searchQuery = `?pageIndex=${pageNumber}&pageSize=${pageSize}`;
-      for (const key in filters) {
-        if (filters[key] !== "") {
-          searchQuery += `&${key}=${encodeURIComponent(filters[key])}`;
-        }
-      }
-      const result = await getData(`${Api?.listUsers}${searchQuery}`);
-      if (result?.success) {
-       if (pageNumber > 1) {
-          setListData(result?.data?.successResult?.result);
-        } else {
-          setListData([...listData, ...result?.data?.successResult?.result]);
-        }
-        setIsLoading(false);
-        setTotalCount(result.data.successResult?.count);
-        
-      } else {
-        setIsLoading(false);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const visibleRows = React.useMemo(
-    () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage,
-      ),
-    [order, orderBy, page, rowsPerPage],
-  );
-
-  React.useEffect(()=>{
-    loadData(page,rowsPerPage)
-  },[])
+  
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar />
-        <TableContainer>
-          <Table>
-            <EnhancedTableHead
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-            />
-            <TableBody >
-              {visibleRows.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell align="center">{row.firstName}</TableCell>
-                  <TableCell align="center">{row.userRole}</TableCell>
-                  <TableCell align="center">{row.email}</TableCell>
-                  <TableCell align="center">{row.userName}</TableCell>
-                  <TableCell align="center">{row.mobileNumber}</TableCell>
-                  <TableCell align="center">
-                  <Tooltip title="Edit user">
-                    <NavLink to={'/users/edit-user'} state={{
-                      id:row?.userId
-                    }}>
-
-                  <MoreVertOutlinedIcon  />
-                    </NavLink>
-      </Tooltip>
-                    
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
+<>
+    <CustomTable Title={'Users'} headers={headCells} listData={rows} onAddClick={()=>handleOpen()}/>
+    <Modal
+    open={open}
+    onClose={handleClose}
+    aria-labelledby="modal-modal-title"
+    aria-describedby="modal-modal-description"
+  >
+    <Box sx={styleModel}>
+     <AddEditUser cancel={()=>handleClose()}/>
     </Box>
+  </Modal>
+  </>
   );
 }
