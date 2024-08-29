@@ -1,0 +1,10 @@
+{
+    "status": 200,
+    "message": "Login Successfully!",
+    "data": {
+      "_id": "66cc143716304eaeea8a2441",
+      "email": "superadmin@dare.com",
+      "__v": 0,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmNjMTQzNzE2MzA0ZWFlZWE4YTI0NDEiLCJlbWFpbCI6InN1cGVyYWRtaW5AZGFyZS5jb20iLCJfX3YiOjAsImlhdCI6MTcyNDg0MjQxOSwiZXhwIjoxNzI1NDQ3MjE5fQ.qhpvDhJgclFYmfJL4Tkj3-6tnLYcqMN3bW6DWrByPX0"
+    }
+  }

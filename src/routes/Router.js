@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/full/shared/loadable/Loadable';
 import ForgotPassword from '../views/authentication/ForgotPassword';
 import ResetPassword from '../views/authentication/ResetPassword';
+import PrivateRoute from './PrivateRoute';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -26,14 +27,26 @@ const Router = [
     element: <FullLayout />,
     children: [
       { path: '/', element: <Navigate to="/dashboard" /> },
-      { path: '/dashboard', exact: true, element: <Dashboard /> },
-      { path: '/users', exact: true, element: <UsersList /> },
-      { path: '/users/add-user', exact: true, element: <AddEditUser /> },
-      { path: '/users/edit-user', exact: true, element: <AddEditUser /> },
-      { path: '/sample-page', exact: true, element: <SamplePage /> },
-      { path: '/icons', exact: true, element: <Icons /> },
-      { path: '/ui/typography', exact: true, element: <TypographyPage /> },
-      { path: '/ui/shadow', exact: true, element: <Shadow /> },
+      {
+        path: '/dashboard',
+        element: <PrivateRoute element={<Dashboard />} />
+      },
+      {
+        path: '/users',
+        element: <PrivateRoute element={<UsersList />} />
+      },
+      {
+        path: '/users/add-user',
+        element: <PrivateRoute element={<AddEditUser />} />
+      },
+      {
+        path: '/users/edit-user',
+        element: <PrivateRoute element={<AddEditUser />} />
+      },
+      { path: '/sample-page', element: <SamplePage /> },
+      { path: '/icons', element: <Icons /> },
+      { path: '/ui/typography', element: <TypographyPage /> },
+      { path: '/ui/shadow', element: <Shadow /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },
@@ -52,3 +65,4 @@ const Router = [
 ];
 
 export default Router;
+

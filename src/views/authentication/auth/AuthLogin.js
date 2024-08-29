@@ -9,7 +9,7 @@ import {
     Checkbox,
     TextField
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import useCustomToast from '../../../hooks/CustomToastHook';
@@ -28,9 +28,15 @@ const validationSchema = Yup.object({
 
 
 const AuthLogin = ({ title, subtitle, subtext }) => {
-    
-    const { showToast, ToastComponent } = useCustomToast();
 
+//all constants
+    const { showToast, ToastComponent } = useCustomToast();
+    const navigate = useNavigate()
+
+//states
+    const [isLoading, setIsLoading] = React.useState(false);
+
+//all functions
     const onSubmit = async (values) => {
         const userValues = {
           email: values.email,
@@ -40,14 +46,15 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
           setIsLoading(true);
           const result = await postData(Api.userLogin, userValues);
           console.log("resultsdjsh",result)
-          if (result?.success) {
-            localStorage.setItem("token", JSON.stringify(result?.data?.successResult?.token.replace("Bearer ", "")));
-            localStorage.setItem("userData", JSON.stringify(result?.data?.successResult?.user));
-            setUserData(result?.data?.successResult?.user);
-            setCookie("token", result?.data?.successResult?.token.replace("Bearer ", ""), 365); // The cookie will persist for 30 days
-    
-            router.push("/profile")
+          if (result?.status==200) {
+              // localStorage.setItem("userData", JSON.stringify(result?.data?.successResult?.user));
+              // setUserData(result?.data?.successResult?.user);
+              localStorage.setItem("token", JSON.stringify(result?.data?.token.replace("Bearer ", "")));
+            localStorage.setItem("email", JSON.stringify(result?.data?.email))
+            // setCookie("token", result?.data?.successResult?.token.replace("Bearer ", ""), 365); // The cookie will persist for 30 days
             setIsLoading(false);
+            showToast(result?.message);
+            navigate("/dashboard")
           } else {
             setIsLoading(false);
             showToast(result?.response?.data?.message, "", "error");
