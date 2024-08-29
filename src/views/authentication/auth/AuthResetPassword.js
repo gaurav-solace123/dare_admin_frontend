@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Box,
     Typography,
     Button,
     Stack,
-    TextField
+    TextField,
+    IconButton
 } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { postData } from '../../../services/services';
 import Api from '../../../services/constant';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+
 import useCustomToast from '../../../hooks/CustomToastHook';
 
 // Validation schema using Yup
@@ -32,7 +35,12 @@ const { showToast, ToastComponent } = useCustomToast();
 
     //all states
     const [isLoading, setIsLoading] = React.useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+    const togglePasswordVisibility = (setShowPassword) => {
+        setShowPassword(prev => !prev);
+    };
     //all functions
     const onSubmit = async (values) => {
        
@@ -58,7 +66,7 @@ const { showToast, ToastComponent } = useCustomToast();
         }
       };
 
-    return (
+      return (
         <>
             {title ? (
                 <Typography fontWeight="700" variant="h2" mb={1}>
@@ -93,11 +101,22 @@ const { showToast, ToastComponent } = useCustomToast();
                                     as={TextField}
                                     id="newPassword"
                                     name="newPassword"
-                                    type="password"
+                                    type={showNewPassword ? "text" : "password"}
                                     variant="outlined"
                                     fullWidth
                                     error={touched.newPassword && Boolean(errors.newPassword)}
                                     helperText={<ErrorMessage name="newPassword" />}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <IconButton
+                                                onClick={() => togglePasswordVisibility(setShowNewPassword)}
+                                                edge="end"
+                                                color="primary"
+                                            >
+                                                {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        )
+                                    }}
                                 />
                             </Box>
                             <Box mt="25px">
@@ -114,11 +133,22 @@ const { showToast, ToastComponent } = useCustomToast();
                                     as={TextField}
                                     id="confirmPassword"
                                     name="confirmPassword"
-                                    type="password"
+                                    type={showConfirmPassword ? "text" : "password"}
                                     variant="outlined"
                                     fullWidth
                                     error={touched.confirmPassword && Boolean(errors.confirmPassword)}
                                     helperText={<ErrorMessage name="confirmPassword" />}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <IconButton
+                                                onClick={() => togglePasswordVisibility(setShowConfirmPassword)}
+                                                edge="end"
+                                                color="primary"
+                                            >
+                                                {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        )
+                                    }}
                                 />
                             </Box>
                         </Stack>
@@ -142,6 +172,8 @@ const { showToast, ToastComponent } = useCustomToast();
             {subtitle}
         </>
     );
+
+
 };
 
 export default AuthResetPassword;
