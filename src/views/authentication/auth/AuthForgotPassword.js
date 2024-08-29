@@ -6,18 +6,52 @@ import {
     Stack,
     TextField
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import Api from '../../../services/constant';
+import { postData } from '../../../services/services';
 
+import useCustomToast from 'src/hooks/CustomToastHook';
 // Validation schema using Yup
 const validationSchema = Yup.object({
-    username: Yup.string()
+    email: Yup.string()
         .email('Enter a valid email.')
         .required('Email is required.'),
 });
 
 const AuthForgotPassword = ({ title, subtitle, subtext }) => {
+    //all constant
+    const { showToast, ToastComponent } = useCustomToast();
+    const navigate = useNavigate()
+
+    //all states
+    const [isLoading, setIsLoading] = React.useState(false);
+
+    //all functions
+    const onSubmit = async (values) => {
+       
+        const payload = { 
+            email:values?.email,
+         };
+       
+        try {
+          const result = await  postData(Api?.forgotPassword, payload);
+    
+          if (result?.status ==200) {
+            
+            setIsLoading(false);
+            showToast(result?.message);
+console.log('result?.data?.tokenLink', result?.data?.tokenLink)
+           navigate(result?.data?.tokenLink)
+       
+          } else {
+            setIsLoading(false);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
     return (
         <>
             {title ? (
@@ -29,12 +63,9 @@ const AuthForgotPassword = ({ title, subtitle, subtext }) => {
             {subtext}
 
             <Formik
-                initialValues={{ username: '' }}
+                initialValues={{ email: '' }}
                 validationSchema={validationSchema}
-                onSubmit={(values) => {
-                    // Handle form submission
-                    console.log('Form Submitted', values);
-                }}
+                onSubmit={onSubmit}
             >
                 {({ touched, errors, isSubmitting }) => (
                     <Form>
@@ -44,19 +75,19 @@ const AuthForgotPassword = ({ title, subtitle, subtext }) => {
                                     variant="subtitle1"
                                     fontWeight={600}
                                     component="label"
-                                    htmlFor="username"
+                                    htmlFor="email"
                                     mb="5px"
                                 >
                                     Email
                                 </Typography>
                                 <Field
                                     as={TextField}
-                                    id="username"
-                                    name="username"
+                                    id="email"
+                                    name="email"
                                     variant="outlined"
                                     fullWidth
-                                    error={touched.username && Boolean(errors.username)}
-                                    helperText={<ErrorMessage name="username" />}
+                                    error={touched.email && Boolean(errors.email)}
+                                    helperText={<ErrorMessage name="email" />}
                                 />
                             </Box>
                         </Stack>
@@ -75,7 +106,7 @@ const AuthForgotPassword = ({ title, subtitle, subtext }) => {
                     </Form>
                 )}
             </Formik>
-
+            <ToastComponent />
             {subtitle}
         </>
     );

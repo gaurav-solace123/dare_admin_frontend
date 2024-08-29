@@ -57,6 +57,10 @@ const Router = [
       { path: '404', element: <Error /> },
       { path: '/auth/register', element: <Register /> },
       { path: '/auth/login', element: <Login /> },
+      {
+        path: '/auth/forgot-password/:token',
+        element: <ResetPassword />,
+      },
       { path: '/auth/forgotPassword', element: <ForgotPassword /> },
       { path: '/auth/resetPassword', element: <ResetPassword /> },
       { path: '*', element: <Navigate to="/auth/404" /> },

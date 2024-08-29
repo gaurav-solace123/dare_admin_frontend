@@ -6,9 +6,12 @@ import {
     Stack,
     TextField
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { postData } from '../../../services/services';
+import Api from '../../../services/constant';
+import useCustomToast from '../../../hooks/CustomToastHook';
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
@@ -21,6 +24,40 @@ const validationSchema = Yup.object({
 });
 
 const AuthResetPassword = ({ title, subtitle, subtext }) => {
+//all constant
+const { token } = useParams();
+const decodedToken = decodeURIComponent(token); 
+const { showToast, ToastComponent } = useCustomToast();
+    const navigate = useNavigate()
+
+    //all states
+    const [isLoading, setIsLoading] = React.useState(false);
+
+    //all functions
+    const onSubmit = async (values) => {
+       
+        const payload = { 
+            newPassword:values?.newPassword,
+            token:decodedToken,
+         };
+       
+        try {
+          const result = await  postData(Api?.verifyToken, payload);
+    
+          if (result?.status ==200) {
+            
+            setIsLoading(false);
+            showToast(result?.message);
+           navigate('/auth/login')
+       
+          } else {
+            setIsLoading(false);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
     return (
         <>
             {title ? (
@@ -37,10 +74,7 @@ const AuthResetPassword = ({ title, subtitle, subtext }) => {
                     confirmPassword: ''
                 }}
                 validationSchema={validationSchema}
-                onSubmit={(values) => {
-                    // Handle form submission
-                    console.log('Form Submitted', values);
-                }}
+                onSubmit={onSubmit}
             >
                 {({ touched, errors, isSubmitting }) => (
                     <Form>
@@ -104,6 +138,7 @@ const AuthResetPassword = ({ title, subtitle, subtext }) => {
                 )}
             </Formik>
 
+            <ToastComponent />
             {subtitle}
         </>
     );
