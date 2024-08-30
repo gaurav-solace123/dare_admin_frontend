@@ -29,14 +29,14 @@ const AddEditUser = ({ title = 'Add user', subtitle, subtext,cancel ,userId}) =>
         email: Yup.string().email('Enter a valid email.').required('Email is required.'),
         password: Yup.string()
             .min(8, 'Password should be at least 8 characters.')
-            .when('userId', {
+            .when('_id', {
                 is: (userId) => !userId, // Password is required only if userId is not provided
                 then: Yup.string().required('Password is required.'),
                 otherwise: Yup.string().notRequired() // Optional when editing
             }),
         confirmPassword: Yup.string()
             .oneOf([Yup.ref('password'), null], 'Passwords must match.')
-            .when('userId', {
+            .when('_id', {
                 is: (userId) => !userId, // Confirm password required only if userId is not provided
                 then: Yup.string().required('Confirm Password is required.'),
                 otherwise: Yup.string().notRequired() // Optional when editing
@@ -57,7 +57,17 @@ const AddEditUser = ({ title = 'Add user', subtitle, subtext,cancel ,userId}) =>
          setShowPassword(prev => !prev);
      };
 console.log('loaction', location)
+
      //all functions
+
+     const handleNext =()=>{
+        if(formikRef.current.values){
+            const {email,password,firstName,lastName,userName}=formikRef.current.values
+            if(email!==''&&password!==''&&firstName!==''&&lastName!==''&&userName!==''){
+
+            }
+        }
+     }
     const viewData = async () => {
         try {
             
@@ -84,25 +94,22 @@ console.log('loaction', location)
             userName:values?.userName,
             email:values?.email,
             userRole:values?.userRole,
-            password:values?.password,
+           
          };
        if(userId){
         payload._id=userId;
        }
-
-    //     const filteredPayload = Object.fromEntries(
-    //       Object.entries(updateValues).filter(([key, value]) => value !== "" && value !== null)
-    //   );
+       if(values?.password){
+        payload.password=values?.password
+       }
         try {
           const result = await (userId
             ? patchData(`${Api?.updateUser}/${userId}`, payload)
             : postData(`${Api?.createUser}`, payload));
     
           if (result?.status==200) {
-            
             setIsLoading(false);
             showToast(result?.message);
-        //    navigate('/users')
            cancel()
           } else {
             setIsLoading(false);
@@ -145,7 +152,7 @@ console.log('loaction', location)
                     <Form>
                         <Stack spacing={2}>
                             {/* First Name and Last Name in one row */}
-                            
+                            {console.log('errors', errors)}
                             <Grid container width={'100%'}>
                             <Grid item xs={12} p={'7px'} >
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="userRole">Select user role</Typography>
@@ -331,6 +338,20 @@ console.log('loaction', location)
                                 </Grid>
 
                             </Grid>
+                            {formikRef?.current?.values?.userRole=='Instructor'&&
+                            <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                                    <Button
+                                        color="primary"
+                                        variant="contained"
+                                        size="large"
+                                        fullWidth
+                                        type="button"
+                                        disabled={isSubmitting}
+                                    >
+                                        Next
+                                    </Button>
+                            </Box>}
+                            
                         </Stack>
                     </Form>
                 )}
