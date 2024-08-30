@@ -1,32 +1,18 @@
-import * as React from 'react';
+import React,{lazy} from 'react';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 // import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import { visuallyHidden } from '@mui/utils';
-import { NavLink, useNavigate } from 'react-router-dom';
-import AddIcon from '@mui/icons-material/Add';
-import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
-import {  getData } from '../../services/services';
-import Api from '../../services/constant';
+
 import { Badge, Button, Modal } from '@mui/material';
 import { IconBellRinging } from '@tabler/icons-react';
 import Table from './component/CustomTable';
-import CustomTable from './component/CustomTable';
-import AddEditUser from './AddEditUser';
+// import CustomTable from './component/CustomTable';
+// import AddEditUser from './AddEditUser';
+// const Login = Loadable(lazy(() => import('../views/authentication/Login')));
 import { borderRadius } from '@mui/system';
-
+import Loadable from '../../layouts/full/shared/loadable/Loadable';
+const CustomTable = Loadable(lazy(() => import('./component/CustomTable')));
+const AddEditUser = Loadable(lazy(() => import('./AddEditUser')));
 function createData(_id, firstName, userRole, userName, mobileNumber, email) {
   return { _id, firstName, userRole,email, userName, mobileNumber,  };
 }

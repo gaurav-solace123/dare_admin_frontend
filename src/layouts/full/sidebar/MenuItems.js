@@ -23,6 +23,12 @@ const Menuitems = [
     href: '/users',
   },
   {
+    id: uniqueId(),
+    title: 'Student Report',
+    icon: IconUserPlus,
+    href: '/studentReport',
+  },
+  {
     navlabel: true,
     subheader: 'Utilities',
   },

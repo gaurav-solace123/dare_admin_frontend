@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/full/shared/loadable/Loadable';
 import ForgotPassword from '../views/authentication/ForgotPassword';
 import ResetPassword from '../views/authentication/ResetPassword';
+import StudentReport from '../views/studentReport/StudentReport';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -28,6 +29,7 @@ const Router = [
       { path: '/', element: <Navigate to="/dashboard" /> },
       { path: '/dashboard', exact: true, element: <Dashboard /> },
       { path: '/users', exact: true, element: <UsersList /> },
+      { path: '/studentReport', exact: true, element: <StudentReport /> },
       { path: '/users/add-user', exact: true, element: <AddEditUser /> },
       { path: '/users/edit-user', exact: true, element: <AddEditUser /> },
       { path: '/sample-page', exact: true, element: <SamplePage /> },
