@@ -42,11 +42,12 @@ const { showToast, ToastComponent } = useCustomToast();
         setShowPassword(prev => !prev);
     };
     //all functions
+    console.log('token', token)
     const onSubmit = async (values) => {
        
         const payload = { 
             newPassword:values?.newPassword,
-            token:decodedToken,
+            token:token,
          };
        
         try {

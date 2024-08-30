@@ -90,6 +90,7 @@ export default function EnhancedTable() {
  
   const [isLoading, setIsLoading] = React.useState(false);
   const [totalCount, setTotalCount] = React.useState('')
+  const [userId,setUserId]= React.useState('')
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -108,7 +109,7 @@ export default function EnhancedTable() {
   
   return (
 <>
-    <CustomTable Title={'Users'} headers={headCells} listData={rows} onAddClick={()=>handleOpen()}/>
+    <CustomTable Title={'Users'} headers={headCells} listData={rows} setUserId={setUserId} onAddClick={()=>handleOpen()}/>
     <Modal
     open={open}
     onClose={handleClose}
@@ -116,7 +117,7 @@ export default function EnhancedTable() {
     aria-describedby="modal-modal-description"
   >
     <Box sx={styleModel}>
-     <AddEditUser cancel={()=>handleClose()}/>
+     <AddEditUser cancel={()=>handleClose()} userId={userId}/>
     </Box>
   </Modal>
   </>

@@ -1,13 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Grid, Box, Card, Stack, Typography } from '@mui/material';
+import { Grid, Box, Card, Typography } from '@mui/material';
 
 // components
 import PageContainer from 'src/components/container/PageContainer';
 import Logo from 'src/layouts/full/shared/logo/Logo';
-import AuthLogin from './auth/AuthLogin';
-import { fontWeight } from '@mui/system';
-import AuthForgotPassword from './auth/AuthForgotPassword';
 import AuthResetPassword from './auth/AuthResetPassword';
 
 const ResetPassword = () => {
