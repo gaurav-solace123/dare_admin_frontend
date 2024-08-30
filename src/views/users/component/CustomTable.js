@@ -24,7 +24,7 @@ import { Badge, Button } from '@mui/material';
 import { IconBellRinging } from '@tabler/icons-react';
 
 
-function CustomTable({ Title, headers, listData ,onAddClick}) {
+function CustomTable({ Title, headers, listData ,onAddClick,setUserId}) {
   const [row, setRow] = React.useState(listData ? listData : []);
 
   const [order, setOrder] = React.useState('asc');
@@ -114,7 +114,6 @@ function CustomTable({ Title, headers, listData ,onAddClick}) {
             size="large"
             sx={{ width: "20%" }}
             type="submit"
-            // onClick={()=> showToast('hello world')}
             // disabled={isSubmitting}
             onClick={() => onAddClick()}
           >
@@ -198,15 +197,9 @@ function CustomTable({ Title, headers, listData ,onAddClick}) {
                       </Typography>
                     </TableCell>
                     <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
-                      <Tooltip title="Edit user">
-                        <NavLink to={'/users/edit-user'} state={{
-                          id: row?.userId
-                        }}>
-
+                      <Tooltip title="Edit user"  onClick={() => {onAddClick();setUserId('66cd815a8df979e9a1c8a8c5')}}>
                           <MoreVertOutlinedIcon />
-                        </NavLink>
                       </Tooltip>
-
                     </TableCell>
                   </TableRow>
                 ))}

@@ -4,6 +4,7 @@ import Loadable from '../layouts/full/shared/loadable/Loadable';
 import ForgotPassword from '../views/authentication/ForgotPassword';
 import ResetPassword from '../views/authentication/ResetPassword';
 import StudentReport from '../views/studentReport/StudentReport';
+import PrivateRoute from './PrivateRoute';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -27,15 +28,27 @@ const Router = [
     element: <FullLayout />,
     children: [
       { path: '/', element: <Navigate to="/dashboard" /> },
-      { path: '/dashboard', exact: true, element: <Dashboard /> },
-      { path: '/users', exact: true, element: <UsersList /> },
-      { path: '/studentReport', exact: true, element: <StudentReport /> },
-      { path: '/users/add-user', exact: true, element: <AddEditUser /> },
-      { path: '/users/edit-user', exact: true, element: <AddEditUser /> },
-      { path: '/sample-page', exact: true, element: <SamplePage /> },
-      { path: '/icons', exact: true, element: <Icons /> },
-      { path: '/ui/typography', exact: true, element: <TypographyPage /> },
-      { path: '/ui/shadow', exact: true, element: <Shadow /> },
+      {
+        path: '/dashboard',
+        element: <PrivateRoute element={<Dashboard />} />
+      },
+      {
+        path: '/users',
+        element: <PrivateRoute element={<UsersList />} />
+      },
+      {
+        path: '/users/add-user',
+        element: <PrivateRoute element={<AddEditUser />} />
+      },
+      {
+        path: '/users/edit-user',
+        element: <PrivateRoute element={<AddEditUser />} />
+      },
+      { path: '/studentReport', exact: true, element: <PrivateRoute element={<StudentReport />}/> },
+      { path: '/sample-page', element: <SamplePage /> },
+      { path: '/icons', element: <Icons /> },
+      { path: '/ui/typography', element: <TypographyPage /> },
+      { path: '/ui/shadow', element: <Shadow /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },
@@ -46,6 +59,10 @@ const Router = [
       { path: '404', element: <Error /> },
       { path: '/auth/register', element: <Register /> },
       { path: '/auth/login', element: <Login /> },
+      {
+        path: '/auth/forgot-password/:token',
+        element: <ResetPassword />,
+      },
       { path: '/auth/forgotPassword', element: <ForgotPassword /> },
       { path: '/auth/resetPassword', element: <ResetPassword /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
@@ -54,3 +71,4 @@ const Router = [
 ];
 
 export default Router;
+
