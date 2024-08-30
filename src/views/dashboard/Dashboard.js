@@ -16,6 +16,10 @@ import DigitalAdminBottomPanel from './components/DigitalAdminBottomPanel';
 
 
 const Dashboard = () => {
+  const data = [
+    { value: 55, label: 'Middle School' },
+    { value: 45, label: 'Elementary School' },
+];
   return (
     <PageContainer title="Dashboard" description="this is Dashboard">
       <Box>
@@ -23,10 +27,10 @@ const Dashboard = () => {
 
 
           <Grid item xs={12} lg={6}>
-            <DigitalAdminPanel title={"Credits Sold By Level"} />
+            <DigitalAdminPanel title={"Credits Sold By Level"} data={data}/>
           </Grid>
           <Grid item xs={12} lg={6}>
-            <DigitalAdminPanel title={"Classes Actived by Level"} />
+            <DigitalAdminPanel title={"Classes Actived by Level"} data={data}/>
           </Grid>
           {/* <Grid item xs={12} lg={6}>
             <Box height="100%" display="flex" flexDirection="column">
@@ -45,7 +49,7 @@ const Dashboard = () => {
             <DigitalAdminBottomPanel/>
           </Grid>
 
-          {/* <Grid item xs={12} lg={8}>
+          <Grid item xs={12} lg={8}>
             <SalesOverview />
           </Grid>
           <Grid item xs={12} lg={4}>
@@ -66,7 +70,7 @@ const Dashboard = () => {
           </Grid>
           <Grid item xs={12}>
             <Blog />
-          </Grid> */}
+          </Grid>
         </Grid>
       </Box>
     </PageContainer>

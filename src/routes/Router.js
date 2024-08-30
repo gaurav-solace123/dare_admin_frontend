@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/full/shared/loadable/Loadable';
 import ForgotPassword from '../views/authentication/ForgotPassword';
 import ResetPassword from '../views/authentication/ResetPassword';
+import StudentReport from '../views/studentReport/StudentReport';
 import PrivateRoute from './PrivateRoute';
 
 /* ***Layouts**** */
@@ -43,6 +44,7 @@ const Router = [
         path: '/users/edit-user',
         element: <PrivateRoute element={<AddEditUser />} />
       },
+      { path: '/studentReport', exact: true, element: <PrivateRoute element={<StudentReport />}/> },
       { path: '/sample-page', element: <SamplePage /> },
       { path: '/icons', element: <Icons /> },
       { path: '/ui/typography', element: <TypographyPage /> },

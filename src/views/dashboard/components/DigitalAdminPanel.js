@@ -5,7 +5,7 @@ import Chart from 'react-apexcharts';
 import { useTheme } from '@mui/material/styles';
 import PieArcLabel from './PieArcLabel';
 import MenuOption from './MenuOption';
-function DigitalAdminPanel({title}) {
+function DigitalAdminPanel({ title,data }) {
     const [month, setMonth] = React.useState('1');
 
     const handleChange = (event) => {
@@ -17,6 +17,7 @@ function DigitalAdminPanel({title}) {
     const primary = theme.palette.primary.main;
     const secondary = theme.palette.secondary.main;
 
+ 
     // chart
     const optionscolumnchart = {
         chart: {
@@ -45,7 +46,7 @@ function DigitalAdminPanel({title}) {
             width: 5,
             lineCap: "butt",
             colors: ["transparent"],
-          },
+        },
         dataLabels: {
             enabled: false,
         },
@@ -85,11 +86,11 @@ function DigitalAdminPanel({title}) {
             data: [280, 250, 325, 215, 250, 310, 280, 250],
         },
     ];
-  return (
-    <DashboardCard title={title} action={<MenuOption/>}>
-        <PieArcLabel/>
-    </DashboardCard>
-  )
+    return (
+        <DashboardCard title={title} action={<MenuOption />}>
+            <PieArcLabel data={data} />
+        </DashboardCard>
+    )
 }
 
 export default DigitalAdminPanel
