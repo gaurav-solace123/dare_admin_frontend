@@ -22,27 +22,26 @@ import CustomTextField from '../../components/forms/theme-elements/CustomTextFie
 const AddEditUser = ({ title = 'Add user', subtitle, subtext,cancel ,userId}) => {
     //constants
     // Validation schema using Yup
-    const validationSchema = Yup.object({
+    const validationSchema = Yup.object().shape({
         firstName: Yup.string().required('First Name is required.'),
         lastName: Yup.string().required('Last Name is required.'),
         userName: Yup.string().required('Username is required.'),
-        email: Yup.string().email('Enter a valid email.').required('Email is required.'),
+        email: Yup.string()
+            .email('Enter a valid email.')
+            .required('Email is required.'),
         password: Yup.string()
             .min(8, 'Password should be at least 8 characters.')
-            .when('_id', {
-                is: (userId) => !userId, // Password is required only if userId is not provided
-                then: Yup.string().required('Password is required.'),
-                otherwise: Yup.string().notRequired() // Optional when editing
-            }),
+            .when('_id', (userId, schema) => 
+                userId ? schema.notRequired() : schema.required('Password is required.')
+            ),
         confirmPassword: Yup.string()
             .oneOf([Yup.ref('password'), null], 'Passwords must match.')
-            .when('_id', {
-                is: (userId) => !userId, // Confirm password required only if userId is not provided
-                then: Yup.string().required('Confirm Password is required.'),
-                otherwise: Yup.string().notRequired() // Optional when editing
-            }),
+            .when('_id', (userId, schema) => 
+                userId ? schema.notRequired() : schema.required('Confirm Password is required.')
+            ),
         userRole: Yup.string().required('Role selection is required.')
     });
+    
     const { showToast, ToastComponent } = useCustomToast();
     
   const formikRef = useRef(null);
@@ -56,7 +55,6 @@ const AddEditUser = ({ title = 'Add user', subtitle, subtext,cancel ,userId}) =>
      const togglePasswordVisibility = (setShowPassword) => {
          setShowPassword(prev => !prev);
      };
-console.log('loaction', location)
 
      //all functions
 
@@ -85,16 +83,19 @@ console.log('loaction', location)
           console.error(error);
         }
       };
+      const clearData= ()=>{
+        if (formikRef?.current) {
+            formikRef?.current.resetForm();
+          }
+      }
     //on submit functions
     const onSubmit = async (values) => {
-       
         const payload = { 
             firstName:values?.firstName,
             lastName:values?.lastName,
             userName:values?.userName,
             email:values?.email,
             userRole:values?.userRole,
-           
          };
        if(userId){
         payload._id=userId;
@@ -123,6 +124,7 @@ console.log('loaction', location)
       //all useEffects
       useEffect(()=>{
         if(userId)viewData()
+            else clearData()
       },[])
     return (
         <>

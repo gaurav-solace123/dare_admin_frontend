@@ -95,7 +95,9 @@ export default function EnhancedTable() {
   
   return (
 <>
-    <CustomTable Title={'Users'} headers={headCells} listData={rows} setUserId={setUserId} onAddClick={()=>handleOpen()}/>
+    <CustomTable Title={'Users'} headers={headCells} listData={rows} setUserId={setUserId} onAddClick={()=>{handleOpen();
+      setUserId('')
+    }}/>
     <Modal
     open={open}
     onClose={handleClose}
