@@ -3,16 +3,26 @@ import { styled } from '@mui/material/styles';
 import { TextField } from '@mui/material';
 
 const CustomTextField = styled((props) => {
-  const { typeValid, ...rest } = props;
+  const { typeValid,length, ...rest } = props;
 
   const handleKeyPress = (event) => {
     if (typeValid === 'text') {
-      const regex = /^[a-zA-Z\s]*$/;
+      const regex = /^[a-zA-Z\s]*$/; // allows letters and spaces
       if (!regex.test(event.key)) {
         event.preventDefault();
       }
+    } 
+    else if (typeValid === 'number') {
+      const regex = /^[0-9]*$/; // allows only digits
+      if (!regex.test(event.key)) {
+        event.preventDefault();
+      }
+      if(event?.target?.value?.length>length){
+        event?.preventDefault();
+      }
     }
   };
+  
 
   return <TextField {...rest} onKeyPress={handleKeyPress} />;
 })(({ theme }) => ({
