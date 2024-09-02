@@ -49,7 +49,7 @@ function CustomTable({ Title, headers, listData ,onAddClick,setUserId,AddSvg}) {
   }
 
   function stableSort(array, comparator) {
-    debugger
+    
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
       const order = comparator(a[0], b[0]);

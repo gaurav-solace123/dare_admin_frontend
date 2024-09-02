@@ -1,4 +1,4 @@
-import React,{lazy, useState} from 'react';
+import React,{lazy, useEffect, useState} from 'react';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 // import Table from '@mui/material/Table';
@@ -16,24 +16,24 @@ import AddSvgForm from './component/AddSvgForm';
 const CustomTable = Loadable(lazy(() => import('./component/CustomTable')));
 const AddEditUser = Loadable(lazy(() => import('./AddEditUser')));
 
-// function createData(_id, firstName, userRole, userName, mobileNumber, email) {
-//   return { _id, firstName, userRole, userName, mobileNumber,email  };
-// }
-// const rows = [
-//   createData(1, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-//   createData(2, 'omkar', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-//   createData(3, 'shubh', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-//   createData(4, 'raj', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-//   createData(5, 'grut', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-//   createData(6, 'hi', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-//   createData(7, 'cii', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-//   createData(8, 'dii', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-//   createData(9, 'cii', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-//   createData(10,'mll', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-//   createData(11,'koo', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-//   createData(12,'buu', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-//   createData(13,'foo', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-// ];
+function createData(_id, firstName, userRole, userName, mobileNumber, email) {
+  return { _id, firstName, userRole, userName, mobileNumber,email  };
+}
+const rows = [
+  createData(1, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(2, 'omkar', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(3, 'shubh', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(4, 'raj', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(5, 'grut', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(6, 'hi', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(7, 'cii', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(8, 'dii', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(9, 'cii', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(10,'mll', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(11,'koo', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(12,'buu', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+  createData(13,'foo', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) return -1;
@@ -168,37 +168,34 @@ useEffect(()=>{
                 </Typography>
                 {/* <DownloadForOfflineSharpIcon/> */}
      <AddSvgForm onDrop={handleDrop} accept="image/svg+xml" userId={userId}/>
-     <Grid  spacing={2} justifyContent={'center'}>                           
-                                <Grid item xs={6} p={'7px'}>
-                                    <Button
-                                        color="primary"
-                                        variant="contained"
-                                        size="large"
-                                        fullWidth
-                                        type="submit"
-                                        // disabled={isSubmitting}
-                                    >
-                                        Bulk Upload
-                                    </Button>
-                                </Grid>
-                                <Grid item xs={6} p={'7px'}>
-                                    <Button
-                                        color="secondary"
-                                        variant="outlined"
-                                        size="large"
-                                        fullWidth
-                                        type="button"
-                                        onClick={() => {
-                                            // Handle cancel
-                                            // cancel()
-                                            // navigate('/users');
-                                            handleSvgClose()
-                                        }}
-                                    >
-                                        Cancel
-                                    </Button>
-                                </Grid>
-                            </Grid>
+     <Grid container spacing={2} justifyContent="center">
+    <Grid container item xs={12} spacing={2} mt={2} mx={'auto'}>
+      <Grid item xs={6} p={'7px'}>
+        <Button
+          color="primary"
+          variant="contained"
+          size="large"
+          fullWidth
+          type="submit"
+          // disabled={isSubmitting}
+        >
+          Bulk Upload
+        </Button>
+      </Grid>
+      <Grid item xs={6} p={'7px'}>
+        <Button
+          color="secondary"
+          variant="outlined"
+          size="large"
+          fullWidth
+          type="button"
+          onClick={handleSvgClose}
+        >
+          Cancel
+        </Button>
+      </Grid>
+    </Grid>
+  </Grid>
     </Box>
   </Modal>
   </>
