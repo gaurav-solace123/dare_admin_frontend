@@ -3,7 +3,7 @@ import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 // import Table from '@mui/material/Table';
 
-import { Badge, Button, Grid, Modal, Typography } from '@mui/material';
+import { Badge, Button, Grid, IconButton, Modal, Typography } from '@mui/material';
 import { IconBellRinging } from '@tabler/icons-react';
 import Table from './component/CustomTable';
 // import CustomTable from './component/CustomTable';
@@ -13,6 +13,8 @@ import { borderRadius } from '@mui/system';
 import Loadable from '../../layouts/full/shared/loadable/Loadable';
 import AddSvgForm from './component/AddSvgForm';
 // import DownloadForOfflineSharpIcon from '@mui/icons-material/DownloadForOfflineSharp';
+
+
 const CustomTable = Loadable(lazy(() => import('./component/CustomTable')));
 const AddEditUser = Loadable(lazy(() => import('./AddEditUser')));
 
@@ -125,6 +127,7 @@ useEffect(()=>{
   return (
 <>
 <Box sx={{ border: '2px solid', color:'#0055a4',padding: 2, position: 'relative' ,borderRadius:2}}>
+
 <Box
         sx={{
           position: 'absolute',
@@ -152,6 +155,21 @@ useEffect(()=>{
     aria-describedby="modal-modal-description"
   >
     <Box sx={styleModel}>
+    <IconButton
+      aria-label="close"
+      onClick={handleClose}
+      sx={{
+        position: 'absolute',
+    top: 8,
+    right: 8,
+    color: '#0055a4', // Default color
+    '&:hover': {
+      color: 'red', // Change color to green on hover
+    },
+      }}
+    >
+      {/* <CloseIcon /> */}X
+    </IconButton>
      <AddEditUser cancel={()=>handleClose()} userId={userId}/>
     </Box>
   </Modal>
@@ -163,6 +181,21 @@ useEffect(()=>{
     aria-describedby="modal-modal-description"
   >
     <Box sx={styleModel}>
+    <IconButton
+      aria-label="close"
+      onClick={handleSvgClose}
+      sx={{
+        position: 'absolute',
+        top: 8,
+        right: 8,
+        color: '#0055a4', // Default color
+        '&:hover': {
+          color: 'red', // Change color to green on hover
+        },
+      }}
+    >
+      {/* <CloseIcon /> */}X
+    </IconButton>
     <Typography fontWeight="700" variant="h2" mb={1}>
                     {"Bulk Upload"} 
                 </Typography>

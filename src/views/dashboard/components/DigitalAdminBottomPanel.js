@@ -42,27 +42,52 @@ function DigitalAdminBottomPanel() {
             gap={5}
           >
             <Box display="flex" flexDirection="column" alignItems="center">
-              <PeopleOutlineIcon fontSize="large" style={{color:"black"}}  />
+            
+              <img
+        src={'/src/assets/images/logos/affiliate-icon.png'}
+        alt={'gkgk'}
+        loading="lazy"
+        width={'35px'}
+      />
+
               <Typography variant="danger" textAlign={'center'}>
                 Officers Affiliation
               </Typography>
             </Box>
             <Box display="flex" flexDirection="column" alignItems="center">
-              <AccountCircleOutlinedIcon fontSize="large" style={{color:"black"}} />
+              {/* <AccountCircleOutlinedIcon fontSize="large" style={{color:"black"}} /> */}
+              <img
+        src={'/src/assets/images/logos/buyer-info.png'}
+        alt={'gkgk'}
+        loading="lazy"
+        width={'35px'}
+      />
               <Typography variant="caption" textAlign={'center'}>
                 Buyer Information
               </Typography>
             </Box>
             <Box display="flex" flexDirection="column" alignItems="center">
-              <LocationOnOutlinedIcon fontSize="large" style={{color:"black"}}/>
+              {/* <LocationOnOutlinedIcon fontSize="large" style={{color:"black"}}/> */}
+              <img
+        src={'/src/assets/images/logos/district-map.png'}
+        alt={'gkgk'}
+        loading="lazy"
+        width={'35px'}
+      />
               <Typography variant="caption" textAlign={'center'}>
-                Credits Sold by District 12-month lock back
+                Credits Sold by District 
               </Typography>
             </Box>
             <Box display="flex" flexDirection="column" alignItems="center">
-              <MapOutlinedIcon fontSize="large" style={{color:"black"}}/>
+              {/* <MapOutlinedIcon fontSize="large" style={{color:"black"}}/> */}
+              <img
+        src={'/src/assets/images/logos/state-map.png'}
+        alt={'gkgk'}
+        loading="lazy"
+        width={'35px'}
+      />
               <Typography variant="caption" textAlign={'center'}>
-                Credits Sold by State 12-month lock back
+                Credits Sold by State 
               </Typography>
             </Box>
           </Box>
