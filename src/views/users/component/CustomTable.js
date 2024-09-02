@@ -119,7 +119,7 @@ function CustomTable({ Title, headers, listData ,onAddClick,setUserId,AddSvg}) {
             onClick={() => AddSvg()}
           >
             <Typography sx={{ flex: '1 1 100%' }} variant="h6" >
-              Add SVG
+            Bulk Upload
             </Typography>
             <AddIcon />
 
