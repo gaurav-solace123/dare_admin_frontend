@@ -24,7 +24,7 @@ import { Badge, Button } from '@mui/material';
 import { IconBellRinging } from '@tabler/icons-react';
 
 
-function CustomTable({ Title, headers, listData ,onAddClick,setUserId}) {
+function CustomTable({ Title, headers, listData ,onAddClick,setUserId,AddSvg}) {
   const [row, setRow] = React.useState(listData ? listData : []);
 
   const [order, setOrder] = React.useState('asc');
@@ -107,12 +107,27 @@ function CustomTable({ Title, headers, listData ,onAddClick,setUserId}) {
           {Title}
         </Typography>
         <Tooltip title="Add user">
+          <Box sx={{display:'flex',width:'100%',gap:'5px',justifyContent:'end'}}>
+        <Button
+            color="success"
+            variant="contained"
+            size="large"
+            // sx={{ width: "50%" }}
+            type="submit"
+            // disabled={isSubmitting}
+            onClick={() => AddSvg()}
+          >
+            <Typography sx={{ flex: '1 1 100%' }} variant="h6" >
+              Add SVG
+            </Typography>
+            <AddIcon />
 
+          </Button>
           <Button
             color="info"
             variant="contained"
             size="large"
-            sx={{ width: "20%" }}
+            // sx={{ width: "50%" }}
             type="submit"
             // disabled={isSubmitting}
             onClick={() => onAddClick()}
@@ -123,6 +138,7 @@ function CustomTable({ Title, headers, listData ,onAddClick,setUserId}) {
             <AddIcon />
 
           </Button>
+          </Box>
         </Tooltip>
       </Toolbar>
     );

@@ -1,9 +1,9 @@
-import React,{lazy} from 'react';
+import React,{lazy, useState} from 'react';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 // import Table from '@mui/material/Table';
 
-import { Badge, Button, Modal } from '@mui/material';
+import { Badge, Button, Grid, Modal, Typography } from '@mui/material';
 import { IconBellRinging } from '@tabler/icons-react';
 import Table from './component/CustomTable';
 // import CustomTable from './component/CustomTable';
@@ -11,6 +11,8 @@ import Table from './component/CustomTable';
 // const Login = Loadable(lazy(() => import('../views/authentication/Login')));
 import { borderRadius } from '@mui/system';
 import Loadable from '../../layouts/full/shared/loadable/Loadable';
+import AddSvgForm from './component/AddSvgForm';
+// import DownloadForOfflineSharpIcon from '@mui/icons-material/DownloadForOfflineSharp';
 const CustomTable = Loadable(lazy(() => import('./component/CustomTable')));
 const AddEditUser = Loadable(lazy(() => import('./AddEditUser')));
 function createData(_id, firstName, userRole, userName, mobileNumber, email) {
@@ -78,8 +80,15 @@ export default function EnhancedTable() {
   const [totalCount, setTotalCount] = React.useState('')
   const [userId,setUserId]= React.useState('')
   const [open, setOpen] = React.useState(false);
+  const [openSvgForm,setOpenSvgFrom]=React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleSvgOpen=()=>setOpenSvgFrom(true);
+  const handleSvgClose=()=>setOpenSvgFrom(false);
+
+  const handleDrop = (acceptedFiles) => {
+    console.log(acceptedFiles);
+  };
   const styleModel = {
     position: 'absolute',
     top: '50%',
@@ -95,9 +104,27 @@ export default function EnhancedTable() {
   
   return (
 <>
-    <CustomTable Title={'Users'} headers={headCells} listData={rows} setUserId={setUserId} onAddClick={()=>{handleOpen();
+<Box sx={{ border: '2px solid', color:'#0055a4',padding: 2, position: 'relative' ,borderRadius:2}}>
+<Box
+        sx={{
+          position: 'absolute',
+          top: '-12px', // Adjust this to make the text overlap more or less with the border
+          left: '16px',
+          backgroundColor: '#fff',
+          padding: '0 8px',
+          display: 'inline-block',
+          // color: 'red', // To match the border color
+          fontSize: '24px',
+          fontWeight: 'bold',
+        }}
+      >
+          <Typography variant="h7" fontWeight={600} component="label" htmlFor="mailingAddress">Users</Typography>
+        
+      </Box>
+    <CustomTable Title={''} headers={headCells} listData={rows} setUserId={setUserId} onAddClick={()=>{handleOpen();
       setUserId('')
-    }}/>
+    }} AddSvg={()=>{handleSvgOpen()}} />
+    </Box>
     <Modal
     open={open}
     onClose={handleClose}
@@ -106,6 +133,52 @@ export default function EnhancedTable() {
   >
     <Box sx={styleModel}>
      <AddEditUser cancel={()=>handleClose()} userId={userId}/>
+    </Box>
+  </Modal>
+
+  <Modal
+    open={openSvgForm}
+    onClose={handleSvgClose}
+    aria-labelledby="modal-modal-title"
+    aria-describedby="modal-modal-description"
+  >
+    <Box sx={styleModel}>
+    <Typography fontWeight="700" variant="h2" mb={1}>
+                    {"Bulk Upload"} 
+                </Typography>
+                {/* <DownloadForOfflineSharpIcon/> */}
+     <AddSvgForm onDrop={handleDrop} accept="image/svg+xml" userId={userId}/>
+     <Grid  spacing={2} justifyContent={'center'}>                           
+                                <Grid item xs={6} p={'7px'}>
+                                    <Button
+                                        color="primary"
+                                        variant="contained"
+                                        size="large"
+                                        fullWidth
+                                        type="submit"
+                                        // disabled={isSubmitting}
+                                    >
+                                        Bulk Upload
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={6} p={'7px'}>
+                                    <Button
+                                        color="secondary"
+                                        variant="outlined"
+                                        size="large"
+                                        fullWidth
+                                        type="button"
+                                        onClick={() => {
+                                            // Handle cancel
+                                            // cancel()
+                                            // navigate('/users');
+                                            handleSvgClose()
+                                        }}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Grid>
+                            </Grid>
     </Box>
   </Modal>
   </>
