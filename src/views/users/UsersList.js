@@ -15,25 +15,25 @@ import AddSvgForm from './component/AddSvgForm';
 // import DownloadForOfflineSharpIcon from '@mui/icons-material/DownloadForOfflineSharp';
 const CustomTable = Loadable(lazy(() => import('./component/CustomTable')));
 const AddEditUser = Loadable(lazy(() => import('./AddEditUser')));
-function createData(_id, firstName, userRole, userName, mobileNumber, email) {
-  return { _id, firstName, userRole,email, userName, mobileNumber,  };
-}
 
-const rows = [
-  createData(1, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(2, 'omkar', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(3, 'shubh', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(4, 'raj', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(5, 'grut', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(6, 'hi', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(7, 'cii', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(8, 'dii', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(9, 'cii', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(10,'mll', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(11,'koo', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(12,'buu', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(13,'foo', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-];
+// function createData(_id, firstName, userRole, userName, mobileNumber, email) {
+//   return { _id, firstName, userRole, userName, mobileNumber,email  };
+// }
+// const rows = [
+//   createData(1, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+//   createData(2, 'omkar', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+//   createData(3, 'shubh', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+//   createData(4, 'raj', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+//   createData(5, 'grut', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+//   createData(6, 'hi', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+//   createData(7, 'cii', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+//   createData(8, 'dii', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+//   createData(9, 'cii', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+//   createData(10,'mll', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+//   createData(11,'koo', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+//   createData(12,'buu', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+//   createData(13,'foo', 'Student', 'test@gmail.com','Miller Williams',9878765654),
+// ];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) return -1;
@@ -101,7 +101,27 @@ export default function EnhancedTable() {
     boxShadow: 24,
     p: 2,
   };
-  
+  function createData({_id, firstName, userRole, userName, mobileNumber, email}) {
+    return { _id, firstName, userRole, userName, mobileNumber,email  };
+  }
+  const getListData=async()=>{
+    try {
+      setIsLoading(true)
+      const result = await getData(Api.listUsers)
+   if(result.status==200){
+    const response= result?.data?.users
+    const tempData= response.map(item=>createData(item))
+    setListData(tempData)
+    setIsLoading(false)
+   }
+    } catch (error) {
+      console.error(error)
+      setIsLoading(false)
+    }
+  }
+useEffect(()=>{
+  getListData()
+},[])
   return (
 <>
 <Box sx={{ border: '2px solid', color:'#0055a4',padding: 2, position: 'relative' ,borderRadius:2}}>

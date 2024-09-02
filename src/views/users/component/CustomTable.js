@@ -49,6 +49,7 @@ function CustomTable({ Title, headers, listData ,onAddClick,setUserId,AddSvg}) {
   }
 
   function stableSort(array, comparator) {
+    debugger
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
       const order = comparator(a[0], b[0]);
@@ -153,7 +154,7 @@ function CustomTable({ Title, headers, listData ,onAddClick,setUserId,AddSvg}) {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
+console.log('row', row)
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -165,8 +166,9 @@ function CustomTable({ Title, headers, listData ,onAddClick,setUserId,AddSvg}) {
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage,
       ),
-    [order, orderBy, page, rowsPerPage],
+    [order, orderBy, page, rowsPerPage,row],
   );
+  console.log('visibleRows', visibleRows)
   React.useEffect(() => {
     setRow(listData)
   }, [listData, headers])
@@ -184,32 +186,32 @@ function CustomTable({ Title, headers, listData ,onAddClick,setUserId,AddSvg}) {
               />
               <TableBody >
                 {visibleRows.map((row) => (
-                  <TableRow key={row.id}
+                  <TableRow key={row._id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 }, borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
                   >
                     <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }} >
                       <Typography sx={{ flex: '1 1 100%' }} variant="tableText" >
-                        {row.firstName}
+                        {row?.firstName}
                       </Typography>
                     </TableCell>
                     <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
                       <Typography sx={{ flex: '1 1 100%' }} variant="tableText" >
-                        {row.userRole}
+                        {row?.userRole}
                       </Typography>
                     </TableCell>
                     <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
                       <Typography sx={{ flex: '1 1 100%' }} variant="tableText" >
-                        {row.email}
+                        {row?.mobileNumber}
                       </Typography>
                     </TableCell>
                     <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
                       <Typography sx={{ flex: '1 1 100%' }} variant="tableText" >
-                        {row.userName}
+                        {row?.email}
                       </Typography>
                     </TableCell>
                     <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
                       <Typography sx={{ flex: '1 1 100%' }} variant="tableText" >
-                        {row.mobileNumber}
+                        {row?.userName}
                       </Typography>
                     </TableCell>
                     <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
