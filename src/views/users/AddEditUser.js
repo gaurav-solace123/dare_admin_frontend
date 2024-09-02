@@ -203,7 +203,7 @@ console.log('userId', userId)
                                         <MenuItem value="Instructor">Instructor</MenuItem>
                                     </Field>
                                 </Grid>
-                                <Grid item xs={4} p={'7px'}>
+                                <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="firstName">First Name</Typography>
                                     <Field
                                         as={CustomTextField}
@@ -216,7 +216,7 @@ console.log('userId', userId)
                                         helperText={<ErrorMessage name="firstName" />}
                                     />
                                 </Grid>
-                                <Grid item xs={4} p={'7px'}>
+                                <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="lastName">Last Name</Typography>
                                     <Field
                                         as={CustomTextField}
@@ -230,7 +230,7 @@ console.log('userId', userId)
                                     />
                                 </Grid>
 
-                                <Grid item xs={4} p={'7px'}>
+                                <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="userName">Username</Typography>
                                     <Field
                                         as={CustomTextField}
@@ -243,7 +243,7 @@ console.log('userId', userId)
                                     />
                                 </Grid>
 
-                                <Grid item xs={4} p={'7px'}>
+                                <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="email">Email</Typography>
                                     <Field
                                         as={CustomTextField}
@@ -256,7 +256,7 @@ console.log('userId', userId)
                                     />
                                 </Grid>
 
-                                <Grid item xs={4} p={'7px'}>
+                                <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="password">Password</Typography>
                                     <Field
                                         as={CustomTextField}
@@ -281,7 +281,7 @@ console.log('userId', userId)
                                     />
                                 </Grid>
 
-                                <Grid item xs={4} p={'7px'}>
+                                <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="confirmPassword">Confirm Password</Typography>
                                     <Field
                                         as={CustomTextField}
@@ -309,7 +309,7 @@ console.log('userId', userId)
                               
                             {isMailingAddres&&
                             <>
-                            <Grid item xs={4} p={'7px'}>
+                            <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="street_1">Street 1 </Typography>
                                     <Field
                                         as={CustomTextField}
@@ -321,7 +321,7 @@ console.log('userId', userId)
                                         helperText={<ErrorMessage name="street_1" />}
                                     />
                                 </Grid>
-                            <Grid item xs={4} p={'7px'}>
+                            <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="street_2">Street 2 </Typography>
                                     <Field
                                         as={CustomTextField}
@@ -333,7 +333,7 @@ console.log('userId', userId)
                                         helperText={<ErrorMessage name="street_2" />}
                                     />
                                 </Grid>
-                            <Grid item xs={4} p={'7px'}>
+                            <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="city">City </Typography>
                                     <Field
                                         as={CustomTextField}
@@ -345,7 +345,7 @@ console.log('userId', userId)
                                         helperText={<ErrorMessage name="city" />}
                                     />
                                 </Grid>
-                            <Grid item xs={4} p={'7px'}>
+                            <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="State">State </Typography>
                                     <Field
                                         as={CustomTextField}
@@ -357,7 +357,7 @@ console.log('userId', userId)
                                         helperText={<ErrorMessage name="State" />}
                                     />
                                 </Grid>
-                            <Grid item xs={4} p={'7px'}>
+                            <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="_postal_code">Postal code </Typography>
                                     <Field
                                         as={CustomTextField}
@@ -373,7 +373,7 @@ console.log('userId', userId)
                                     />
                                 </Grid>
 
-                                <Grid item xs={4} p={'7px'}>
+                                <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="mobileNumber">Mobile No</Typography>
                                     <Field
                                         as={CustomTextField}
