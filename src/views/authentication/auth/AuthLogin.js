@@ -59,7 +59,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
             
             setIsLoading(false);
             showToast(result?.message);
-            // navigate("/dashboard")
+            navigate("/dashboard")
           } else {
             setIsLoading(false);
             showToast(result?.response?.data?.message, "", "error");

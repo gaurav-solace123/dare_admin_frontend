@@ -138,8 +138,8 @@ const AddEditUser = ({ title = 'Add user', subtitle, subtext,cancel ,userId}) =>
     
           if (result?.status==200) {
             setIsLoading(false);
+            cancel()
             showToast(result?.message);
-           cancel()
           } else {
             setIsLoading(false);
           }
