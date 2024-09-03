@@ -15,6 +15,7 @@ import Api from '../../../services/constant';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 import useCustomToast from '../../../hooks/CustomToastHook';
+import Loader from '../../../components/Loader';
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
@@ -49,7 +50,7 @@ const { showToast, ToastComponent } = useCustomToast();
             newPassword:values?.newPassword,
             token:token,
          };
-       
+         setIsLoading(true);
         try {
           const result = await  postData(Api?.verifyToken, payload);
     
@@ -64,11 +65,13 @@ const { showToast, ToastComponent } = useCustomToast();
           }
         } catch (error) {
           console.error(error);
+          setIsLoading(false);
         }
       };
 
       return (
         <>
+       {isLoading?<Loader/>: <>
             {title ? (
                 <Typography fontWeight="700" variant="h2" mb={1}>
                     {title}
@@ -171,6 +174,7 @@ const { showToast, ToastComponent } = useCustomToast();
 
             <ToastComponent />
             {subtitle}
+        </>}
         </>
     );
 

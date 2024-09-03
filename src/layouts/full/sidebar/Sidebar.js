@@ -87,7 +87,7 @@ const MSidebar = (props) => {
                 {/* Sidebar Items */}
                 {/* ------------------------------------------- */}
                 <SidebarItems />
-                <Upgrade />
+                {/* <Upgrade /> */}
               </Box>
             </Sidebar >
           </Box>
@@ -129,7 +129,7 @@ const MSidebar = (props) => {
         {/* Sidebar For Mobile */}
         {/* ------------------------------------------- */}
         <SidebarItems />
-        <Upgrade />
+        {/* <Upgrade /> */}
       </Sidebar>
     </Drawer>
   );

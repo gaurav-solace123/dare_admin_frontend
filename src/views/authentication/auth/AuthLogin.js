@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Box,
     Typography,
@@ -7,14 +7,17 @@ import {
     Button,
     Stack,
     Checkbox,
-    TextField
+    TextField,
+    IconButton
 } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import useCustomToast from '../../../hooks/CustomToastHook';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { postData } from '../../../services/services';
 import Api from '../../../services/constant';
+import Loader from '../../../components/Loader';
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
@@ -36,6 +39,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
 //states
     const [isLoading, setIsLoading] = React.useState(false);
 
+    const [showNewPassword, setShowNewPassword] = useState(false);
 //all functions
     const onSubmit = async (values) => {
         const userValues = {
@@ -52,9 +56,10 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
               localStorage.setItem("token", JSON.stringify(result?.data?.token.replace("Bearer ", "")));
             localStorage.setItem("email", JSON.stringify(result?.data?.email))
             // setCookie("token", result?.data?.successResult?.token.replace("Bearer ", ""), 365); // The cookie will persist for 30 days
+            debugger
             setIsLoading(false);
             showToast(result?.message);
-            navigate("/dashboard")
+            // navigate("/dashboard")
           } else {
             setIsLoading(false);
             showToast(result?.response?.data?.message, "", "error");
@@ -64,9 +69,15 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
         }
         
       };
-   
+      const togglePasswordVisibility = (setShowPassword) => {
+        setShowPassword(prev => !prev);
+    };
+    
+
+    console.log('ToastComponent', ToastComponent)
     return (
         <>
+        {isLoading?<Loader/>:<>
             {title ? (
                 <Typography fontWeight="700" variant="h2" mb={1}>
                     {title}
@@ -106,11 +117,22 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
                                     as={TextField}
                                     id="password"
                                     name="password"
-                                    type="password"
+                                    type={showNewPassword ? "text" : "password"}
                                     variant="outlined"
                                     fullWidth
                                     error={touched.password && Boolean(errors.password)}
                                     helperText={<ErrorMessage name="password" />}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <IconButton
+                                                onClick={() => togglePasswordVisibility(setShowNewPassword)}
+                                                edge="end"
+                                                color="primary"
+                                            >
+                                                {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        )
+                                    }}
                                 />
                             </Box>
                             <Stack justifyContent="space-between" direction="row" alignItems="center" my={5}>
@@ -150,8 +172,9 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
                 )}
             </Formik>
 
-            {subtitle}
             <ToastComponent />
+            {subtitle}
+        </>}
         </>
     );
 };

@@ -107,7 +107,6 @@ function CustomTable({ Title, headers, listData ,onAddClick,setUserId,AddSvg}) {
         <Typography sx={{ flex: '1 1 100%' }} variant="tableTitle">
           {Title}
         </Typography>
-        <Tooltip title="Add user">
           <Box sx={{display:'flex',width:'100%',gap:'5px',justifyContent:'end'}}>
         <Button
             color="success"
@@ -124,6 +123,7 @@ function CustomTable({ Title, headers, listData ,onAddClick,setUserId,AddSvg}) {
             <AddIcon />
 
           </Button>
+        <Tooltip title="Add user">
           <Button
             color="info"
             variant="contained"
@@ -139,8 +139,8 @@ function CustomTable({ Title, headers, listData ,onAddClick,setUserId,AddSvg}) {
             <AddIcon />
 
           </Button>
-          </Box>
         </Tooltip>
+          </Box>
       </Toolbar>
     );
   }
@@ -215,7 +215,7 @@ console.log('row', row)
                       </Typography>
                     </TableCell>
                     <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
-                      <Tooltip title="Edit user"  onClick={() => {onAddClick();setUserId('66cd815a8df979e9a1c8a8c5')}}>
+                      <Tooltip title="Edit user"  onClick={() => {onAddClick();setUserId(row?._id)}}>
                           <MoreVertOutlinedIcon />
                       </Tooltip>
                     </TableCell>

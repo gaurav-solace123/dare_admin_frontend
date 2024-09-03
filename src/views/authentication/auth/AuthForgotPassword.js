@@ -13,6 +13,7 @@ import Api from '../../../services/constant';
 import { postData } from '../../../services/services';
 
 import useCustomToast from 'src/hooks/CustomToastHook';
+import Loader from '../../../components/Loader';
 // Validation schema using Yup
 const validationSchema = Yup.object({
     email: Yup.string()
@@ -34,7 +35,7 @@ const AuthForgotPassword = ({ title, subtitle, subtext }) => {
         const payload = { 
             email:values?.email,
          };
-       
+       setIsLoading(true)
         try {
           const result = await  postData(Api?.forgotPassword, payload);
     
@@ -42,7 +43,6 @@ const AuthForgotPassword = ({ title, subtitle, subtext }) => {
             
             setIsLoading(false);
             showToast(result?.message);
-console.log('result?.data?.tokenLink', result?.data?.tokenLink)
            navigate(result?.data?.tokenLink)
        
           } else {
@@ -50,10 +50,14 @@ console.log('result?.data?.tokenLink', result?.data?.tokenLink)
           }
         } catch (error) {
           console.error(error);
+          setIsLoading(false);
         }
       };
     return (
         <>
+
+        {isLoading? <Loader/>
+        :<>
             {title ? (
                 <Typography fontWeight="700" variant="h2" mb={1}>
                     {title}
@@ -108,6 +112,7 @@ console.log('result?.data?.tokenLink', result?.data?.tokenLink)
             </Formik>
             <ToastComponent />
             {subtitle}
+        </>}
         </>
     );
 };

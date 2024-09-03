@@ -12,30 +12,14 @@ import Table from './component/CustomTable';
 import { borderRadius } from '@mui/system';
 import Loadable from '../../layouts/full/shared/loadable/Loadable';
 import AddSvgForm from './component/AddSvgForm';
+import Api from '../../services/constant';
+import { getData } from '../../services/services';
+import Loader from '../../components/Loader';
 // import DownloadForOfflineSharpIcon from '@mui/icons-material/DownloadForOfflineSharp';
 
 
 const CustomTable = Loadable(lazy(() => import('./component/CustomTable')));
 const AddEditUser = Loadable(lazy(() => import('./AddEditUser')));
-
-function createData(_id, firstName, userRole, userName, mobileNumber, email) {
-  return { _id, firstName, userRole, userName, mobileNumber,email  };
-}
-const rows = [
-  createData(1, 'Gaurav', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(2, 'omkar', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(3, 'shubh', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(4, 'raj', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(5, 'grut', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(6, 'hi', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(7, 'cii', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(8, 'dii', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(9, 'cii', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(10,'mll', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(11,'koo', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(12,'buu', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-  createData(13,'foo', 'Student', 'test@gmail.com','Miller Williams',9878765654),
-];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) return -1;
@@ -103,8 +87,8 @@ export default function EnhancedTable() {
     boxShadow: 24,
     p: 2,
   };
-  function createData({_id, firstName, userRole, userName, mobileNumber, email}) {
-    return { _id, firstName, userRole, userName, mobileNumber,email  };
+  function createData({_id, firstName, userRole,  mobileNumber, email,userName}) {
+    return { _id, firstName, userRole,  mobileNumber,email,userName  };
   }
   const getListData=async()=>{
     try {
@@ -114,6 +98,9 @@ export default function EnhancedTable() {
     const response= result?.data?.users
     const tempData= response.map(item=>createData(item))
     setListData(tempData)
+    setIsLoading(false)
+   }
+   else{
     setIsLoading(false)
    }
     } catch (error) {
@@ -126,7 +113,8 @@ useEffect(()=>{
 },[])
   return (
 <>
-<Box sx={{ border: '2px solid', color:'#0055a4',padding: 2, position: 'relative' ,borderRadius:2}}>
+{ isLoading?<Loader/>:
+  <Box sx={{ border: '2px solid', color:'#0055a4',padding: 2, position: 'relative' ,borderRadius:2}}>
 
 <Box
         sx={{
@@ -144,10 +132,10 @@ useEffect(()=>{
           <Typography variant="h7" fontWeight={600} component="label" htmlFor="mailingAddress">Users</Typography>
         
       </Box>
-    <CustomTable Title={''} headers={headCells} listData={rows} setUserId={setUserId} onAddClick={()=>{handleOpen();
+    <CustomTable Title={''} headers={headCells} listData={listData} setUserId={setUserId} onAddClick={()=>{handleOpen();
       setUserId('')
     }} AddSvg={()=>{handleSvgOpen()}} />
-    </Box>
+    </Box>}
     <Modal
     open={open}
     onClose={handleClose}
