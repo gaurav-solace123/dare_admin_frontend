@@ -56,7 +56,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
               localStorage.setItem("token", JSON.stringify(result?.data?.token.replace("Bearer ", "")));
             localStorage.setItem("email", JSON.stringify(result?.data?.email))
             // setCookie("token", result?.data?.successResult?.token.replace("Bearer ", ""), 365); // The cookie will persist for 30 days
-            debugger
+            
             setIsLoading(false);
             showToast(result?.message);
             // navigate("/dashboard")
