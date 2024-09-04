@@ -17,9 +17,10 @@ const CustomTextField = styled((props) => {
       if (!regex.test(event.key)) {
         event.preventDefault();
       }
-      if(event?.target?.value?.length>length){
-        event?.preventDefault();
-      }
+      
+    }
+    if(event?.target?.value?.length>length){
+      event?.preventDefault();
     }
   };
   

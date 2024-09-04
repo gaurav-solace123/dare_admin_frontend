@@ -19,7 +19,7 @@ export default function PieArcLabel({data=[],size=sizes,sx}) {
     <PieChart
       series={[
         {
-          arcLabel: (item) => ` ${item?.value} %`,
+          arcLabel: (item) => ` ${item?.value} `,
           arcLabelMinAngle: 45,
           data,
           color: (item) => item?.color,
