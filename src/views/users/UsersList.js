@@ -156,7 +156,7 @@ useEffect(()=>{
     >
       {/* <CloseIcon /> */}X
     </IconButton>
-     <AddEditUser cancel={()=>handleClose()} userId={userId}/>
+     <AddEditUser cancel={()=>handleClose()} userId={userId} getListData={getListData}/>
     </Box>
   </Modal>
 

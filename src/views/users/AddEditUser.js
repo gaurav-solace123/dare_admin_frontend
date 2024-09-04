@@ -21,13 +21,15 @@ import Loader from '../../components/Loader';
 
 
 
-const AddEditUser = ({ title = 'Add user', subtitle, subtext,cancel ,userId}) => {
+const AddEditUser = ({ title = 'Add user', subtitle, subtext,cancel ,userId,getListData}) => {
     //constants
+
+const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
     // Validation schema using Yup
     const validationSchema = Yup.object().shape({
         firstName: Yup.string().required('First Name is required.'),
         lastName: Yup.string().required('Last Name is required.'),
-        userName: Yup.string().required('Username is required.'),
+        username: Yup.string().required('Username is required.'),
         email: Yup.string()
             .email('Enter a valid email.')
             .required('Email is required.'),
@@ -45,7 +47,10 @@ const AddEditUser = ({ title = 'Add user', subtitle, subtext,cancel ,userId}) =>
                 then: (schema) => schema.required('Confirm Password is required.'),
                 otherwise: (schema) => schema.notRequired(),
             }),
-        userRole: Yup.string().required('Role selection is required.')
+        userRole: Yup.string().required('Role selection is required.'),
+        _postal_code: Yup.string()
+        .matches(postalCodeRegex, "Invalid postal code format")
+        
     });
     
     
@@ -77,7 +82,7 @@ const AddEditUser = ({ title = 'Add user', subtitle, subtext,cancel ,userId}) =>
                 password: true,
                 firstName: true,
                 lastName: true,
-                userName: true,
+                username: true,
                 confirmPassword: true,
             });
         }
@@ -91,7 +96,7 @@ const AddEditUser = ({ title = 'Add user', subtitle, subtext,cancel ,userId}) =>
           if (result?.status==200) {
             const response = result?.data;
             if (formikRef?.current) {
-                if(response.userRole=='Instructor')setIsMailingAddress(true)
+                if(response.userRole=='Instructor')setIsMailingAddress(false)
               formikRef?.current.resetForm({ values: response });
               setIsLoading(false);
             }
@@ -111,7 +116,7 @@ const AddEditUser = ({ title = 'Add user', subtitle, subtext,cancel ,userId}) =>
         const payload = { 
             firstName:values?.firstName,
             lastName:values?.lastName,
-            userName:values?.userName,
+            username:values?.username,
             email:values?.email,
             userRole:values?.userRole,
          };
@@ -140,6 +145,7 @@ const AddEditUser = ({ title = 'Add user', subtitle, subtext,cancel ,userId}) =>
             setIsLoading(false);
             cancel()
             showToast(result?.message);
+            getListData()
           } else {
             setIsLoading(false);
           }
@@ -170,7 +176,7 @@ console.log('userId', userId)
                 initialValues={{
                     firstName: '',
                     lastName: '',
-                    userName: '',
+                    username: '',
                     email: '',
                     password: '',
                     confirmPassword: '',
@@ -186,10 +192,11 @@ console.log('userId', userId)
                     <Form>
                         <Stack spacing={2}>
                             {/* First Name and Last Name in one row */}
-                            {console.log('errors', errors)}
                             <Grid container width={'100%'}>
+                            {!isMailingAddres&&
+                            <>
                             <Grid item xs={12} p={'7px'} >
-                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="userRole">Select user role</Typography>
+                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="userRole">Select user role <span style={{ color: 'red' }}>*</span></Typography>
                                     <Field
                                         as={CustomTextField}
                                         id="userRole"
@@ -197,17 +204,18 @@ console.log('userId', userId)
                                         select
                                         variant="outlined"
                                         fullWidth
+                                        placeholder='Select your role'
                                         error={touched.userRole && Boolean(errors.userRole)}
                                         helperText={<ErrorMessage name="userRole" />}
                                     >
-                                        <MenuItem value="">Select your role</MenuItem>
+                                        <MenuItem value="" >Select your role</MenuItem>
                                         <MenuItem value="Facilitator">Facilitator</MenuItem>
                                         <MenuItem value="Student">Student</MenuItem>
                                         <MenuItem value="Instructor">Instructor</MenuItem>
                                     </Field>
                                 </Grid>
                                 <Grid item xs={6} p={'7px'}>
-                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="firstName">First Name</Typography>
+                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="firstName">First Name<span style={{ color: 'red' }}>*</span></Typography>
                                     <Field
                                         as={CustomTextField}
                                         id="firstName"
@@ -220,7 +228,7 @@ console.log('userId', userId)
                                     />
                                 </Grid>
                                 <Grid item xs={6} p={'7px'}>
-                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="lastName">Last Name</Typography>
+                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="lastName">Last Name<span style={{ color: 'red' }}>*</span></Typography>
                                     <Field
                                         as={CustomTextField}
                                         id="lastName"
@@ -234,20 +242,20 @@ console.log('userId', userId)
                                 </Grid>
 
                                 <Grid item xs={6} p={'7px'}>
-                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="userName">Username</Typography>
+                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="username">Username</Typography>
                                     <Field
                                         as={CustomTextField}
-                                        id="userName"
-                                        name="userName"
+                                        id="username"
+                                        name="username"
                                         variant="outlined"
                                         fullWidth
-                                        error={touched.userName && Boolean(errors.userName)}
-                                        helperText={<ErrorMessage name="userName" />}
+                                        error={touched.username && Boolean(errors.username)}
+                                        helperText={<ErrorMessage name="username" />}
                                     />
                                 </Grid>
 
                                 <Grid item xs={6} p={'7px'}>
-                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="email">Email</Typography>
+                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="email">Email <span style={{ color: 'red' }}>*</span></Typography>
                                     <Field
                                         as={CustomTextField}
                                         id="email"
@@ -260,7 +268,7 @@ console.log('userId', userId)
                                 </Grid>
 
                                 <Grid item xs={6} p={'7px'}>
-                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="password">Password</Typography>
+                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="password">Password{!userId&&<span style={{ color: 'red' }}>*</span>}</Typography>
                                     <Field
                                         as={CustomTextField}
                                         id="password"
@@ -285,7 +293,7 @@ console.log('userId', userId)
                                 </Grid>
 
                                 <Grid item xs={6} p={'7px'}>
-                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="confirmPassword">Confirm Password</Typography>
+                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="confirmPassword">Confirm Password {!userId&&<span style={{ color: 'red' }}>*</span>}</Typography>
                                     <Field
                                         as={CustomTextField}
                                         id="confirmPassword"
@@ -308,6 +316,7 @@ console.log('userId', userId)
                                         }}
                                     />
                                 </Grid>
+                                </>}
 
                               
                             {isMailingAddres&&
@@ -368,7 +377,6 @@ console.log('userId', userId)
                                         name="_postal_code"
                                         variant="outlined"
                                         fullWidth
-                                        typeValid='number'
 
                                         length={7}
                                         error={touched._postal_code && Boolean(errors._postal_code)}
@@ -396,7 +404,6 @@ console.log('userId', userId)
                             }
                             </Grid>
                             {/* Submit and Cancel buttons */}
-
                            
                             {formikRef?.current?.values?.userRole=='Instructor'&&!isMailingAddres?
                             <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>

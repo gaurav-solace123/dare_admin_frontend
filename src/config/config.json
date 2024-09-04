@@ -1,7 +1,7 @@
 {
-    "isMock": true,
+    "isMock": false,
     "base_url":"http://localhost:5173/mock",
     "backend": {
-        "baseurl": "https://shaky-glasses-obey.loca.lt/v1"
+        "baseurl": "http://192.168.1.72:3000/v1"
     }
 }

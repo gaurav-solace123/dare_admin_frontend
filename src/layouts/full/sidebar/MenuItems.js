@@ -28,6 +28,12 @@ const Menuitems = [
     icon: IconUserPlus,
     href: '/studentReport',
   },
+  {
+    id: uniqueId(),
+    title: 'Middle Student Report',
+    icon: IconUserPlus,
+    href: '/middleStudentReport',
+  },
   // {
   //   navlabel: true,
   //   subheader: 'Utilities',
