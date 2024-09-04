@@ -38,7 +38,22 @@ function AddSvgForm({ onUploade, error, isEdit, image,isMobile }) {
 
     return (
         <Box margin={2}> 
-        <Box mb={2}>
+          <Box mb={2}>
+            <Typography sx={{ flex: '1 1 100%' }} variant="tableText" >
+                        {'Downloade Sample File : '}
+                      </Typography>
+        <Button
+        component="label"
+        role={undefined}
+        variant="contained"
+        tabIndex={-1}
+         startIcon={<DownloadForOfflineIcon />}
+      >
+       Download Sample
+       
+      </Button>
+      </Box>
+        <Box >
             <Typography sx={{ flex: '1 1 100%' }} variant="tableText" >
                         {'Uploade CSV /XLS file : '}
                       </Typography>
@@ -59,21 +74,7 @@ function AddSvgForm({ onUploade, error, isEdit, image,isMobile }) {
       </Button>
       </Box>
 
-      <Box>
-            <Typography sx={{ flex: '1 1 100%' }} variant="tableText" >
-                        {'Downloade Sample File : '}
-                      </Typography>
-        <Button
-        component="label"
-        role={undefined}
-        variant="contained"
-        tabIndex={-1}
-         startIcon={<DownloadForOfflineIcon />}
-      >
-       Download Sample
-       
-      </Button>
-      </Box>
+    
 
       </Box>
     );
