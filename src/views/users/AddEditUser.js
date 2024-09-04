@@ -113,6 +113,7 @@ const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
       }
     //on submit functions
     const onSubmit = async (values) => {
+        debugger
         const payload = { 
             firstName:values?.firstName,
             lastName:values?.lastName,
@@ -154,7 +155,7 @@ const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
         }
       };
       
-console.log('userId', userId)
+console.log('formik', formikRef)
       //all useEffects
       useEffect(()=>{
         if(userId)viewData()
@@ -242,7 +243,7 @@ console.log('userId', userId)
                                 </Grid>
 
                                 <Grid item xs={6} p={'7px'}>
-                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="username">Username</Typography>
+                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="username">Username <span style={{ color: 'red' }}>*</span></Typography>
                                     <Field
                                         as={CustomTextField}
                                         id="username"

@@ -43,7 +43,9 @@ const AuthForgotPassword = ({ title, subtitle, subtext }) => {
             
             setIsLoading(false);
             showToast(result?.message);
-           navigate(result?.data?.tokenLink)
+        //    navigate(result?.data?.tokenLink)
+        // encodeURI(tokenLink)
+           window.open(result?.data, '_blank');
        
           } else {
             setIsLoading(false);
