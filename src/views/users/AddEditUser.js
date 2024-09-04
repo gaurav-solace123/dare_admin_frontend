@@ -113,7 +113,7 @@ const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
       }
     //on submit functions
     const onSubmit = async (values) => {
-        debugger
+        
         const payload = { 
             firstName:values?.firstName,
             lastName:values?.lastName,
