@@ -13,6 +13,8 @@ import { borderRadius } from '@mui/system';
 import Loadable from '../../layouts/full/shared/loadable/Loadable';
 import AddSvgForm from './component/AddSvgForm';
 import { getData } from '../../services/services';
+import Api from '../../services/constant';
+import Loader from '../../components/Loader';
 // import DownloadForOfflineSharpIcon from '@mui/icons-material/DownloadForOfflineSharp';
 
 
@@ -184,13 +186,7 @@ useEffect(()=>{
     </IconButton>
     <Typography fontWeight="700" variant="h2" mb={1}>
                     {"Bulk Upload"} 
-                    <img
-        src={'/src/assets/images/logos/download.png'}
-        alt={'gkgk'}
-        loading="lazy"
-        width={'35px'}
-        style={{justifyContent:'center',marginLeft:'5px'}}
-      />
+                   
                 </Typography>
                
                 {/* <DownloadForOfflineSharpIcon/> */}

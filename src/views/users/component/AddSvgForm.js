@@ -1,18 +1,22 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { Box, Typography } from '@mui/material';
-const activeStyle = {
-    borderColor: "#2196f3",
-};
+import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
 
-const acceptStyle = {
-    borderColor: "#00e676",
-};
-
-const rejectStyle = {
-    borderColor: "#ff1744",
-};
-function AddSvgForm({ onChange, error, isEdit, image,isMobile }) {
+function AddSvgForm({ onUploade, error, isEdit, image,isMobile }) {
     console.log("isMobile",isMobile)
     const baseStyle = {
         display: "flex",
@@ -32,88 +36,46 @@ function AddSvgForm({ onChange, error, isEdit, image,isMobile }) {
     };
     const [files, setFiles] = useState([]);
 
-
-    useEffect(() => {
-        if (image) {
-            setFiles([
-                {
-                    preview: `${BASE_URL}${image}`,
-                },
-            ]);
-        }
-    }, [image]);
-
-
-    const onDrop = useCallback((acceptedFiles) => {
-        setFiles(
-            acceptedFiles.map((file) =>
-                Object.assign(file, {
-                    preview: URL.createObjectURL(file),
-                })
-            )
-        );
-
-        onChange(acceptedFiles[0]);
-    }, [onChange]);
-
-    const {
-        getRootProps,
-        getInputProps,
-        isDragActive,
-        isDragAccept,
-        isDragReject,
-    } = useDropzone({
-        onDrop,
-        accept: "image/svg+xml",
-    });
-
-    const style = useMemo(
-        () => ({
-            ...baseStyle,
-            ...(isDragActive ? activeStyle : {}),
-            ...(isDragAccept ? acceptStyle : {}),
-            ...(isDragReject ? rejectStyle : {}),
-        }),
-        [baseStyle, isDragActive, isDragReject, isDragAccept]
-    );
-
-    const thumbs = files.map((file) => (
-        <div key={file.name}>
-            <img
-                width={"100px"}
-                height={"100px"}
-                style={{ borderRadius: 10 }}
-                src={file.preview}
-                alt={file.name}
-            />
-        </div>
-    ));
-
-    // clean up
-    useEffect(
-        () => () => {
-            files.forEach((file) => URL.revokeObjectURL(file.preview));
-        },
-        [files]
-    );
-
-    console.log("files",files)
-
     return (
-        <section>
-            <div {...getRootProps({ style })}>
-                <input {...getInputProps()} />
-                <div>
-                    {error ? (
-                        <p>Error: {error}</p>
-                    ) : (
-                        <div>Drag and Drop csv file or other extension.</div>
-                    )}
-                </div>
-            </div>
-          
-                <aside>{thumbs}</aside>
-        </section>
+        <Box margin={2}> 
+        <Box mb={2}>
+            <Typography sx={{ flex: '1 1 100%' }} variant="tableText" >
+                        {'Uploade CSV /XLS file : '}
+                      </Typography>
+        <Button
+        component="label"
+        role={undefined}
+        variant="contained"
+        tabIndex={-1}
+         startIcon={<CloudUploadIcon />}
+      >
+        Upload files
+        <VisuallyHiddenInput
+          type="file"
+        //   onChange={(event) => console.log(event.target.files)}
+        onChange={onUploade}
+          multiple
+        />
+      </Button>
+      </Box>
+
+      <Box>
+            <Typography sx={{ flex: '1 1 100%' }} variant="tableText" >
+                        {'Downloade Sample File : '}
+                      </Typography>
+        <Button
+        component="label"
+        role={undefined}
+        variant="contained"
+        tabIndex={-1}
+         startIcon={<DownloadForOfflineIcon />}
+      >
+       Download Sample
+       
+      </Button>
+      </Box>
+
+      </Box>
     );
 }
 
