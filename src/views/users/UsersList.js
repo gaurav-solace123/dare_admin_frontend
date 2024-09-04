@@ -9,7 +9,7 @@ import Table from './component/CustomTable';
 // import CustomTable from './component/CustomTable';
 // import AddEditUser from './AddEditUser';
 // const Login = Loadable(lazy(() => import('../views/authentication/Login')));
-import { borderRadius } from '@mui/system';
+import { borderRadius, height } from '@mui/system';
 import Loadable from '../../layouts/full/shared/loadable/Loadable';
 import AddSvgForm from './component/AddSvgForm';
 import { getData } from '../../services/services';
@@ -86,6 +86,19 @@ export default function EnhancedTable() {
     borderRadius:"5px",
     boxShadow: 24,
     p: 2,
+  };
+  const styleModelBulkUploade = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 500,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    borderRadius:"5px",
+    boxShadow: 24,
+    p: 2,
+
   };
   function createData({_id, firstName, userRole,  mobileNumber, email,userName}) {
     return { _id, firstName, userRole,  mobileNumber,email,userName  };
@@ -167,8 +180,9 @@ useEffect(()=>{
     onClose={handleSvgClose}
     aria-labelledby="modal-modal-title"
     aria-describedby="modal-modal-description"
+  
   >
-    <Box sx={styleModel}>
+    <Box sx={styleModelBulkUploade}>
     <IconButton
       aria-label="close"
       onClick={handleSvgClose}

@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { Box, Typography } from '@mui/material';
 import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
+
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -16,68 +17,67 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-function AddSvgForm({ onUploade, error, isEdit, image,isMobile }) {
-    console.log("isMobile",isMobile)
-    const baseStyle = {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "20px",
-        borderWidth: 2,
-        borderRadius: 10,
-        height: isMobile ? '100%' : "300px",
-        width:  isMobile ? '50vw' : "auto",
-        borderColor: error ? "#ff1744" : "#eeeeee",
-        borderStyle: "dashed",
-        backgroundColor: "#224957",
-        color: error ? "#ff1744" : "#bdbdbd",
-        transition: "border .3s ease-in-out",
-        justifyContent: "center",
-    };
-    const [files, setFiles] = useState([]);
+function AddSvgForm({ onUploade, error, isEdit, image, isMobile }) {
+  console.log("isMobile", isMobile);
 
-    return (
-        <Box margin={2}> 
-          <Box mb={2}>
-            <Typography sx={{ flex: '1 1 100%' }} variant="tableText" >
-                        {'Downloade Sample File : '}
-                      </Typography>
+  const baseStyle = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "20px",
+    borderWidth: 2,
+    borderRadius: 10,
+    height: isMobile ? '100%' : "300px",
+    width: isMobile ? '50vw' : "auto",
+    borderColor: error ? "#ff1744" : "#eeeeee",
+    borderStyle: "dashed",
+    backgroundColor: "#224957",
+    color: error ? "#ff1744" : "#bdbdbd",
+    transition: "border .3s ease-in-out",
+    justifyContent: "center",
+  };
+
+  const [files, setFiles] = useState([]);
+
+  return (
+    <Box margin={2}>
+      <Box mb={5} mt={5} sx={{ display: 'flex', alignItems: 'center' }}>
+        <Typography sx={{ flex: '1 1 auto' }} variant="tableText">
+          {'Download Sample File:'}
+        </Typography>
         <Button
-        component="label"
-        role={undefined}
-        variant="contained"
-        tabIndex={-1}
-         startIcon={<DownloadForOfflineIcon />}
-      >
-       Download Sample
-       
-      </Button>
+          component="label"
+          role={undefined}
+          variant="contained"
+          tabIndex={-1}
+          startIcon={<DownloadForOfflineIcon />}
+          sx={{width:'50%'}}
+        >
+          Download Sample
+        </Button>
       </Box>
-        <Box >
-            <Typography sx={{ flex: '1 1 100%' }} variant="tableText" >
-                        {'Uploade CSV /XLS file : '}
-                      </Typography>
+      <Box mb={5} mt={5} sx={{ display: 'flex', alignItems: 'center' }}>
+        <Typography sx={{ flex: '1 1 auto' }} variant="tableText">
+          {'Upload CSV / XLS file:'}
+        </Typography>
         <Button
-        component="label"
-        role={undefined}
-        variant="contained"
-        tabIndex={-1}
-         startIcon={<CloudUploadIcon />}
-      >
-        Upload files
-        <VisuallyHiddenInput
-          type="file"
-        //   onChange={(event) => console.log(event.target.files)}
-        onChange={onUploade}
-          multiple
-        />
-      </Button>
+          component="label"
+          role={undefined}
+          variant="contained"
+          tabIndex={-1}
+          startIcon={<CloudUploadIcon />}
+          sx={{width:'50%'}}
+        >
+          Upload files
+          <VisuallyHiddenInput
+            type="file"
+            onChange={onUploade}
+            multiple
+          />
+        </Button>
       </Box>
-
-    
-
-      </Box>
-    );
+    </Box>
+  );
 }
 
-export default AddSvgForm
+export default AddSvgForm;
