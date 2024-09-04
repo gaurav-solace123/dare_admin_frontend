@@ -13,15 +13,21 @@ import DigitalAdminPanel from './components/DigitalAdminPanel';
 import DigitalAdminDownloadReport from './components/DigitalAdminDownloadReport';
 import DigitalAdminUnassignedReport from './components/DigitalAdminUnassignedReport';
 import DigitalAdminBottomPanel from './components/DigitalAdminBottomPanel';
+import Loader from '../../components/Loader';
 
 
 const Dashboard = () => {
+  
   const data = [
     { value: 55, label: 'Middle School' },
     { value: 45, label: 'Elementary School' },
 ];
+
+const [isLoading, setIsLoading] = React.useState(false);
   return (
-    <PageContainer title="Dashboard" description="this is Dashboard">
+
+    <>
+    {isLoading?<Loader/>: <PageContainer title="Dashboard" description="this is Dashboard">
       <Box>
         <Grid container spacing={3}>
 
@@ -49,7 +55,7 @@ const Dashboard = () => {
             <DigitalAdminBottomPanel/>
           </Grid>
 
-          <Grid item xs={12} lg={8}>
+          {/* <Grid item xs={12} lg={8}>
             <SalesOverview />
           </Grid>
           <Grid item xs={12} lg={4}>
@@ -70,10 +76,12 @@ const Dashboard = () => {
           </Grid>
           <Grid item xs={12}>
             <Blog />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Box>
-    </PageContainer>
+    </PageContainer>}
+    
+    </>
   );
 };
 

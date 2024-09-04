@@ -17,6 +17,7 @@ import { getData, patchData, postData } from '../../services/services';
 import Api from '../../services/constant';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
+import Loader from '../../components/Loader';
 
 
 
@@ -84,7 +85,7 @@ const AddEditUser = ({ title = 'Add user', subtitle, subtext,cancel ,userId}) =>
     
     const viewData = async () => {
         try {
-            
+            // setIsLoading(true);
           const result = await getData(`${Api?.viewUser}/${userId}`);
          
           if (result?.status==200) {
@@ -137,8 +138,8 @@ const AddEditUser = ({ title = 'Add user', subtitle, subtext,cancel ,userId}) =>
     
           if (result?.status==200) {
             setIsLoading(false);
+            cancel()
             showToast(result?.message);
-           cancel()
           } else {
             setIsLoading(false);
           }
@@ -155,6 +156,8 @@ console.log('userId', userId)
       },[])
     return (
         <>
+        
+        {isLoading? <Loader/> :<>
             {title ? (
                 <Typography fontWeight="700" variant="h2" mb={1}>
                     {userId? 'Edit user':"Add user"} 
@@ -447,6 +450,7 @@ console.log('userId', userId)
 
             {subtitle}
             <ToastComponent />
+        </>}
         </>
     );
 };

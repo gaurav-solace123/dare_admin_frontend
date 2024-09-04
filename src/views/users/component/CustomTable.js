@@ -265,7 +265,7 @@ console.log('row', row)
                       </Typography>
                     </TableCell>
                     <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
-                      <Tooltip title="Edit user"  onClick={() => {onAddClick();setUserId('66cd815a8df979e9a1c8a8c5')}}>
+                      <Tooltip title="Edit user"  onClick={() => {onAddClick();setUserId(row?._id)}}>
                           <MoreVertOutlinedIcon />
                       </Tooltip>
                     </TableCell>
