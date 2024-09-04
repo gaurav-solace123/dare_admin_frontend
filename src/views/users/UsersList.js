@@ -100,8 +100,8 @@ export default function EnhancedTable() {
     p: 2,
 
   };
-  function createData({_id, firstName, userRole,  mobileNumber, email,userName}) {
-    return { _id, firstName, userRole,  mobileNumber,email,userName  };
+  function createData({_id, firstName, userRole,  mobileNumber, email,username}) {
+    return { _id, firstName, userRole,  mobileNumber,email,username  };
   }
   const getListData=async()=>{
     try {
