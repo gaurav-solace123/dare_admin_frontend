@@ -12,6 +12,7 @@ import Table from './component/CustomTable';
 import { borderRadius } from '@mui/system';
 import Loadable from '../../layouts/full/shared/loadable/Loadable';
 import AddSvgForm from './component/AddSvgForm';
+import { getData } from '../../services/services';
 // import DownloadForOfflineSharpIcon from '@mui/icons-material/DownloadForOfflineSharp';
 
 
