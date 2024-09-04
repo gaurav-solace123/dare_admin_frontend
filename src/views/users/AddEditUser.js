@@ -141,7 +141,7 @@ const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
             ? patchData(`${Api?.updateUser}/${userId}`, payload)
             : postData(`${Api?.createUser}`, payload));
     
-          if (result?.status==200) {
+          if (result?.status==200||result?.status==201) {
             setIsLoading(false);
             cancel()
             showToast(result?.message);
