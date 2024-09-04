@@ -261,7 +261,7 @@ console.log('row', row)
                     </TableCell>
                     <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
                       <Typography sx={{ flex: '1 1 100%' }} variant="tableText" >
-                        {row?.userName}
+                        {row?.username}
                       </Typography>
                     </TableCell>
                     <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>

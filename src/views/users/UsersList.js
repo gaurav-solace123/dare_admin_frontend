@@ -48,7 +48,7 @@ const headCells = [
   { id: 'userRole', numeric: true, label: 'Role' },
   { id: 'mobileNumber', numeric: true, label: 'Mobile' },
   { id: 'email', numeric: true, label: 'Email' },
-  { id: 'userName', numeric: true, label: 'Username' },
+  { id: 'username', numeric: true, label: 'Username' },
   
   { id: 'actions', numeric: true, label: 'Actions' },
 ];
