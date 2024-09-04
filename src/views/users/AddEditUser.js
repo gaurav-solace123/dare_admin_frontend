@@ -48,8 +48,8 @@ const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
                 otherwise: (schema) => schema.notRequired(),
             }),
         userRole: Yup.string().required('Role selection is required.'),
-        _postal_code: Yup.string()
-        .matches(postalCodeRegex, "Invalid postal code format")
+        // _postal_code: Yup.string()
+        // .matches(postalCodeRegex, "Invalid postal code format")
         
     });
     
@@ -135,6 +135,7 @@ const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
         payload.State=values?.State
         payload._postal_code=values?._postal_code
         payload.mobileNumber=values?.mobileNumber
+        payload.organization='demo'
        }
        setIsMailingAddress(false)
         try {
@@ -362,12 +363,12 @@ console.log('formik', formikRef)
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="State">State </Typography>
                                     <Field
                                         as={CustomTextField}
-                                        id="State"
-                                        name="State"
+                                        id="state"
+                                        name="state"
                                         variant="outlined"
                                         fullWidth
-                                        error={touched.State && Boolean(errors.State)}
-                                        helperText={<ErrorMessage name="State" />}
+                                        error={touched.state && Boolean(errors.state)}
+                                        helperText={<ErrorMessage name="state" />}
                                     />
                                 </Grid>
                             <Grid item xs={6} p={'7px'}>
