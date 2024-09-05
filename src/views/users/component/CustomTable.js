@@ -26,7 +26,7 @@ import { IconBellRinging } from '@tabler/icons-react';
 import InputBase from '@mui/material/InputBase';
 import Filter from './Filter';
 
-function CustomTable({ Title, headers, listData ,onAddClick,setUserId,AddSvg}) {
+function CustomTable({ Title, headers, listData ,onAddClick,setUserId,AddSvg,getListData}) {
   const [row, setRow] = React.useState(listData ? listData : []);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('userRole');
@@ -82,6 +82,14 @@ function CustomTable({ Title, headers, listData ,onAddClick,setUserId,AddSvg}) {
   const handleChangeDropDown=(e)=>{
 console.log(e)
   }
+  
+  // React.useEffect(()=>{
+  //   const pagination={
+  //     page,rowsPerPage, sortBy:orderBy,sortOrder:order
+  //   }
+  //   getListData(pagination)
+  //   console.log('firstsdfsf', )
+  // },[page,rowsPerPage, orderBy,order])
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) return -1;
     if (b[orderBy] > a[orderBy]) return 1;
@@ -221,6 +229,7 @@ console.log('row', row)
   console.log('visibleRows', visibleRows)
   React.useEffect(() => {
     setRow(listData)
+  
   }, [listData, headers])
   return (
     <div>

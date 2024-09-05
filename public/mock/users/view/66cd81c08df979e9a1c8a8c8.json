@@ -5,7 +5,7 @@
     "userRole": "Instructor",
     "firstName": "John",
     "lastName": "Doe",
-    "userName": "johndoea",
+    "username": "johndoea",
     "email": "john@example.com",
     "accountApproved": true,
     "isArchive": false,

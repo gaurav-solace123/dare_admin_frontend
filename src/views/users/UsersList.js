@@ -116,7 +116,7 @@ export default function EnhancedTable() {
       }
     try {
       setIsLoading(true)
-      const result = await getData(`${Api.listUsers}${searchQuery}`)
+      const result = await getData(`${Api.listUsers}`)  //${searchQuery}
    if(result.status==200){
     const response= result?.data?.users
     const tempData= response.map(item=>createData(item))
@@ -131,9 +131,9 @@ export default function EnhancedTable() {
       setIsLoading(false)
     }
   }
-useEffect(()=>{
-  getListData()
-},[])
+// useEffect(()=>{
+//   getListData()
+// },[])
   return (
 <>
 { isLoading?<Loader/>:
@@ -157,7 +157,9 @@ useEffect(()=>{
       </Box>
     <CustomTable Title={''} headers={headCells} listData={listData} setUserId={setUserId} onAddClick={()=>{handleOpen();
       setUserId('')
-    }} AddSvg={()=>{handleSvgOpen()}} />
+    }} AddSvg={()=>{handleSvgOpen()}} 
+    
+    getListData={getListData}/>
     </Box>}
     <Modal
     open={open}
