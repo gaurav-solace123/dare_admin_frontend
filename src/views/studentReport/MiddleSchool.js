@@ -5,6 +5,7 @@ import MenuOption from '../dashboard/components/MenuOption'
 import PieArcLabel from '../dashboard/components/PieArcLabel'
 import CustomDatePicker from './component/CustomDatePicker'
 import Loader from '../../components/Loader'
+import Counter from '../../components/Counter'
 
 function Middle() {
     const [selectedDate, setSelectedDate] = useState(null);
@@ -23,7 +24,7 @@ function Middle() {
     <>
         {/* <Typography variant="h2">Elementary Student Report</Typography> */}
        {isLoading?<Loader/>: <DashboardCard title={"Middle Student Report"} action={<CustomDatePicker  label="Select a date" value={selectedDate} onChange={handleDateChange}/>}>
-        <PieArcLabel data={data} size={{height: 280,}} />
+       <Counter number={20} duration={3} title={"Middle English Workbook Students"} sx={{marginTop:10}}/>    
         </DashboardCard>}
     </>
   )
