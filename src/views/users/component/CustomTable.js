@@ -166,7 +166,7 @@ console.log(e)
             onClick={() => AddSvg()}
           >
             <Typography sx={{ flex: '1 1 100%' }} variant="h6" >
-            Bulk Upload
+            Student Bulk Upload
             </Typography>
             <AddIcon />
 

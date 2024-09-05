@@ -36,7 +36,7 @@ const [isLoading, setIsLoading] = React.useState(false);
             <DigitalAdminPanel title={"Credits Activated By Level"} data={data}/>
           </Grid>
           <Grid item xs={12} lg={6}>
-            <DigitalAdminPanel title={"Session Activated by Level"} data={data}/>
+            <DigitalAdminPanel title={"Sessions Activated by Level"} data={data}/>
           </Grid>
           {/* <Grid item xs={12} lg={6}>
             <Box height="100%" display="flex" flexDirection="column">

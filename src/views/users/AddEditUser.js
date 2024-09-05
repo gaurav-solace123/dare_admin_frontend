@@ -121,9 +121,9 @@ const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
             email:values?.email,
             userRole:values?.userRole,
          };
-       if(userId){
-        payload._id=userId;
-       }
+    //    if(userId){
+    //     payload._id=userId;
+    //    }
        if(values?.password){
         payload.password=values?.password
        }
@@ -144,10 +144,12 @@ const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
             : postData(`${Api?.createUser}`, payload));
     
           if (result?.status==200||result?.status==201) {
-            setIsLoading(false);
-            cancel()
-            showToast(result?.message);
-            getListData()
+              debugger
+              showToast("Success", result?.message, "success");
+              setIsLoading(false);
+              
+              getListData()
+              cancel()
           } else {
             setIsLoading(false);
           }

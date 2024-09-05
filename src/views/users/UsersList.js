@@ -199,7 +199,7 @@ useEffect(()=>{
       {/* <CloseIcon /> */}X
     </IconButton>
     <Typography fontWeight="700" variant="h2" mb={1}>
-                    {"Bulk Upload"} 
+                    {"Student Bulk Upload"} 
                    
                 </Typography>
                
@@ -216,7 +216,7 @@ useEffect(()=>{
           type="submit"
           // disabled={isSubmitting}
         >
-          Bulk Upload
+         Student Bulk Upload
         </Button>
       </Grid>
       <Grid item xs={6} p={'7px'}>
