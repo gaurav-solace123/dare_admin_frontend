@@ -103,10 +103,20 @@ export default function EnhancedTable() {
   function createData({_id, firstName, userRole,  mobileNumber, email,username}) {
     return { _id, firstName, userRole,  mobileNumber,email,username  };
   }
-  const getListData=async()=>{
+  const getListData=async(filters
+    = {page:1,rowsPerPage:5,sortBy:'_created_at',sortOrder:'desc'})=>{
+
+    let searchQuery = `?page=${filters?.page}&limit=${filters?.rowsPerPage}`;
+     delete filters.page
+     delete filters.rowsPerPage
+      for (const key in filters) {
+        if (filters[key] !== ""&&filters[key] !== "page"&&filters[key] !== "rowsPerPage") {
+          searchQuery += `&${key}=${encodeURIComponent(filters[key])}`;
+        }
+      }
     try {
       setIsLoading(true)
-      const result = await getData(Api.listUsers)
+      const result = await getData(`${Api.listUsers}${searchQuery}`)
    if(result.status==200){
     const response= result?.data?.users
     const tempData= response.map(item=>createData(item))

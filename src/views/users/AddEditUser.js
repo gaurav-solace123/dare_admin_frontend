@@ -144,7 +144,6 @@ const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
             : postData(`${Api?.createUser}`, payload));
     
           if (result?.status==200||result?.status==201) {
-              debugger
               showToast("Success", result?.message, "success");
               setIsLoading(false);
               
@@ -325,6 +324,37 @@ console.log('formik', formikRef)
                               
                             {isMailingAddres&&
                             <>
+
+                                <Grid item xs={6} p={'7px'} >
+                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="country">Country </Typography>
+                                    <Field
+                                        as={CustomTextField}
+                                        id="country"
+                                        name="country"
+                                        select
+                                        variant="outlined"
+                                        fullWidth
+                                        // placeholder='Select your role'
+                                        error={touched.country && Boolean(errors.country)}
+                                        helperText={<ErrorMessage name="country" />}
+                                    >
+                                        <MenuItem value="" >Select your country</MenuItem>
+                                        <MenuItem value="US">United States</MenuItem>
+                                        <MenuItem value="Cannada">Cannada</MenuItem>
+                                    </Field>
+                                </Grid>
+                            <Grid item xs={6} p={'7px'}>
+                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="State">State </Typography>
+                                    <Field
+                                        as={CustomTextField}
+                                        id="state"
+                                        name="state"
+                                        variant="outlined"
+                                        fullWidth
+                                        error={touched.state && Boolean(errors.state)}
+                                        helperText={<ErrorMessage name="state" />}
+                                    />
+                                </Grid>
                             <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="street_1">Street 1 </Typography>
                                     <Field
@@ -361,18 +391,7 @@ console.log('formik', formikRef)
                                         helperText={<ErrorMessage name="city" />}
                                     />
                                 </Grid>
-                            <Grid item xs={6} p={'7px'}>
-                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="State">State </Typography>
-                                    <Field
-                                        as={CustomTextField}
-                                        id="state"
-                                        name="state"
-                                        variant="outlined"
-                                        fullWidth
-                                        error={touched.state && Boolean(errors.state)}
-                                        helperText={<ErrorMessage name="state" />}
-                                    />
-                                </Grid>
+                            
                             <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="_postal_code">Postal code </Typography>
                                     <Field
@@ -385,6 +404,21 @@ console.log('formik', formikRef)
                                         length={7}
                                         error={touched._postal_code && Boolean(errors._postal_code)}
                                         helperText={<ErrorMessage name="_postal_code" />}
+                                    />
+                                </Grid>
+
+                                <Grid item xs={6} p={'7px'}>
+                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="organization">Organization </Typography>
+                                    <Field
+                                        as={CustomTextField}
+                                        id="organization"
+                                        name="organization"
+                                        variant="outlined"
+                                        fullWidth
+
+                                        length={7}
+                                        error={touched.organization && Boolean(errors.organization)}
+                                        helperText={<ErrorMessage name="organization" />}
                                     />
                                 </Grid>
 
