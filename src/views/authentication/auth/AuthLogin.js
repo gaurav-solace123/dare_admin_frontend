@@ -62,7 +62,7 @@ const AuthLogin = ({ title, subtitle, subtext ,Alert=()=>{}}) => {
           
             Alert('success',result?.message)
             setTimeout(() => {
-                // navigate("/dashboard")  
+                 navigate("/dashboard")  
                 setIsLoading(false);
             }, 1000);
                 
