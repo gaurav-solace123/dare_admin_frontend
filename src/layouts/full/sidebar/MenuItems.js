@@ -4,60 +4,12 @@ import {
 
 import { uniqueId } from 'lodash';
 
-// const Menuitems = [
-//   {
-//     navlabel: true,
-//     subheader: 'Home',
-//   },
-
-//   {
-//     id: uniqueId(),
-//     title: 'Dashboard',
-//     icon: IconLayoutDashboard,
-//     href: '/dashboard',
-//   },
-//   {
-//     id: uniqueId(),
-//     title: 'Users',
-//     icon: IconUserPlus,
-//     href: '/users',
-//   },
-//   {
-//     id: uniqueId(),
-//     title: 'Student Report',
-//     icon: IconUserPlus,
-//     href: '/studentReport',
-//   },
-//   {
-//     id: uniqueId(),
-//     title: 'Middle Student Report',
-//     icon: IconUserPlus,
-//     href: '/middleStudentReport',
-//   },
-//   {
-//     navlabel: true,
-//     subheader: 'Utilities',
-//   },
-//   {
-//     id: uniqueId(),
-//     title: 'Typography',
-//     icon: IconTypography,
-//     href: '/ui/typography',
-//   },
-//   {
-//     id: uniqueId(),
-//     title: 'Shadow',
-//     icon: IconCopy,
-//     href: '/ui/shadow',
-//   },
-  
-// ];
-
 const Menuitems = [
   {
     navlabel: true,
     subheader: 'Home',
   },
+
   {
     id: uniqueId(),
     title: 'Dashboard',
@@ -69,54 +21,36 @@ const Menuitems = [
     title: 'Users',
     icon: IconUserPlus,
     href: '/users',
-    children: [
-      {
-        id: uniqueId(),
-        title: 'All Users',
-        href: '/users/all',
-      },
-      {
-        id: uniqueId(),
-        title: 'Add User',
-        href: '/users/add',
-      },
-    ],
   },
   {
     id: uniqueId(),
-    title: 'Reports',
+    title: 'Student Report',
     icon: IconUserPlus,
-    href: '/reports',
-    children: [
-      {
-        id: uniqueId(),
-        title: 'Student Report',
-        href: '/studentReport',
-      },
-      {
-        id: uniqueId(),
-        title: 'Middle Student Report',
-        href: '/middleStudentReport',
-      },
-    ],
-  },
-  {
-    navlabel: true,
-    subheader: 'Utilities',
+    href: '/studentReport',
   },
   {
     id: uniqueId(),
-    title: 'Typography',
-    icon: IconTypography,
-    href: '/ui/typography',
+    title: 'Middle Student Report',
+    icon: IconUserPlus,
+    href: '/middleStudentReport',
   },
-  {
-    id: uniqueId(),
-    title: 'Shadow',
-    icon: IconCopy,
-    href: '/ui/shadow',
-  },
+  // {
+  //   navlabel: true,
+  //   subheader: 'Utilities',
+  // },
+  // {
+  //   id: uniqueId(),
+  //   title: 'Typography',
+  //   icon: IconTypography,
+  //   href: '/ui/typography',
+  // },
+  // {
+  //   id: uniqueId(),
+  //   title: 'Shadow',
+  //   icon: IconCopy,
+  //   href: '/ui/shadow',
+  // },
+  
 ];
-
 
 export default Menuitems;
