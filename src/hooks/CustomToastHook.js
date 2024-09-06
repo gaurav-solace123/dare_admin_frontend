@@ -33,7 +33,7 @@ const useCustomToast = () => {
         onClose={handleClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <Alert onClose={handleClose} severity={currentToast.severity} sx={{ width: '100%' }}>
+        <Alert onClose={handleClose} severity={currentToast.severity} sx={{ width: '100%',height:'100%' }}>
           <strong>{currentToast.title}</strong>
           {currentToast.description}
         </Alert>

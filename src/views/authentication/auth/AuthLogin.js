@@ -30,7 +30,7 @@ const validationSchema = Yup.object({
 });
 
 
-const AuthLogin = ({ title, subtitle, subtext }) => {
+const AuthLogin = ({ title, subtitle, subtext ,Alert=()=>{}}) => {
 
 //all constants
     const { showToast, ToastComponent } = useCustomToast();
@@ -57,12 +57,19 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
             localStorage.setItem("email", JSON.stringify(result?.data?.email))
             // setCookie("token", result?.data?.successResult?.token.replace("Bearer ", ""), 365); // The cookie will persist for 30 days
             
-            setIsLoading(false);
-            showToast(result?.message);
-                navigate("/dashboard")
+            
+            // showToast(result?.message);
+          
+            Alert('success',result?.message)
+            setTimeout(() => {
+                // navigate("/dashboard")  
+                setIsLoading(false);
+            }, 1000);
+                
           } else {
             setIsLoading(false);
-            showToast(result?.response?.data?.message, "", "error");
+            // showToast("error", "error", "error");
+            Alert("error", "something went wrong");
           }
         } catch (error) {
           console.error(error);

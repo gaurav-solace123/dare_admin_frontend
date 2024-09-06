@@ -15,6 +15,7 @@ import AddSvgForm from './component/AddSvgForm';
 import { getData } from '../../services/services';
 import Api from '../../services/constant';
 import Loader from '../../components/Loader';
+import useCustomToast from '../../hooks/CustomToastHook';
 // import DownloadForOfflineSharpIcon from '@mui/icons-material/DownloadForOfflineSharp';
 
 
@@ -71,7 +72,7 @@ export default function EnhancedTable() {
   const handleClose = () => setOpen(false);
   const handleSvgOpen=()=>setOpenSvgFrom(true);
   const handleSvgClose=()=>setOpenSvgFrom(false);
-
+  const { showToast, ToastComponent } = useCustomToast();
   const handleDrop = (acceptedFiles) => {
     console.log(acceptedFiles);
   };
@@ -171,7 +172,7 @@ useEffect(()=>{
     >
       {/* <CloseIcon /> */}X
     </IconButton>
-     <AddEditUser cancel={()=>handleClose()} userId={userId} getListData={getListData}/>
+     <AddEditUser cancel={()=>handleClose()} userId={userId} getListData={getListData} Alert={(status,msg)=>showToast( msg,'',status)}/>
     </Box>
   </Modal>
 
@@ -235,6 +236,7 @@ useEffect(()=>{
   </Grid>
     </Box>
   </Modal>
+  <ToastComponent />
   </>
   );
 }

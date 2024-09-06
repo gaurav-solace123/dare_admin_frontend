@@ -30,8 +30,6 @@ const [isLoading, setIsLoading] = React.useState(false);
     {isLoading?<Loader/>: <PageContainer title="Dashboard" description="this is Dashboard">
       <Box>
         <Grid container spacing={3}>
-
-
           <Grid item xs={12} lg={6}>
             <DigitalAdminPanel title={"Credits Activated By Level"} data={data}/>
           </Grid>

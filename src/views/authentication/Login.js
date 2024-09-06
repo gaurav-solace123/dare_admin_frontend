@@ -7,9 +7,10 @@ import PageContainer from 'src/components/container/PageContainer';
 import Logo from 'src/layouts/full/shared/logo/Logo';
 import AuthLogin from './auth/AuthLogin';
 import { fontWeight } from '@mui/system';
+import useCustomToast from '../../hooks/CustomToastHook';
 
 const Login2 = () => {
-  
+  const { showToast, ToastComponent } = useCustomToast();
   return (
     <PageContainer title="Login" description="this is Login page">
       <Box
@@ -45,6 +46,7 @@ const Login2 = () => {
                 {/* Login */}
               </Box>
               <AuthLogin
+              Alert={(status,msg)=>showToast( msg,'',status)}
                 // subtext={
                 //   <Typography variant="subtitle1" textAlign="center" color="textSecondary" mb={1}>
                 //     Your Social Campaigns
@@ -73,6 +75,7 @@ const Login2 = () => {
           </Grid>
         </Grid>
       </Box>
+      <ToastComponent />
     </PageContainer>
   );
 };

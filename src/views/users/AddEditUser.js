@@ -21,7 +21,7 @@ import Loader from '../../components/Loader';
 
 
 
-const AddEditUser = ({ title = 'Add user', subtitle, subtext,cancel ,userId,getListData}) => {
+const AddEditUser = ({ title = 'Add user', subtitle, subtext,cancel ,userId,getListData ,Alert=()=>{}}) => {
     //constants
 
 const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
@@ -144,14 +144,16 @@ const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
             : postData(`${Api?.createUser}`, payload));
     
           if (result?.status==200||result?.status==201) {
-              debugger
-              showToast("Success", result?.message, "success");
+              
+            //   showToast("Success", result?.message, "success");
+              Alert('success',result?.message)
               setIsLoading(false);
               
               getListData()
               cancel()
           } else {
             setIsLoading(false);
+            Alert("error", "something went wrong");
           }
         } catch (error) {
           console.error(error);
