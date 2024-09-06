@@ -8,7 +8,7 @@ import { alpha, styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 
-function Filter({ TitleForDropDown, dropDownData, dropDownValue, handleChangeDropDown }) {
+function Filter({ TitleForDropDown, dropDownData, dropDownValue, handleChangeDropDown,setUserRole,setSearchTerm }) {
 
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
@@ -65,6 +65,7 @@ function Filter({ TitleForDropDown, dropDownData, dropDownValue, handleChangeDro
                 <StyledInputBase
                     placeholder="Search…"
                     inputProps={{ 'aria-label': 'search' }}
+                    onChange={(event)=>setSearchTerm(event.target.value)}
                 />
             </Search>
             <FormControl fullWidth sx={{ minHeight: '36px' }}>
