@@ -27,7 +27,7 @@ import { IconBellRinging } from '@tabler/icons-react';
 import InputBase from '@mui/material/InputBase';
 import Filter from './Filter';
 
-function CustomTable({ Title, headers,setRowsPerPage, listData ,onAddClick,setUserId,AddSvg,totalCount, setTotalCountgetListData,rowsPerPage,page,userRole,searchTerm,setUserRole,setSearchTerm}) {
+function CustomTable({ Title, headers,setRowsPerPage,setPage, listData ,onAddClick,setUserId,AddSvg,totalCount, setTotalCountgetListData,rowsPerPage,page,userRole,searchTerm,setUserRole,setSearchTerm}) {
   const [row, setRow] = React.useState(listData ? listData : []);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('userRole');
