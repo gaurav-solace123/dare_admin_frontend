@@ -1,7 +1,7 @@
 {
-    "isMock": true,
+    "isMock": false,
     "base_url":"http://localhost:5173/mock",
     "backend": {
-        "baseurl": "https://slow-wasps-pay.loca.lt/v1"
+        "baseurl": "http://13.127.23.222:3001/v1"
     }
 }
