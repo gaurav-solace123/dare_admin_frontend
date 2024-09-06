@@ -207,7 +207,6 @@ const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
         }
       };
       
-console.log('formik', formikRef)
       //all useEffects
       useEffect(()=>{
         if(userId)viewData()

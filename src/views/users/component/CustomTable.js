@@ -29,8 +29,8 @@ import Filter from './Filter';
 
 function CustomTable({ Title, headers,setRowsPerPage,setPage, listData ,onAddClick,setUserId,AddSvg,totalCount, setTotalCountgetListData,rowsPerPage,page,userRole,searchTerm,setUserRole,setSearchTerm}) {
   const [row, setRow] = React.useState(listData ? listData : []);
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('userRole');
+  const [order, setOrder] = React.useState('desc');
+  const [orderBy, setOrderBy] = React.useState('_created_at');
   // const [page, setPage] = React.useState(0);
   // const [rowsPerPage, setRowsPerPage] = React.useState(5);
   // const [searchTerm,setSearchTerm]=React.useState('')
@@ -87,11 +87,12 @@ setUserRole(e.target?.value)
 // console.log('data')
   }
   const handleChangeSearch=(e)=>{
+    
 setSearchTerm(e.target?.value)
 // console.log('data')
   }
   
-
+console.log('search', searchTerm)
   // React.useEffect(()=>{
   //  const pageIndex =page==0?1:page
   //   const pagination={
@@ -221,27 +222,27 @@ setSearchTerm(e.target?.value)
   };
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    const temp =page==0?1:page
+    setPage(temp+newPage); 
+
   };
-console.log('row', row)
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(page);
   };
-
   const visibleRows = React.useMemo(
     () =>
-      stableSort(row, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage,
-      ),
-    [order, orderBy, page, rowsPerPage,row],
+      {
+        return listData
+      //   return stableSort(listData, getComparator(order, orderBy)).slice(
+      //   page  * rowsPerPage,
+      //   page * rowsPerPage + rowsPerPage,
+      // )
+    },
+    [order, orderBy, page, rowsPerPage,row,listData],
   );
-  console.log('visibleRows', visibleRows)
   React.useEffect(() => {
     setRow(listData)
-  
-    
   }, [listData, headers])
   return (
     <div>
@@ -294,14 +295,13 @@ console.log('row', row)
                 ))}
               </TableBody>
             </Table>
-            {console.log('totalCount', totalCount)}
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[10, 25, 50]}
             component="div"
             count={totalCount}
             rowsPerPage={rowsPerPage}
-            page={page}
+            page={page-1}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />

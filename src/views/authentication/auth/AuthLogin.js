@@ -142,13 +142,13 @@ const AuthLogin = ({ title, subtitle, subtext ,Alert=()=>{}}) => {
                                     }}
                                 />
                             </Box>
-                            <Stack justifyContent="space-between" direction="row" alignItems="center" my={5}>
-                                <FormGroup>
+                            <Stack justifyContent="end" direction="row" alignItems="end" my={2}>
+                                {/* <FormGroup>
                                     <FormControlLabel
                                         control={<Checkbox defaultChecked />}
                                         label="Remember this Device"
                                     />
-                                </FormGroup>
+                                </FormGroup> */}
                                 <Typography
                                     component={Link}
                                     to="/auth/forgotPassword"

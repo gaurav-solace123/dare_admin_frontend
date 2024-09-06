@@ -59,8 +59,8 @@ const headCells = [
 export default function EnhancedTable() {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('userRole');
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [page, setPage] = React.useState(1);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [listData, setListData] = React.useState([])
  
   const [isLoading, setIsLoading] = React.useState(false);
@@ -78,7 +78,6 @@ export default function EnhancedTable() {
   const handleDrop = (acceptedFiles) => {
     console.log(acceptedFiles);
   };
-  console.log('searchTerm',searchTerm)
   const styleModel = {
     position: 'absolute',
     top: '50%',
@@ -108,7 +107,7 @@ export default function EnhancedTable() {
     return { _id, firstName, userRole,  mobileNumber,email,username  };
   }
   const getListData=async(filters
-    = {page:1,rowsPerPage:5,sortBy:'_created_at',sortOrder:'desc'})=>{
+    = {page:1,rowsPerPage:10,sortBy:'_created_at',sortOrder:'desc'})=>{
 
     let searchQuery = `?page=${filters?.page}&limit=${filters?.rowsPerPage}`;
      delete filters.page
@@ -137,14 +136,12 @@ export default function EnhancedTable() {
     }
   }
 
-useEffect(()=>{
-  // getListData()
-},[])
-console.log('userRole', userRole)
+
 React.useEffect(()=>{
   const pageIndex =page==0?1:page
    const pagination={
-     page:pageIndex,rowsPerPage,search:searchTerm, userRole
+     page:pageIndex,rowsPerPage,search:searchTerm, userRole,
+     sortBy:'_created_at',sortOrder:'desc'
    }
    getListData(pagination)
  },[page,rowsPerPage,userRole])
