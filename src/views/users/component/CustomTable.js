@@ -26,12 +26,14 @@ import { IconBellRinging } from '@tabler/icons-react';
 import InputBase from '@mui/material/InputBase';
 import Filter from './Filter';
 
-function CustomTable({ Title, headers, listData ,onAddClick,setUserId,AddSvg}) {
+function CustomTable({ Title, headers, listData ,onAddClick,setUserId,AddSvg,getListData}) {
   const [row, setRow] = React.useState(listData ? listData : []);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('userRole');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [searchTerm,setSearchTerm]=React.useState('')
+  const [userRole,setUserRole]=React.useState('')
   // const [listData, setListData] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false);
   const [totalCount, setTotalCount] = React.useState('')
@@ -80,8 +82,16 @@ function CustomTable({ Title, headers, listData ,onAddClick,setUserId,AddSvg}) {
   
   }));
   const handleChangeDropDown=(e)=>{
-console.log(e)
+setUserRole(e.target?.value)
   }
+  
+  // React.useEffect(()=>{
+  //   const pagination={
+  //     page,rowsPerPage, sortBy:orderBy,sortOrder:order,searchTerm,userRole
+  //   }
+  //   getListData(pagination)
+  //   console.log('firstsdfsf', )
+  // },[page,rowsPerPage, orderBy,order])
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) return -1;
     if (b[orderBy] > a[orderBy]) return 1;
@@ -153,7 +163,7 @@ console.log(e)
       {Title &&  <Typography sx={{ flex: '1 1 100%' }} variant="tableTitle">
           {Title}
         </Typography>}
-     <Filter TitleForDropDown={'Role'} dropDownData={dropDownData} handleChangeDropDown={handleChangeDropDown}/>
+     <Filter TitleForDropDown={'Role'} dropDownData={dropDownData} handleChangeDropDown={handleChangeDropDown} setSearchTerm={setSearchTerm} searchTerm={searchTerm} userRole={userRole} setUserRole={setUserRole}/>
           <Box sx={{display:'flex',width:'100%',gap:'5px',justifyContent:'end'}}>
           <Tooltip title="Bulk Upload">
         <Button
@@ -221,6 +231,7 @@ console.log('row', row)
   console.log('visibleRows', visibleRows)
   React.useEffect(() => {
     setRow(listData)
+  
   }, [listData, headers])
   return (
     <div>

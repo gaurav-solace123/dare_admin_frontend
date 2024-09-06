@@ -48,13 +48,39 @@ const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
                 otherwise: (schema) => schema.notRequired(),
             }),
         userRole: Yup.string().required('Role selection is required.'),
+        organization: Yup.string().test(
+            'organization-required-for-instructor', // Test name
+            'Organization is required.', // Error message
+            function (value) {
+                const { userRole } = this.parent; // Access userRole from the current context
+                if (userRole === 'Instructor') {
+                    return !!value; // Ensure organization is required for 'Instructor'
+                }
+                return true; // Otherwise, organization is not required
+            }
+        ),
         // _postal_code: Yup.string()
         // .matches(postalCodeRegex, "Invalid postal code format")
-        
     });
+    
+
+    
+    
     
     
     const { showToast, ToastComponent } = useCustomToast();
+    const countryStateMapping = {
+        US: [
+            { value: 'CA', label: 'California' },
+            { value: 'TX', label: 'Texas' },
+            { value: 'NY', label: 'New York' },
+        ],
+        Canada: [
+            { value: 'ON', label: 'Ontario' },
+            { value: 'BC', label: 'British Columbia' },
+            { value: 'QC', label: 'Quebec' },
+        ],
+    };
     
   const formikRef = useRef(null);
     const navigate = useNavigate()
@@ -70,25 +96,34 @@ const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
 
      //all functions
      const handleNext = async () => {
-        const errors = await formikRef?.current?.validateForm(); // Trigger form validation
+        const fieldsToValidate = ['email', 'password', 'firstName', 'lastName', 'username', 'confirmPassword'];
+    
+        // Trigger validation for the specified fields
+        const errors = {};
+        for (const field of fieldsToValidate) {
+            const error = await formikRef.current.validateField(field);
+            if (error) {
+                errors[field] = error;
+            }
+        }
     
         if (Object.keys(errors).length === 0) {
             // If no errors, proceed to the next step
             setIsMailingAddress(true);
         } else {
-            // If there are errors, Formik will automatically set them in the form
-            formikRef.current.setTouched({
-                email: true,
-                password: true,
-                firstName: true,
-                lastName: true,
-                username: true,
-                confirmPassword: true,
-            });
+            // If there are errors, mark these fields as touched
+            formikRef.current.setTouched(
+                fieldsToValidate.reduce((touched, field) => {
+                    touched[field] = true;
+                    return touched;
+                }, {})
+            );
         }
     };
     
+    
     const viewData = async () => {
+        
         try {
             // setIsLoading(true);
           const result = await getData(`${Api?.viewUser}/${userId}`);
@@ -96,9 +131,9 @@ const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
           if (result?.status==200) {
             const response = result?.data;
             if (formikRef?.current) {
-                if(response.userRole=='Instructor')setIsMailingAddress(false)
+                if(response?.userRole=='Instructor')setIsMailingAddress(false)
               formikRef?.current.resetForm({ values: response });
-              setIsLoading(false);
+             
             }
     
           }
@@ -107,6 +142,7 @@ const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
         }
       };
       const clearData= ()=>{
+        
         if (formikRef?.current) {
             formikRef?.current.resetForm();
           }
@@ -135,7 +171,8 @@ const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
         payload.State=values?.State
         payload._postal_code=values?._postal_code
         payload.mobileNumber=values?.mobileNumber
-        payload.organization='demo'
+        payload.organization=values?.organization
+        // payload.organization='demo'
        }
        setIsMailingAddress(false)
         try {
@@ -165,7 +202,7 @@ console.log('formik', formikRef)
       useEffect(()=>{
         if(userId)viewData()
             else clearData()
-      },[])
+      },[userId])
     return (
         <>
         
@@ -187,14 +224,15 @@ console.log('formik', formikRef)
                     password: '',
                     confirmPassword: '',
                     userRole: '',
-                    _id:userId??''
+                    _id:userId??'',
+                    organization:''
                 }}
                 validationSchema={validationSchema}
                 context={{ userId: formikRef?.current?.values?._id }}
                 onSubmit={onSubmit}
                 innerRef={formikRef}
             >
-                {({ touched, errors, isSubmitting }) => (
+                {({ touched, errors, isSubmitting,values,handleChange }) => (
                     <Form>
                         <Stack spacing={2}>
                             {/* First Name and Last Name in one row */}
@@ -327,6 +365,53 @@ console.log('formik', formikRef)
                               
                             {isMailingAddres&&
                             <>
+ <Grid item xs={6} p={'7px'}>
+                            <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="country">
+                                Country
+                            </Typography>
+                            <Field
+                                name="country"
+                                as={CustomTextField}
+                                select
+                                fullWidth
+                                variant="outlined"
+                                label="Select your country"
+                                value={values.country||''}
+                                onChange={handleChange}
+                                error={touched.country && Boolean(errors.country)}
+                                helperText={<ErrorMessage name="country" />}
+                            >
+                                <MenuItem value="" disabled>Select your country</MenuItem>
+                                <MenuItem value="US">United States</MenuItem>
+                                <MenuItem value="Canada">Canada</MenuItem>
+                            </Field>
+                        </Grid>
+
+                        {/* State Field */}
+                        <Grid item xs={6} p={'7px'}>
+                            <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="state">
+                                State
+                            </Typography>
+                            <Field
+                                name="state"
+                                as={CustomTextField}
+                                select
+                                fullWidth
+                                variant="outlined"
+                                label="Select your state"
+                                value={values.state}
+                                onChange={handleChange}
+                                error={touched.state && Boolean(errors.state)}
+                                helperText={<ErrorMessage name="state" />}
+                            >
+                                <MenuItem value="">Select your state</MenuItem>
+                                {values.country && countryStateMapping[values.country]?.map((state) => (
+                                    <MenuItem key={state.value} value={state.value}>
+                                        {state.label}
+                                    </MenuItem>
+                                ))}
+                            </Field>
+                        </Grid>
                             <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="street_1">Street 1 </Typography>
                                     <Field
@@ -363,18 +448,7 @@ console.log('formik', formikRef)
                                         helperText={<ErrorMessage name="city" />}
                                     />
                                 </Grid>
-                            <Grid item xs={6} p={'7px'}>
-                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="State">State </Typography>
-                                    <Field
-                                        as={CustomTextField}
-                                        id="state"
-                                        name="state"
-                                        variant="outlined"
-                                        fullWidth
-                                        error={touched.state && Boolean(errors.state)}
-                                        helperText={<ErrorMessage name="state" />}
-                                    />
-                                </Grid>
+                            
                             <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="_postal_code">Postal code </Typography>
                                     <Field
@@ -391,6 +465,20 @@ console.log('formik', formikRef)
                                 </Grid>
 
                                 <Grid item xs={6} p={'7px'}>
+                                    <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="organization">Organization <span style={{ color: 'red' }}>*</span></Typography>
+                                    <Field
+                                        as={CustomTextField}
+                                        id="organization"
+                                        name="organization"
+                                        variant="outlined"
+                                        fullWidth
+                                        length={7}
+                                        error={touched.organization && Boolean(errors.organization)}
+                                        helperText={<ErrorMessage name="organization" />}
+                                    />
+                                </Grid>
+
+                                <Grid item xs={6} p={'7px'}>
                                     <Typography variant="subtitle1" fontWeight={600} component="label" htmlFor="mobileNumber">Mobile No</Typography>
                                     <Field
                                         as={CustomTextField}
@@ -401,7 +489,7 @@ console.log('formik', formikRef)
                                         length={11}
                                         fullWidth
                                         InputProps={{
-                                            startAdornment: <InputAdornment position="start">+44</InputAdornment>, // Fixed +44 prefix
+                                            startAdornment: <InputAdornment position="start">+1</InputAdornment>, // Fixed +44 prefix
                                         }}
                                         error={touched.mobileNumber && Boolean(errors.mobileNumber)}
                                         helperText={<ErrorMessage name="mobileNumber" />}
