@@ -22,21 +22,22 @@ import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 // import Api from '../../services/constant';
 import SearchIcon from '@mui/icons-material/Search';
 import { Badge, Button } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 import { IconBellRinging } from '@tabler/icons-react';
 import InputBase from '@mui/material/InputBase';
 import Filter from './Filter';
 
-function CustomTable({ Title, headers, listData ,onAddClick,setUserId,AddSvg,getListData}) {
+function CustomTable({ Title, headers,setRowsPerPage, listData ,onAddClick,setUserId,AddSvg,totalCount, setTotalCountgetListData,rowsPerPage,page,userRole,searchTerm,setUserRole,setSearchTerm}) {
   const [row, setRow] = React.useState(listData ? listData : []);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('userRole');
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [searchTerm,setSearchTerm]=React.useState('')
-  const [userRole,setUserRole]=React.useState('')
+  // const [page, setPage] = React.useState(0);
+  // const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  // const [searchTerm,setSearchTerm]=React.useState('')
+  // const [userRole,setUserRole]=React.useState('')
   // const [listData, setListData] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false);
-  const [totalCount, setTotalCount] = React.useState('')
+  // const [totalCount, setTotalCount] = React.useState('')
 
   const dropDownData=[{label:'All' ,value:""},{label:'Student' ,value:"Student"},{label:'Facilitator' ,value:"Facilitator"},{label:'Instructor' ,value:"Instructor"}]
   const Search = styled('div')(({ theme }) => ({
@@ -83,15 +84,23 @@ function CustomTable({ Title, headers, listData ,onAddClick,setUserId,AddSvg,get
   }));
   const handleChangeDropDown=(e)=>{
 setUserRole(e.target?.value)
+// console.log('data')
+  }
+  const handleChangeSearch=(e)=>{
+setSearchTerm(e.target?.value)
+// console.log('data')
   }
   
+
   // React.useEffect(()=>{
+  //  const pageIndex =page==0?1:page
   //   const pagination={
-  //     page,rowsPerPage, sortBy:orderBy,sortOrder:order,searchTerm,userRole
+  //     page:pageIndex,rowsPerPage,searchTerm,userRole
   //   }
-  //   getListData(pagination)
-  //   console.log('firstsdfsf', )
-  // },[page,rowsPerPage, orderBy,order])
+  //   // getListData(pagination)
+  // },[page,rowsPerPage])
+
+ 
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) return -1;
     if (b[orderBy] > a[orderBy]) return 1;
@@ -163,7 +172,7 @@ setUserRole(e.target?.value)
       {Title &&  <Typography sx={{ flex: '1 1 100%' }} variant="tableTitle">
           {Title}
         </Typography>}
-     <Filter TitleForDropDown={'Role'} dropDownData={dropDownData} handleChangeDropDown={handleChangeDropDown} setSearchTerm={setSearchTerm} searchTerm={searchTerm} userRole={userRole} setUserRole={setUserRole}/>
+     <Filter TitleForDropDown={'Role'} dropDownData={dropDownData} handleChangeSearch={handleChangeSearch} handleChangeDropDown={handleChangeDropDown} setSearchTerm={setSearchTerm} searchTerm={searchTerm} userRole={userRole} setUserRole={setUserRole}/>
           <Box sx={{display:'flex',width:'100%',gap:'5px',justifyContent:'end'}}>
           <Tooltip title="Bulk Upload">
         <Button
@@ -232,6 +241,7 @@ console.log('row', row)
   React.useEffect(() => {
     setRow(listData)
   
+    
   }, [listData, headers])
   return (
     <div>
@@ -277,18 +287,19 @@ console.log('row', row)
                     </TableCell>
                     <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
                       <Tooltip title="Edit user"  onClick={() => {onAddClick();setUserId(row?._id)}}>
-                          <MoreVertOutlinedIcon />
+                          <EditIcon />
                       </Tooltip>
                     </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
+            {console.log('totalCount', totalCount)}
           </TableContainer>
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={row.length}
+            count={totalCount}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

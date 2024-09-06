@@ -67,6 +67,8 @@ export default function EnhancedTable() {
   const [totalCount, setTotalCount] = React.useState('')
   const [userId,setUserId]= React.useState('')
   const [open, setOpen] = React.useState(false);
+  const [searchTerm,setSearchTerm]=React.useState('')
+  const [userRole,setUserRole]=React.useState('')
   const [openSvgForm,setOpenSvgFrom]=React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -76,6 +78,7 @@ export default function EnhancedTable() {
   const handleDrop = (acceptedFiles) => {
     console.log(acceptedFiles);
   };
+  console.log('searchTerm',searchTerm)
   const styleModel = {
     position: 'absolute',
     top: '50%',
@@ -117,11 +120,12 @@ export default function EnhancedTable() {
       }
     try {
       setIsLoading(true)
-      const result = await getData(`${Api.listUsers}`)  //${searchQuery}
+      const result = await getData(`${Api.listUsers}${searchQuery}`)  //
    if(result.status==200){
     const response= result?.data?.users
     const tempData= response.map(item=>createData(item))
     setListData(tempData)
+    setTotalCount(result?.data?.total)
     setIsLoading(false)
    }
    else{
@@ -132,9 +136,18 @@ export default function EnhancedTable() {
       setIsLoading(false)
     }
   }
-// useEffect(()=>{
-//   getListData()
-// },[])
+
+useEffect(()=>{
+  // getListData()
+},[])
+console.log('userRole', userRole)
+React.useEffect(()=>{
+  const pageIndex =page==0?1:page
+   const pagination={
+     page:pageIndex,rowsPerPage,search:searchTerm, userRole
+   }
+   getListData(pagination)
+ },[page,rowsPerPage,userRole])
   return (
 <>
 { isLoading?<Loader/>:
@@ -156,7 +169,7 @@ export default function EnhancedTable() {
           <Typography variant="h7" fontWeight={600} component="label" htmlFor="mailingAddress">Users</Typography>
         
       </Box>
-    <CustomTable Title={''} headers={headCells} listData={listData} setUserId={setUserId} onAddClick={()=>{handleOpen();
+    <CustomTable Title={''}totalCount={totalCount} setTotalCount={setTotalCount} headers={headCells} setUserRole={setUserRole} setSearchTerm={setSearchTerm} userRole={userRole} searchTerm={searchTerm} listData={listData} rowsPerPage={rowsPerPage} setRowsPerPage={setRowsPerPage} page={page} setUserId={setUserId} onAddClick={()=>{handleOpen();
       setUserId('')
     }} AddSvg={()=>{handleSvgOpen()}} 
     

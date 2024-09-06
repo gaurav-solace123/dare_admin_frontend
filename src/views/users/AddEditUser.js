@@ -18,6 +18,7 @@ import Api from '../../services/constant';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
 import Loader from '../../components/Loader';
+import { canadaProvinces, usStates } from '../../utils/Constant';
 
 
 
@@ -70,16 +71,8 @@ const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
     
     const { showToast, ToastComponent } = useCustomToast();
     const countryStateMapping = {
-        US: [
-            { value: 'CA', label: 'California' },
-            { value: 'TX', label: 'Texas' },
-            { value: 'NY', label: 'New York' },
-        ],
-        Canada: [
-            { value: 'ON', label: 'Ontario' },
-            { value: 'BC', label: 'British Columbia' },
-            { value: 'QC', label: 'Quebec' },
-        ],
+        US: usStates,
+        Canada: canadaProvinces,
     };
     
   const formikRef = useRef(null);
@@ -165,13 +158,30 @@ const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
        }
 
        if(values?.userRole=='Instructor'){
-        payload.street_1=values?.street_1
-        payload.street_2=values?.street_2
-        payload.city=values?.city
-        payload.State=values?.State
-        payload._postal_code=values?._postal_code
-        payload.mobileNumber=values?.mobileNumber
-        payload.organization=values?.organization
+        if(values?.street_2){
+            payload.street_2=values?.street_2 ||""
+               }
+        if(values?.street_1){
+            payload.street_1=values?.street_1 ||""
+               }
+        if(values?.mobileNumber){
+            payload.mobileNumber=values?.mobileNumber ||""
+               }
+        if(values?._postal_code){
+            payload._postal_code=values?._postal_code ||""
+               }
+        if(values?.state){
+            payload.state=values?.state ||""
+               }
+        if(values?.organization){
+            payload.organization=values?.organization ||""
+               }
+        if(values?.city){
+            payload.city=values?.city ||""
+               }
+        if(values?.country){
+            payload.country=values?.country ||""
+               }
         // payload.organization='demo'
        }
        setIsMailingAddress(false)
@@ -225,7 +235,8 @@ console.log('formik', formikRef)
                     confirmPassword: '',
                     userRole: '',
                     _id:userId??'',
-                    organization:''
+                    organization:'',
+                    mobileNumber:''
                 }}
                 validationSchema={validationSchema}
                 context={{ userId: formikRef?.current?.values?._id }}
