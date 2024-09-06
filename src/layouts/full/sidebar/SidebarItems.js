@@ -9,24 +9,34 @@ const SidebarItems = () => {
   const { pathname } = useLocation();
   const pathDirect = pathname;
 
+  const renderMenuItems = (items, level = 1) => {
+    return items.map((item) => {
+      if (item.subheader) {
+        return <NavGroup item={item} key={item.subheader} />;
+      } else {
+        return (
+          <>
+            <NavItem item={item} key={item.id} level={level} pathDirect={pathDirect} />
+            {/* Render children if any */}
+            {item.children && (
+              <List sx={{ pl: 4 }}>
+                {renderMenuItems(item.children, level + 1)}
+              </List>
+            )}
+          </>
+        );
+      }
+    });
+  };
+
   return (
     <Box sx={{ px: 3 }}>
       <List sx={{ pt: 0 }} className="sidebarNav">
-        {Menuitems.map((item) => {
-          // {/********SubHeader**********/}
-          if (item.subheader) {
-            return <NavGroup item={item} key={item.subheader} />;
-
-            // {/********If Sub Menu**********/}
-            /* eslint no-else-return: "off" */
-          } else {
-            return (
-              <NavItem item={item} key={item.id} pathDirect={pathDirect} />
-            );
-          }
-        })}
+        {renderMenuItems(Menuitems)}
       </List>
     </Box>
   );
 };
+
 export default SidebarItems;
+
