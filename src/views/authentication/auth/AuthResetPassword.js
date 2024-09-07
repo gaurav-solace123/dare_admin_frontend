@@ -27,11 +27,10 @@ const validationSchema = Yup.object({
         .required('Confirm Password is required.')
 });
 
-const AuthResetPassword = ({ title, subtitle, subtext }) => {
+const AuthResetPassword = ({ title, subtitle, subtext ,showToast}) => {
 //all constant
 const { token } = useParams();
 const decodedToken = decodeURIComponent(token); 
-const { showToast, ToastComponent } = useCustomToast();
     const navigate = useNavigate()
 
     //all states
@@ -58,10 +57,17 @@ const { showToast, ToastComponent } = useCustomToast();
             
             setIsLoading(false);
             showToast(result?.message);
-           navigate('/auth/login')
+
+           setTimeout(() => {
+            navigate('/auth/login')
+        }, 500);
        
           } else {
+            showToast(result?.message,'error');
+            setTimeout(() => {
+               
             setIsLoading(false);
+            }, 500);
           }
         } catch (error) {
           console.error(error);
@@ -172,7 +178,7 @@ const { showToast, ToastComponent } = useCustomToast();
                 )}
             </Formik>
 
-            <ToastComponent />
+            
             {subtitle}
         </>}
         </>

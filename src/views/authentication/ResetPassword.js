@@ -5,9 +5,11 @@ import { Grid, Box, Card, Typography } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 import Logo from 'src/layouts/full/shared/logo/Logo';
 import AuthResetPassword from './auth/AuthResetPassword';
+import useCustomToast from '../../hooks/CustomToastHook';
 
 const ResetPassword = () => {
   
+  const{showToast,ToastComponent}=useCustomToast()
   return (
     <PageContainer title="Login" description="this is Login page">
       <Box
@@ -42,7 +44,7 @@ const ResetPassword = () => {
                 <Logo />
                 {/* Reset Password */}
               </Box>
-              <AuthResetPassword
+              <AuthResetPassword showToast={showToast}
                 subtext={
                   <Typography variant="subtitle1" textAlign="center" color="textSecondary" mb={1}>
                     Reset Password
@@ -71,6 +73,7 @@ const ResetPassword = () => {
           </Grid>
         </Grid>
       </Box>
+      <ToastComponent />
     </PageContainer>
   );
 };

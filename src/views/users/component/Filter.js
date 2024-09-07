@@ -18,6 +18,7 @@ function Filter({
   handleChangeSearch,
   setSearchTerm,
   searchTerm,
+  getListData,
 }) {
 
     const [search, setSearch] = useState('')
@@ -73,8 +74,11 @@ function Filter({
   // const handleSearchChange = useCallback((event) => {
   //     setSearchTerm(event.target.value);
   // }, [setSearchTerm]);
-useEffect(()=>{
-},[search])
+
+  useEffect(()=>{
+    // getListData('',search)
+  },[search])
+
   return (
     <Box sx={{ width: "100%", display: "flex", gap: 2 }}>
       {/* <Search>
@@ -84,8 +88,8 @@ useEffect(()=>{
                 <StyledInputBase
                     placeholder="Search…"
                     inputProps={{ 'aria-label': 'search' }}
-                    value={searchTerm}
-                    onChange={handleChangeSearch}
+                    value={search}
+                    onChange={(e)=>setSearch(e?.target?.value)}
                 />
             </Search> */}
       <InputBase
@@ -97,8 +101,7 @@ useEffect(()=>{
           width:"50%"
         }}
         value={search}
-                    onChange={(e)=>setSearch(e.target.value)}
-        placeholder="Search"
+        onChange={(e)=>setSearch(e?.target?.value)}        placeholder="Search"
       />
       <FormControl sx={{ minHeight: "36px",width:"50%"}}>
         <InputLabel

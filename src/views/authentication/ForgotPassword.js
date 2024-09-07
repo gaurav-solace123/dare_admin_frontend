@@ -8,9 +8,10 @@ import Logo from 'src/layouts/full/shared/logo/Logo';
 import AuthLogin from './auth/AuthLogin';
 import { fontWeight } from '@mui/system';
 import AuthForgotPassword from './auth/AuthForgotPassword';
+import useCustomToast from '../../hooks/CustomToastHook';
 
 const ForgotPassword = () => {
-  
+  const{showToast,ToastComponent}=useCustomToast()
   return (
     <PageContainer title="Login" description="this is Login page">
       <Box
@@ -45,7 +46,7 @@ const ForgotPassword = () => {
                 <Logo />
                 {/* Forgot Password? */}
               </Box>
-              <AuthForgotPassword
+              <AuthForgotPassword showToast={showToast}
                 subtext={
                   <Typography variant="subtitle1" textAlign="center" color="textSecondary" mb={1}>
                     Forgot Password?
@@ -74,6 +75,7 @@ const ForgotPassword = () => {
           </Grid>
         </Grid>
       </Box>
+      <ToastComponent />
     </PageContainer>
   );
 };
