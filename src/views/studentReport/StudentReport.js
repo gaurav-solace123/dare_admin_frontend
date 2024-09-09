@@ -5,11 +5,34 @@ import MenuOption from '../dashboard/components/MenuOption'
 import PieArcLabel from '../dashboard/components/PieArcLabel'
 import CustomDatePicker from './component/CustomDatePicker'
 import Loader from '../../components/Loader'
+import { getData } from '../../services/services'
+import Api from '../../services/constant'
 
 function StudentReport() {
-    const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
     
   const [isLoading, setIsLoading] = React.useState(false);
+  const getElementaryStudentData=async ()=>{
+    try {
+      const result = await getData(Api?.updateUser)
+  
+
+      if (result?.status==200||result?.status==201) {
+          
+        //   showToast("Success", result?.message, "success");
+          Alert('success',result?.message)
+          setIsLoading(false);
+          
+          getListData()
+          cancel()
+      } else {
+        setIsLoading(false);
+        Alert("error", "something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
     const handleDateChange = (newDate) => {
         setSelectedDate(newDate);
       };
@@ -22,7 +45,8 @@ function StudentReport() {
   return (
     <>
         {/* <Typography variant="h2">Elementary Student Report</Typography> */}
-       {isLoading?<Loader/>: <DashboardCard title={"Elementary Student Report"} action={<CustomDatePicker  label="Select a date" value={selectedDate} onChange={handleDateChange}/>}>
+       {isLoading?<Loader/>: 
+       <DashboardCard title={"Elementary Student Report"} action={<CustomDatePicker  label="Select a date" value={selectedDate} onChange={handleDateChange}/>}>
         <PieArcLabel data={data} size={{height: 280,}} />
         </DashboardCard>}
     </>

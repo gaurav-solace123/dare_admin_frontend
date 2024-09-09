@@ -294,7 +294,6 @@ console.log('row', row)
                 ))}
               </TableBody>
             </Table>
-            {console.log('totalCount', totalCount)}
           </TableContainer>
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}

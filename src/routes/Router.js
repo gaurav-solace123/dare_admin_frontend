@@ -22,7 +22,8 @@ const Shadow = Loadable(lazy(() => import('../views/utilities/Shadow')))
 const Error = Loadable(lazy(() => import('../views/authentication/Error')));
 const Register = Loadable(lazy(() => import('../views/authentication/Register')));
 const Login = Loadable(lazy(() => import('../views/authentication/Login')));
-
+const StudentManagement = Loadable(lazy(() => import('../views/studentManagement/StudentManagement')));
+const InstructorManagement = Loadable(lazy(() => import('../views/instructorManagement/InstructorManagement')));
 const Router = [
   {
     path: '/',
@@ -45,6 +46,8 @@ const Router = [
         path: '/users/edit-user',
         element: <PrivateRoute element={<AddEditUser />} />
       },
+      { path: '/studentmanagement', exact: true, element: <PrivateRoute element={<StudentManagement />}/> },
+      { path: '/instructormanagement', exact: true, element: <PrivateRoute element={<InstructorManagement />}/> },
       { path: '/studentReport', exact: true, element: <PrivateRoute element={<StudentReport />}/> },
       { path: '/middleStudentReport', exact: true, element: <PrivateRoute element={<Middle />}/> },
       { path: '/sample-page', element: <SamplePage /> },

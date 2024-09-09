@@ -23,7 +23,7 @@ export default function PieArcLabel({ data = [], size = sizes, sx }) {
 
   return (
     <Box position={"relative"}>
-      <Grid container alignItems={"center"} justifyContent={"center"} width={'100%'}>
+      <Grid container alignItems={"center"} justifyContent={"center"} width={'105%'}>
         <Grid item xs={12} sm={12} md={6} lg={6}>
           <PieChart
             series={[

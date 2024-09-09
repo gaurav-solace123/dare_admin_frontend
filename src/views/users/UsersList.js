@@ -169,7 +169,21 @@ React.useEffect(()=>{
           <Typography variant="h7" fontWeight={600} component="label" htmlFor="mailingAddress">Users</Typography>
         
       </Box>
-    <CustomTable Title={''}totalCount={totalCount} setTotalCount={setTotalCount} headers={headCells} setUserRole={setUserRole} setSearchTerm={setSearchTerm} userRole={userRole} searchTerm={searchTerm} listData={listData} rowsPerPage={rowsPerPage} setPage={setPage} setRowsPerPage={setRowsPerPage} page={page} setUserId={setUserId} onAddClick={()=>{handleOpen();
+    <CustomTable Title={''}
+    totalCount={totalCount} 
+    setTotalCount={setTotalCount} 
+    headers={headCells} 
+    setUserRole={setUserRole}
+     setSearchTerm={setSearchTerm} 
+     userRole={userRole} 
+     searchTerm={searchTerm}
+      listData={listData}
+       rowsPerPage={rowsPerPage} 
+       setPage={setPage} 
+       setRowsPerPage={setRowsPerPage}
+        page={page} 
+        setUserId={setUserId} 
+        onAddClick={()=>{handleOpen();
       setUserId('')
     }} AddSvg={()=>{handleSvgOpen()}} 
     

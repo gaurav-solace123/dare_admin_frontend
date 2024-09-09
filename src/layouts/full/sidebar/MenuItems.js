@@ -34,6 +34,24 @@ const Menuitems = [
     icon: IconUserPlus,
     href: '/middleStudentReport',
   },
+
+  {
+    navlabel: true,
+    subheader: 'Mangment',
+  },
+
+  {
+    id: uniqueId(),
+    title: 'Student Management',
+    icon: IconLayoutDashboard,
+    href: '/studentmanagement',
+  },
+  {
+    id: uniqueId(),
+    title: 'Instructor Management',
+    icon: IconUserPlus,
+    href: '/instructormanagement',
+  },
   // {
   //   navlabel: true,
   //   subheader: 'Utilities',
