@@ -23,12 +23,12 @@ export default function PieArcLabel({ data = [], size = sizes, sx }) {
 
   return (
     <Box position={"relative"}>
-      <Grid container alignItems={"center"} justifyContent={"center"} width={'100%'}>
+      <Grid container alignItems={"center"} justifyContent={"center"} width={'105%'}>
         <Grid item xs={12} sm={12} md={6} lg={6}>
           <PieChart
             series={[
               {
-                arcLabel: (item) => (item?.value ? ` ${item.value} %` : ""),
+                arcLabel: (item) => (item?.value ? ` ${item.percentage} %` : ""),
                 data: data,
                 highlightScope: { fade: "global", highlight: "item" },
                 faded: {
@@ -54,7 +54,7 @@ export default function PieArcLabel({ data = [], size = sizes, sx }) {
                     bgcolor={item?.color}
                   ></Box>
                   <Typography fontWeight="700" variant="subtitle2" mb={0}>
-                    {`${item?.label}  (${item?.value}%)`}
+                    {`${item?.label}  - ${item?.value}`}
                   </Typography>
                 </Box>
               ))}

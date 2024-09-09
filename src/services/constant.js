@@ -9,6 +9,11 @@ const Api = {
     updateUser:'/users/update',
     listUsers:'/users/list',
 
+    //Bulk Upload
+    bulkUplaod:"/upload/bulk-upload-students",
+    bulkSampleFile:"/upload/sample-csv"
+    //Elementary Student Repor
+
 };
 
 export default Api;
