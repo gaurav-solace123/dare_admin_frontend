@@ -107,7 +107,6 @@ const commonFunc = {
   },
   CheckAllIsland() {
     const pathnameVal = window.location.pathname.split("/");
-    console.log("pathnam", pathnameVal);
     if (pathnameVal && pathnameVal.length > 1) {
       if (pathnameVal[1] === "All_ISLAND") {
         return true;

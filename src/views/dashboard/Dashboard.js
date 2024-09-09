@@ -19,8 +19,8 @@ import Loader from '../../components/Loader';
 const Dashboard = () => {
   
   const data = [
-    { value: 55, label: 'Middle School' },
-    { value: 45, label: 'Elementary School' },
+    { value: 55, label: 'Middle School' ,color:'#2e96ff'},
+    { value: 45, label: 'Elementary School',color:"#02b2af" },
 ];
 
 const [isLoading, setIsLoading] = React.useState(false);
@@ -30,10 +30,10 @@ const [isLoading, setIsLoading] = React.useState(false);
     {isLoading?<Loader/>: <PageContainer title="Dashboard" description="this is Dashboard">
       <Box>
         <Grid container spacing={3}>
-          <Grid item xs={12} lg={6}>
+          <Grid item xs={12} sm={6} md={6} lg={6}>
             <DigitalAdminPanel title={"Credits Activated By Level"} data={data}/>
           </Grid>
-          <Grid item xs={12} lg={6}>
+          <Grid item xs={12} sm={6} md={6} lg={6}>
             <DigitalAdminPanel title={"Sessions Activated by Level"} data={data}/>
           </Grid>
           {/* <Grid item xs={12} lg={6}>

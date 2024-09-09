@@ -21,9 +21,8 @@ const validationSchema = Yup.object({
         .required('Email is required.'),
 });
 
-const AuthForgotPassword = ({ title, subtitle, subtext }) => {
+const AuthForgotPassword = ({ title, subtitle, subtext,showToast }) => {
     //all constant
-    const { showToast, ToastComponent } = useCustomToast();
     const navigate = useNavigate()
 
     //all states
@@ -38,17 +37,23 @@ const AuthForgotPassword = ({ title, subtitle, subtext }) => {
        setIsLoading(true)
         try {
           const result = await  postData(Api?.forgotPassword, payload);
-    
+    debugger
           if (result?.status ==200) {
-            
-            setIsLoading(false);
             showToast(result?.message);
         //    navigate(result?.data?.tokenLink)
         // encodeURI(tokenLink)
+        setIsLoading(false);
+        setTimeout(() => {
+            
            window.open(result?.data, '_blank');
+       }, 500);
        
           } else {
-            setIsLoading(false);
+              showToast(result?.message,'error')
+           
+            setTimeout(() => {
+                 setIsLoading(false);
+            }, 500);
           }
         } catch (error) {
           console.error(error);
@@ -112,7 +117,7 @@ const AuthForgotPassword = ({ title, subtitle, subtext }) => {
                     </Form>
                 )}
             </Formik>
-            <ToastComponent />
+            
             {subtitle}
         </>}
         </>

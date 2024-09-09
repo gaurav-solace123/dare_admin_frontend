@@ -1,97 +1,132 @@
-import * as React from 'react';
-import { alpha,styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import { visuallyHidden } from '@mui/utils';
-import { NavLink, useNavigate } from 'react-router-dom';
-import AddIcon from '@mui/icons-material/Add';
-import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
+import * as React from "react";
+import { alpha, styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import { visuallyHidden } from "@mui/utils";
+import { NavLink, useNavigate } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
+import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 // import { getData } from '../../services/services';
 // import Api from '../../services/constant';
-import SearchIcon from '@mui/icons-material/Search';
-import { Badge, Button } from '@mui/material';
-import { IconBellRinging } from '@tabler/icons-react';
-import InputBase from '@mui/material/InputBase';
-import Filter from './Filter';
+import SearchIcon from "@mui/icons-material/Search";
+import { Badge, Button } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import { IconBellRinging } from "@tabler/icons-react";
+import InputBase from "@mui/material/InputBase";
+import Filter from "./Filter";
 
-function CustomTable({ Title, headers, listData ,onAddClick,setUserId,AddSvg,getListData}) {
+function CustomTable({
+  children,
+  Title,
+  headers,
+  setRowsPerPage,
+  setPage,
+  listData,
+  onAddClick,
+  setUserId,
+  AddSvg,
+  totalCount,
+  setTotalCountgetListData,
+  rowsPerPage,
+  page,
+  userRole,
+  searchTerm,
+  setUserRole,
+  setSearchTerm,
+  orderBy,
+  getListData,
+order,
+setOrder,
+setOrderBy
+}) {
   const [row, setRow] = React.useState(listData ? listData : []);
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('userRole');
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [searchTerm,setSearchTerm]=React.useState('')
-  const [userRole,setUserRole]=React.useState('')
+  // const [order, setOrder] = React.useState("desc");
+  // const [orderBy, setOrderBy] = React.useState("_created_at");
+  // const [page, setPage] = React.useState(0);
+  // const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  // const [searchTerm,setSearchTerm]=React.useState('')
+  // const [userRole,setUserRole]=React.useState('')
   // const [listData, setListData] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false);
-  const [totalCount, setTotalCount] = React.useState('')
+  // const [totalCount, setTotalCount] = React.useState('')
 
-  const dropDownData=[{label:'All' ,value:""},{label:'Student' ,value:"Student"},{label:'Facilitator' ,value:"Facilitator"},{label:'Instructor' ,value:"Instructor"}]
-  const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
+  const dropDownData = [
+    { label: "All", value: "" },
+    { label: "Student", value: "Student" },
+    { label: "Facilitator", value: "Facilitator" },
+    { label: "Instructor", value: "Instructor" },
+  ];
+  const Search = styled("div")(({ theme }) => ({
+    position: "relative",
     borderRadius: theme.shape.borderRadius,
-    backgroundColor:'#5A6A85',
-    '&:hover': {
-      backgroundColor: 'grey',
+    backgroundColor: "#5A6A85",
+    "&:hover": {
+      backgroundColor: "grey",
     },
     marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(1),
-      width: 'auto',
+      width: "auto",
     },
   }));
-  
-  const SearchIconWrapper = styled('div')(({ theme }) => ({
+
+  const SearchIconWrapper = styled("div")(({ theme }) => ({
     padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   }));
-  
+
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    width: '100%',
-    '& .MuiInputBase-input': {
+    color: "inherit",
+    width: "100%",
+    "& .MuiInputBase-input": {
       padding: theme.spacing(1, 1, 1, 0),
       // vertical padding + font size from searchIcon
       paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create('width'),
-      [theme.breakpoints.up('sm')]: {
-        width: '10ch',
-        '&:focus': {
-          width: '13ch',
+      transition: theme.transitions.create("width"),
+      [theme.breakpoints.up("sm")]: {
+        width: "10ch",
+        "&:focus": {
+          width: "13ch",
         },
       },
     },
-  
   }));
-  const handleChangeDropDown=(e)=>{
-setUserRole(e.target?.value)
-  }
-  
+  const handleChangeDropDown = (e) => {
+    setUserRole(e.target?.value);
+    // console.log('data')
+  };
+  const handleChangeSearch = (e) => {
+    setSearchTerm(e.target?.value);
+    // console.log('data')
+  };
+
+  console.log("search", searchTerm);
   // React.useEffect(()=>{
+  //  const pageIndex =page==0?1:page
   //   const pagination={
-  //     page,rowsPerPage, sortBy:orderBy,sortOrder:order,searchTerm,userRole
+  //     page:pageIndex,rowsPerPage,searchTerm,userRole
   //   }
-  //   getListData(pagination)
-  //   console.log('firstsdfsf', )
-  // },[page,rowsPerPage, orderBy,order])
+  //   // getListData(pagination)
+  // },[page,rowsPerPage])
+
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) return -1;
     if (b[orderBy] > a[orderBy]) return 1;
@@ -99,13 +134,12 @@ setUserRole(e.target?.value)
   }
 
   function getComparator(order, orderBy) {
-    return order === 'desc'
+    return order === "desc"
       ? (a, b) => descendingComparator(a, b, orderBy)
       : (a, b) => -descendingComparator(a, b, orderBy);
   }
 
   function stableSort(array, comparator) {
-    
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
       const order = comparator(a[0], b[0]);
@@ -122,11 +156,13 @@ setUserRole(e.target?.value)
     };
 
     return (
-      <TableHead style={{ backgroundColor: '#d9edf7', borderRadius: "0 0 10px 2" }}>
+      <TableHead
+        style={{ backgroundColor: "#d9edf7", borderRadius: "0 0 10px 2" }}
+      >
         <TableRow>
           {headers.map((headCell) => (
             <TableCell
-              color='secondary'
+              color="secondary"
               key={headCell.id}
               //  align={headCell.numeric ? 'left' : 'right'}
               align="center"
@@ -134,18 +170,19 @@ setUserRole(e.target?.value)
               sortDirection={orderBy === headCell.id ? order : false}
             >
               <TableSortLabel
-
                 active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : 'asc'}
+                direction={orderBy === headCell.id ? order : "asc"}
                 onClick={createSortHandler(headCell.id)}
               >
-                <Typography sx={{ flex: '1 1 100%' }} variant="tableHead">
+                <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
                   {headCell.label}
                 </Typography>
 
                 {orderBy === headCell.id ? (
-                  <Box component="span" sx={visuallyHidden}  >
-                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === "desc"
+                      ? "sorted descending"
+                      : "sorted ascending"}
                   </Box>
                 ) : null}
               </TableSortLabel>
@@ -160,124 +197,169 @@ setUserRole(e.target?.value)
     const navigate = useNavigate();
     return (
       <Toolbar>
-      {Title &&  <Typography sx={{ flex: '1 1 100%' }} variant="tableTitle">
-          {Title}
-        </Typography>}
-     <Filter TitleForDropDown={'Role'} dropDownData={dropDownData} handleChangeDropDown={handleChangeDropDown} setSearchTerm={setSearchTerm} searchTerm={searchTerm} userRole={userRole} setUserRole={setUserRole}/>
-          <Box sx={{display:'flex',width:'100%',gap:'5px',justifyContent:'end'}}>
-          <Tooltip title="Bulk Upload">
-        <Button
-            color="success"
-            variant="contained"
-            size="large"
-            // sx={{ width: "50%" }}
-            type="submit"
-            // disabled={isSubmitting}
-            onClick={() => AddSvg()}
-          >
-            <Typography sx={{ flex: '1 1 100%' }} variant="h6" >
-            Student Bulk Upload
-            </Typography>
-            <AddIcon />
+        {Title && (
+          <Typography sx={{ flex: "1 1 100%" }} variant="tableTitle">
+            {Title}
+          </Typography>
+        )}
+       {children}
 
-          </Button>
+        <Filter
+          TitleForDropDown={"Role"}
+          getListData={getListData}
+          dropDownData={dropDownData}
+          handleChangeSearch={handleChangeSearch}
+          handleChangeDropDown={handleChangeDropDown}
+          setSearchTerm={setSearchTerm}
+          searchTerm={searchTerm}
+          userRole={userRole}
+          setUserRole={setUserRole}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            width: "100%",
+            gap: "5px",
+            justifyContent: "end",
+          }}
+        >
+          <Tooltip title="Bulk Upload">
+            <Button
+              color="success"
+              variant="contained"
+              size="large"
+              // sx={{ width: "50%" }}
+              type="submit"
+              // disabled={isSubmitting}
+              onClick={() => AddSvg()}
+            >
+              <Typography sx={{ flex: "1 1 100%" }} variant="h6">
+                Student Bulk Upload
+              </Typography>
+              <AddIcon />
+            </Button>
           </Tooltip>
           <Tooltip title="Add User">
-          <Button
-            color="info"
-            variant="contained"
-            size="large"
-            // sx={{ width: "50%" }}
-            type="submit"
-            // disabled={isSubmitting}
-            onClick={() => onAddClick()}
-          >
-            <Typography sx={{ flex: '1 1 100%' }} variant="h6" >
-              Add User
-            </Typography>
-            <AddIcon />
-
-          </Button>
+            <Button
+              color="info"
+              variant="contained"
+              size="large"
+              // sx={{ width: "50%" }}
+              type="submit"
+              // disabled={isSubmitting}
+              onClick={() => onAddClick()}
+            >
+              <Typography sx={{ flex: "1 1 100%" }} variant="h6">
+                Add User
+              </Typography>
+              <AddIcon />
+            </Button>
           </Tooltip>
-          </Box>
-       
+        </Box>
       </Toolbar>
     );
   }
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
+  // const handleChangePage = (event, newPage) => {
+   
+  //   setPage(page + newPage);
+  // };
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    setPage(newPage + 1);  // Adjust for 1-indexed page state
   };
-console.log('row', row)
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setPage(page);
   };
-
-  const visibleRows = React.useMemo(
-    () =>
-      stableSort(row, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage,
-      ),
-    [order, orderBy, page, rowsPerPage,row],
-  );
-  console.log('visibleRows', visibleRows)
+  const visibleRows = React.useMemo(() => {
+    return listData;
+    //   return stableSort(listData, getComparator(order, orderBy)).slice(
+    //   page  * rowsPerPage,
+    //   page * rowsPerPage + rowsPerPage,
+    // )
+  }, [order, orderBy, page, rowsPerPage, row, listData]);
   React.useEffect(() => {
-    setRow(listData)
-  
-  }, [listData, headers])
+    setRow(listData);
+  }, [listData, headers]);
   return (
     <div>
-      <Box sx={{ width: '100%'}}>
-        <Paper sx={{ width: '100%', mb: 2}}>
+      <Box sx={{ width: "100%" }}>
+        <Paper sx={{ width: "100%", mb: 2 }}>
           <EnhancedTableToolbar />
-          <TableContainer sx={{ borderRadius:"3px"}}>
+          <TableContainer sx={{ borderRadius: "3px" }}>
             <Table>
               <EnhancedTableHead
                 order={order}
                 orderBy={orderBy}
                 onRequestSort={handleRequestSort}
               />
-              <TableBody >
+              <TableBody>
                 {visibleRows.map((row) => (
-                  <TableRow key={row._id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 }, borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
+                  <TableRow
+                    key={row._id}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                    }}
                   >
-                    <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }} >
-                      <Typography sx={{ flex: '1 1 100%' }} variant="tableText" >
+                    <TableCell
+                      align="center"
+                      sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
+                    >
+                      <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
                         {row?.firstName}
                       </Typography>
                     </TableCell>
-                    <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
-                      <Typography sx={{ flex: '1 1 100%' }} variant="tableText" >
+                    <TableCell
+                      align="center"
+                      sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
+                    >
+                      <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
                         {row?.userRole}
                       </Typography>
                     </TableCell>
-                    <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
-                      <Typography sx={{ flex: '1 1 100%' }} variant="tableText" >
+                    <TableCell
+                      align="center"
+                      sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
+                    >
+                      <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
                         {row?.mobileNumber}
                       </Typography>
                     </TableCell>
-                    <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
-                      <Typography sx={{ flex: '1 1 100%' }} variant="tableText" >
+                    <TableCell
+                      align="center"
+                      sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
+                    >
+                      <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
                         {row?.email}
                       </Typography>
                     </TableCell>
-                    <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
-                      <Typography sx={{ flex: '1 1 100%' }} variant="tableText" >
+                    <TableCell
+                      align="center"
+                      sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
+                    >
+                      <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
                         {row?.username}
                       </Typography>
                     </TableCell>
-                    <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
-                      <Tooltip title="Edit user"  onClick={() => {onAddClick();setUserId(row?._id)}}>
-                          <MoreVertOutlinedIcon />
+                    <TableCell
+                      align="center"
+                      sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
+                    >
+                      <Tooltip
+                        title="Edit user"
+                        onClick={() => {
+                          onAddClick();
+                          setUserId(row?._id);
+                        }}
+                      >
+                        <EditIcon sx={{ cursor: "pointer" }} />
                       </Tooltip>
                     </TableCell>
                   </TableRow>
@@ -286,18 +368,18 @@ console.log('row', row)
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[10, 25, 50]}
             component="div"
-            count={row.length}
+            count={totalCount}
             rowsPerPage={rowsPerPage}
-            page={page}
+            page={page - 1}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Paper>
       </Box>
     </div>
-  )
+  );
 }
 
-export default CustomTable
+export default CustomTable;
