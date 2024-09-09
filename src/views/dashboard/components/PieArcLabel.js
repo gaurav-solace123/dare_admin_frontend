@@ -28,7 +28,7 @@ export default function PieArcLabel({ data = [], size = sizes, sx }) {
           <PieChart
             series={[
               {
-                arcLabel: (item) => (item?.value ? ` ${item.value} %` : ""),
+                arcLabel: (item) => (item?.value ? ` ${item.percentage} %` : ""),
                 data: data,
                 highlightScope: { fade: "global", highlight: "item" },
                 faded: {
@@ -54,7 +54,7 @@ export default function PieArcLabel({ data = [], size = sizes, sx }) {
                     bgcolor={item?.color}
                   ></Box>
                   <Typography fontWeight="700" variant="subtitle2" mb={0}>
-                    {`${item?.label}  (${item?.value}%)`}
+                    {`${item?.label}  - ${item?.value}`}
                   </Typography>
                 </Box>
               ))}

@@ -19,8 +19,8 @@ import Loader from '../../components/Loader';
 const Dashboard = () => {
   
   const data = [
-    { value: 55, label: 'Middle School' ,color:'#2e96ff'},
-    { value: 45, label: 'Elementary School',color:"#02b2af" },
+    { value: 55, label: 'Middle School' ,color:'#2e96ff',percentage:20},
+    { value: 45, label: 'Elementary School',color:"#02b2af" ,percentage:40},
 ];
 
 const [isLoading, setIsLoading] = React.useState(false);
