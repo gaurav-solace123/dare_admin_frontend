@@ -18,7 +18,7 @@ const useCustomToast = () => {
     setOpen(false);
   };
 
-  const showToast = (title, description, severity = "success", duration = 3000) => {
+  const showToast = (title,severity = "success" ,description, duration = 3000) => {
     setToastQueue((prevQueue) => [
       ...prevQueue,
       { title, description, severity, duration }

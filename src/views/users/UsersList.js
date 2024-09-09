@@ -1,26 +1,33 @@
-import React,{lazy, useEffect, useState} from 'react';
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
+import React, { lazy, useEffect, useState } from "react";
+import { alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
 // import Table from '@mui/material/Table';
 
-import { Badge, Button, Grid, IconButton, Modal, Typography } from '@mui/material';
-import { IconBellRinging } from '@tabler/icons-react';
-import Table from './component/CustomTable';
+import {
+  Badge,
+  Button,
+  Grid,
+  IconButton,
+  InputBase,
+  Modal,
+  Typography,
+} from "@mui/material";
+import { IconBellRinging } from "@tabler/icons-react";
+import Table from "./component/CustomTable";
 // import CustomTable from './component/CustomTable';
 // import AddEditUser from './AddEditUser';
 // const Login = Loadable(lazy(() => import('../views/authentication/Login')));
-import { borderRadius, height } from '@mui/system';
-import Loadable from '../../layouts/full/shared/loadable/Loadable';
-import AddSvgForm from './component/AddSvgForm';
-import { getData } from '../../services/services';
-import Api from '../../services/constant';
-import Loader from '../../components/Loader';
-import useCustomToast from '../../hooks/CustomToastHook';
+import { borderRadius, height } from "@mui/system";
+import Loadable from "../../layouts/full/shared/loadable/Loadable";
+import AddSvgForm from "./component/AddSvgForm";
+import { getData } from "../../services/services";
+import Api from "../../services/constant";
+import Loader from "../../components/Loader";
+import useCustomToast from "../../hooks/CustomToastHook";
 // import DownloadForOfflineSharpIcon from '@mui/icons-material/DownloadForOfflineSharp';
 
-
-const CustomTable = Loadable(lazy(() => import('./component/CustomTable')));
-const AddEditUser = Loadable(lazy(() => import('./AddEditUser')));
+const CustomTable = Loadable(lazy(() => import("./component/CustomTable")));
+const AddEditUser = Loadable(lazy(() => import("./AddEditUser")));
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) return -1;
@@ -29,7 +36,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === 'desc'
+  return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -45,237 +52,311 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'firstName', numeric: false, label: 'Name' },
-  { id: 'userRole', numeric: true, label: 'Role' },
-  { id: 'mobileNumber', numeric: true, label: 'Mobile' },
-  { id: 'email', numeric: true, label: 'Email' },
-  { id: 'username', numeric: true, label: 'Username' },
-  
-  { id: 'actions', numeric: true, label: 'Actions' },
+  { id: "firstName", numeric: false, label: "Name" },
+  { id: "userRole", numeric: true, label: "Role" },
+  { id: "mobileNumber", numeric: true, label: "Mobile" },
+  { id: "email", numeric: true, label: "Email" },
+  { id: "username", numeric: true, label: "Username" },
+
+  { id: "actions", numeric: true, label: "Actions" },
 ];
 
-
-
 export default function EnhancedTable() {
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('userRole');
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [listData, setListData] = React.useState([])
- 
+  const [order, setOrder] = React.useState("desc");
+  const [orderBy, setOrderBy] = React.useState("_created_at");
+  const [page, setPage] = React.useState(1);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [listData, setListData] = React.useState([]);
+
   const [isLoading, setIsLoading] = React.useState(false);
-  const [totalCount, setTotalCount] = React.useState('')
-  const [userId,setUserId]= React.useState('')
+  const [totalCount, setTotalCount] = React.useState("");
+  const [userId, setUserId] = React.useState("");
   const [open, setOpen] = React.useState(false);
-  const [searchTerm,setSearchTerm]=React.useState('')
-  const [userRole,setUserRole]=React.useState('')
-  const [openSvgForm,setOpenSvgFrom]=React.useState(false);
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [userRole, setUserRole] = React.useState("");
+  const [openSvgForm, setOpenSvgFrom] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handleSvgOpen=()=>setOpenSvgFrom(true);
-  const handleSvgClose=()=>setOpenSvgFrom(false);
+  const handleSvgOpen = () => setOpenSvgFrom(true);
+  const handleSvgClose = () => setOpenSvgFrom(false);
+
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
   const { showToast, ToastComponent } = useCustomToast();
   const handleDrop = (acceptedFiles) => {
     console.log(acceptedFiles);
   };
-  console.log('searchTerm',searchTerm)
   const styleModel = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     width: 500,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    borderRadius:"5px",
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    borderRadius: "5px",
     boxShadow: 24,
     p: 2,
   };
   const styleModelBulkUploade = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     width: 500,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    borderRadius:"5px",
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    borderRadius: "5px",
     boxShadow: 24,
     p: 2,
-
   };
-  function createData({_id, firstName, userRole,  mobileNumber, email,username}) {
-    return { _id, firstName, userRole,  mobileNumber,email,username  };
+  function createData({
+    _id,
+    firstName,
+    userRole,
+    mobileNumber,
+    email,
+    username,
+  }) {
+    return { _id, firstName, userRole, mobileNumber, email, username };
   }
-  const getListData=async(filters
-    = {page:1,rowsPerPage:5,sortBy:'_created_at',sortOrder:'desc'})=>{
+  const getListData = async (
+    filters = {
+      page: 1,
+      rowsPerPage: 10,
+      sortBy: "_created_at",
+      sortOrder: "desc",
+    },search=''
 
+  ) => {
+    // debugger
     let searchQuery = `?page=${filters?.page}&limit=${filters?.rowsPerPage}`;
-     delete filters.page
-     delete filters.rowsPerPage
-      for (const key in filters) {
-        if (filters[key] !== ""&&filters[key] !== "page"&&filters[key] !== "rowsPerPage") {
-          searchQuery += `&${key}=${encodeURIComponent(filters[key])}`;
-        }
+    delete filters.page;
+    delete filters.rowsPerPage;
+    for (const key in filters) {
+      if (
+        filters[key] !== "" &&
+        filters[key] !== "page" &&
+        filters[key] !== "rowsPerPage"
+      ) {
+        searchQuery += `&${key}=${encodeURIComponent(filters[key])}`;
       }
-    try {
-      setIsLoading(true)
-      const result = await getData(`${Api.listUsers}${searchQuery}`)  //
-   if(result.status==200){
-    const response= result?.data?.users
-    const tempData= response.map(item=>createData(item))
-    setListData(tempData)
-    setTotalCount(result?.data?.total)
-    setIsLoading(false)
-   }
-   else{
-    setIsLoading(false)
-   }
-    } catch (error) {
-      console.error(error)
-      setIsLoading(false)
     }
-  }
+    try {
+      setIsLoading(true);
+      const result = await getData(`${Api.listUsers}${searchQuery}`); //
+      if (result.status == 200) {
+        const response = result?.data?.users;
+        const tempData = response.map((item) => createData(item));
+        setListData(tempData);
+        setTotalCount(result?.data?.total);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
+  };
 
-useEffect(()=>{
-  // getListData()
-},[])
-console.log('userRole', userRole)
-React.useEffect(()=>{
-  const pageIndex =page==0?1:page
-   const pagination={
-     page:pageIndex,rowsPerPage,search:searchTerm, userRole
-   }
-   getListData(pagination)
- },[page,rowsPerPage,userRole])
-  return (
-<>
-{ isLoading?<Loader/>:
-  <Box sx={{ border: '2px solid', color:'#0055a4',padding: 2, position: 'relative' ,borderRadius:2}}>
 
-<Box
-        sx={{
-          position: 'absolute',
-          top: '-12px', // Adjust this to make the text overlap more or less with the border
-          left: '16px',
-          backgroundColor: '#fff',
-          padding: '0 8px',
-          display: 'inline-block',
-          // color: 'red', // To match the border color
-          fontSize: '24px',
-          fontWeight: 'bold',
-        }}
-      >
-          <Typography variant="h7" fontWeight={600} component="label" htmlFor="mailingAddress">Users</Typography>
-        
-      </Box>
-    <CustomTable Title={''}
-    totalCount={totalCount} 
-    setTotalCount={setTotalCount} 
-    headers={headCells} 
-    setUserRole={setUserRole}
-     setSearchTerm={setSearchTerm} 
-     userRole={userRole} 
-     searchTerm={searchTerm}
-      listData={listData}
-       rowsPerPage={rowsPerPage} 
-       setPage={setPage} 
-       setRowsPerPage={setRowsPerPage}
-        page={page} 
-        setUserId={setUserId} 
-        onAddClick={()=>{handleOpen();
-      setUserId('')
-    }} AddSvg={()=>{handleSvgOpen()}} 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 500); // Adjust delay (500ms in this case) as needed
+
+    // Cleanup function to clear the timeout if searchTerm changes within the delay
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
+  React.useEffect(() => {
     
-    getListData={getListData}/>
-    </Box>}
-    <Modal
-    open={open}
-    onClose={handleClose}
-    aria-labelledby="modal-modal-title"
-    aria-describedby="modal-modal-description"
-  >
-    <Box sx={styleModel}>
-    <IconButton
-      aria-label="close"
-      onClick={handleClose}
-      sx={{
-        position: 'absolute',
-    top: 8,
-    right: 8,
-    color: '#0055a4', // Default color
-    '&:hover': {
-      color: 'red', // Change color to green on hover
-    },
-      }}
-    >
-      {/* <CloseIcon /> */}X
-    </IconButton>
-     <AddEditUser cancel={()=>handleClose()} userId={userId} getListData={getListData} Alert={(status,msg)=>showToast( msg,'',status)}/>
-    </Box>
-  </Modal>
+    const pagination = {
+      page,
+      rowsPerPage,
+      search: debouncedSearchTerm,
+      userRole,
+      sortBy: orderBy,
+      sortOrder: order,
+    };
+    getListData(pagination);
+  }, [page, rowsPerPage, userRole,order,orderBy,debouncedSearchTerm]);
+  return (
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Box
+          sx={{
+            border: "2px solid",
+            color: "#0055a4",
+            padding: 2,
+            position: "relative",
+            borderRadius: 2,
+          }}
+        >
+           
+          <Box
+            sx={{
+              position: "absolute",
+              top: "-12px", // Adjust this to make the text overlap more or less with the border
+              left: "16px",
+              backgroundColor: "#fff",
+              padding: "0 8px",
+              display: "inline-block",
+              // color: 'red', // To match the border color
+              fontSize: "24px",
+              fontWeight: "bold",
+            }}
+          >
+            <Typography
+              variant="h7"
+              fontWeight={600}
+              component="label"
+              htmlFor="mailingAddress"
+            >
+              Users
+            </Typography>
+          </Box>
+          <InputBase
+        sx={{
+          border: "1px solid grey", // Adds a border to all sides
+          paddingX: "5px", // Padding inside the input
+          paddingY: "2px",
+          borderRadius: "4px", // Optional: Adds rounded corners
+          width:"50%"
+        }}
+        value={searchTerm}
+                    onChange={(e)=>setSearchTerm(e?.target?.value)}
+        placeholder="Search"
+      />
+          <CustomTable
+            Title={""}
+            totalCount={totalCount}
+            setTotalCount={setTotalCount}
+            headers={headCells}
+            setUserRole={setUserRole}
+            setSearchTerm={setSearchTerm}
+            userRole={userRole}
+            searchTerm={searchTerm}
+            orderBy={orderBy}
+            order={order}
+            setOrder={setOrder}
+            setOrderBy={setOrderBy}
+            listData={listData}
+            rowsPerPage={rowsPerPage}
+            setPage={setPage}
+            setRowsPerPage={setRowsPerPage}
+            page={page}
+            setUserId={setUserId}
+            onAddClick={() => {
+              handleOpen();
+              setUserId("");
+            }}
+            AddSvg={() => {
+              handleSvgOpen();
+            }}
+            getListData={getListData}
+          >
+           
+            </CustomTable>
+        </Box>
+      )}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styleModel}>
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+              color: "#0055a4", // Default color
+              "&:hover": {
+                color: "red", // Change color to green on hover
+              },
+            }}
+          >
+            {/* <CloseIcon /> */}X
+          </IconButton>
+          <AddEditUser
+            cancel={() => handleClose()}
+            userId={userId}
+            getListData={getListData}
+            showToast={showToast}
+          />
+        </Box>
+      </Modal>
 
-  <Modal
-    open={openSvgForm}
-    onClose={handleSvgClose}
-    aria-labelledby="modal-modal-title"
-    aria-describedby="modal-modal-description"
-  
-  >
-    <Box sx={styleModelBulkUploade}>
-    <IconButton
-      aria-label="close"
-      onClick={handleSvgClose}
-      sx={{
-        position: 'absolute',
-        top: 8,
-        right: 8,
-        color: '#0055a4', // Default color
-        '&:hover': {
-          color: 'red', // Change color to green on hover
-        },
-      }}
-    >
-      {/* <CloseIcon /> */}X
-    </IconButton>
-    <Typography fontWeight="700" variant="h2" mb={1}>
-                    {"Student Bulk Upload"} 
-                   
-                </Typography>
-               
-                {/* <DownloadForOfflineSharpIcon/> */}
-     <AddSvgForm onDrop={handleDrop} accept="image/svg+xml" userId={userId}/>
-     <Grid container spacing={2} justifyContent="center">
-    <Grid container item xs={12} spacing={2} mt={2} mx={'auto'}>
-      <Grid item xs={6} p={'7px'}>
-        <Button
-          color="primary"
-          variant="contained"
-          size="large"
-          fullWidth
-          type="submit"
-          // disabled={isSubmitting}
-        >
-         Student Bulk Upload
-        </Button>
-      </Grid>
-      <Grid item xs={6} p={'7px'}>
-        <Button
-          color="secondary"
-          variant="outlined"
-          size="large"
-          fullWidth
-          type="button"
-          onClick={handleSvgClose}
-        >
-          Cancel
-        </Button>
-      </Grid>
-    </Grid>
-  </Grid>
-    </Box>
-  </Modal>
-  <ToastComponent />
-  </>
+      <Modal
+        open={openSvgForm}
+        onClose={handleSvgClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styleModelBulkUploade}>
+          <IconButton
+            aria-label="close"
+            onClick={handleSvgClose}
+            sx={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+              color: "#0055a4", // Default color
+              "&:hover": {
+                color: "red", // Change color to green on hover
+              },
+            }}
+          >
+            {/* <CloseIcon /> */}X
+          </IconButton>
+          <Typography fontWeight="700" variant="h2" mb={1}>
+            {"Student Bulk Upload"}
+          </Typography>
+
+          {/* <DownloadForOfflineSharpIcon/> */}
+          <AddSvgForm
+            onDrop={handleDrop}
+            accept="image/svg+xml"
+            userId={userId}
+          />
+          <Grid container spacing={2} justifyContent="center">
+            <Grid container item xs={12} spacing={2} mt={2} mx={"auto"}>
+              <Grid item xs={6} p={"7px"}>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  size="large"
+                  fullWidth
+                  type="submit"
+                  // disabled={isSubmitting}
+                >
+                  Student Bulk Upload
+                </Button>
+              </Grid>
+              <Grid item xs={6} p={"7px"}>
+                <Button
+                  color="secondary"
+                  variant="outlined"
+                  size="large"
+                  fullWidth
+                  type="button"
+                  onClick={handleSvgClose}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Box>
+      </Modal>
+      <ToastComponent />
+    </>
   );
 }

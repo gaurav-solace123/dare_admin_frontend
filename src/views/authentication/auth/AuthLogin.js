@@ -30,10 +30,10 @@ const validationSchema = Yup.object({
 });
 
 
-const AuthLogin = ({ title, subtitle, subtext ,Alert=()=>{}}) => {
+const AuthLogin = ({ title, subtitle, subtext ,showToast=()=>{}}) => {
 
 //all constants
-    const { showToast, ToastComponent } = useCustomToast();
+    const {  ToastComponent } = useCustomToast();
     const navigate = useNavigate()
 
 //states
@@ -60,16 +60,16 @@ const AuthLogin = ({ title, subtitle, subtext ,Alert=()=>{}}) => {
             
             // showToast(result?.message);
           
-            Alert('success',result?.message)
+            showToast(result?.message)
             setTimeout(() => {
                  navigate("/dashboard")  
                 setIsLoading(false);
-            }, 1000);
+            }, 500);
                 
           } else {
             setIsLoading(false);
             // showToast("error", "error", "error");
-            Alert("error", "something went wrong");
+            showToast( result?.message ,"error");
           }
         } catch (error) {
           console.error(error);
@@ -142,13 +142,13 @@ const AuthLogin = ({ title, subtitle, subtext ,Alert=()=>{}}) => {
                                     }}
                                 />
                             </Box>
-                            <Stack justifyContent="space-between" direction="row" alignItems="center" my={5}>
-                                <FormGroup>
+                            <Stack justifyContent="end" direction="row" alignItems="end" my={2}>
+                                {/* <FormGroup>
                                     <FormControlLabel
                                         control={<Checkbox defaultChecked />}
                                         label="Remember this Device"
                                     />
-                                </FormGroup>
+                                </FormGroup> */}
                                 <Typography
                                     component={Link}
                                     to="/auth/forgotPassword"

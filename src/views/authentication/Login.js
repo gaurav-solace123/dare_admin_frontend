@@ -46,7 +46,8 @@ const Login2 = () => {
                 {/* Login */}
               </Box>
               <AuthLogin
-              Alert={(status,msg)=>showToast( msg,'',status)}
+              // showToast={(status,msg)=>showToast( msg,'',status)}
+              showToast={showToast}
                 // subtext={
                 //   <Typography variant="subtitle1" textAlign="center" color="textSecondary" mb={1}>
                 //     Your Social Campaigns
