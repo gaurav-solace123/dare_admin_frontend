@@ -92,7 +92,7 @@ function Filter({
                     onChange={(e)=>setSearch(e?.target?.value)}
                 />
             </Search> */}
-      <InputBase
+      {/* <InputBase
         sx={{
           border: "1px solid grey", // Adds a border to all sides
           paddingX: "5px", // Padding inside the input
@@ -102,7 +102,7 @@ function Filter({
         }}
         value={search}
         onChange={(e)=>setSearch(e?.target?.value)}        placeholder="Search"
-      />
+      /> */}
       <FormControl sx={{ minHeight: "36px",width:"50%"}}>
         <InputLabel
           id="demo-simple-select-label"

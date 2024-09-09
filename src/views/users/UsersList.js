@@ -79,6 +79,8 @@ export default function EnhancedTable() {
   const handleClose = () => setOpen(false);
   const handleSvgOpen = () => setOpenSvgFrom(true);
   const handleSvgClose = () => setOpenSvgFrom(false);
+
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
   const { showToast, ToastComponent } = useCustomToast();
   const handleDrop = (acceptedFiles) => {
     console.log(acceptedFiles);
@@ -158,19 +160,28 @@ export default function EnhancedTable() {
   };
 
 
-  
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 500); // Adjust delay (500ms in this case) as needed
+
+    // Cleanup function to clear the timeout if searchTerm changes within the delay
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
   React.useEffect(() => {
     
     const pagination = {
       page,
       rowsPerPage,
-      search: searchTerm,
+      search: debouncedSearchTerm,
       userRole,
       sortBy: orderBy,
       sortOrder: order,
     };
     getListData(pagination);
-  }, [page, rowsPerPage, userRole,order,orderBy,]);
+  }, [page, rowsPerPage, userRole,order,orderBy,debouncedSearchTerm]);
   return (
     <>
       {isLoading ? (
@@ -208,7 +219,7 @@ export default function EnhancedTable() {
               Users
             </Typography>
           </Box>
-          {/* <InputBase
+          <InputBase
         sx={{
           border: "1px solid grey", // Adds a border to all sides
           paddingX: "5px", // Padding inside the input
@@ -216,10 +227,10 @@ export default function EnhancedTable() {
           borderRadius: "4px", // Optional: Adds rounded corners
           width:"50%"
         }}
-        // value={searchTerm}
+        value={searchTerm}
                     onChange={(e)=>setSearchTerm(e?.target?.value)}
         placeholder="Search"
-      /> */}
+      />
           <CustomTable
             Title={""}
             totalCount={totalCount}
