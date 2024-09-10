@@ -14,9 +14,8 @@ import { getData } from "../../services/services";
 import dayjs from 'dayjs';
 
 function StudentReport() {
-  const currentYear = dayjs().year();
-const [selectedDate, setSelectedDate] = useState(null);
-  const [filter,setFilter]=useState('year')
+const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [filter,setFilter]=useState('day')
   const [isLoading, setIsLoading] = React.useState(false);
  
 
@@ -38,12 +37,12 @@ const [selectedDate, setSelectedDate] = useState(null);
           formattedDate = date.format("YYYY"); // Format for year view
           break;
         default:
-          currentYear
+          dayjs().format("DD-MM-YYYY")
           break;
       }
       return formattedDate;
     } else {
-      return currentYear
+      return dayjs().format("DD-MM-YYYY")
     }
   };
   const getReports= async(type)=>{
@@ -107,6 +106,7 @@ const date=getFormatedDate(selectedDate)
                 selectedDate={selectedDate}
                 setSelectedDate={setSelectedDate}
                 setFilter={setFilter}
+                filter={filter}
                 />
                 </>
             }
