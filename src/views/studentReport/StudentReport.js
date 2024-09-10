@@ -7,41 +7,58 @@ import CustomDatePicker from "./component/CustomDatePicker";
 import Loader from "../../components/Loader";
 import StudentReportPage from "./StudentReportPage";
 import Api from "../../services/constant";
+// import UnifiedDatePicker from "../../components/PDatePicker";
+import UnifiedDatePicker from "../../components/YearMonthDayDatepicker";
+import PDatePicker from "../../components/PDatePicker";
+import { getData } from "../../services/services";
+import dayjs from 'dayjs';
 
 function StudentReport() {
-  const [selectedDate, setSelectedDate] = useState(null);
-
+  const currentYear = dayjs().year();
+const [selectedDate, setSelectedDate] = useState(null);
+  const [filter,setFilter]=useState('year')
   const [isLoading, setIsLoading] = React.useState(false);
-  const handleDateChange = (newDate) => {
-    setSelectedDate(newDate);
-  };
+ 
 
-  const [elementrySchoolData,setElementrySchoolData]= useState('')
-  const [middleSchoolData,setMiddleSchoolDataSchoolData]= useState('')
+  const [elementrySchoolData,setElementrySchoolData]= useState([])
+  const [middleSchoolData,setMiddleSchoolDataSchoolData]= useState([])
 
-  const getReports= async(filters,type)=>{
-
-    let searchQuery = `?schoolType=${type}`;
+  const getFormatedDate = (date) => {
+    let formattedDate;
     
-    for (const key in filters) {
-      if (
-        filters[key] !== "" &&
-        filters[key] !== "schoolType" 
-        
-      ) {
-        searchQuery += `&${key}=${encodeURIComponent(filters[key])}`;
+    if (date) {
+      switch (filter) {
+        case "day":
+          formattedDate = date.format("DD-MM-YYYY"); // Format for day view
+          break;
+        case "month":
+          formattedDate = date.format("DD-MM"); // Format for month view
+          break;
+        case "year":
+          formattedDate = date.format("YYYY"); // Format for year view
+          break;
+        default:
+          currentYear
+          break;
       }
+      return formattedDate;
+    } else {
+      return currentYear
     }
+  };
+  const getReports= async(type)=>{
+const date=getFormatedDate(selectedDate)
+    let searchQuery = `?schoolType=${type}&${filter}=${date}`;
     try {
       setIsLoading(true);
-      const result = await getData(`${Api.listUsers}${searchQuery}`); //
+      const result = await getData(`${Api.studentReports}${searchQuery}`); //
       if (result.status == 200) {
         const response = result?.data;
         const tempData = response.map((item) => ({label:`${item?.language} Regitered Students`,value:item?.totalStudents,percentage:item?.percentage}));
         if(type=='Elementary'){
           setElementrySchoolData(tempData)
         }
-        else if(type=='Middle'){
+        else if(type=='Middle School'){
            setMiddleSchoolDataSchoolData(tempData)
         }
         setIsLoading(false);
@@ -64,11 +81,9 @@ function StudentReport() {
   ];
 
   useEffect(()=>{
-    const filter={
-      
-    }
-    getReports(filter,'Elementary')
-    getReports(filter,'Middle')
+    
+    getReports('Elementary')
+    getReports('Middle School')
   },
 [selectedDate])
   return (
@@ -81,14 +96,22 @@ function StudentReport() {
           <StudentReportPage
             title={"Elementary Students Report"}
             action={
-              <CustomDatePicker
+              <>
+              {/* <PDatePicker
                 label="Select a date"
-                value={selectedDate}
-                onChange={handleDateChange}
-              />
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+                /> */}
+              <UnifiedDatePicker
+                label="Select a date"
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+                setFilter={setFilter}
+                />
+                </>
             }
           >
-            <PieArcLabel data={data} size={{ height: 280 }} />
+            <PieArcLabel data={elementrySchoolData} size={{ height: 280 }} />
             <Stack
               direction="row"
               spacing={2}
@@ -100,7 +123,7 @@ function StudentReport() {
                 <Typography variant="h5">Middle Students Report</Typography>
               </Box>
             </Stack>
-            <PieArcLabel data={data2} size={{ height: 280 }} />
+            <PieArcLabel data={middleSchoolData} size={{ height: 280 }} />
           </StudentReportPage>
         </>
       )}

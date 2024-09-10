@@ -11,8 +11,10 @@ const Api = {
 
     //Bulk Upload
     bulkUplaod:"/upload/bulk-upload-students",
-    bulkSampleFile:"/upload/sample-csv"
-    //Elementary Student Repor
+    bulkSampleFile:"/upload/sample-csv",
+    // Student Report
+    studentReports:'/users/student-report-chart'
+
 
 };
 

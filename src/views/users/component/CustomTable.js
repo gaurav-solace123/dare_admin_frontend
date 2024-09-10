@@ -114,7 +114,8 @@ setOrderBy
     // console.log('data')
   };
   const handleChangeSearch = (e) => {
-    setSearchTerm(e.target?.value);
+    // debugger
+    setSearchTerm(e);
     // console.log('data')
   };
 

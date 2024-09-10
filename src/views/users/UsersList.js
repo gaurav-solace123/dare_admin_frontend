@@ -170,6 +170,7 @@ export default function EnhancedTable() {
       clearTimeout(handler);
     };
   }, [searchTerm]);
+  console.log('first', searchTerm)
   React.useEffect(() => {
     
     const pagination = {
@@ -219,7 +220,7 @@ export default function EnhancedTable() {
               Users
             </Typography>
           </Box>
-          <InputBase
+          {/* <InputBase
         sx={{
           border: "1px solid grey", // Adds a border to all sides
           paddingX: "5px", // Padding inside the input
@@ -230,7 +231,7 @@ export default function EnhancedTable() {
         value={searchTerm}
                     onChange={(e)=>setSearchTerm(e?.target?.value)}
         placeholder="Search"
-      />
+      /> */}
           <CustomTable
             Title={""}
             totalCount={totalCount}
