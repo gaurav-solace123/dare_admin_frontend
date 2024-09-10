@@ -4,6 +4,9 @@ import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { Box, Typography } from '@mui/material';
 import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
+import { getData, postData } from '../../../services/services';
+import Api from '../../../services/constant';
+import commonFunc from '../../../utils/common';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -37,7 +40,30 @@ function AddSvgForm({ onUploade, error, isEdit, image, isMobile }) {
     justifyContent: "center",
   };
 
+
   const [files, setFiles] = useState([]);
+  const uploadCSVFile=async()=>{
+    try {
+      const result = await postData(Api.bulkUplaod,{
+        file:files
+      })
+      console.log('result', result)
+
+    } catch (error) {
+      
+    }
+
+  }
+  const downLoadSampleCSVFile = async()=>{
+    try {
+      const result = await getData(Api.bulkSampleFile)
+      commonFunc.DownloadCSV(result,'Sample')
+      console.log('result', result)
+
+    } catch (error) {
+      
+    }
+  }
 
   return (
     <Box margin={2}>
@@ -50,6 +76,8 @@ function AddSvgForm({ onUploade, error, isEdit, image, isMobile }) {
           role={undefined}
           variant="contained"
           tabIndex={-1}
+          type='button'
+          onClick={downLoadSampleCSVFile}
           startIcon={<DownloadForOfflineIcon />}
           sx={{width:'50%'}}
         >

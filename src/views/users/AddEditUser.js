@@ -616,7 +616,7 @@ const AddEditUser = ({
                             name="organization"
                             variant="outlined"
                             fullWidth
-                            length={7}
+                            // length={7}
                             error={
                               touched.organization &&
                               Boolean(errors.organization)
@@ -639,7 +639,7 @@ const AddEditUser = ({
                             name="mobileNumber"
                             variant="outlined"
                             typeValid="number"
-                            length={11}
+                            length={13}
                             fullWidth
                             InputProps={{
                               startAdornment: (
