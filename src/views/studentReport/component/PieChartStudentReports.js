@@ -23,51 +23,70 @@ export default function PieChartStudentReports({ data = [], size = sizes, sx }) 
 
   return (
     <Box position={"relative"}>
-      <Grid container alignItems={"center"} justifyContent={"center"} width={'105%'}>
-        <Grid item xs={12} sm={12} md={6} lg={6}>
-          <PieChart
-            series={[
-              {
-                arcLabel: (item) => (item?.value ? ` ${item.percentage} %` : ""),
-                data: data,
-                highlightScope: { fade: "global", highlight: "item" },
-                faded: {
-                  innerRadius: 30,
-                  additionalRadius: -30,
-                  color: "gray",
-                },
-              },
-            ]}
-            height={isMobile ? 300 : 250}
-            slotProps={{ legend: { hidden: true } }}
-          />
-           <Box alignItems={"center"}>
-            {data?.length &&
-              data?.map((item) => (
-                <Box display={"flex"} alignItems={"center"} gap={"12px"} mb={1}>
-                  <Box
-                    height={"25px"}
-                    width={"25px"}
-                    bgcolor={item?.color}
-                  ></Box>
-                  <Typography fontWeight="700" variant="subtitle2" mb={0}>
-                    {`${item?.label}  - #${item?.value}`}
-                  </Typography>
-                </Box>
-              ))}
-            {/* <Box display={"flex"} alignItems={"center"} gap={"12px"}>
-        <Box height={"25px"} width={"25px"} bgcolor={"blue"}></Box>
-        <Typography fontWeight="700" variant="subtitle2" mb={0}>
-          50%
-        </Typography>
-      </Box> */}
+  <Grid container alignItems={"center"} justifyContent={"center"} width={"105%"}>
+    <Grid item xs={12} sm={12} md={6} lg={6}>
+      {data && data.every(item => item.value === 0) ? (
+        // Display a dotted circle if all values are 0
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          height={isMobile ? 300 : 250}
+        >
+          <Box
+            sx={{
+              width: isMobile ? 150 : 120,
+              height: isMobile ? 150 : 120,
+              borderRadius: "50%",
+              border: "3px dashed gray", // Dotted circle
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h6" fontWeight="700" color="gray">
+              0%
+            </Typography>
           </Box>
-        </Grid>
+        </Box>
+      ) : (
+        // Render the PieChart when data is available
+        <PieChart
+          series={[
+            {
+              arcLabel: (item) => (item?.percentage > 0 ? `${item.percentage} %` : ""),
+              data: data,
+              highlightScope: { fade: "global", highlight: "item" },
+              faded: {
+                innerRadius: 30,
+                additionalRadius: -30,
+                color: "gray",
+              },
+            },
+          ]}
+          height={isMobile ? 300 : 250}
+          slotProps={{ legend: { hidden: true } }}
+        />
+      )}
+      <Box alignItems={"center"}>
+        {data?.length &&
+          data?.map((item) => (
+            <Box display={"flex"} alignItems={"center"} gap={"12px"} mb={1} key={item?.label}>
+              <Box
+                height={"25px"}
+                width={"25px"}
+                bgcolor={item?.color}
+              />
+              <Typography fontWeight="700" variant="subtitle2" mb={0}>
+                {`${item?.label}  - #${item?.value || "0"}`}
+              </Typography>
+            </Box>
+          ))}
+      </Box>
+    </Grid>
+  </Grid>
+</Box>
 
-        <Grid item xs={12} sm={12} md={6} lg={6}>
-         
-        </Grid>
-      </Grid>
-    </Box>
+
   );
 }

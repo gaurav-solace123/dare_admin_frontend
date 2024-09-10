@@ -53,12 +53,34 @@ const date=getFormatedDate(selectedDate)
       setIsLoading(true);
       const result = await getData(`${Api.studentReports}${searchQuery}`); //
       if (result.status == 200) {
-        const response = result?.data;
+      //   const dumy=[
+      //     {
+      //         "language": "Spanish",
+      //         "name": "Elementary Spanish",
+      //         "totalStudents": 23,
+      //         "percentage": 40
+      //     },
+      //     {
+      //         "language": "French",
+      //         "name": "Elementary French",
+      //         "totalStudents": 23,
+      //         "percentage": 10
+      //     },
+      //     {
+      //         "language": "English",
+      //         "name": "Elementary English",
+      //         "totalStudents": 122,
+      //         "percentage": 50
+      //     }
+      // ]
+      //   const response = dumy.sort((a, b) => a.language.localeCompare(b.language));
+        const response = result?.data.sort((a, b) => a.language.localeCompare(b.language));
         const tempData = response.map((item) => ({label:`${item?.language} Regitered Students`,value:item?.totalStudents,percentage:item?.percentage}));
         const updatedData = tempData.map((item, index) => ({
           ...item,
           color: colors[index % colors.length]  // Use modulo to ensure index doesn't go out of bounds
         }));
+
         if(type=='Elementary'){
          
           setElementrySchoolData(updatedData)

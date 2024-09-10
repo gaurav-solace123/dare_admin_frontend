@@ -11,7 +11,7 @@ import {
   InputLabel,
   FormControl,
   Select,
-} from "@mui/material";
+  } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import useCustomToast from "../../hooks/CustomToastHook";
@@ -89,18 +89,23 @@ const AddEditUser = ({
     { value: "Student", label: "Student" },
     { value: "Instructor", label: "Instructor" },
   ];
+
+  //all states
   const [isLoading, setIsLoading] = React.useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isMailingAddres, setIsMailingAddress] = useState(false);
   const [isIntructerEdit, setIsInstructorEdit] = useState(false);
+  const [isGenerate,setIsGenerate]=useState(false)
+  const [isShowGeneratePassword,setIsShowGeneratedPassword]=useState(false)
+  //all functions
   const togglePasswordVisibility = (setShowPassword) => {
     setShowPassword((prev) => !prev);
   };
 
-  //all functions
   const handleNext = async () => {
     setIsInstructorEdit(false);
+    setIsGenerate(false)
     const fieldsToValidate = [
       "email",
       "password",
@@ -140,6 +145,7 @@ const AddEditUser = ({
 
       if (result?.status == 200) {
         const response = result?.data;
+        setIsGenerate(true)
         if (formikRef?.current) {
           if (response?.userRole == "Instructor") {
             setIsMailingAddress(false);
@@ -158,7 +164,18 @@ const AddEditUser = ({
     }
   };
   const generatePassword= async()=>{
- 
+    try {
+      // setIsLoading(true);
+      const result = await getData(`${Api?.viewUser}/${userId}`);
+
+      if (result?.status == 200) {
+          showToast(result?.message)
+          setIsGenerate(false)
+          setIsShowGeneratedPassword(true)
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
   //on submit functions
   const onSubmit = async (values) => {
@@ -225,7 +242,7 @@ const AddEditUser = ({
       console.error(error);
     }
   };
-  console.log("formik", formikRef);
+  
   //all useEffects
   useEffect(() => {
     if (userId) viewData();
@@ -375,18 +392,34 @@ const AddEditUser = ({
                             helperText={<ErrorMessage name="email" />}
                           />
                         </Grid>
-                         {userId&&<Grid item xs={6} p={"7px"}>
+                         {userId&&isGenerate&&<Grid item xs={6} p={"7px"}>
                         <Button
                           color="success"
                           variant="contained"
                           size="large"
                           fullWidth
+                          onClick={generatePassword}
                           type="button"
                           // disabled={isSubmitting}
                         >
                           Generate Password
                         </Button>
                       </Grid>}
+                      {isShowGeneratePassword && (
+    <Grid item xs={6} p={"7px"}>
+    <Typography
+      variant="subtitle1"
+      fontWeight={600}
+      component="label"
+      htmlFor="username"
+    >
+      Password 
+    </Typography>
+    <CustomTextField value='daretogo' disabled/>
+    
+  </Grid>
+  )}
+                     
                         {!userId&&
                         <>
                         <Grid item xs={6} p={"7px"}>
