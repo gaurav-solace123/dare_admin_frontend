@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 // import Table from '@mui/material/Table';
 
 import { Badge, Button, Drawer, Grid, IconButton, Modal, Typography } from '@mui/material';
-import StudentTable from './component/studentTable';
+import StudentTable from './component/StudentTable';
 
 import StudentForm from './component/StudentForm';
 

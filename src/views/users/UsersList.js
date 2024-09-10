@@ -170,6 +170,7 @@ export default function EnhancedTable() {
       clearTimeout(handler);
     };
   }, [searchTerm]);
+  console.log('first', searchTerm)
   React.useEffect(() => {
     
     const pagination = {

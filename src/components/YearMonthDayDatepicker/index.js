@@ -32,8 +32,8 @@ const UnifiedDatePicker = ({selectedDate=null,setSelectedDate,setFilter}) => {
     minDate: dayjs().subtract(20, "year"), // Limit to last 20 years
     maxDate: dayjs(), // Limit to current year or current date
     sx: { height: 'auto' },
-     open: isCalendarOpen, // Control the calendar open state
-    onClose: handleCloseCalendar,  // Custom styling if needed
+    //  open: isCalendarOpen, // Control the calendar open state
+    // onClose: handleCloseCalendar,  // Custom styling if needed
   };
 
   return (
