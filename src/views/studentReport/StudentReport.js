@@ -18,7 +18,7 @@ const [selectedDate, setSelectedDate] = useState(dayjs());
   const [filter,setFilter]=useState('day')
   const [isLoading, setIsLoading] = React.useState(false);
  
-
+const colors=['#B800D8','#2E96FF','#02B2AF']
   const [elementrySchoolData,setElementrySchoolData]= useState([])
   const [middleSchoolData,setMiddleSchoolDataSchoolData]= useState([])
 
@@ -54,11 +54,16 @@ const date=getFormatedDate(selectedDate)
       if (result.status == 200) {
         const response = result?.data;
         const tempData = response.map((item) => ({label:`${item?.language} Regitered Students`,value:item?.totalStudents,percentage:item?.percentage}));
+        const updatedData = tempData.map((item, index) => ({
+          ...item,
+          color: colors[index % colors.length]  // Use modulo to ensure index doesn't go out of bounds
+        }));
         if(type=='Elementary'){
-          setElementrySchoolData(tempData)
+         
+          setElementrySchoolData(updatedData)
         }
         else if(type=='Middle School'){
-           setMiddleSchoolDataSchoolData(tempData)
+           setMiddleSchoolDataSchoolData(updatedData)
         }
         setIsLoading(false);
       } else {

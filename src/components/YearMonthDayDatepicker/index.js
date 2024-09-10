@@ -15,7 +15,6 @@ const UnifiedDatePicker = ({selectedDate=null,setSelectedDate,setFilter,filter})
   
   };
 
-  console.log('activeTab', activeTab)
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
     setFilter(newValue)
