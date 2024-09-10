@@ -157,6 +157,9 @@ const AddEditUser = ({
       formikRef?.current.resetForm();
     }
   };
+  const generatePassword= async()=>{
+ 
+  }
   //on submit functions
   const onSubmit = async (values) => {
     const payload = {
@@ -372,7 +375,20 @@ const AddEditUser = ({
                             helperText={<ErrorMessage name="email" />}
                           />
                         </Grid>
-
+                         {userId&&<Grid item xs={6} p={"7px"}>
+                        <Button
+                          color="success"
+                          variant="contained"
+                          size="large"
+                          fullWidth
+                          type="button"
+                          // disabled={isSubmitting}
+                        >
+                          Generate Password
+                        </Button>
+                      </Grid>}
+                        {!userId&&
+                        <>
                         <Grid item xs={6} p={"7px"}>
                           <Typography
                             variant="subtitle1"
@@ -455,6 +471,8 @@ const AddEditUser = ({
                             }}
                           />
                         </Grid>
+                        </>
+                        }
                       </>
                     )}
 

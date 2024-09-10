@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import DashboardCard from "../../components/shared/DashboardCard";
 import MenuOption from "../dashboard/components/MenuOption";
@@ -12,6 +12,7 @@ import UnifiedDatePicker from "../../components/YearMonthDayDatepicker";
 import PDatePicker from "../../components/PDatePicker";
 import { getData } from "../../services/services";
 import dayjs from 'dayjs';
+import PieChartStudentReports from "./component/PieChartStudentReports";
 
 function StudentReport() {
 const [selectedDate, setSelectedDate] = useState(dayjs());
@@ -98,9 +99,9 @@ const date=getFormatedDate(selectedDate)
       ) : (
         <>
           <StudentReportPage
-            title={"Elementary Students Report"}
+            title={"Elementary"}
             action={
-              <>
+              <Box display={'flex'} justifyContent={'end'}>
               {/* <PDatePicker
                 label="Select a date"
                 selectedDate={selectedDate}
@@ -113,10 +114,18 @@ const date=getFormatedDate(selectedDate)
                 setFilter={setFilter}
                 filter={filter}
                 />
-                </>
+                </Box>
             }
           >
-            <PieArcLabel data={elementrySchoolData} size={{ height: 280 }} />
+                  <Grid container spacing={2} justifyContent="center">
+                  <Grid container item xs={12} spacing={2} mt={2} mx={"auto"}>
+            <Grid item xs={6} p={"7px"}>
+
+            <PieChartStudentReports data={elementrySchoolData} size={{ height: 280 }} />
+            </Grid>
+            <Grid item xs={6} p={"7px"}>
+
+            
             <Stack
               direction="row"
               spacing={2}
@@ -125,10 +134,13 @@ const date=getFormatedDate(selectedDate)
               mb={3}
             >
               <Box>
-                <Typography variant="h5">Middle Students Report</Typography>
+                <Typography variant="h5">Middle </Typography>
               </Box>
             </Stack>
-            <PieArcLabel data={middleSchoolData} size={{ height: 280 }} />
+            <PieChartStudentReports data={middleSchoolData} size={{ height: 280 }} />
+            </Grid>
+            </Grid>
+            </Grid>
           </StudentReportPage>
         </>
       )}

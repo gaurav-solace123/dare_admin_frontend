@@ -21,7 +21,11 @@ const StudentReportPage = ({
       elevation={9}
       variant={undefined}
     >
-       
+       <Box alignItems={'center'} display={'flex'} justifyContent={'center'} mt="20px">
+
+       <Typography variant="h3">Students Report</Typography>
+       </Box>
+       {action}
         <CardContent sx={{ p: "30px" }}>
           {title ? (
             <Stack
@@ -42,9 +46,10 @@ const StudentReportPage = ({
                   ''
                 )}
               </Box>
-              {action}
+              
             </Stack>
           ) : null}
+
 
           {children}
         </CardContent>
