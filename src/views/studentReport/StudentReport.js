@@ -32,7 +32,7 @@ const [selectedDate, setSelectedDate] = useState(null);
           formattedDate = date.format("DD-MM-YYYY"); // Format for day view
           break;
         case "month":
-          formattedDate = date.format("DD-MM"); // Format for month view
+          formattedDate = date.format("MM"); // Format for month view
           break;
         case "year":
           formattedDate = date.format("YYYY"); // Format for year view
