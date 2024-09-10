@@ -6,9 +6,9 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Tab, Tabs } from "@mui/material";
 import dayjs from "dayjs";
 
-const UnifiedDatePicker = ({selectedDate=null,setSelectedDate,setFilter}) => {
+const UnifiedDatePicker = ({selectedDate=null,setSelectedDate,setFilter,filter}) => {
   // const [selectedDate, setSelectedDate] = useState(null);
-  const [activeTab, setActiveTab] = useState("day"); // Default to 'day' tab
+  const [activeTab, setActiveTab] = useState(filter); // Default to 'day' tab
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const handleDateChange = (date) => {
     setSelectedDate(date);

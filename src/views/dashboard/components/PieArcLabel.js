@@ -54,7 +54,7 @@ export default function PieArcLabel({ data = [], size = sizes, sx }) {
                     bgcolor={item?.color}
                   ></Box>
                   <Typography fontWeight="700" variant="subtitle2" mb={0}>
-                    {`${item?.label}  - ${item?.value}`}
+                    {`${item?.label}  - #${item?.value}`}
                   </Typography>
                 </Box>
               ))}
