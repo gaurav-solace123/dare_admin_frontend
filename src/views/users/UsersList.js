@@ -326,8 +326,11 @@ export default function EnhancedTable() {
             onDrop={handleDrop}
             accept="image/svg+xml"
             userId={userId}
+            handleSvgClose={handleSvgClose}
+            showToast={showToast}
+            getListData={getListData}
           />
-          <Grid container spacing={2} justifyContent="center">
+          {/* <Grid container spacing={2} justifyContent="center">
             <Grid container item xs={12} spacing={2} mt={2} mx={"auto"}>
               <Grid item xs={6} p={"7px"}>
                 <Button
@@ -354,7 +357,7 @@ export default function EnhancedTable() {
                 </Button>
               </Grid>
             </Grid>
-          </Grid>
+          </Grid> */}
         </Box>
       </Modal>
       <ToastComponent />
