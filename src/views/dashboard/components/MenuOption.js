@@ -4,16 +4,11 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MenuIcon from '@mui/icons-material/Menu';
-const options = [
-  'Credits this Month',
-  'Credits this Quarter',
-  'Credits this Year',
- 
-];
+
 
 const ITEM_HEIGHT = 48;
 
-export default function MenuOption() {
+export default function MenuOption({options}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {

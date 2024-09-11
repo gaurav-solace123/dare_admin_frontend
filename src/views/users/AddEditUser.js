@@ -21,6 +21,7 @@ import Api from "../../services/constant";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import CustomTextField from "../../components/forms/theme-elements/CustomTextField";
 import Loader from "../../components/Loader";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { canadaProvinces, usStates } from "../../utils/Constant";
 import CustomSelect from "../../components/forms/theme-elements/CustomSelectField";
 
@@ -406,6 +407,8 @@ const AddEditUser = ({
                         </Button>
                       </Grid>}
                       {isShowGeneratePassword && (
+                        <>
+
     <Grid item xs={6} p={"7px"}>
     <Typography
       variant="subtitle1"
@@ -415,9 +418,32 @@ const AddEditUser = ({
     >
       Password 
     </Typography>
-    <CustomTextField value='daretogo' disabled/>
+    <CustomTextField value='daretogo' disabled InputProps={{
+                                        endAdornment: (
+                                            <IconButton
+                                                edge="end"
+                                                color="primary"
+                                                onClick={() => navigator.clipboard.writeText('daretogo')}
+                                            >
+                                                <ContentCopyIcon/>
+                                            </IconButton>
+                                        )
+                                    }}/>
     
   </Grid>
+  <Grid item xs={12} p={"7px"}>
+
+  <Typography
+        variant="body2"
+        color="green"
+        sx={{ mt: 2 }} 
+        display={'flex'}
+        justifyContent={'center'}
+      >
+        Password is successfully generated
+      </Typography>
+  </Grid>
+  </>
   )}
                      
                         {!userId&&
@@ -690,7 +716,7 @@ const AddEditUser = ({
                             name="mobileNumber"
                             variant="outlined"
                             typeValid="number"
-                            length={13}
+                            length={10}
                             fullWidth
                             InputProps={{
                               startAdornment: (

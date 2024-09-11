@@ -16,17 +16,12 @@ const StudentReportPage = ({
 
 
   return (
-    <Card
-      sx={sx?sx:{ padding: 0}}
-      elevation={9}
-      variant={undefined}
-    >
-       <Box alignItems={'center'} display={'flex'} justifyContent={'center'} mt="20px">
+    <>
 
-       <Typography variant="h3">Students Report</Typography>
-       </Box>
+      <Box marginTop={"30px"}>
+
        {action}
-        <CardContent sx={{ p: "30px" }}>
+        <CardContent  sx={{ p: "30px" }}>
           {title ? (
             <Stack
               direction="row"
@@ -36,7 +31,7 @@ const StudentReportPage = ({
               mb={3}
             >
               <Box>
-                {title ? <Typography variant="h5">{title}</Typography> : ''}
+                {/* {title ? <Typography variant="h5">{title}</Typography> : ''} */}
 
                 {subtitle ? (
                   <Typography variant="subtitle2" color="textSecondary">
@@ -52,12 +47,14 @@ const StudentReportPage = ({
 
 
           {children}
+         
         </CardContent>
+        </Box>
       
 
       {middlecontent}
       {footer}
-    </Card>
+    </>
   );
 };
 

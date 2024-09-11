@@ -22,7 +22,18 @@ const Dashboard = () => {
     { value: 55, label: 'Middle School' ,color:'#2e96ff',percentage:20},
     { value: 45, label: 'Elementary School',color:"#02b2af" ,percentage:40},
 ];
-
+const creaditOptions = [
+  'Credits this Month',
+  'Credits this Quarter',
+  'Credits YTD',
+ 
+];
+const sessionsOptions = [
+  'Sessions this Month',
+  'Sessions this Quarter',
+  'Sessions YTD',
+ 
+];
 const [isLoading, setIsLoading] = React.useState(false);
   return (
 
@@ -31,10 +42,10 @@ const [isLoading, setIsLoading] = React.useState(false);
       <Box>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={6} lg={6}>
-            <DigitalAdminPanel title={"Credits Activated By Level"} data={data}/>
+            <DigitalAdminPanel title={"Credits Activated By Level"} data={data} options={creaditOptions}/>
           </Grid>
           <Grid item xs={12} sm={6} md={6} lg={6}>
-            <DigitalAdminPanel title={"Sessions Activated by Level"} data={data}/>
+            <DigitalAdminPanel title={"Sessions Activated by Level"} data={data} options={sessionsOptions}/>
           </Grid>
           {/* <Grid item xs={12} lg={6}>
             <Box height="100%" display="flex" flexDirection="column">

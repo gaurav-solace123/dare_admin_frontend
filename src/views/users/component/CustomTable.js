@@ -15,8 +15,10 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { visuallyHidden } from "@mui/utils";
+import DowloadCSV from '../../../../public/icons/DownLoadCSV.png'
 import { NavLink, useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 // import { getData } from '../../services/services';
 // import Api from '../../services/constant';
@@ -26,6 +28,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { IconBellRinging } from "@tabler/icons-react";
 import InputBase from "@mui/material/InputBase";
 import Filter from "./Filter";
+import { Image } from "@mui/icons-material";
 
 function CustomTable({
   children,
@@ -166,7 +169,7 @@ setOrderBy
               color="secondary"
               key={headCell.id}
               //  align={headCell.numeric ? 'left' : 'right'}
-              align="center"
+              align="left"
               // style={{textAlign:'center'}}
               sortDirection={orderBy === headCell.id ? order : false}
             >
@@ -224,7 +227,7 @@ setOrderBy
             justifyContent: "end",
           }}
         >
-          <Tooltip title="Bulk Upload">
+          <Tooltip title=" Student Bulk Upload">
             <Button
               color="success"
               variant="contained"
@@ -237,7 +240,7 @@ setOrderBy
               <Typography sx={{ flex: "1 1 100%" }} variant="h6">
                 Student Bulk Upload
               </Typography>
-              <AddIcon />
+              {/* <AddIcon /> */}
             </Button>
           </Tooltip>
           <Tooltip title="Add User">
@@ -253,7 +256,28 @@ setOrderBy
               <Typography sx={{ flex: "1 1 100%" }} variant="h6">
                 Add User
               </Typography>
-              <AddIcon />
+              {/* <AddIcon /> */}
+            </Button>
+          </Tooltip>
+          <Tooltip title=" Download students details">
+            <Button
+              color="primary"
+              variant="contained"
+              size="large"
+              // sx={{ width: "50%" }}
+              type="button"
+              // disabled={isSubmitting}
+              // onClick={() => AddSvg()}
+            >
+              <Typography sx={{ flex: "1 1 100%" }} variant="h6">
+                Export
+              </Typography>
+              <FileDownloadIcon />
+              {/* <Image 
+      src={DowloadCSV}  // Replace with your image path
+      alt="Download CSV"
+      style={{ width: 24, marginLeft: 8 }}    // Adjust the style as needed
+    /> */}
             </Button>
           </Tooltip>
         </Box>
@@ -310,7 +334,7 @@ setOrderBy
                     }}
                   >
                     <TableCell
-                      align="center"
+                      align="left"
                       sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
                     >
                       <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
@@ -318,7 +342,7 @@ setOrderBy
                       </Typography>
                     </TableCell>
                     <TableCell
-                      align="center"
+                      align="left"
                       sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
                     >
                       <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
@@ -326,7 +350,7 @@ setOrderBy
                       </Typography>
                     </TableCell>
                     <TableCell
-                      align="center"
+                      align="left"
                       sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
                     >
                       <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
@@ -334,7 +358,7 @@ setOrderBy
                       </Typography>
                     </TableCell>
                     <TableCell
-                      align="center"
+                      align="left"
                       sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
                     >
                       <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
@@ -342,7 +366,7 @@ setOrderBy
                       </Typography>
                     </TableCell>
                     <TableCell
-                      align="center"
+                      align="left"
                       sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
                     >
                       <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
@@ -350,7 +374,7 @@ setOrderBy
                       </Typography>
                     </TableCell>
                     <TableCell
-                      align="center"
+                      align="left"
                       sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
                     >
                       <Tooltip

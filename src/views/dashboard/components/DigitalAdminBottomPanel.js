@@ -75,7 +75,7 @@ function DigitalAdminBottomPanel() {
         width={'35px'}
       />
               <Typography variant="caption" textAlign={'center'}>
-                Credits Sold by District 
+              Sessions Sold by District 
               </Typography>
             </Box>
             <Box display="flex" flexDirection="column" alignItems="center">
@@ -87,7 +87,7 @@ function DigitalAdminBottomPanel() {
         width={'35px'}
       />
               <Typography variant="caption" textAlign={'center'}>
-                Credits Sold by State 
+              Sessions Sold by State 
               </Typography>
             </Box>
           </Box>
