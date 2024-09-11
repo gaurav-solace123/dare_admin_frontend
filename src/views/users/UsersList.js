@@ -52,16 +52,17 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: "firstName", numeric: false, label: "Name" },
+  { id: "firstName", numeric: false, label: "First Name" },
+  { id: "lastName", numeric: false, label: "Last Name" },
   { id: "userRole", numeric: true, label: "Role" },
-  { id: "mobileNumber", numeric: true, label: "Mobile" },
+  { id: "mobileNumber", numeric: true, label: "Phone" },
   { id: "email", numeric: true, label: "Email" },
   { id: "username", numeric: true, label: "Username" },
 
   { id: "actions", numeric: true, label: "Actions" },
 ];
 
-export default function EnhancedTable() {
+export default function EnhancedTable({role=''}) {
   const [order, setOrder] = React.useState("desc");
   const [orderBy, setOrderBy] = React.useState("_created_at");
   const [page, setPage] = React.useState(1);
@@ -73,7 +74,7 @@ export default function EnhancedTable() {
   const [userId, setUserId] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState("");
-  const [userRole, setUserRole] = React.useState("");
+  const [userRole, setUserRole] = React.useState(role??"");
   const [openSvgForm, setOpenSvgFrom] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -112,12 +113,13 @@ export default function EnhancedTable() {
   function createData({
     _id,
     firstName,
+    lastName,
     userRole,
     mobileNumber,
     email,
     username,
   }) {
-    return { _id, firstName, userRole, mobileNumber, email, username };
+    return { _id, firstName,lastName, userRole, mobileNumber, email, username };
   }
   const getListData = async (
     filters = {
@@ -182,7 +184,7 @@ export default function EnhancedTable() {
       sortOrder: order,
     };
     getListData(pagination);
-  }, [page, rowsPerPage, userRole,order,orderBy,debouncedSearchTerm]);
+  }, [page, rowsPerPage, userRole,order,orderBy,debouncedSearchTerm,role]);
   return (
     <>
       {isLoading ? (
@@ -217,7 +219,7 @@ export default function EnhancedTable() {
               component="label"
               htmlFor="mailingAddress"
             >
-              Users
+              {`${role}s`}
             </Typography>
           </Box>
           {/* <InputBase
@@ -234,6 +236,7 @@ export default function EnhancedTable() {
       /> */}
           <CustomTable
             Title={""}
+            role={role}
             totalCount={totalCount}
             setTotalCount={setTotalCount}
             headers={headCells}

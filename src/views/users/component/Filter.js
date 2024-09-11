@@ -17,6 +17,7 @@ function Filter({
   userRole,
   handleChangeSearch,
   setSearchTerm,
+  role,
   searchTerm,
   getListData,
 }) {
@@ -125,7 +126,8 @@ function Filter({
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={userRole}
+          value={role?role:userRole?userRole:''}
+          disabled={role}
           label={TitleForDropDown}
           onChange={handleChangeDropDown}
           sx={{

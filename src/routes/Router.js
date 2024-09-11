@@ -46,8 +46,8 @@ const Router = [
         path: '/users/edit-user',
         element: <PrivateRoute element={<AddEditUser />} />
       },
-      { path: '/studentmanagement', exact: true, element: <PrivateRoute element={<UsersList />}/> },
-      { path: '/instructormanagement', exact: true, element: <PrivateRoute element={<UsersList />}/> },
+      { path: '/student-management', exact: true, element: <PrivateRoute element={<UsersList role='Student' key="student"/>}/> },
+      { path: '/instructor-management', exact: true, element: <PrivateRoute element={<UsersList role='Instructor'key="instructor" />}/> },
       { path: '/studentReport', exact: true, element: <PrivateRoute element={<StudentReport />}/> },
       { path: '/middleStudentReport', exact: true, element: <PrivateRoute element={<Middle />}/> },
       { path: '/sample-page', element: <SamplePage /> },

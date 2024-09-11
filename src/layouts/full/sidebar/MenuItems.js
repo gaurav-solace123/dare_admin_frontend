@@ -44,13 +44,13 @@ const Menuitems = [
     id: uniqueId(),
     title: 'Student Management',
     icon: IconLayoutDashboard,
-    href: '/studentmanagement',
+    href: '/student-management',
   },
   {
     id: uniqueId(),
     title: 'Instructor Management',
     icon: IconUserPlus,
-    href: '/instructormanagement',
+    href: '/instructor-management',
   },
   // {
   //   navlabel: true,

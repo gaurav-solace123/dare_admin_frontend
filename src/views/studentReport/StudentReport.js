@@ -78,7 +78,7 @@ function StudentReport() {
           a.language.localeCompare(b.language)
         );
         const tempData = response.map((item) => ({
-          label: `${item?.language} Regitered Students`,
+          label: `${item?.language} Workbook Students`,
           value: item?.totalStudents,
           percentage: Math.round(item?.percentage),
         }));

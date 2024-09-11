@@ -32,6 +32,7 @@ import { Image } from "@mui/icons-material";
 
 function CustomTable({
   children,
+  role,
   Title,
   headers,
   setRowsPerPage,
@@ -218,6 +219,7 @@ setOrderBy
           searchTerm={searchTerm}
           userRole={userRole}
           setUserRole={setUserRole}
+          role={role}
         />
         <Box
           sx={{
@@ -227,7 +229,7 @@ setOrderBy
             justifyContent: "end",
           }}
         >
-          <Tooltip title=" Student Bulk Upload">
+         {role!=='Instructor' &&<Tooltip title=" Student Bulk Upload">
             <Button
               color="success"
               variant="contained"
@@ -242,7 +244,7 @@ setOrderBy
               </Typography>
               {/* <AddIcon /> */}
             </Button>
-          </Tooltip>
+          </Tooltip>}
           <Tooltip title="Add User">
             <Button
               color="info"
@@ -259,7 +261,7 @@ setOrderBy
               {/* <AddIcon /> */}
             </Button>
           </Tooltip>
-          <Tooltip title=" Download students details">
+          {role!=='Instructor'&&<Tooltip title=" Download students details">
             <Button
               color="primary"
               variant="contained"
@@ -279,7 +281,7 @@ setOrderBy
       style={{ width: 24, marginLeft: 8 }}    // Adjust the style as needed
     /> */}
             </Button>
-          </Tooltip>
+          </Tooltip>}
         </Box>
       </Toolbar>
     );
@@ -339,6 +341,14 @@ setOrderBy
                     >
                       <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
                         {row?.firstName}
+                      </Typography>
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
+                    >
+                      <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
+                        {row?.lastName}
                       </Typography>
                     </TableCell>
                     <TableCell
