@@ -7,6 +7,7 @@ import StudentReport from '../views/studentReport/StudentReport';
 import PrivateRoute from './PrivateRoute';
 import Middle from '../views/studentReport/MiddleSchool';
 import InstructorReport from '../views/instructor_report';
+import StudentDetails from '../views/users/students/StudentDetails';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -48,7 +49,7 @@ const Router = [
         element: <PrivateRoute element={<AddEditUser />} />
       },
       { path: '/student-management', exact: true, element: <PrivateRoute element={<UsersList role='Student' key="student"/>}/> },
-      { path: '/student-details', exact: true, element: <PrivateRoute element={<UsersList role='Student' key="student"/>}/> },
+      { path: '/student-details', exact: true, element: <PrivateRoute element={<StudentDetails/>}/> },
       { path: '/instructor-management', exact: true, element: <PrivateRoute element={<UsersList role='Instructor'key="instructor" />}/> },
       { path: '/facilator-management', exact: true, element: <PrivateRoute element={<UsersList role='Facilitator'key="facilitator" />}/> },
       { path: '/student-report', exact: true, element: <PrivateRoute element={<StudentReport />}/> },

@@ -65,7 +65,7 @@ setOrderBy
   // const [listData, setListData] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false);
   // const [totalCount, setTotalCount] = React.useState('')
-
+  const navigate= useNavigate()
   const dropDownData = [
     { label: "All", value: "" },
     { label: "Student", value: "Student" },
@@ -245,7 +245,7 @@ setOrderBy
               {/* <AddIcon /> */}
             </Button>
           </Tooltip>}
-          <Tooltip title="Add User">
+          <Tooltip title={`Add ${role?role:'User'}`}>
             <Button
               color="info"
               variant="contained"
@@ -388,10 +388,16 @@ setOrderBy
                       sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
                     >
                       <Tooltip
-                        title="Edit user"
+                        title={`Edit ${role?role:'User'}`}
                         onClick={() => {
-                          onAddClick();
-                          setUserId(row?._id);
+                          if(role=='Student'){
+                            navigate('/student-details')
+                          }
+                          else{
+
+                            onAddClick();
+                            setUserId(row?._id);
+                          }
                         }}
                       >
                         <EditIcon sx={{ cursor: "pointer" }} />
