@@ -239,7 +239,7 @@ setOrderBy
               // disabled={isSubmitting}
               onClick={() => AddSvg()}
             >
-              <Typography sx={{ flex: "1 1 100%" }} variant="h6">
+              <Typography sx={{ flex: "1 1 100%", fontSize:'18px' }} variant="h6">
                 Student Bulk Upload
               </Typography>
               {/* <AddIcon /> */}
@@ -256,7 +256,7 @@ setOrderBy
               onClick={() => onAddClick()}
             >
               <Typography sx={{ flex: "1 1 100%" }} variant="h6">
-                Add User
+                Add {role?role:'User'}
               </Typography>
               {/* <AddIcon /> */}
             </Button>

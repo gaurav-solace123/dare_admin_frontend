@@ -219,7 +219,7 @@ export default function EnhancedTable({role=''}) {
               component="label"
               htmlFor="mailingAddress"
             >
-              {`${role}s`}
+              {`${role?role:'User'}s`}
             </Typography>
           </Box>
           {/* <InputBase
@@ -294,6 +294,7 @@ export default function EnhancedTable({role=''}) {
             userId={userId}
             getListData={getListData}
             showToast={showToast}
+            role={role}
           />
         </Box>
       </Modal>
