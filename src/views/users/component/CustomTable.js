@@ -229,7 +229,7 @@ setOrderBy
             justifyContent: "end",
           }}
         >
-         {role!=='Instructor' &&<Tooltip title=" Student Bulk Upload">
+         {role==='Student' &&<Tooltip title=" Student Bulk Upload">
             <Button
               color="success"
               variant="contained"
@@ -261,7 +261,7 @@ setOrderBy
               {/* <AddIcon /> */}
             </Button>
           </Tooltip>
-          {role!=='Instructor'&&<Tooltip title=" Download students details">
+          {role==='Student'&&<Tooltip title=" Download students details">
             <Button
               color="primary"
               variant="contained"
@@ -351,14 +351,14 @@ setOrderBy
                         {row?.lastName}
                       </Typography>
                     </TableCell>
-                    <TableCell
+                    {/* <TableCell
                       align="left"
                       sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
                     >
                       <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
                         {row?.userRole}
                       </Typography>
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell
                       align="left"
                       sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}

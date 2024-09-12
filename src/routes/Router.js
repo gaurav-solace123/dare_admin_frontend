@@ -6,6 +6,7 @@ import ResetPassword from '../views/authentication/ResetPassword';
 import StudentReport from '../views/studentReport/StudentReport';
 import PrivateRoute from './PrivateRoute';
 import Middle from '../views/studentReport/MiddleSchool';
+import InstructorReport from '../views/instructor_report';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -47,8 +48,11 @@ const Router = [
         element: <PrivateRoute element={<AddEditUser />} />
       },
       { path: '/student-management', exact: true, element: <PrivateRoute element={<UsersList role='Student' key="student"/>}/> },
+      { path: '/student-details', exact: true, element: <PrivateRoute element={<UsersList role='Student' key="student"/>}/> },
       { path: '/instructor-management', exact: true, element: <PrivateRoute element={<UsersList role='Instructor'key="instructor" />}/> },
-      { path: '/studentReport', exact: true, element: <PrivateRoute element={<StudentReport />}/> },
+      { path: '/facilator-management', exact: true, element: <PrivateRoute element={<UsersList role='Facilitator'key="facilitator" />}/> },
+      { path: '/student-report', exact: true, element: <PrivateRoute element={<StudentReport />}/> },
+      { path: '/instructor-report', exact: true, element: <PrivateRoute element={<InstructorReport />}/> },
       { path: '/middleStudentReport', exact: true, element: <PrivateRoute element={<Middle />}/> },
       { path: '/sample-page', element: <SamplePage /> },
       { path: '/icons', element: <Icons /> },

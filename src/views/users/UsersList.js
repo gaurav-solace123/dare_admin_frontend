@@ -54,7 +54,7 @@ function stableSort(array, comparator) {
 const headCells = [
   { id: "firstName", numeric: false, label: "First Name" },
   { id: "lastName", numeric: false, label: "Last Name" },
-  { id: "userRole", numeric: true, label: "Role" },
+  // { id: "userRole", numeric: true, label: "Role" },
   { id: "mobileNumber", numeric: true, label: "Phone" },
   { id: "email", numeric: true, label: "Email" },
   { id: "username", numeric: true, label: "Username" },
@@ -173,7 +173,7 @@ export default function EnhancedTable({role=''}) {
     };
   }, [searchTerm]);
   console.log('first', searchTerm)
-  React.useEffect(() => {
+  useEffect(() => {
     
     const pagination = {
       page,

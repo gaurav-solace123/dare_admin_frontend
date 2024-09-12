@@ -22,7 +22,10 @@ function StudentReport() {
 	const colors = ["#74D3AE", "#DDBDD5", "#52D1DC"];
 	const [elementrySchoolData, setElementrySchoolData] = useState([]);
 	const [middleSchoolData, setMiddleSchoolDataSchoolData] = useState([]);
-
+ const calendarTabs=[
+        {value:"day", label:"Day"},
+{value:"month", label:"Month"},
+{value:"year", label:"Year"},]
 	const getFormatedDate = (date) => {
 		let formattedDate;
 
@@ -169,6 +172,7 @@ function StudentReport() {
 										setSelectedDate={setSelectedDate}
 										setFilter={setFilter}
 										filter={filter}
+										calendarTabs={calendarTabs}
 									/>
 								</Box>
 							}
@@ -201,7 +205,7 @@ function StudentReport() {
 										}
 									>
 										<Typography variant="h3" align="center">
-											Middle School{" "}
+											Middle School
 										</Typography>
 
 										<PieChartStudentReports

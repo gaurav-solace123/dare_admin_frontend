@@ -289,7 +289,7 @@ const AddEditUser = ({
                   <Grid container width={"100%"}>
                     {!isMailingAddres && (
                       <>
-                        <Grid item xs={12} p={"7px"}>
+                        {/* <Grid item xs={12} p={"7px"}>
                           <Typography
                             variant="subtitle1"
                             fontWeight={600}
@@ -311,7 +311,7 @@ const AddEditUser = ({
                             error={touched.userRole && Boolean(errors.userRole)}
                             helperText={<ErrorMessage name="userRole" />}
                           />
-                        </Grid>
+                        </Grid> */}
                         <Grid item xs={6} p={"7px"}>
                           <Typography
                             variant="subtitle1"
