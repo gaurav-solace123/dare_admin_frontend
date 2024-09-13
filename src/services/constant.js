@@ -3,6 +3,7 @@ const Api = {
     userLogin:'/auth/login',
     forgotPassword:'/auth/forgot-password',
     resetPassword:'/auth/reset-password',
+    generatePassword:'/users/reset-password-of-user',
     verifyToken:'/auth/verify-password-token',
     createUser:'/users/create',
     viewUser:'/users/view',

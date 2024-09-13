@@ -298,7 +298,15 @@ export default function EnhancedTable({role=''}) {
           />
         </Box>
       </Modal>
-
+      {/* <CustomModal open={open} handleClose={handleClose}>
+        <AddEditUser
+          cancel={handleClose}
+          userId={userId}
+          getListData={getListData}
+          showToast={showToast}
+          role={role}
+        />
+      </CustomModal> */}
       <Modal
         open={openSvgForm}
         onClose={handleSvgClose}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useId, useRef, useState } from "react";
 import {
   Box,
   Typography,
@@ -100,6 +100,7 @@ const AddEditUser = ({
   const [isIntructerEdit, setIsInstructorEdit] = useState(false);
   const [isGenerate, setIsGenerate] = useState(false);
   const [isShowGeneratePassword, setIsShowGeneratedPassword] = useState(false);
+  const [successMsg,setSuccessMsg]= useState('')
   //all functions
   const togglePasswordVisibility = (setShowPassword) => {
     setShowPassword((prev) => !prev);
@@ -167,11 +168,16 @@ const AddEditUser = ({
   };
   const generatePassword = async () => {
     try {
+      const payload ={
+        userId
+      }
       // setIsLoading(true);
-      const result = await getData(`${Api?.viewUser}/${userId}`);
+      const result = await postData(Api?.viewUser,payload);
 
       if (result?.status == 200) {
-        showToast(result?.message);
+        // showToast(result?.message);
+        // showToast(result?.message);
+        setSuccessMsg(result?.message)
         setIsGenerate(false);
         setIsShowGeneratedPassword(true);
       }
@@ -355,7 +361,7 @@ const AddEditUser = ({
                           />
                         </Grid>
 
-                        <Grid item xs={6} p={"7px"}>
+                        {!userId&&<Grid item xs={6} p={"7px"}>
                           <Typography
                             variant="subtitle1"
                             fontWeight={600}
@@ -374,7 +380,7 @@ const AddEditUser = ({
                             error={touched.username && Boolean(errors.username)}
                             helperText={<ErrorMessage name="username" />}
                           />
-                        </Grid>
+                        </Grid>}
 
                         <Grid item xs={6} p={"7px"}>
                           <Typography
@@ -396,11 +402,13 @@ const AddEditUser = ({
                           />
                         </Grid>
                         {userId && isGenerate && (
-                          <Grid item xs={6} p={"7px"}>
+                          <Grid item xs={6}  p={"20px"}>
+                            {/* <Typography>dd</Typography> */}
                             <Button
                               color="success"
                               variant="contained"
                               size="large"
+                        
                               fullWidth
                               onClick={generatePassword}
                               type="button"
@@ -449,7 +457,8 @@ const AddEditUser = ({
                                 display={"flex"}
                                 justifyContent={"center"}
                               >
-                                Password is successfully generated
+                                {successMsg}
+                                {/* Password is successfully generated */}
                               </Typography>
                             </Grid>
                           </>

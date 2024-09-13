@@ -17,35 +17,33 @@ import { visuallyHidden } from "@mui/utils";
 // import Api from '../../services/constant';
 import EditIcon from "@mui/icons-material/Edit";
 import InputBase from "@mui/material/InputBase";
-import {
-    Modal,
-    TextField,
-    Button
-  } from '@mui/material';
+import { Modal, TextField, Button, IconButton, Grid } from "@mui/material";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import CustomSelect from "../../../components/forms/theme-elements/CustomSelectField";
 function SessionReassignMentTable({
   children,
   role,
   Title,
-//   setRowsPerPage,
-//   setPage,
-  listData=[],
+  //   setRowsPerPage,
+  //   setPage,
+  listData = [],
   tableFields,
   setUserId,
   headers,
 
-//   totalCount,
+  //   totalCount,
   setTotalCountgetListData,
-//   rowsPerPage,
-//   page,
+  //   rowsPerPage,
+  //   page,
   userRole,
   searchTerm,
   setUserRole,
   setSearchTerm,
-//   orderBy,
-//   getListData,
-// order,
-// setOrder,
-// setOrderBy
+  //   orderBy,
+  //   getListData,
+  // order,
+  // setOrder,
+  // setOrderBy
 }) {
   const [row, setRow] = React.useState(listData ? listData : []);
   const [order, setOrder] = React.useState("desc");
@@ -60,23 +58,49 @@ function SessionReassignMentTable({
   // const [userRole,setUserRole]=React.useState('')
   // const [listData, setListData] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false);
-  const [totalCount, setTotalCount] = React.useState('')
+  const [totalCount, setTotalCount] = React.useState("");
+  const sessionData = [
+    {
+      sessionCode: "F042J",
+      sessionName: "Judy Room",
+      instructorName: "John Doe"
+    },
+    {
+      sessionCode: "5ZLY9",
+      sessionName: "BT 220",
+      instructorName: "Jane Smith"
+    },
+    {
+      sessionCode: "285U0",
+      sessionName: "Homeschool AE",
+      instructorName: "Mark Johnson"
+    },
+    {
+      sessionCode: "A34KL",
+      sessionName: "Virtual Class 101",
+      instructorName: "Emily Davis"
+    },
+    {
+      sessionCode: "7YU53",
+      sessionName: "Lab Room 3",
+      instructorName: "Michael Brown"
+    }
+  ];
 
-
-   
+  const sessionArray= sessionData.map(item=>({label:`${item.sessionCode} ${item.sessionName}`}))
   const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 500,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    borderRadius: "5px",
     boxShadow: 24,
-    p: 4,
+    p: 2,
   };
-  
-  
+
   // React.useEffect(()=>{
   //  const pageIndex =page==0?1:page
   //   const pagination={
@@ -125,7 +149,7 @@ function SessionReassignMentTable({
               //  align={headCell.numeric ? 'left' : 'right'}
               align="left"
               // style={{textAlign:'center'}}
-              sx={{whiteSpace:"nowrap"}}
+              sx={{ whiteSpace: "nowrap" }}
               sortDirection={orderBy === headCell.id ? order : false}
             >
               <TableSortLabel
@@ -152,7 +176,6 @@ function SessionReassignMentTable({
     );
   }
 
- 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -160,11 +183,11 @@ function SessionReassignMentTable({
   };
 
   // const handleChangePage = (event, newPage) => {
-   
+
   //   setPage(page + newPage);
   // };
   const handleChangePage = (event, newPage) => {
-    setPage(newPage + 1);  // Adjust for 1-indexed page state
+    setPage(newPage + 1); // Adjust for 1-indexed page state
   };
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -184,7 +207,6 @@ function SessionReassignMentTable({
     <div>
       <Box sx={{ width: "100%" }}>
         <Paper sx={{ width: "100%", mb: 2 }}>
-          
           <TableContainer sx={{ borderRadius: "3px" }}>
             <Table>
               <EnhancedTableHead
@@ -193,37 +215,52 @@ function SessionReassignMentTable({
                 onRequestSort={handleRequestSort}
               />
               <TableBody>
-              {visibleRows.map((row) => (
-  <TableRow
-    key={row._id}
-    sx={{
-      "&:last-child td, &:last-child th": { border: 0 },
-      borderBottom: "1px solid rgba(224, 224, 224, 1)",
-    }}
-  >
-    {tableFields.map((field) => (
-      <TableCell
-        key={field}
-        // sx={{}}
-        align="left"
-        sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" ,whiteSpace:"nowrap"}}
-      >
-        <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
-          {row?.[field]}
-        </Typography>
-      </TableCell>
-    ))}
-    <TableCell
+                {visibleRows.map((row) => (
+                  <TableRow
+                    key={row._id}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                    }}
+                  >
+                    {tableFields.map((field) => (
+                      <TableCell
+                        key={field}
+                        // sx={{}}
+                        align="left"
+                        sx={{
+                          borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "1 1 100%" }}
+                          variant="tableText"
+                        >
+                          {row?.[field]}
+                        </Typography>
+                      </TableCell>
+                    ))}
+                    <TableCell
                       align="left"
                       sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
                     >
-                      <Typography sx={{ flex: "1 1 100%", cursor:'pointer'}} variant="tableText" onClick={handleOpen}>
-                      Re-Assign
-                      </Typography>
-                    </TableCell>
-  </TableRow>
-))}
+                        <Tooltip
+                            title={'Re-Assign'}
+                            onClick={handleOpen}
+                          >
 
+                      <Typography
+                        sx={{ flex: "1 1 100%", cursor: "pointer" }}
+                        variant="tableText"
+                        
+                        >
+                        Re-Assign
+                      </Typography>
+                          </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </TableContainer>
@@ -245,9 +282,22 @@ function SessionReassignMentTable({
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
       >
-
-        
         <Box sx={style}>
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+              color: "#0055a4", // Default color
+              "&:hover": {
+                color: "red", // Change color to green on hover
+              },
+            }}
+          >
+            {/* <CloseIcon /> */}X
+          </IconButton>
           <Typography id="modal-title" variant="h6" component="h2">
             Re-assign Session
           </Typography>
@@ -256,44 +306,75 @@ function SessionReassignMentTable({
             <Typography variant="subtitle1" component="p">
               Current Session Details
             </Typography>
-            <Typography variant="body1">
-              Session Code - Session Name
-            </Typography>
-            <Typography variant="body1">
-              Instructor Name
-            </Typography>
+            <Typography variant="body1">Session Code - Session Name</Typography>
+            <Typography variant="body1">Instructor Name</Typography>
           </Box>
+          <Formik
+            initialValues={{
+              firstName: "",
+              
+            }}
+            // validationSchema={validationSchema}
+            // onSubmit={onSubmit}
+            // innerRef={formikRef}
+          >
+            {({ touched, errors, isSubmitting, values, handleChange }) => (
+              <Form>
+          <Grid item xs={12} p={"7px"}>
+            <Typography
+              variant="subtitle1"
+              fontWeight={600}
+              component="label"
+              htmlFor="userRole"
+            >
+              Select session to re-assign with
+              <span style={{ color: "red" }}>*</span>
+            </Typography>
 
-          <Box mt={2}>
-            <Typography>Select session to re-assign with</Typography>
-            <Box display="flex" alignItems="center" mt={1}>
-              <TextField
-                label="Session Code - Session Name"
+            <Field
+              as={CustomSelect}
+              id="userRole"
+              name="userRole"
+              label="Select your Session"
+              displayEmpty
+              // disabled={role}
+              options={sessionArray}
+              // error={touched.userRole && Boolean(errors.userRole)}
+              helperText={<ErrorMessage name="userRole" />}
+            />
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={6} p={"7px"}>
+              <Button
+                color="secondary"
                 variant="outlined"
+                size="large"
                 fullWidth
-              />
-              <Button variant="contained" sx={{ ml: 2 }}>
-                Session
+                type="button"
+                //   onClick={() => {
+                //     // Handle cancel
+                //     cancel();
+                //     // navigate('/users');
+                //   }}
+              >
+                Cancel
               </Button>
-            </Box>
-          </Box> 
-
-          <Box mt={4} display="flex" justifyContent="space-between">
-            <Button
-              variant="contained"
-              color="success"
-              onClick={handleClose}
-            >
-              Reassign
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={handleClose}
-            >
-              Cancel
-            </Button>
-          </Box>
+            </Grid>
+            <Grid item xs={6} p={"7px"}>
+              <Button
+                color="primary"
+                variant="contained"
+                size="large"
+                fullWidth
+                type="submit"
+                //   disabled={isSubmitting}
+              >
+                Reassign
+              </Button>
+            </Grid>
+          </Grid>
+          </Form>)}
+          </Formik>
         </Box>
       </Modal>
     </div>
