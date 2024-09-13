@@ -5,109 +5,119 @@ import dayjs from "dayjs";
 import InstructorReportTable from "./InstructorReportTable";
 
 function InstructorReport() {
-    //constant
-    const instructorCreditActivityReport = [
-        {
-          instructorName: "John Doe",
-          date: "2023-09-01",
-          activityType: "Purchase",
-          creditsPurchased: 200,
-          creditsTransferredIn: 0,
-          creditsTransferredOut: 0,
-          remainingCredits: 200,
-          transferredTo: "N/A",
-          transferredFrom: "N/A"
-        },
-        {
-          instructorName: "John Doe",
-          date: "2023-09-05",
-          activityType: "Transfer Out",
-          creditsPurchased: 0,
-          creditsTransferredIn: 0,
-          creditsTransferredOut: 50,
-          remainingCredits: 150,
-          transferredTo: "Instructor A",
-          transferredFrom: "N/A"
-        },
-        {
-          instructorName: "John Doe",
-          date: "2023-09-10",
-          activityType: "Purchase",
-          creditsPurchased: 100,
-          creditsTransferredIn: 0,
-          creditsTransferredOut: 0,
-          remainingCredits: 250,
-          transferredTo: "N/A",
-          transferredFrom: "N/A"
-        },
-        {
-          instructorName: "John Doe",
-          date: "2023-09-12",
-          activityType: "Transfer In",
-          creditsPurchased: 0,
-          creditsTransferredIn: 30,
-          creditsTransferredOut: 0,
-          remainingCredits: 280,
-          transferredTo: "N/A",
-          transferredFrom: "Instructor B"
-        },
-        {
-          instructorName: "John Doe",
-          date: "2023-09-15",
-          activityType: "Transfer Out",
-          creditsPurchased: 0,
-          creditsTransferredIn: 0,
-          creditsTransferredOut: 60,
-          remainingCredits: 220,
-          transferredTo: "Instructor C",
-          transferredFrom: "N/A"
-        },
-        {
-          instructorName: "John Doe",
-          date: "2023-09-18",
-          activityType: "Purchase",
-          creditsPurchased: 150,
-          creditsTransferredIn: 0,
-          creditsTransferredOut: 0,
-          remainingCredits: 370,
-          transferredTo: "N/A",
-          transferredFrom: "N/A"
-        },
-        {
-          instructorName: "Jane Smith",
-          date: "2023-09-02",
-          activityType: "Purchase",
-          creditsPurchased: 150,
-          creditsTransferredIn: 0,
-          creditsTransferredOut: 0,
-          remainingCredits: 150,
-          transferredTo: "N/A",
-          transferredFrom: "N/A"
-        },
-        {
-          instructorName: "Jane Smith",
-          date: "2023-09-07",
-          activityType: "Transfer In",
-          creditsPurchased: 0,
-          creditsTransferredIn: 50,
-          creditsTransferredOut: 0,
-          remainingCredits: 200,
-          transferredTo: "N/A",
-          transferredFrom: "Instructor D"
-        }
-      ];
-      
-      const tableFields =["instructorName","date","activityType","creditsPurchased","creditsTransferredIn", "creditsTransferredOut", "remainingCredits", "transferredTo", "transferredTo"]
-	
-    const calendarTabs=[
-{value:"month", label:"Month"},
-{value:"quarter", label:"Quarter"},
-{value:"year", label:"Year"},
-    ]
-      //all states
-      const [selectedDate, setSelectedDate] = useState(dayjs());
-	const [filter, setFilter] = useState("month");
-    const [listData,setListData]=useState(instructorCreditActivityReport)
+  //constant
+  const instructorCreditActivityReport = [
+    {
+      instructorName: "John Doe",
+      date: "2023-09-01",
+      activityType: "Purchase",
+      creditsPurchased: 200,
+      creditsTransferredIn: 0,
+      creditsTransferredOut: 0,
+      remainingCredits: 200,
+      transferredTo: "N/A",
+      transferredFrom: "N/A",
+    },
+    {
+      instructorName: "John Doe",
+      date: "2023-09-05",
+      activityType: "Transfer Out",
+      creditsPurchased: 0,
+      creditsTransferredIn: 0,
+      creditsTransferredOut: 50,
+      remainingCredits: 150,
+      transferredTo: "Instructor A",
+      transferredFrom: "N/A",
+    },
+    {
+      instructorName: "John Doe",
+      date: "2023-09-10",
+      activityType: "Purchase",
+      creditsPurchased: 100,
+      creditsTransferredIn: 0,
+      creditsTransferredOut: 0,
+      remainingCredits: 250,
+      transferredTo: "N/A",
+      transferredFrom: "N/A",
+    },
+    {
+      instructorName: "John Doe",
+      date: "2023-09-12",
+      activityType: "Transfer In",
+      creditsPurchased: 0,
+      creditsTransferredIn: 30,
+      creditsTransferredOut: 0,
+      remainingCredits: 280,
+      transferredTo: "N/A",
+      transferredFrom: "Instructor B",
+    },
+    {
+      instructorName: "John Doe",
+      date: "2023-09-15",
+      activityType: "Transfer Out",
+      creditsPurchased: 0,
+      creditsTransferredIn: 0,
+      creditsTransferredOut: 60,
+      remainingCredits: 220,
+      transferredTo: "Instructor C",
+      transferredFrom: "N/A",
+    },
+    {
+      instructorName: "John Doe",
+      date: "2023-09-18",
+      activityType: "Purchase",
+      creditsPurchased: 150,
+      creditsTransferredIn: 0,
+      creditsTransferredOut: 0,
+      remainingCredits: 370,
+      transferredTo: "N/A",
+      transferredFrom: "N/A",
+    },
+    {
+      instructorName: "Jane Smith",
+      date: "2023-09-02",
+      activityType: "Purchase",
+      creditsPurchased: 150,
+      creditsTransferredIn: 0,
+      creditsTransferredOut: 0,
+      remainingCredits: 150,
+      transferredTo: "N/A",
+      transferredFrom: "N/A",
+    },
+    {
+      instructorName: "Jane Smith",
+      date: "2023-09-07",
+      activityType: "Transfer In",
+      creditsPurchased: 0,
+      creditsTransferredIn: 50,
+      creditsTransferredOut: 0,
+      remainingCredits: 200,
+      transferredTo: "N/A",
+      transferredFrom: "Instructor D",
+    },
+  ];
+
+  const tableFields = [
+    "instructorName",
+    "date",
+    "activityType",
+    "creditsPurchased",
+    "creditsTransferredIn",
+    "creditsTransferredOut",
+    "remainingCredits",
+    "transferredTo",
+    "transferredTo",
+  ];
+
+  const calendarTabs = [
+    { value: "month", label: "Month" },
+    { value: "quarter", label: "Quarter" },
+    { value: "year", label: "Year" },
+  ];
+  //all states
+  const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [filter, setFilter] = useState("month");
+  const [listData, setListData] = useState(instructorCreditActivityReport);
   return (
     <>
       <Box
@@ -141,35 +151,36 @@ function InstructorReport() {
             Instructor Report
           </Typography>
         </Box>
-        <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} marginBottom={'10px'}>
-
-        
-        <InputBase
-        sx={{
-          border: "1px solid grey", // Adds a border to all sides
-          paddingX: "5px", // Padding inside the input
-          paddingY: "2px",
-          borderRadius: "4px", // Optional: Adds rounded corners
-          width:"50%"
-        }}
-        //  value={searchTerm}
-        //  onChange={(e)=>handleChangeSearch(e?.target?.value)}
-        placeholder="Search"
-      />
-        <Box display={"flex"} justifyContent={"end"}>
-								
-									<UnifiedDatePicker
-										label="Select a date"
-										selectedDate={selectedDate}
-										setSelectedDate={setSelectedDate}
-										setFilter={setFilter}
-										filter={filter}
-                                        calendarTabs={calendarTabs}
-									/>
-								</Box>
-                                </Box>
-                                <InstructorReportTable listData={listData} tableFields={tableFields}/>
-                                
+        <Box
+          display={"flex"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+          marginBottom={"10px"}
+        >
+          <InputBase
+            sx={{
+              border: "1px solid grey", // Adds a border to all sides
+              paddingX: "5px", // Padding inside the input
+              paddingY: "2px",
+              borderRadius: "4px", // Optional: Adds rounded corners
+              width: "50%",
+            }}
+            //  value={searchTerm}
+            //  onChange={(e)=>handleChangeSearch(e?.target?.value)}
+            placeholder="Search"
+          />
+          <Box display={"flex"} justifyContent={"end"}>
+            <UnifiedDatePicker
+              label="Select a date"
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+              setFilter={setFilter}
+              filter={filter}
+              calendarTabs={calendarTabs}
+            />
+          </Box>
+        </Box>
+        <InstructorReportTable listData={listData} tableFields={tableFields} />
       </Box>
     </>
   );

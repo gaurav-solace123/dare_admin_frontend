@@ -15,10 +15,10 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { visuallyHidden } from "@mui/utils";
-import DowloadCSV from '../../../../public/icons/DownLoadCSV.png'
+import DowloadCSV from "../../../../public/icons/DownLoadCSV.png";
 import { NavLink, useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 // import { getData } from '../../services/services';
 // import Api from '../../services/constant';
@@ -28,7 +28,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { IconBellRinging } from "@tabler/icons-react";
 import InputBase from "@mui/material/InputBase";
 import Filter from "./Filter";
-import { Image } from "@mui/icons-material";
+import { Image, Visibility } from "@mui/icons-material";
 
 function CustomTable({
   children,
@@ -51,9 +51,9 @@ function CustomTable({
   setSearchTerm,
   orderBy,
   getListData,
-order,
-setOrder,
-setOrderBy
+  order,
+  setOrder,
+  setOrderBy,
 }) {
   const [row, setRow] = React.useState(listData ? listData : []);
   // const [order, setOrder] = React.useState("desc");
@@ -65,7 +65,7 @@ setOrderBy
   // const [listData, setListData] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false);
   // const [totalCount, setTotalCount] = React.useState('')
-  const navigate= useNavigate()
+  const navigate = useNavigate();
   const dropDownData = [
     { label: "All", value: "" },
     { label: "Student", value: "Student" },
@@ -207,7 +207,7 @@ setOrderBy
             {Title}
           </Typography>
         )}
-       {children}
+        {children}
 
         <Filter
           TitleForDropDown={"Role"}
@@ -229,23 +229,28 @@ setOrderBy
             justifyContent: "end",
           }}
         >
-         {role==='Student' &&<Tooltip title=" Student Bulk Upload">
-            <Button
-              color="success"
-              variant="contained"
-              size="large"
-              // sx={{ width: "50%" }}
-              type="submit"
-              // disabled={isSubmitting}
-              onClick={() => AddSvg()}
-            >
-              <Typography sx={{ flex: "1 1 100%", fontSize:'18px' }} variant="h6">
-                Student Bulk Upload
-              </Typography>
-              {/* <AddIcon /> */}
-            </Button>
-          </Tooltip>}
-          <Tooltip title={`Add ${role?role:'User'}`}>
+          {role === "Student" && (
+            <Tooltip title=" Student Bulk Upload">
+              <Button
+                color="success"
+                variant="contained"
+                size="large"
+                // sx={{ width: "50%" }}
+                type="submit"
+                // disabled={isSubmitting}
+                onClick={() => AddSvg()}
+              >
+                <Typography
+                  sx={{ flex: "1 1 100%", fontSize: "18px" }}
+                  variant="h6"
+                >
+                  Student Bulk Upload
+                </Typography>
+                {/* <AddIcon /> */}
+              </Button>
+            </Tooltip>
+          )}
+          <Tooltip title={`Add ${role ? role : "User"}`}>
             <Button
               color="info"
               variant="contained"
@@ -256,32 +261,34 @@ setOrderBy
               onClick={() => onAddClick()}
             >
               <Typography sx={{ flex: "1 1 100%" }} variant="h6">
-                Add {role?role:'User'}
+                Add {role ? role : "User"}
               </Typography>
               {/* <AddIcon /> */}
             </Button>
           </Tooltip>
-          {role==='Student'&&<Tooltip title=" Download students details">
-            <Button
-              color="primary"
-              variant="contained"
-              size="large"
-              // sx={{ width: "50%" }}
-              type="button"
-              // disabled={isSubmitting}
-              // onClick={() => AddSvg()}
-            >
-              <Typography sx={{ flex: "1 1 100%" }} variant="h6">
-                Export
-              </Typography>
-              <FileDownloadIcon />
-              {/* <Image 
+          {role === "Student" && (
+            <Tooltip title=" Download students details">
+              <Button
+                color="primary"
+                variant="contained"
+                size="large"
+                // sx={{ width: "50%" }}
+                type="button"
+                // disabled={isSubmitting}
+                // onClick={() => AddSvg()}
+              >
+                <Typography sx={{ flex: "1 1 100%" }} variant="h6">
+                  Export
+                </Typography>
+                <FileDownloadIcon />
+                {/* <Image 
       src={DowloadCSV}  // Replace with your image path
       alt="Download CSV"
       style={{ width: 24, marginLeft: 8 }}    // Adjust the style as needed
     /> */}
-            </Button>
-          </Tooltip>}
+              </Button>
+            </Tooltip>
+          )}
         </Box>
       </Toolbar>
     );
@@ -294,11 +301,11 @@ setOrderBy
   };
 
   // const handleChangePage = (event, newPage) => {
-   
+
   //   setPage(page + newPage);
   // };
   const handleChangePage = (event, newPage) => {
-    setPage(newPage + 1);  // Adjust for 1-indexed page state
+    setPage(newPage + 1); // Adjust for 1-indexed page state
   };
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -387,21 +394,33 @@ setOrderBy
                       align="left"
                       sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
                     >
-                      <Tooltip
-                        title={`Edit ${role?role:'User'}`}
-                        onClick={() => {
-                          if(role=='Student'){
-                            navigate('/student-details')
-                          }
-                          else{
+                      <Box display={"flex"} justifyContent={'flex-start'}>
+                        <Box>
+                          <Tooltip
+                            title={`Edit ${role ? role : "User"}`}
+                            onClick={() => {
+                              onAddClick();
+                              setUserId(row?._id);
+                            }}
+                          >
+                            <EditIcon sx={{ cursor: "pointer" }} />
+                          </Tooltip>
+                        </Box>
+                        <Box marginLeft={'10px'}>
+                          <Tooltip
+                            title={'Preview'}
+                            onClick={() => {
+                              onAddClick();
+                              setUserId(row?._id);
+                            }}
+                          >
+                            <NavLink to={'/student-details'} style={{ color: 'inherit', textDecoration: 'none' }}>
+                            <Visibility sx={{ cursor: "pointer" }} />
 
-                            onAddClick();
-                            setUserId(row?._id);
-                          }
-                        }}
-                      >
-                        <EditIcon sx={{ cursor: "pointer" }} />
-                      </Tooltip>
+                            </NavLink>
+                          </Tooltip>
+                        </Box>
+                      </Box>
                     </TableCell>
                   </TableRow>
                 ))}
