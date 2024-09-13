@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Box } from "@mui/material";
+import { Grid, Box, Typography } from "@mui/material";
 import PageContainer from "src/components/container/PageContainer";
 
 // components
@@ -37,6 +37,35 @@ const Dashboard = () => {
 				<Loader />
 			) : (
 				<Box>
+					<Grid container spacing={3} mb={2}>
+						{/* <Grid item xs={12} lg={6} pt={0}>
+							
+						</Grid> */}
+
+						<Grid display="flex" gap="20px" item xs={12} lg={6} pt={0}>
+							<Typography variant="h5" component="h6">
+								Total Unassigned Credits
+							</Typography>
+							<Box
+								display="flex"
+								flexDirection="row"
+								alignItems="center"
+								gap={3}
+								flexGrow={1}
+							>
+								<Box
+									component="section"
+									sx={{ p: 2, border: "1px dashed grey", width: "100%" }}
+									textAlign="center"
+									fontSize={20}
+									fontWeight="bold"
+								>
+									5,231
+								</Box>
+							</Box>
+						</Grid>
+					</Grid>
+
 					<Grid container spacing={3}>
 						<Grid item xs={12} sm={6} md={6} lg={6}>
 							<DigitalAdminPanel
