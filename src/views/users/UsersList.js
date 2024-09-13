@@ -130,7 +130,6 @@ export default function EnhancedTable({role=''}) {
     },search=''
 
   ) => {
-    // debugger
     let searchQuery = `?page=${filters?.page}&limit=${filters?.rowsPerPage}`;
     delete filters.page;
     delete filters.rowsPerPage;

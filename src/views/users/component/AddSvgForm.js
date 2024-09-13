@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { Box, Grid, List, ListItem, ListItemText, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import { getData, postData } from "../../../services/services";
 import Api from "../../../services/constant";
@@ -58,9 +58,7 @@ function AddSvgForm({
    
 
     const formData = new FormData();
-    debugger
-    // formData.append("file", selectedFiles);
-    // Append each selected file to the FormData object
+    
     Array.from(selectedFiles).forEach((file) => {
       formData.append('file', file); // 'files' is the key expected by the backend
     });

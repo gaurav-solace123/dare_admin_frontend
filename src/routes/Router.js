@@ -1,84 +1,118 @@
-import React, { lazy } from 'react';
-import { Navigate } from 'react-router-dom';
-import Loadable from '../layouts/full/shared/loadable/Loadable';
-import ForgotPassword from '../views/authentication/ForgotPassword';
-import ResetPassword from '../views/authentication/ResetPassword';
-import StudentReport from '../views/studentReport/StudentReport';
-import PrivateRoute from './PrivateRoute';
-import Middle from '../views/studentReport/MiddleSchool';
-import InstructorReport from '../views/instructor_report';
-import StudentPreview from '../views/users/students/StudentPreview';
+import React, { lazy } from "react";
+import { Navigate } from "react-router-dom";
+import Loadable from "../layouts/full/shared/loadable/Loadable";
+
 
 /* ***Layouts**** */
-const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
-const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')));
+const FullLayout = Loadable(lazy(() => import("../layouts/full/FullLayout")));
+const BlankLayout = Loadable(
+  lazy(() => import("../layouts/blank/BlankLayout"))
+);
 
 /* ****Pages***** */
-const Dashboard = Loadable(lazy(() => import('../views/dashboard/Dashboard')))
-const UsersList = Loadable(lazy(() => import('../views/users/UsersList')))
-const AddEditUser = Loadable(lazy(() => import('../views/users/AddEditUser')))
-const SamplePage = Loadable(lazy(() => import('../views/sample-page/SamplePage')))
-const Icons = Loadable(lazy(() => import('../views/icons/Icons')))
-const TypographyPage = Loadable(lazy(() => import('../views/utilities/TypographyPage')))
-const Shadow = Loadable(lazy(() => import('../views/utilities/Shadow')))
-const Error = Loadable(lazy(() => import('../views/authentication/Error')));
-const Register = Loadable(lazy(() => import('../views/authentication/Register')));
-const Login = Loadable(lazy(() => import('../views/authentication/Login')));
-const StudentManagement = Loadable(lazy(() => import('../views/studentManagement/StudentManagement')));
-const InstructorManagement = Loadable(lazy(() => import('../views/instructorManagement/InstructorManagement')));
+const Dashboard = Loadable(lazy(() => import("../views/dashboard/Dashboard")));
+const UsersList = Loadable(lazy(() => import("../views/users/UsersList")));
+const AddEditUser = Loadable(lazy(() => import("../views/users/AddEditUser")));
+const ForgotPassword = Loadable(
+  lazy(() => import("../views/authentication/ForgotPassword"))
+);
+const ResetPassword = Loadable(
+  lazy(() => import("../views/authentication/ResetPassword"))
+);
+const StudentReport = Loadable(
+  lazy(() => import("../views/studentReport/StudentReport"))
+);
+const PrivateRoute = Loadable(lazy(() => import("./PrivateRoute")));
+const InstructorReport = Loadable(
+  lazy(() => import("../views/instructor_report"))
+);
+const StudentPreview = Loadable(
+  lazy(() => import("../views/users/students/StudentPreview"))
+);
+
+const Error = Loadable(lazy(() => import("../views/authentication/Error")));
+const Login = Loadable(lazy(() => import("../views/authentication/Login")));
 const Router = [
   {
-    path: '/',
+    path: "/",
     element: <FullLayout />,
     children: [
-      { path: '/', element: <Navigate to="/dashboard" /> },
+      { path: "/", element: <Navigate to="/dashboard" /> },
       {
-        path: '/dashboard',
-        element: <PrivateRoute element={<Dashboard />} />
+        path: "/dashboard",
+        element: <PrivateRoute element={<Dashboard />} />,
       },
       {
-        path: '/users',
-        element: <PrivateRoute element={<UsersList />} />
+        path: "/users",
+        element: <PrivateRoute element={<UsersList />} />,
       },
       {
-        path: '/users/add-user',
-        element: <PrivateRoute element={<AddEditUser />} />
+        path: "/users/add-user",
+        element: <PrivateRoute element={<AddEditUser />} />,
       },
       {
-        path: '/users/edit-user',
-        element: <PrivateRoute element={<AddEditUser />} />
+        path: "/users/edit-user",
+        element: <PrivateRoute element={<AddEditUser />} />,
       },
-      { path: '/student-management', exact: true, element: <PrivateRoute element={<UsersList role='Student' key="student"/>}/> },
-      { path: '/student-details', exact: true, element: <PrivateRoute element={<StudentPreview/>}/> },
-      { path: '/instructor-management', exact: true, element: <PrivateRoute element={<UsersList role='Instructor'key="instructor" />}/> },
-      { path: '/facilator-management', exact: true, element: <PrivateRoute element={<UsersList role='Facilitator'key="facilitator" />}/> },
-      { path: '/student-report', exact: true, element: <PrivateRoute element={<StudentReport />}/> },
-      { path: '/instructor-report', exact: true, element: <PrivateRoute element={<InstructorReport />}/> },
-      { path: '/middleStudentReport', exact: true, element: <PrivateRoute element={<Middle />}/> },
-      { path: '/sample-page', element: <SamplePage /> },
-      { path: '/icons', element: <Icons /> },
-      { path: '/ui/typography', element: <TypographyPage /> },
-      { path: '/ui/shadow', element: <Shadow /> },
-      { path: '*', element: <Navigate to="/auth/404" /> },
+      {
+        path: "/student-management",
+        exact: true,
+        element: (
+          <PrivateRoute element={<UsersList role="Student" key="student" />} />
+        ),
+      },
+      {
+        path: "/student-details",
+        exact: true,
+        element: <PrivateRoute element={<StudentPreview />} />,
+      },
+      {
+        path: "/instructor-management",
+        exact: true,
+        element: (
+          <PrivateRoute
+            element={<UsersList role="Instructor" key="instructor" />}
+          />
+        ),
+      },
+      {
+        path: "/facilator-management",
+        exact: true,
+        element: (
+          <PrivateRoute
+            element={<UsersList role="Facilitator" key="facilitator" />}
+          />
+        ),
+      },
+      {
+        path: "/student-report",
+        exact: true,
+        element: <PrivateRoute element={<StudentReport />} />,
+      },
+      {
+        path: "/instructor-report",
+        exact: true,
+        element: <PrivateRoute element={<InstructorReport />} />,
+      },
+
+      { path: "*", element: <Navigate to="/auth/404" /> },
     ],
   },
   {
-    path: '/auth',
+    path: "/auth",
     element: <BlankLayout />,
     children: [
-      { path: '404', element: <Error /> },
-      { path: '/auth/register', element: <Register /> },
-      { path: '/auth/login', element: <Login /> },
+      { path: "404", element: <Error /> },
+      { path: "/auth/login", element: <Login /> },
       {
-        path: '/auth/forgot-password/:token',
+        path: "/auth/forgot-password/:token",
         element: <ResetPassword />,
       },
-      { path: '/auth/forgotPassword', element: <ForgotPassword /> },
-      { path: '/auth/resetPassword', element: <ResetPassword /> },
-      { path: '*', element: <Navigate to="/auth/404" /> },
+      { path: "/auth/forgotPassword", element: <ForgotPassword /> },
+      { path: "/auth/resetPassword", element: <ResetPassword /> },
+      { path: "*", element: <Navigate to="/auth/404" /> },
     ],
   },
 ];
 
 export default Router;
-
