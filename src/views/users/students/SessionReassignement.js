@@ -246,11 +246,11 @@ function SessionReassignMentTable({
         aria-describedby="modal-description"
       >
 
-<Typography fontWeight="700" variant="h2" mb={1}>
-Re-assign Session
-            </Typography>
+        
         <Box sx={style}>
-          
+          <Typography id="modal-title" variant="h6" component="h2">
+            Re-assign Session
+          </Typography>
 
           <Box mt={2}>
             <Typography variant="subtitle1" component="p">
