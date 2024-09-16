@@ -154,7 +154,7 @@ function InstructorReport() {
         <Box
           display={"flex"}
           justifyContent={"space-between"}
-          alignItems={"center"}
+          alignItems={"end"}
           marginBottom={"10px"}
         >
           <InputBase
@@ -164,6 +164,7 @@ function InstructorReport() {
               paddingY: "2px",
               borderRadius: "4px", // Optional: Adds rounded corners
               width: "50%",
+              height:'53px'
             }}
             //  value={searchTerm}
             //  onChange={(e)=>handleChangeSearch(e?.target?.value)}
