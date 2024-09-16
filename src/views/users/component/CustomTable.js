@@ -19,6 +19,9 @@ import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import Filter from "./Filter";
 import { Visibility } from "@mui/icons-material";
+import Api from "../../../services/constant";
+import { getData } from "src/services/services";
+import commonFunc from "../../../utils/common";
 
 function CustomTable({
   children,
@@ -63,7 +66,7 @@ function CustomTable({
     const createSortHandler = (property) => (event) => {
       onRequestSort(event, property);
     };
-
+   
     return (
       <TableHead
         style={{ backgroundColor: "#d9edf7", borderRadius: "0 0 10px 2" }}
@@ -101,7 +104,14 @@ function CustomTable({
   }
 
   function EnhancedTableToolbar() {
-
+    const downLoadSampleCSVFile = async () => {
+      try {
+        let searchQuery = `?page=${page}&limit=${rowsPerPage}`;
+        const result = await getData(`${Api.studentExport}${searchQuery}`);
+        commonFunc.DownloadCSV(result, "Student Details");
+        console.log("result", result);
+      } catch (error) {}
+    };
     return (
       <Toolbar>
         {Title && (
@@ -169,6 +179,7 @@ function CustomTable({
                 variant="contained"
                 size="large"
                 type="button"
+                onClick={downLoadSampleCSVFile}
                
               >
                 <Typography sx={{ flex: "1 1 100%" }} variant="h6">

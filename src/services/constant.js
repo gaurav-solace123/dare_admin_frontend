@@ -14,9 +14,8 @@ const Api = {
     bulkUplaod:"/upload/bulk-upload-students",
     bulkSampleFile:"/upload/sample-csv",
     // Student Report
-    studentReports:'/users/student-report-chart'
-
-
+    studentReports:'/users/student-report-chart',
+    studentExport:'/users/export-student'
 };
 
 export default Api;

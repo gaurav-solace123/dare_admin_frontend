@@ -1,4 +1,4 @@
-import { Box, Tab, Tabs } from "@mui/material";
+import { Box, Tab, Tabs, Typography } from "@mui/material";
 import React, { useState } from "react";
 import StudentDetails from "./StudentDetails";
 import SessionReassignMentTable from "./SessionReassignement";
@@ -44,7 +44,37 @@ function StudentPreview() {
         <Tab  value={'student_details'} label='Student Details' />
         <Tab  value={'sessions_reassignment'} label={'Sessions Reassignment'} />
       </Tabs> */}
-
+	  <Box
+        sx={{
+          border: "2px solid",
+          color: "#0055a4",
+          padding: 2,
+          position: "relative",
+          borderRadius: 2,
+        }}
+      >
+ <Box
+          sx={{
+            position: "absolute",
+            top: "-12px", // Adjust this to make the text overlap more or less with the border
+            left: "16px",
+            backgroundColor: "#fff",
+            padding: "0 8px",
+            display: "inline-block",
+            // color: 'red', // To match the border color
+            fontSize: "24px",
+            fontWeight: "bold",
+          }}
+        >
+          <Typography
+            variant="h7"
+            fontWeight={600}
+            component="label"
+            htmlFor="mailingAddress"
+          >
+            Student Details
+          </Typography>
+        </Box>
 			{activeTab === "student_details" && <StudentDetails />}
 			{activeTab === "sessions_reassignment" && (
 				<Box mx="20px">
@@ -55,6 +85,7 @@ function StudentPreview() {
 					/>
 				</Box>
 			)}
+			</Box>
 		</>
 	);
 }

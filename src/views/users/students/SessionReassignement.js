@@ -63,31 +63,33 @@ function SessionReassignMentTable({
     {
       sessionCode: "F042J",
       sessionName: "Judy Room",
-      instructorName: "John Doe"
+      instructorName: "John Doe",
     },
     {
       sessionCode: "5ZLY9",
       sessionName: "BT 220",
-      instructorName: "Jane Smith"
+      instructorName: "Jane Smith",
     },
     {
       sessionCode: "285U0",
       sessionName: "Homeschool AE",
-      instructorName: "Mark Johnson"
+      instructorName: "Mark Johnson",
     },
     {
       sessionCode: "A34KL",
       sessionName: "Virtual Class 101",
-      instructorName: "Emily Davis"
+      instructorName: "Emily Davis",
     },
     {
       sessionCode: "7YU53",
       sessionName: "Lab Room 3",
-      instructorName: "Michael Brown"
-    }
+      instructorName: "Michael Brown",
+    },
   ];
 
-  const sessionArray= sessionData.map(item=>({label:`${item.sessionCode} ${item.sessionName}`}))
+  const sessionArray = sessionData.map((item) => ({
+    label: `${item.sessionCode} ${item.sessionName}`,
+  }));
   const style = {
     position: "absolute",
     top: "50%",
@@ -245,19 +247,18 @@ function SessionReassignMentTable({
                       align="left"
                       sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
                     >
-                        <Tooltip
-                            title={'Re-Assign'}
-                            onClick={handleOpen}
-                          >
-
-                      <Typography
-                        sx={{ flex: "1 1 100%", cursor: "pointer" }}
-                        variant="tableText"
-                        
+                      <Tooltip title={"Re-Assign"} onClick={handleOpen}>
+                        <Button
+                          color="primary"
+                          variant="contained"
+                          size="large"
+                          type="button"
                         >
-                        Re-Assign
-                      </Typography>
-                          </Tooltip>
+                          <Typography sx={{ flex: "1 1 100%" }} variant="h6">
+                            Re-Assign
+                          </Typography>
+                        </Button>
+                      </Tooltip>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -298,7 +299,8 @@ function SessionReassignMentTable({
           >
             {/* <CloseIcon /> */}X
           </IconButton>
-          <Typography id="modal-title" variant="h6" component="h2">
+          <Typography id="modal-title" variant="h6" component="h2"  color={'#0055A3'} fontSize={'24px'} fontWeight={600}
+           sx={{ display:'flex',justifyContent:'center' }}>
             Re-assign Session
           </Typography>
 
@@ -306,13 +308,11 @@ function SessionReassignMentTable({
             <Typography variant="subtitle1" component="p">
               Current Session Details
             </Typography>
-            <Typography variant="body1">Session Code - Session Name</Typography>
-            <Typography variant="body1">Instructor Name</Typography>
+            <Typography variant="body1">Session Code - Session Name -Instructor Name</Typography>
           </Box>
           <Formik
             initialValues={{
               firstName: "",
-              
             }}
             // validationSchema={validationSchema}
             // onSubmit={onSubmit}
@@ -320,60 +320,61 @@ function SessionReassignMentTable({
           >
             {({ touched, errors, isSubmitting, values, handleChange }) => (
               <Form>
-          <Grid item xs={12} p={"7px"}>
-            <Typography
-              variant="subtitle1"
-              fontWeight={600}
-              component="label"
-              htmlFor="userRole"
-            >
-              Select session to re-assign with
-              <span style={{ color: "red" }}>*</span>
-            </Typography>
+                <Grid item xs={12} p={"7px"} mb={"20px"}>
+                  <Typography
+                    variant="subtitle1"
+                    fontWeight={600}
+                    component="label"
+                    htmlFor="userRole"
+                  >
+                    Select session to re-assign with
+                    <span style={{ color: "red" }}>*</span>
+                  </Typography>
 
-            <Field
-              as={CustomSelect}
-              id="userRole"
-              name="userRole"
-              label="Select your Session"
-              displayEmpty
-              // disabled={role}
-              options={sessionArray}
-              // error={touched.userRole && Boolean(errors.userRole)}
-              helperText={<ErrorMessage name="userRole" />}
-            />
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={6} p={"7px"}>
-              <Button
-                color="secondary"
-                variant="outlined"
-                size="large"
-                fullWidth
-                type="button"
-                //   onClick={() => {
-                //     // Handle cancel
-                //     cancel();
-                //     // navigate('/users');
-                //   }}
-              >
-                Cancel
-              </Button>
-            </Grid>
-            <Grid item xs={6} p={"7px"}>
-              <Button
-                color="primary"
-                variant="contained"
-                size="large"
-                fullWidth
-                type="submit"
-                //   disabled={isSubmitting}
-              >
-                Reassign
-              </Button>
-            </Grid>
-          </Grid>
-          </Form>)}
+                  <Field
+                    as={CustomSelect}
+                    id="userRole"
+                    name="userRole"
+                    label="Select your Session"
+                    displayEmpty
+                    // disabled={role}
+                    options={sessionArray}
+                    // error={touched.userRole && Boolean(errors.userRole)}
+                    helperText={<ErrorMessage name="userRole" />}
+                  />
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xs={6} p={"7px"}>
+                    <Button
+                      color="secondary"
+                      variant="outlined"
+                      size="large"
+                      fullWidth
+                      type="button"
+                      //   onClick={() => {
+                      //     // Handle cancel
+                      //     cancel();
+                      //     // navigate('/users');
+                      //   }}
+                    >
+                      Cancel
+                    </Button>
+                  </Grid>
+                  <Grid item xs={6} p={"7px"}>
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      size="large"
+                      fullWidth
+                      type="submit"
+                      //   disabled={isSubmitting}
+                    >
+                      Reassign
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Form>
+            )}
           </Formik>
         </Box>
       </Modal>

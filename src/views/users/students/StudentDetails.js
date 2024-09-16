@@ -35,11 +35,11 @@ function StudentDetails() {
 
 	return (
 		<>
-			<Grid container mt={2} spacing={3}>
+			<Grid container mt={1} spacing={1}>
 				<Grid item xs={12} sm={12} md={12} lg={12}>
-					<Typography variant="h6" component="h6" mb={2}>
+					{/* <Typography variant="h6" component="h6" mb={2}>
 						Student Details
-					</Typography>
+					</Typography> */}
 					<Card>
 						<CardContent>
 							<Box display="flex" gap="15px">
