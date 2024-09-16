@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useId, useRef, useState } from "react";
 import {
   Box,
   Typography,
@@ -21,6 +21,7 @@ import Api from "../../services/constant";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import CustomTextField from "../../components/forms/theme-elements/CustomTextField";
 import Loader from "../../components/Loader";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { canadaProvinces, usStates } from "../../utils/Constant";
 import CustomSelect from "../../components/forms/theme-elements/CustomSelectField";
 
@@ -30,6 +31,7 @@ const AddEditUser = ({
   subtext,
   cancel,
   userId,
+  role,
   getListData,
   showToast = () => {},
 }) => {
@@ -74,7 +76,7 @@ const AddEditUser = ({
     // .matches(postalCodeRegex, "Invalid postal code format")
   });
 
-  const {  ToastComponent } = useCustomToast();
+  const { ToastComponent } = useCustomToast();
   const countryStateMapping = {
     US: usStates,
     Canada: canadaProvinces,
@@ -89,18 +91,24 @@ const AddEditUser = ({
     { value: "Student", label: "Student" },
     { value: "Instructor", label: "Instructor" },
   ];
+
+  //all states
   const [isLoading, setIsLoading] = React.useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isMailingAddres, setIsMailingAddress] = useState(false);
   const [isIntructerEdit, setIsInstructorEdit] = useState(false);
+  const [isGenerate, setIsGenerate] = useState(false);
+  const [isShowGeneratePassword, setIsShowGeneratedPassword] = useState(false);
+  const [successMsg,setSuccessMsg]= useState('')
+  //all functions
   const togglePasswordVisibility = (setShowPassword) => {
     setShowPassword((prev) => !prev);
   };
 
-  //all functions
   const handleNext = async () => {
     setIsInstructorEdit(false);
+    setIsGenerate(false);
     const fieldsToValidate = [
       "email",
       "password",
@@ -140,6 +148,7 @@ const AddEditUser = ({
 
       if (result?.status == 200) {
         const response = result?.data;
+        setIsGenerate(true);
         if (formikRef?.current) {
           if (response?.userRole == "Instructor") {
             setIsMailingAddress(false);
@@ -155,6 +164,25 @@ const AddEditUser = ({
   const clearData = () => {
     if (formikRef?.current) {
       formikRef?.current.resetForm();
+    }
+  };
+  const generatePassword = async () => {
+    try {
+      const payload ={
+        userId
+      }
+      // setIsLoading(true);
+      const result = await postData(Api?.viewUser,payload);
+
+      if (result?.status == 200) {
+        // showToast(result?.message);
+        // showToast(result?.message);
+        setSuccessMsg(result?.message)
+        setIsGenerate(false);
+        setIsShowGeneratedPassword(true);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
   //on submit functions
@@ -207,22 +235,22 @@ const AddEditUser = ({
 
       if (result?.status == 200 || result?.status == 201) {
         //   showToast("Success", result?.message, "success");
-        showToast( result?.message);
+        showToast(result?.message);
         cancel();
         setIsLoading(false);
         setIsInstructorEdit(false);
         getListData();
-        
-    setIsMailingAddress(false);
+
+        setIsMailingAddress(false);
       } else {
         setIsLoading(false);
-        showToast(result?.message,"error");
+        showToast(result?.message, "error");
       }
     } catch (error) {
       console.error(error);
     }
   };
-  console.log("formik", formikRef);
+
   //all useEffects
   useEffect(() => {
     if (userId) viewData();
@@ -236,7 +264,7 @@ const AddEditUser = ({
         <>
           {title ? (
             <Typography fontWeight="700" variant="h2" mb={1}>
-              {userId ? "Edit user" : "Add user"}
+              {userId ? `Edit ${role??'user'}` : `Add ${role??'user'}`}
             </Typography>
           ) : null}
 
@@ -250,7 +278,7 @@ const AddEditUser = ({
               email: "",
               password: "",
               confirmPassword: "",
-              userRole: "",
+              userRole: role??"",
               _id: userId ?? "",
               organization: "",
               mobileNumber: "",
@@ -267,7 +295,7 @@ const AddEditUser = ({
                   <Grid container width={"100%"}>
                     {!isMailingAddres && (
                       <>
-                        <Grid item xs={12} p={"7px"}>
+                        {/* <Grid item xs={12} p={"7px"}>
                           <Typography
                             variant="subtitle1"
                             fontWeight={600}
@@ -284,11 +312,12 @@ const AddEditUser = ({
                             name="userRole"
                             label="Select your role"
                             displayEmpty
+                            disabled={role}
                             options={roleOptions}
                             error={touched.userRole && Boolean(errors.userRole)}
                             helperText={<ErrorMessage name="userRole" />}
                           />
-                        </Grid>
+                        </Grid> */}
                         <Grid item xs={6} p={"7px"}>
                           <Typography
                             variant="subtitle1"
@@ -332,7 +361,7 @@ const AddEditUser = ({
                           />
                         </Grid>
 
-                        <Grid item xs={6} p={"7px"}>
+                        {!userId&&<Grid item xs={6} p={"7px"}>
                           <Typography
                             variant="subtitle1"
                             fontWeight={600}
@@ -351,7 +380,7 @@ const AddEditUser = ({
                             error={touched.username && Boolean(errors.username)}
                             helperText={<ErrorMessage name="username" />}
                           />
-                        </Grid>
+                        </Grid>}
 
                         <Grid item xs={6} p={"7px"}>
                           <Typography
@@ -372,89 +401,165 @@ const AddEditUser = ({
                             helperText={<ErrorMessage name="email" />}
                           />
                         </Grid>
+                        {userId && isGenerate && (
+                          <Grid item xs={6}  p={"20px"}>
+                            {/* <Typography>dd</Typography> */}
+                            <Button
+                              color="success"
+                              variant="contained"
+                              size="large"
+                        
+                              fullWidth
+                              onClick={generatePassword}
+                              type="button"
+                              // disabled={isSubmitting}
+                            >
+                              Generate Password
+                            </Button>
+                          </Grid>
+                        )}
+                        {isShowGeneratePassword && (
+                          <>
+                            <Grid item xs={6} p={"7px"}>
+                              <Typography
+                                variant="subtitle1"
+                                fontWeight={600}
+                                component="label"
+                                htmlFor="username"
+                              >
+                                Password
+                              </Typography>
+                              <CustomTextField
+                                value="daretogo"
+                                disabled
+                                InputProps={{
+                                  endAdornment: (
+                                    <IconButton
+                                      edge="end"
+                                      color="primary"
+                                      onClick={() =>
+                                        navigator.clipboard.writeText(
+                                          "daretogo"
+                                        )
+                                      }
+                                    >
+                                      <ContentCopyIcon />
+                                    </IconButton>
+                                  ),
+                                }}
+                              />
+                            </Grid>
+                            <Grid item xs={12} p={"7px"}>
+                              <Typography
+                                variant="body2"
+                                color="green"
+                                sx={{ mt: 2 }}
+                                display={"flex"}
+                                justifyContent={"center"}
+                              >
+                                {successMsg}
+                                {/* Password is successfully generated */}
+                              </Typography>
+                            </Grid>
+                          </>
+                        )}
 
-                        <Grid item xs={6} p={"7px"}>
-                          <Typography
-                            variant="subtitle1"
-                            fontWeight={600}
-                            component="label"
-                            htmlFor="password"
-                          >
-                            Password
-                            {!userId && <span style={{ color: "red" }}>*</span>}
-                          </Typography>
-                          <Field
-                            as={CustomTextField}
-                            id="password"
-                            name="password"
-                            variant="outlined"
-                            fullWidth
-                            error={touched.password && Boolean(errors.password)}
-                            helperText={<ErrorMessage name="password" />}
-                            type={showNewPassword ? "text" : "password"}
-                            InputProps={{
-                              endAdornment: (
-                                <IconButton
-                                  onClick={() =>
-                                    togglePasswordVisibility(setShowNewPassword)
-                                  }
-                                  edge="end"
-                                  color="primary"
-                                >
-                                  {showNewPassword ? (
-                                    <VisibilityOff />
-                                  ) : (
-                                    <Visibility />
-                                  )}
-                                </IconButton>
-                              ),
-                            }}
-                          />
-                        </Grid>
+                        {!userId && (
+                          <>
+                            <Grid item xs={6} p={"7px"}>
+                              <Typography
+                                variant="subtitle1"
+                                fontWeight={600}
+                                component="label"
+                                htmlFor="password"
+                              >
+                                Password
+                                {!userId && (
+                                  <span style={{ color: "red" }}>*</span>
+                                )}
+                              </Typography>
+                              <Field
+                                as={CustomTextField}
+                                id="password"
+                                name="password"
+                                variant="outlined"
+                                fullWidth
+                                error={
+                                  touched.password && Boolean(errors.password)
+                                }
+                                helperText={<ErrorMessage name="password" />}
+                                type={showNewPassword ? "text" : "password"}
+                                InputProps={{
+                                  endAdornment: (
+                                    <IconButton
+                                      onClick={() =>
+                                        togglePasswordVisibility(
+                                          setShowNewPassword
+                                        )
+                                      }
+                                      edge="end"
+                                      color="primary"
+                                    >
+                                      {showNewPassword ? (
+                                        <VisibilityOff />
+                                      ) : (
+                                        <Visibility />
+                                      )}
+                                    </IconButton>
+                                  ),
+                                }}
+                              />
+                            </Grid>
 
-                        <Grid item xs={6} p={"7px"}>
-                          <Typography
-                            variant="subtitle1"
-                            fontWeight={600}
-                            component="label"
-                            htmlFor="confirmPassword"
-                          >
-                            Confirm Password{" "}
-                            {!userId && <span style={{ color: "red" }}>*</span>}
-                          </Typography>
-                          <Field
-                            as={CustomTextField}
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            type={showConfirmPassword ? "text" : "password"}
-                            variant="outlined"
-                            fullWidth
-                            error={
-                              touched.confirmPassword &&
-                              Boolean(errors.confirmPassword)
-                            }
-                            helperText={<ErrorMessage name="confirmPassword" />}
-                            InputProps={{
-                              endAdornment: (
-                                <IconButton
-                                  onClick={() =>
-                                    togglePasswordVisibility(
-                                      setShowConfirmPassword
-                                    )
-                                  }
-                                  edge="end"
-                                  color="primary"
-                                >
-                                  {showConfirmPassword ? (
-                                    <VisibilityOff />
-                                  ) : (
-                                    <Visibility />
-                                  )}
-                                </IconButton>
-                              ),
-                            }}
-                          />
-                        </Grid>
+                            <Grid item xs={6} p={"7px"}>
+                              <Typography
+                                variant="subtitle1"
+                                fontWeight={600}
+                                component="label"
+                                htmlFor="confirmPassword"
+                              >
+                                Confirm Password{" "}
+                                {!userId && (
+                                  <span style={{ color: "red" }}>*</span>
+                                )}
+                              </Typography>
+                              <Field
+                                as={CustomTextField}
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                type={showConfirmPassword ? "text" : "password"}
+                                variant="outlined"
+                                fullWidth
+                                error={
+                                  touched.confirmPassword &&
+                                  Boolean(errors.confirmPassword)
+                                }
+                                helperText={
+                                  <ErrorMessage name="confirmPassword" />
+                                }
+                                InputProps={{
+                                  endAdornment: (
+                                    <IconButton
+                                      onClick={() =>
+                                        togglePasswordVisibility(
+                                          setShowConfirmPassword
+                                        )
+                                      }
+                                      edge="end"
+                                      color="primary"
+                                    >
+                                      {showConfirmPassword ? (
+                                        <VisibilityOff />
+                                      ) : (
+                                        <Visibility />
+                                      )}
+                                    </IconButton>
+                                  ),
+                                }}
+                              />
+                            </Grid>
+                          </>
+                        )}
                       </>
                     )}
 
@@ -639,7 +744,7 @@ const AddEditUser = ({
                             name="mobileNumber"
                             variant="outlined"
                             typeValid="number"
-                            length={13}
+                            length={10}
                             fullWidth
                             InputProps={{
                               startAdornment: (

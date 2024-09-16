@@ -16,18 +16,13 @@ const Menuitems = [
     icon: IconLayoutDashboard,
     href: '/dashboard',
   },
-  {
-    id: uniqueId(),
-    title: 'Users',
-    icon: IconUserPlus,
-    href: '/users',
-  },
-  {
-    id: uniqueId(),
-    title: 'Student Report',
-    icon: IconUserPlus,
-    href: '/studentReport',
-  },
+  // {
+  //   id: uniqueId(),
+  //   title: 'Users',
+  //   icon: IconUserPlus,
+  //   href: '/users',
+  // },
+  
   // {
   //   id: uniqueId(),
   //   title: 'Middle Student Report',
@@ -37,37 +32,43 @@ const Menuitems = [
 
   {
     navlabel: true,
-    subheader: 'Mangment',
+    subheader: 'Management',
   },
 
   {
     id: uniqueId(),
     title: 'Student Management',
     icon: IconLayoutDashboard,
-    href: '/studentmanagement',
+    href: '/student-management',
   },
   {
     id: uniqueId(),
     title: 'Instructor Management',
     icon: IconUserPlus,
-    href: '/instructormanagement',
+    href: '/instructor-management',
   },
-  // {
-  //   navlabel: true,
-  //   subheader: 'Utilities',
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Typography',
-  //   icon: IconTypography,
-  //   href: '/ui/typography',
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Shadow',
-  //   icon: IconCopy,
-  //   href: '/ui/shadow',
-  // },
+  {
+    id: uniqueId(),
+    title: 'Facilator Management',
+    icon: IconUserPlus,
+    href: '/facilator-management',
+  },
+  {
+    navlabel: true,
+    subheader: 'Reports',
+  },
+  {
+    id: uniqueId(),
+    title: 'Student Report',
+    icon: IconUserPlus,
+    href: '/student-report',
+  },
+  {
+    id: uniqueId(),
+    title: 'Instructor Report',
+    icon: IconCopy,
+    href: '/instructor-report',
+  },
   
 ];
 

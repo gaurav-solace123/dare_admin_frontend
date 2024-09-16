@@ -1,4 +1,4 @@
-import { format, parseISO, parse } from "date-fns";
+import { format } from "date-fns";
 import { saveAs } from 'file-saver';
 const commonFunc = {
   getHeaders: () => {
@@ -77,13 +77,7 @@ const commonFunc = {
     return null;
   },
 
-  getUserData: () => {
-    const userData = localStorage.getItem("userData");
-    if (userData !== null) {
-      const parseData = JSON.parse(userData);
-      return parseData;
-    }
-  },
+  
   deleteCookie(name) {
     document.cookie =
       name + "=; Max-Age=0; path=/; domain=" + window.location.hostname;
@@ -104,9 +98,6 @@ const commonFunc = {
         return newObj;
       })
       .filter((obj) => Object.keys(obj).length > 0);
-  },
-  getDarkIcon(imgName) {
-    return commonFunc.getLocalImagePath(`dark_icons/${imgName}`);
   },
   
   
