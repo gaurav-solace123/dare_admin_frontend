@@ -20,6 +20,7 @@ import InputBase from "@mui/material/InputBase";
 import { Modal, TextField, Button, IconButton, Grid } from "@mui/material";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import CustomSelect from "../../../components/forms/theme-elements/CustomSelectField";
+import ReactSelect from "../../../components/forms/theme-elements/ReactSelect";
 function SessionReassignMentTable({
   children,
   role,
@@ -88,7 +89,7 @@ function SessionReassignMentTable({
   ];
 
   const sessionArray = sessionData.map((item) => ({
-    label: `${item.sessionCode} ${item.sessionName}`,
+    label: `${item.sessionCode} ${item.sessionName}`, value:item?.sessionCode
   }));
   const style = {
     position: "absolute",
@@ -299,17 +300,18 @@ function SessionReassignMentTable({
           >
             {/* <CloseIcon /> */}X
           </IconButton>
-          <Typography id="modal-title" variant="h6" component="h2"  color={'#0055A3'} fontSize={'24px'} fontWeight={600}
-           sx={{ display:'flex',justifyContent:'center' }}>
+          <Typography
+            id="modal-title"
+            variant="h6"
+            component="h2"
+            color={"#0055A3"}
+            fontSize={"24px"}
+            fontWeight={600}
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
             Re-assign Session
           </Typography>
 
-          <Box mt={2}>
-            <Typography variant="subtitle1" component="p">
-              Current Session Details
-            </Typography>
-            <Typography variant="body1">Session Code - Session Name -Instructor Name</Typography>
-          </Box>
           <Formik
             initialValues={{
               firstName: "",
@@ -320,6 +322,18 @@ function SessionReassignMentTable({
           >
             {({ touched, errors, isSubmitting, values, handleChange }) => (
               <Form>
+                <Grid item xs={12} mt={"10px"}>
+                  <Typography
+                    variant="subtitle1"
+                    component="p"
+                    color={"#0055A3"}
+                  >
+                    Current Session Details
+                  </Typography>
+                  <Typography variant="body1">
+                    Session Code - Session Name -Instructor Name
+                  </Typography>
+                </Grid>
                 <Grid item xs={12} p={"7px"} mb={"20px"}>
                   <Typography
                     variant="subtitle1"
@@ -332,14 +346,12 @@ function SessionReassignMentTable({
                   </Typography>
 
                   <Field
-                    as={CustomSelect}
+                    as={ReactSelect}
                     id="userRole"
                     name="userRole"
                     label="Select your Session"
                     displayEmpty
-                    // disabled={role}
                     options={sessionArray}
-                    // error={touched.userRole && Boolean(errors.userRole)}
                     helperText={<ErrorMessage name="userRole" />}
                   />
                 </Grid>
