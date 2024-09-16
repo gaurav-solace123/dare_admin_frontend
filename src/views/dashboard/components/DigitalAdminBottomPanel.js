@@ -17,16 +17,18 @@ function DigitalAdminBottomPanel() {
             lg={10}
             xl={12}
           >
+            <Box display="flex" flexDirection="row" alignItems="center" gap={5}>
+              
             <Typography variant="h5" component="h6">
               Downloadable Reports
             </Typography>
-            <Box display="flex" flexDirection="row" alignItems="center" gap={5}>
               <Box display="flex" flexDirection="column" alignItems="center">
                 <img
                   src={"/src/assets/images/logos/affiliate-icon.png"}
                   alt={"gkgk"}
                   loading="lazy"
                   width={"35px"}
+                  style={{marginBottom:'10px'}}
                 />
 
                 <Typography variant="danger" textAlign={"center"}>
@@ -40,6 +42,8 @@ function DigitalAdminBottomPanel() {
                   alt={"gkgk"}
                   loading="lazy"
                   width={"35px"}
+                  style={{marginBottom:'10px'}}
+
                 />
                 <Typography variant="caption" textAlign={"center"}>
                   Buyer Information
@@ -52,6 +56,8 @@ function DigitalAdminBottomPanel() {
                   alt={"gkgk"}
                   loading="lazy"
                   width={"35px"}
+                  style={{marginBottom:'10px'}}
+
                 />
                 <Typography variant="caption" textAlign={"center"}>
                   Sessions Sold by District
@@ -64,6 +70,8 @@ function DigitalAdminBottomPanel() {
                   alt={"gkgk"}
                   loading="lazy"
                   width={"35px"}
+                  style={{marginBottom:'10px'}}
+
                 />
                 <Typography variant="caption" textAlign={"center"}>
                   Sessions Sold by State
