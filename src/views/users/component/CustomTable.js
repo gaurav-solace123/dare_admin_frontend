@@ -305,7 +305,7 @@ function CustomTable({
                             <EditIcon sx={{ cursor: "pointer" }} />
                           </Tooltip>
                         </Box>
-                        <Box marginLeft={'10px'}>
+                       {role !=='Facilitator'&& <Box marginLeft={'10px'}>
                           <Tooltip
                             title={'Preview'}
                             onClick={() => {
@@ -318,7 +318,7 @@ function CustomTable({
 
                             </NavLink>
                           </Tooltip>
-                        </Box>
+                        </Box>}
                       </Box>
                     </TableCell>
                   </TableRow>
