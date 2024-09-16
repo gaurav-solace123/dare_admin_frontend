@@ -1,6 +1,7 @@
 import React, { lazy } from "react";
 import { Navigate } from "react-router-dom";
 import Loadable from "../layouts/full/shared/loadable/Loadable";
+import InstructorPreview from "../views/users/intructors/InstrutorsDetails";
 
 
 /* ***Layouts**** */
@@ -74,6 +75,11 @@ const Router = [
             element={<UsersList role="Instructor" key="instructor" />}
           />
         ),
+      },
+      {
+        path: "/instructor-details",
+        exact: true,
+        element: <PrivateRoute element={<InstructorPreview />} />,
       },
       {
         path: "/facilator-management",
