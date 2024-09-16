@@ -29,7 +29,7 @@ const Dashboard = () => {
       ) : (
         <Box>
           <Grid container spacing={3} mb={2}>
-            <Grid display="flex" gap="20px" item xs={12} lg={6} pt={0}>
+            <Grid display="flex" gap="20px" item xs={12} lg={6} pt={0} justifyContent={'center'} alignItems={'center'}>
               <Typography variant="h5" component="h6">
                 Total Unassigned Credits
               </Typography>
