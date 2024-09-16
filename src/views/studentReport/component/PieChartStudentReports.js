@@ -103,7 +103,7 @@ export default function PieChartStudentReports({
 								key={item?.label}
 							>
 								<Box height={"25px"} width={"25px"} bgcolor={item?.color} />
-								<Typography fontWeight="700" variant="subtitle2" mb={0}>
+								<Typography fontWeight="500" variant="subtitle2" mb={0}>
 									{`${item?.label}  - #${item?.value || "0"}`}
 								</Typography>
 							</Box>

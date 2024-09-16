@@ -38,7 +38,7 @@ const FullLayout = () => {
 			{/* ------------------------------------------- */}
 			{/* Main Wrapper */}
 			{/* ------------------------------------------- */}
-			<PageWrapper className="page-wrapper">
+			<PageWrapper className="page-wrapper" sx={{ backgroundColor: "#fbfbfb" }}>
 				{/* ------------------------------------------- */}
 				{/* Header */}
 				{/* ------------------------------------------- */}
@@ -54,6 +54,7 @@ const FullLayout = () => {
 						paddingTop: "20px",
 						maxWidth: "1200px",
 						minWidth: "100%",
+						marginTop: "20px",
 					}}
 				>
 					{/* ------------------------------------------- */}
