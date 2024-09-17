@@ -313,7 +313,7 @@ function CustomTable({
                               setUserId(row?._id);
                             }}
                           >
-                            <NavLink to={ '/instructor-details'} style={{ color: 'inherit', textDecoration: 'none' }}>
+                            <NavLink to={role==='Student'?'/student-details': '/instructor-details'} style={{ color: 'inherit', textDecoration: 'none' }}>
                             <Visibility sx={{ cursor: "pointer" }} />
 
                             </NavLink>
