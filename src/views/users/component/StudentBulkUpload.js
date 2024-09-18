@@ -69,6 +69,7 @@ function AddSvgForm({
           'Content-Type': 'multipart/form-data',
         },});
         
+        debugger
         if (result.status == 200) {
 
           showToast(result?.message)
@@ -76,11 +77,11 @@ function AddSvgForm({
           getListData()
         }
         else{
-          showToast(result?.messages?? result,'error')
+          commonFunc.DownloadCSV(result, "Error");
           handleSvgClose()
         }
 
-      console.log("result", result);
+     
     } catch (error) {}
   };
   const downLoadSampleCSVFile = async () => {

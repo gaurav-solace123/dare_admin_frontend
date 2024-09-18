@@ -19,7 +19,7 @@ import Table from "./component/CustomTable";
 // const Login = Loadable(lazy(() => import('../views/authentication/Login')));
 import { borderRadius, height } from "@mui/system";
 import Loadable from "../../layouts/full/shared/loadable/Loadable";
-import AddSvgForm from "./component/AddSvgForm";
+import StudentBulkUpload from "./component/StudentBulkUpload";
 import { getData } from "../../services/services";
 import Api from "../../services/constant";
 import Loader from "../../components/Loader";
@@ -357,7 +357,7 @@ export default function EnhancedTable({role=''}) {
           </Typography>
 
           {/* <DownloadForOfflineSharpIcon/> */}
-          <AddSvgForm
+          <StudentBulkUpload
             onDrop={handleDrop}
             accept="image/svg+xml"
             userId={userId}
