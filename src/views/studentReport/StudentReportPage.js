@@ -11,7 +11,7 @@ const StudentReportPage = ({
 }) => {
   return (
     <>
-      <Box marginTop={"30px"}>
+      <Box >
         {action}
         <CardContent>
           {title ? (

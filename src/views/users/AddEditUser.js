@@ -402,17 +402,16 @@ const AddEditUser = ({
                           />
                         </Grid>
                         {userId && isGenerate && (
-                          <Grid item xs={6}  p={"20px"}>
+                          <Grid item xs={6}  p={"7px"} pt={"30px"} display={"flex"} alignItems={"end"}>
                             {/* <Typography>dd</Typography> */}
                             <Button
                               color="success"
                               variant="contained"
                               size="large"
-                        
+                              sx={{ height: '53px' }}
                               fullWidth
                               onClick={generatePassword}
                               type="button"
-                              // disabled={isSubmitting}
                             >
                               Generate Password
                             </Button>

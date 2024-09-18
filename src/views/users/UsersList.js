@@ -51,18 +51,26 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
-  { id: "firstName", numeric: false, label: "First Name" },
-  { id: "lastName", numeric: false, label: "Last Name" },
-  // { id: "userRole", numeric: true, label: "Role" },
-  { id: "mobileNumber", numeric: true, label: "Phone" },
-  { id: "email", numeric: true, label: "Email" },
-  { id: "username", numeric: true, label: "Username" },
+// const headCells = [
+//   { id: "firstName", numeric: false, label: "First Name" },
+//   { id: "lastName", numeric: false, label: "Last Name" },
+//   // { id: "userRole", numeric: true, label: "Role" },
+//   { id: "mobileNumber", numeric: true, label: "Phone" },
+//   { id: "email", numeric: true, label: "Email" },
+//   { id: "username", numeric: true, label: "Username" },
 
-  { id: "actions", numeric: true, label: "Actions" },
-];
+//   { id: "actions", numeric: true, label: "Actions" },
+// ];
 
 export default function EnhancedTable({role=''}) {
+  const baseHeadCells = [
+    { id: "firstName", numeric: false, label: "First Name" },
+    { id: "lastName", numeric: false, label: "Last Name" },
+    { id: "email", numeric: true, label: "Email" },
+    { id: "username", numeric: true, label: "Username" },
+    { id: "actions", numeric: true, label: "Actions" },
+  ];
+
   const [order, setOrder] = React.useState("desc");
   const [orderBy, setOrderBy] = React.useState("_created_at");
   const [page, setPage] = React.useState(1);
@@ -93,7 +101,7 @@ export default function EnhancedTable({role=''}) {
     transform: "translate(-50%, -50%)",
     width: 500,
     bgcolor: "background.paper",
-    border: "2px solid #000",
+    border: "2px solid #0055A4",
     borderRadius: "5px",
     boxShadow: 24,
     p: 2,
@@ -105,11 +113,27 @@ export default function EnhancedTable({role=''}) {
     transform: "translate(-50%, -50%)",
     width: 500,
     bgcolor: "background.paper",
-    border: "2px solid #000",
+    border: "2px solid #0055A4",
     borderRadius: "5px",
     boxShadow: 24,
     p: 2,
   };
+  const getHeadCells = () => {
+    let updatedHeadCells = [...baseHeadCells]; // Clone the baseHeadCells array
+
+    // Add "userRole" if role is empty
+    if (role === '') {
+      updatedHeadCells.splice(2, 0, { id: "userRole", numeric: false, label: "Role" });
+    }
+
+    // Add "mobileNumber" if role is "instructor"
+    if (role === 'Instructor') {
+      updatedHeadCells.splice(2, 0, { id: "mobileNumber", numeric: true, label: "Phone" });
+    }
+
+    return updatedHeadCells;
+  };
+  const headCells = getHeadCells();
   function createData({
     _id,
     firstName,

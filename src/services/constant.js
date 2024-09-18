@@ -15,7 +15,9 @@ const Api = {
     bulkSampleFile:"/upload/sample-csv",
     // Student Report
     studentReports:'/users/student-report-chart',
-    studentExport:'/users/export-student'
+    studentExport:'/users/export-student',
+    //Students sessions
+    studentSessionReassign:'/users/student-session-reasign-list'
 };
 
 export default Api;

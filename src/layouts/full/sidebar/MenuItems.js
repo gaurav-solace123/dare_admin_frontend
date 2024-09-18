@@ -16,12 +16,12 @@ const Menuitems = [
     icon: IconLayoutDashboard,
     href: '/dashboard',
   },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Users',
-  //   icon: IconUserPlus,
-  //   href: '/users',
-  // },
+  {
+    id: uniqueId(),
+    title: 'Users',
+    icon: IconUserPlus,
+    href: '/users',
+  },
   
   // {
   //   id: uniqueId(),
