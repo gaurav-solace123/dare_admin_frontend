@@ -222,121 +222,146 @@ function CustomTable({
   }, [listData, headers]);
   return (
     <div>
-      <Box sx={{ width: "100%" }}>
-        <Paper sx={{ width: "100%", mb: 2 }}>
-          <EnhancedTableToolbar />
-          <TableContainer sx={{ borderRadius: "3px" }}>
-            <Table>
-              <EnhancedTableHead
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-              />
-              <TableBody>
-                {visibleRows.map((row) => (
-                  <TableRow
-                    key={row._id}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                    }}
-                  >
-                    <TableCell
-                      align="left"
-                      sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
-                    >
-                      <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
-                        {row?.firstName}
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
-                    >
-                      <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
-                        {row?.lastName}
-                      </Typography>
-                    </TableCell>
-                    {/* <TableCell
-                      align="left"
-                      sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
-                    >
-                      <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
-                        {row?.userRole}
-                      </Typography>
-                    </TableCell> */}
-                    <TableCell
-                      align="left"
-                      sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
-                    >
-                      <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
-                        {row?.mobileNumber}
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
-                    >
-                      <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
-                        {row?.email}
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
-                    >
-                      <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
-                        {row?.username}
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      align="left"
-                      sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
-                    >
-                      <Box display={"flex"} justifyContent={'flex-start'}>
-                        <Box>
-                          <Tooltip
-                            title={`Edit ${role ? role : "User"}`}
-                            onClick={() => {
-                              onAddClick();
-                              setUserId(row?._id);
-                            }}
-                          >
-                            <EditIcon sx={{ cursor: "pointer" }} />
-                          </Tooltip>
-                        </Box>
-                       {role !=='Facilitator'&& <Box marginLeft={'10px'}>
-                          <Tooltip
-                            title={'Preview'}
-                            onClick={() => {
-                              onAddClick();
-                              setUserId(row?._id);
-                            }}
-                          >
-                            <NavLink to={'/student-details'} style={{ color: 'inherit', textDecoration: 'none' }}>
-                            <Visibility sx={{ cursor: "pointer" }} />
+<Box sx={{ width: "100%" }}>
+  <Paper sx={{ width: "100%", mb: 2 }}>
+    <EnhancedTableToolbar />
+    <TableContainer sx={{ borderRadius: "3px" }}>
+      <Table>
+        <EnhancedTableHead
+          order={order}
+          orderBy={orderBy}
+          onRequestSort={handleRequestSort}
+        />
+        <TableBody>
+          {/* Check if data is empty */}
+          {visibleRows?.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={role==''||role=='Instructor'?6:5} align="center">
+                No records found
+              </TableCell>
+            </TableRow>
+          ) : (
+            visibleRows.map((row) => (
+              <TableRow
+                key={row._id}
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                  borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                }}
+              >
+                <TableCell
+                  align="left"
+                  sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
+                >
+                  <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
+                    {row?.firstName}
+                  </Typography>
+                </TableCell>
+                <TableCell
+                  align="left"
+                  sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
+                >
+                  <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
+                    {row?.lastName}
+                  </Typography>
+                </TableCell>
 
-                            </NavLink>
-                          </Tooltip>
-                        </Box>}
+                {/* Conditionally render based on the role */}
+                {role === '' && (
+                  <TableCell
+                    align="left"
+                    sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
+                  >
+                    <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
+                      {row?.userRole}
+                    </Typography>
+                  </TableCell>
+                )}
+                {role === 'Instructor' && (
+                  <TableCell
+                    align="left"
+                    sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
+                  >
+                    <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
+                      {row?.mobileNumber}
+                    </Typography>
+                  </TableCell>
+                )}
+                <TableCell
+                  align="left"
+                  sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
+                >
+                  <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
+                    {row?.email}
+                  </Typography>
+                </TableCell>
+                <TableCell
+                  align="left"
+                  sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
+                >
+                  <Typography sx={{ flex: "1 1 100%" }} variant="tableText">
+                    {row?.username}
+                  </Typography>
+                </TableCell>
+                <TableCell
+                  align="left"
+                  sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
+                >
+                  <Box display={"flex"} justifyContent={'flex-start'}>
+                    <Box>
+                      <Tooltip
+                        title={`Edit ${role ? role : "User"}`}
+                        onClick={() => {
+                          onAddClick();
+                          setUserId(row?._id);
+                        }}
+                      >
+                        <EditIcon sx={{ cursor: "pointer" }} />
+                      </Tooltip>
+                    </Box>
+                    {role !== 'Facilitator' && (
+                      <Box marginLeft={'10px'}>
+                        <Tooltip
+                          title={'Preview'}
+                          onClick={() => {
+                            onAddClick();
+                            setUserId(row?._id);
+                          }}
+                        >
+                          <NavLink
+                            to={
+                              role === 'Student'
+                                ? '/student-details'
+                                : '/instructor-details'
+                            }
+                            style={{ color: 'inherit', textDecoration: 'none' }}
+                            state={{ userId: row?._id }}
+                          >
+                            <Visibility sx={{ cursor: "pointer" }} />
+                          </NavLink>
+                        </Tooltip>
                       </Box>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 50]}
-            component="div"
-            count={totalCount}
-            rowsPerPage={rowsPerPage}
-            page={page - 1}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Paper>
-      </Box>
+                    )}
+                  </Box>
+                </TableCell>
+              </TableRow>
+            ))
+          )}
+        </TableBody>
+      </Table>
+    </TableContainer>
+    {visibleRows?.length > 1 &&<TablePagination
+      rowsPerPageOptions={[10, 25, 50]}
+      component="div"
+      count={totalCount}
+      rowsPerPage={rowsPerPage}
+      page={page - 1}
+      onPageChange={handleChangePage}
+      onRowsPerPageChange={handleChangeRowsPerPage}
+    />}
+  </Paper>
+</Box>
+
     </div>
   );
 }

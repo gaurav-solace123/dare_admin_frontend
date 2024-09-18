@@ -98,7 +98,7 @@ function SessionReassignMentTable({
     transform: "translate(-50%, -50%)",
     width: 500,
     bgcolor: "background.paper",
-    border: "2px solid #000",
+    border: "2px solid #0055A4",
     borderRadius: "5px",
     boxShadow: 24,
     p: 2,
@@ -322,17 +322,42 @@ function SessionReassignMentTable({
           >
             {({ touched, errors, isSubmitting, values, handleChange }) => (
               <Form>
-                <Grid item xs={12} mt={"10px"}>
+                <Grid item xs={12} mt={"15px"}>
                   <Typography
                     variant="subtitle1"
                     component="p"
                     color={"#0055A3"}
+                    fontWeight={"600"}
                   >
                     Current Session Details
                   </Typography>
-                  <Typography variant="body1">
-                    Session Code - Session Name -Instructor Name
+               <Box display={"flex"} flexDirection={"column"} gap={"10px"} padding={"15px 0"}>
+               <Box display={"flex"}  gap={"8px"}><Typography color={"#0055A3"} fontWeight={"600"} variant="body1">
+                    Session Code:
                   </Typography>
+                  <Typography variant="body1">
+                  F042J
+                  </Typography></Box>
+
+                  <Box display={"flex"}  gap={"8px"}>
+                  <Typography color={"#0055A3"} fontWeight={"600"} variant="body1">
+                    Session Name:
+                  </Typography>
+                  <Typography variant="body1">Judy Room
+                  </Typography>
+                 </Box>
+
+                 <Box display={"flex"}  gap={"8px"}>
+                 <Typography color={"#0055A3"} fontWeight={"600"} variant="body1">
+                    Instructor Name: 
+                  </Typography>
+                  <Typography variant="body1">
+                  Instructor Dashboard
+                  </Typography>
+                 </Box>
+                 
+               </Box>
+               <hr></hr>
                 </Grid>
                 <Grid item xs={12} p={"7px"} mb={"20px"}>
                   <Typography

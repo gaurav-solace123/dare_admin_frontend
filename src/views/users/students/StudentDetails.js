@@ -1,9 +1,16 @@
 import { Grid, Typography, Card, CardContent, Avatar } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SessionReassignMentTable from "./SessionReassignement";
+import { useLocation } from "react-router-dom";
+import Api from "../../../services/constant";
+import { getData } from "../../../services/services";
+import { head, upperFirst } from "lodash";
 
 function StudentDetails() {
+	//all constant
+	const location= useLocation()
+	const userId = location?.state?.userId
 	const sessionData = [
 		{
 			sessionName: "Judy Room",
@@ -32,10 +39,61 @@ function StudentDetails() {
 		{ id: "instructor", numeric: false, label: "Instructor" },
 		{ id: "action", numeric: false, label: "Instructor Action" },
 	];
+	//all states
+     const [studentDetails, setStudentDetails] = useState('')
+//all functions
+	const viewData = async () => {
+		try {
+		  // setIsLoading(true);
+		  const result = await getData(`${Api?.viewUser}/${userId}`);
+	
+		  if (result?.success) {
+			const response = result?.data;
+			setStudentDetails(response)
+		  }
+		} catch (error) {
+		  console.error(error);
+		}
+	  };
 
+	  useEffect(()=>{
+		viewData()
+	  },
+	[])
 	return (
 		<>
-			<Grid container mt={1} spacing={1}>
+		<Box
+        sx={{
+          border: "2px solid",
+          color: "#0055a4",
+          padding: 2,
+          position: "relative",
+          borderRadius: 2,
+        }}
+      >
+ <Box
+          sx={{
+            position: "absolute",
+            top: "-12px", // Adjust this to make the text overlap more or less with the border
+            left: "16px",
+            backgroundColor: "#fff",
+            padding: "0 8px",
+            display: "inline-block",
+            // color: 'red', // To match the border color
+            fontSize: "24px",
+            fontWeight: "bold",
+          }}
+        >
+          <Typography
+            variant="h7"
+            fontWeight={600}
+            component="label"
+            htmlFor="mailingAddress"
+          >
+            Student Details
+          </Typography>
+        </Box>
+		<Grid container mt={1} spacing={1}>
 				<Grid item xs={12} sm={12} md={12} lg={12}>
 					{/* <Typography variant="h6" component="h6" mb={2}>
 						Student Details
@@ -43,7 +101,7 @@ function StudentDetails() {
 					<Card>
 						<CardContent>
 							<Box display="flex" gap="15px">
-								<Avatar sx={{ bgcolor: "#673ab7" }}>GJ</Avatar>
+								<Avatar sx={{ bgcolor: "#673ab7" }}> {upperFirst(head(studentDetails?.firstName))}{upperFirst(head(studentDetails?.lastName))}</Avatar>
 								<Box display="flex" flexDirection="column" gap="8px">
 									<Box display="flex" gap="8px">
 										<Typography
@@ -53,19 +111,19 @@ function StudentDetails() {
 											component="label"
 											htmlFor="firstName"
 										>
-											Gaurav Jadhav
+											{`${studentDetails?.firstName} ${studentDetails?.lastName}` }
 										</Typography>
 									</Box>
 
 									<Box display="flex" gap="8px">
 										<Typography variant="subtitle1" fontWeight={400}>
-											Username: Data
+											Username: {studentDetails?.username}
 										</Typography>
 									</Box>
 
 									<Box display="flex" gap="8px">
 										<Typography variant="subtitle1" fontWeight={400}>
-											gauravjadhav@gmail.com
+											{studentDetails?.email}
 										</Typography>
 									</Box>
 								</Box>
@@ -85,6 +143,8 @@ function StudentDetails() {
 					headers={headers}
 				/>
 			</Box>
+			</Box>
+			
 		</>
 	);
 }

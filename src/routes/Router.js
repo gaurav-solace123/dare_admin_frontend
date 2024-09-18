@@ -1,6 +1,7 @@
 import React, { lazy } from "react";
 import { Navigate } from "react-router-dom";
 import Loadable from "../layouts/full/shared/loadable/Loadable";
+import InstructorPreview from "../views/users/intructors/InstrutorsDetails";
 
 
 /* ***Layouts**** */
@@ -26,8 +27,8 @@ const PrivateRoute = Loadable(lazy(() => import("./PrivateRoute")));
 const InstructorReport = Loadable(
   lazy(() => import("../views/instructor_report"))
 );
-const StudentPreview = Loadable(
-  lazy(() => import("../views/users/students/StudentPreview"))
+const StudentDetails = Loadable(
+  lazy(() => import("../views/users/students/StudentDetails"))
 );
 
 const Error = Loadable(lazy(() => import("../views/authentication/Error")));
@@ -64,7 +65,7 @@ const Router = [
       {
         path: "/student-details",
         exact: true,
-        element: <PrivateRoute element={<StudentPreview />} />,
+        element: <PrivateRoute element={<StudentDetails />} />,
       },
       {
         path: "/instructor-management",
@@ -74,6 +75,11 @@ const Router = [
             element={<UsersList role="Instructor" key="instructor" />}
           />
         ),
+      },
+      {
+        path: "/instructor-details",
+        exact: true,
+        element: <PrivateRoute element={<InstructorPreview />} />,
       },
       {
         path: "/facilator-management",
