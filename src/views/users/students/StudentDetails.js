@@ -12,26 +12,26 @@ function StudentDetails() {
   //all constant
   const location = useLocation();
   const userId = location?.state?.userId;
-//   const sessionData = [
-//     {
-//       sessionName: "Judy Room",
-//       sessionCode: "F042J",
-//       workbook: "Elementary English",
-//       instructor: "Instructor Dashboard",
-//     },
-//     {
-//       sessionName: "BT 220",
-//       sessionCode: "5ZLY9",
-//       workbook: "Elementary English",
-//       instructor: "Instructor Dashboard",
-//     },
-//     {
-//       sessionName: "Homeschool AE",
-//       sessionCode: "285U0",
-//       workbook: "Elementary English",
-//       instructor: "Instructor Dashboard",
-//     },
-//   ];
+  //   const sessionData = [
+  //     {
+  //       sessionName: "Judy Room",
+  //       sessionCode: "F042J",
+  //       workbook: "Elementary English",
+  //       instructor: "Instructor Dashboard",
+  //     },
+  //     {
+  //       sessionName: "BT 220",
+  //       sessionCode: "5ZLY9",
+  //       workbook: "Elementary English",
+  //       instructor: "Instructor Dashboard",
+  //     },
+  //     {
+  //       sessionName: "Homeschool AE",
+  //       sessionCode: "285U0",
+  //       workbook: "Elementary English",
+  //       instructor: "Instructor Dashboard",
+  //     },
+  //   ];
   const tableFields = ["sessionName", "sessionCode", "workbook", "instructor"];
   const headers = [
     { id: "sessionName", numeric: false, label: "Session Name" },

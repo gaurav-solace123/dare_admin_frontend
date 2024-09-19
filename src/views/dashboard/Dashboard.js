@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, Box, Typography } from "@mui/material";
 
 // components
 import DigitalAdminPanel from "./components/DigitalAdminPanel";
 import DigitalAdminBottomPanel from "./components/DigitalAdminBottomPanel";
 import Loader from "src/components/Loader";
+import { getData } from "../../services/services";
+import Api from "../../services/constant";
 
 const Dashboard = () => {
+
+  //all constant
   const data = [
     { value: 55, label: "Middle School", color: "#2e96ff", percentage: 20 },
     { value: 45, label: "Elementary School", color: "#02b2af", percentage: 40 },
@@ -21,7 +25,35 @@ const Dashboard = () => {
     "Sessions this Quarter",
     "Sessions YTD",
   ];
-  const [isLoading, setIsLoading] = React.useState(false);
+
+  //all states
+  const [isLoading, setIsLoading] = useState(false);
+  const [creditsActivatedByLevel, setCreditsActivatedByLevel] = useState('')
+  //all functions
+  const getCreditsActivatedByLevel = async () => {
+    try {
+      setIsLoading(true);
+      const result = await getData(Api?.creditsActivatedByLevel);
+      if (result?.success) {
+        const response = result?.data;
+        const temp = [
+          { value: response?.middleSchool, label: "Middle School", color: "#2e96ff", percentage: response?.middleSchool },
+          { value: response?.elementary, label: "Elementary School", color: "#02b2af", percentage: response?.elementary },
+        ];
+        setCreditsActivatedByLevel(temp);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.error(error);
+    }
+  };
+//all useEffects
+  useEffect(() => {
+    getCreditsActivatedByLevel();
+  }, []);
   return (
     <>
       {isLoading ? (
@@ -79,7 +111,7 @@ const Dashboard = () => {
             <Grid item xs={12} sm={6} md={6} lg={6}>
               <DigitalAdminPanel
                 title={"Credits Activated By Level"}
-                data={data}
+                data={creditsActivatedByLevel}
                 options={creaditOptions}
               />
             </Grid>

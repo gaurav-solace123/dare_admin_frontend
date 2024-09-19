@@ -19,7 +19,11 @@ const Api = {
     //Students sessions
     studentSessionReassign:'/users/student-session-reasign-list',
     sessionList:'/users/session-list',
-    reAssignSession:'/users/update-session-code'
+    reAssignSession:'/users/update-session-code',
+
+    //dashBoard
+    sessionsActivatedByLevel:'/users/workbook-session-count',
+    creditsActivatedByLevel:'/users/credit-consume'
 };
 
 export default Api;
