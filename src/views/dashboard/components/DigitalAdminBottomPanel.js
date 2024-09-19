@@ -1,8 +1,12 @@
 import React from "react";
 import DashboardCard from "../../../components/shared/DashboardCard";
 import { Box, Grid, Typography } from "@mui/material";
+import MenuOption from "./MenuOption";
 
 function DigitalAdminBottomPanel() {
+  const options = [
+    "Year",
+  ];
   return (
     <>
       <DashboardCard>
@@ -49,8 +53,7 @@ function DigitalAdminBottomPanel() {
                   Buyer Information
                 </Typography>
               </Box>
-              <Box display="flex" flexDirection="column" alignItems="center">
-                {/* <LocationOnOutlinedIcon fontSize="large" style={{color:"black"}}/> */}
+              {/* <Box display="flex" flexDirection="column" alignItems="center">
                 <img
                   src={"/src/assets/images/logos/district-map.png"}
                   alt={"gkgk"}
@@ -62,7 +65,7 @@ function DigitalAdminBottomPanel() {
                 <Typography variant="caption" textAlign={"center"}>
                   Sessions Sold by District
                 </Typography>
-              </Box>
+              </Box> */}
               <Box display="flex" flexDirection="column" alignItems="center">
                 {/* <MapOutlinedIcon fontSize="large" style={{color:"black"}}/> */}
                 <img
@@ -76,6 +79,9 @@ function DigitalAdminBottomPanel() {
                 <Typography variant="caption" textAlign={"center"}>
                   Sessions Sold by State
                 </Typography>
+              </Box>
+              <Box display="flex" flexDirection="" alignItems="start">
+              <MenuOption options={options} />
               </Box>
             </Box>
           </Grid>

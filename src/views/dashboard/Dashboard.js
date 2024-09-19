@@ -51,6 +51,28 @@ const Dashboard = () => {
                 </Box>
               </Box>
             </Grid>
+            <Grid display="flex" gap="20px" item xs={12} lg={6} pt={0} justifyContent={'center'} alignItems={'center'}>
+              <Typography variant="h5" component="h6">
+                Total Assigned Credits
+              </Typography>
+              <Box
+                display="flex"
+                flexDirection="row"
+                alignItems="center"
+                gap={3}
+                flexGrow={1}
+              >
+                <Box
+                  component="section"
+                  sx={{ p: 2, border: "1px dashed grey", width: "100%" }}
+                  textAlign="center"
+                  fontSize={20}
+                  fontWeight="bold"
+                >
+                  5,231
+                </Box>
+              </Box>
+            </Grid>
           </Grid>
 
           <Grid container spacing={3}>

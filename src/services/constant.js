@@ -17,7 +17,9 @@ const Api = {
     studentReports:'/users/student-report-chart',
     studentExport:'/users/export-student',
     //Students sessions
-    studentSessionReassign:'/users/student-session-reasign-list'
+    studentSessionReassign:'/users/student-session-reasign-list',
+    sessionList:'/users/session-list',
+    reAssignSession:'/users/update-session-code'
 };
 
 export default Api;

@@ -1,5 +1,5 @@
-import * as React from "react";
 import { styled } from "@mui/material/styles";
+import * as React from "react";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -21,6 +21,10 @@ import { Modal, TextField, Button, IconButton, Grid } from "@mui/material";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import CustomSelect from "../../../components/forms/theme-elements/CustomSelectField";
 import ReactSelect from "../../../components/forms/theme-elements/ReactSelect";
+import { getData, patchData, postData } from "../../../services/services";
+import Api from "../../../services/constant";
+import { useState } from "react";
+import useCustomToast from "../../../hooks/CustomToastHook";
 function SessionReassignMentTable({
   children,
   role,
@@ -46,20 +50,26 @@ function SessionReassignMentTable({
   // setOrder,
   // setOrderBy
 }) {
-  const [row, setRow] = React.useState(listData ? listData : []);
-  const [order, setOrder] = React.useState("desc");
-  const [orderBy, setOrderBy] = React.useState("_created_at");
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [open, setOpen] = React.useState(false);
+  const { showToast, ToastComponent } = useCustomToast();
+  //all states
+  const [row, setRow] = useState(listData ? listData : []);
+  const [order, setOrder] = useState("desc");
+  const [orderBy, setOrderBy] = useState("_created_at");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [open, setOpen] = useState(false);
+  const [sessionList,setSessionList]=useState()
+   const [activationCode, setActivationCode] = useState('')
+   const [activationCodeId, setActivationCodeId] = useState('')
+   const [currentSessionDetails, setCurrentSessionDetails] = useState('')
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  // const [searchTerm,setSearchTerm]=React.useState('')
-  // const [userRole,setUserRole]=React.useState('')
-  // const [listData, setListData] = React.useState([])
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [totalCount, setTotalCount] = React.useState("");
+  // const [searchTerm,setSearchTerm]=useState('')
+  // const [userRole,setUserRole]=useState('')
+  // const [listData, setListData] = useState([])
+  const [isLoading, setIsLoading] = useState(false);
+  const [totalCount, setTotalCount] = useState("");
   const sessionData = [
     {
       sessionCode: "F042J",
@@ -103,37 +113,52 @@ function SessionReassignMentTable({
     boxShadow: 24,
     p: 2,
   };
+  const getSessionList = async () => {
+    try {
+      setIsLoading(true);
+      const result = await getData(Api?.sessionList);
 
-  // React.useEffect(()=>{
-  //  const pageIndex =page==0?1:page
-  //   const pagination={
-  //     page:pageIndex,rowsPerPage,searchTerm,userRole
-  //   }
-  //   // getListData(pagination)
-  // },[page,rowsPerPage])
+      if (result?.success) {
+        const response = result?.data?.sessions;
+        // setStudentDetails(response);
+        const updatedResponse=response.map((item) => ({
+          label: `${item.activationCode}`, value:item?._id
+        }));
+        setSessionList(updatedResponse)
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.error(error);
+    }
+  };
 
-  function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) return -1;
-    if (b[orderBy] > a[orderBy]) return 1;
-    return 0;
-  }
+  const updateSessionCode = async () => {
+    try {
+      setIsLoading(true);
+      const payload={
+        _id:activationCodeId,
+        activationCode
+      }
+      const result = await patchData(Api?.reAssignSession,payload);
 
-  function getComparator(order, orderBy) {
-    return order === "desc"
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
-  }
-
-  function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) return order;
-      return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-  }
-
+      if (result?.success) {
+       
+        showToast(result?.message)
+        handleClose()
+        setIsLoading(false);
+      } else {
+        showToast(result?.message,'error')
+        setIsLoading(false);
+        handleClose()
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.error(error);
+    }
+  };
   function EnhancedTableHead(props) {
     const { order, orderBy, onRequestSort } = props;
     const createSortHandler = (property) => (event) => {
@@ -205,6 +230,7 @@ function SessionReassignMentTable({
   }, [order, orderBy, page, rowsPerPage, row, listData]);
   React.useEffect(() => {
     setRow(listData);
+    getSessionList()
   }, [listData, headers]);
   return (
     <div>
@@ -248,7 +274,7 @@ function SessionReassignMentTable({
                       align="left"
                       sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
                     >
-                      <Tooltip title={"Re-Assign"} onClick={handleOpen}>
+                      <Tooltip title={"Re-Assign"} onClick={()=>{handleOpen();setCurrentSessionDetails(row)}}>
                         <Button
                           color="primary"
                           variant="contained"
@@ -336,14 +362,14 @@ function SessionReassignMentTable({
                     Session Code:
                   </Typography>
                   <Typography variant="body1">
-                  F042J
+                  {currentSessionDetails?.sessionCode}
                   </Typography></Box>
 
                   <Box display={"flex"}  gap={"8px"}>
                   <Typography color={"#0055A3"} fontWeight={"600"} variant="body1">
                     Session Name:
                   </Typography>
-                  <Typography variant="body1">Judy Room
+                  <Typography variant="body1">{currentSessionDetails?.sessionName}
                   </Typography>
                  </Box>
 
@@ -352,7 +378,7 @@ function SessionReassignMentTable({
                     Instructor Name: 
                   </Typography>
                   <Typography variant="body1">
-                  Instructor Dashboard
+                  {currentSessionDetails?.instructor}
                   </Typography>
                  </Box>
                  
@@ -374,9 +400,14 @@ function SessionReassignMentTable({
                     as={ReactSelect}
                     id="userRole"
                     name="userRole"
+                    
                     label="Select your Session"
                     displayEmpty
-                    options={sessionArray}
+                    options={sessionList}
+                    onChange={(option) => {
+                      setActivationCode(option?.label || '');
+                      setActivationCodeId(option?.value || '');
+                    }}
                     helperText={<ErrorMessage name="userRole" />}
                   />
                 </Grid>
@@ -388,11 +419,7 @@ function SessionReassignMentTable({
                       size="large"
                       fullWidth
                       type="button"
-                      //   onClick={() => {
-                      //     // Handle cancel
-                      //     cancel();
-                      //     // navigate('/users');
-                      //   }}
+                      onClick={handleClose}
                     >
                       Cancel
                     </Button>
@@ -404,7 +431,8 @@ function SessionReassignMentTable({
                       size="large"
                       fullWidth
                       type="submit"
-                      //   disabled={isSubmitting}
+                      onClick={updateSessionCode}
+                        disabled={activationCode==''}
                     >
                       Reassign
                     </Button>
@@ -415,6 +443,7 @@ function SessionReassignMentTable({
           </Formik>
         </Box>
       </Modal>
+      <ToastComponent/>
     </div>
   );
 }

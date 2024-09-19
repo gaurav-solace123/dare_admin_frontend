@@ -21,6 +21,7 @@ const ReactSelect = ({ options, id, label, displayEmpty, error, helperText, ...r
       id={id}
       options={options}
       styles={customStyles}
+      maxMenuHeight={200}
       placeholder={displayEmpty ? label : null}
       {...rest}
     />
