@@ -6,7 +6,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 const ITEM_HEIGHT = 48;
 
-export default function MenuOption({ options }) {
+export default function MenuOption({ options, onChange }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -45,11 +45,14 @@ export default function MenuOption({ options }) {
       >
         {options.map((option) => (
           <MenuItem
-            key={option}
-            selected={option === "Pyxis"}
-            onClick={handleClose}
+            key={option.label}
+            selected={option.label === "Pyxis"}
+            onClick={() => {
+              onChange(option?.value);
+              handleClose();
+            }}
           >
-            {option}
+            {option?.label}
           </MenuItem>
         ))}
       </Menu>

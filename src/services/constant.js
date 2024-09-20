@@ -23,7 +23,8 @@ const Api = {
 
     //dashBoard
     sessionsActivatedByLevel:'/users/workbook-session-count',
-    creditsActivatedByLevel:'/users/credit-consume'
+    creditsActivatedByLevel:'/users/credit-consume',
+    totalCredit:'/users/dashboard/assigned-available-credit-count'
 };
 
 export default Api;
