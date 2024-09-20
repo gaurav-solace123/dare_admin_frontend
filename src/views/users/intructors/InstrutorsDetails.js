@@ -7,18 +7,30 @@ import {
 	Tab,
 	Tabs,
 	Typography,
+	Button,
 } from "@mui/material";
 import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
 import CardMembershipOutlinedIcon from "@mui/icons-material/CardMembershipOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PurchaseCredit from "./PurchaseCredit";
 import TransferCredit from "./TransferCredit";
+import { useLocation } from "react-router";
+import { head, upperFirst } from "lodash";
+import { getData } from "../../../services/services";
+import Api from "../../../services/constant";
 
 function InstructorPreview() {
+	const location = useLocation();
+	const userId = location?.state?.userId;
 	const [activeTab, setActiveTab] = useState("purchase_credit"); // Default to 'day' tab
 
+	const [isLoading, setIsLoading] = useState(false);
+	const [instructorDetails, setInstructorDetails] = useState("");
+	const [specificStudentSessionList, setSpecificStudentSessionList] = useState(
+		[]
+	);
 	const handleTabChange = (event, newValue) => {
 		setActiveTab(newValue);
 	};
@@ -50,7 +62,27 @@ function InstructorPreview() {
 		{ id: "instructor", numeric: false, label: "Instructor" },
 		{ id: "action", numeric: false, label: "Instructor Action" },
 	];
+	const viewData = async () => {
+		try {
+			setIsLoading(true);
+			const result = await getData(`${Api?.viewUser}/${userId}`);
 
+			if (result?.success) {
+				const response = result?.data;
+				setInstructorDetails(response);
+				setIsLoading(false);
+			} else {
+				setIsLoading(false);
+			}
+		} catch (error) {
+			setIsLoading(false);
+			console.error(error);
+		}
+	};
+
+	useEffect(() => {
+		viewData();
+	}, []);
 	return (
 		<>
 			<Box
@@ -108,7 +140,10 @@ function InstructorPreview() {
 									flexWrap="wrap"
 								>
 									<Box display="flex" gap="15px" flexBasis="calc(50% - 10px)">
-										<Avatar sx={{ bgcolor: "#673ab7" }}>GJ</Avatar>
+										<Avatar sx={{ bgcolor: "#673ab7" }}>
+											{upperFirst(head(instructorDetails?.firstName))}
+											{upperFirst(head(instructorDetails?.lastName))}
+										</Avatar>
 										<Box display="flex" flexDirection="column" gap="8px">
 											<Box display="flex" gap="8px">
 												<Typography
@@ -118,19 +153,19 @@ function InstructorPreview() {
 													component="label"
 													htmlFor="firstName"
 												>
-													Gaurav Jadhav
+													{`${instructorDetails?.firstName} ${instructorDetails?.lastName}`}
 												</Typography>
 											</Box>
 
 											<Box display="flex" gap="8px">
 												<Typography variant="subtitle1" fontWeight={400}>
-													Username: Data
+													Username: {instructorDetails?.username}
 												</Typography>
 											</Box>
 
 											<Box display="flex" gap="8px">
 												<Typography variant="subtitle1" fontWeight={400}>
-													gauravjadhav@gmail.com
+													{instructorDetails?.email}
 												</Typography>
 											</Box>
 										</Box>
@@ -152,8 +187,9 @@ function InstructorPreview() {
 											Address
 										</Typography>
 										<Typography variant="subtitle1" fontWeight={400}>
-											Akshya Nagar 1st Block 1st Cross,<br></br> Rammurthy
-											nagar, <br></br>Bangalore-560016
+											{`${instructorDetails?.street_1} ${instructorDetails?.street_2}`}
+											,<br></br>
+											{`${instructorDetails?.city}, ${instructorDetails?.state}, ${instructorDetails?.country} - ${instructorDetails?._postal_code}`}
 										</Typography>
 									</Box>
 								</Box>
@@ -201,7 +237,7 @@ function InstructorPreview() {
 										<Typography
 											variant="h6"
 											fontWeight={400}
-											fontSize={18}
+											fontSize={16}
 											color={"#2b2d3b"}
 											component="label"
 										>
@@ -242,7 +278,7 @@ function InstructorPreview() {
 										<Typography
 											variant="h6"
 											fontWeight={400}
-											fontSize={18}
+											fontSize={16}
 											color={"#2b2d3b"}
 											component="label"
 										>
@@ -285,7 +321,7 @@ function InstructorPreview() {
 										<Typography
 											variant="h6"
 											fontWeight={400}
-											fontSize={18}
+											fontSize={16}
 											color={"#2b2d3b"}
 											component="label"
 										>
@@ -326,13 +362,24 @@ function InstructorPreview() {
 										<Typography
 											variant="h6"
 											fontWeight={400}
-											fontSize={18}
+											fontSize={16}
 											color={"#2b2d3b"}
 											component="label"
 										>
 											Available Credits
 										</Typography>
 									</Box>
+								</Box>
+								<Box paddingTop={3}>
+									<Button
+										color="primary"
+										variant="contained"
+										size="large"
+										fullWidth
+										type="button"
+									>
+										Create Bonus Credit
+									</Button>
 								</Box>
 							</CardContent>
 						</Card>

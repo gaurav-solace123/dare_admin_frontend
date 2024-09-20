@@ -5,18 +5,18 @@ import { Grid, Typography } from "@mui/material";
 import { useTheme, useMediaQuery } from "@mui/material";
 
 const sizes = {
-  width: 500,
-  height: 200,
+	width: 500,
+	height: 200,
 };
 
 export default function PieChartStudentReports({
-  data = [],
-  size = sizes,
-  sx,
+	data = [],
+	size = sizes,
+	sx,
 }) {
-  const [datas, setDatas] = React.useState([]);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // For small screens
+	const [datas, setDatas] = React.useState([]);
+	const theme = useTheme();
+	const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // For small screens
 
 	return (
 		<Box position={"relative"}>
@@ -26,7 +26,7 @@ export default function PieChartStudentReports({
 				justifyContent={"center"}
 				flexDirection={"column"}
 			>
-				<Grid item xs={12} sm={12} md={6} lg={6}>
+				<Grid item xs={12} sm={12} md={12} lg={12}>
 					{data && data.every((item) => item.value === 0) ? (
 						<Box
 							sx={{
@@ -79,8 +79,8 @@ export default function PieChartStudentReports({
 									},
 								},
 							]}
-							height={isMobile ? 250 : 250} // Increased height
-							width={isMobile ? 250 : 250}
+							height={isMobile ? 300 : 450}
+							width={450}
 							slotProps={{ legend: { hidden: true } }}
 						/>
 					)}

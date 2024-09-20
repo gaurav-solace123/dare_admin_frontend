@@ -190,13 +190,14 @@ const AddEditUser = ({
     const payload = {
       firstName: values?.firstName,
       lastName: values?.lastName,
-      username: values?.username,
+      // username: values?.username,
       email: values?.email,
       userRole: values?.userRole,
     };
-    //    if(userId){
-    //     payload._id=userId;
-    //    }
+       if(!userId){
+        // payload._id=userId;
+        payload.username= values?.username
+       }
     if (values?.password) {
       payload.password = values?.password;
     }
