@@ -69,6 +69,41 @@ function InstructorPreview() {
     { id: "instructor", numeric: false, label: "Instructor" },
     { id: "action", numeric: false, label: "Instructor Action" },
   ];
+  const mockInstructorDetails={
+    "status": 200,
+    "data": {
+      "userDetails": [
+        {
+            "_id": "uSapZTb0YW",
+            "userRole": "Instructor",
+            "firstName": "Jennifer",
+            "lastName": "Smith",
+            "username": "smithjenni",
+            "email": "jenismith@yopmail.com",
+            "accountApproved": false,
+            "isIntialized": false,
+            "street_1": "1228 Ratone Street",
+            "street_2": "Noida",
+            "city": "Manhattan",
+            "state": "KS",
+            "country": "US",
+            "_postal_code": "66502",
+            "mobileNumber": "6623887013",
+            "isArchive": false,
+            "organization": "New",
+            "_created_at": "2024-09-21T08:12:24.986Z",
+            "_updated_at": "2024-09-21T08:12:24.990Z",
+            "__v": 0
+        }
+      ],
+      "totalCredits": 50,
+      "availableCredits": 30,
+      "assignedCredits": 20,
+      "usedCredits": 15
+    },
+    "success": true,
+    "error": false
+  }
   //all states
   const [activeTab, setActiveTab] = useState("purchase_credit"); // Default to 'day' tab
   const [isLoading, setIsLoading] = useState(false);
@@ -85,10 +120,14 @@ function InstructorPreview() {
   const viewData = async () => {
     try {
       setIsLoading(true);
-      const result = await getData(`${Api?.viewUser}/${userId}`);
-
+      // const result = await getData(`${Api?.instructorDetails}/${userId}`);
+      const result=mockInstructorDetails
       if (result?.success) {
-        const response = result?.data;
+        const response = result?.data?.userDetails[0];
+        response.usedCredits=result?.data?.usedCredits
+        response.assignedCredits=result?.data?.assignedCredits
+        response.availableCredits=result?.data?.availableCredits
+        response.totalCredits=result?.data?.totalCredits
         setInstructorDetails(response);
         setIsLoading(false);
       } else {
@@ -257,7 +296,7 @@ function InstructorPreview() {
                         fontWeight: "bold",
                       }}
                     >
-                      233
+                      {instructorDetails?.totalCredits}
                     </Typography>
                     <Typography
                       variant="h6"
@@ -298,7 +337,7 @@ function InstructorPreview() {
                         color: "#27cea7",
                       }}
                     >
-                      123
+                      {instructorDetails?.assignedCredits}
                     </Typography>
                     <Typography
                       variant="h6"
@@ -341,7 +380,7 @@ function InstructorPreview() {
                         color: "#6142ff",
                       }}
                     >
-                      123
+                      {instructorDetails?.usedCredits}
                     </Typography>
                     <Typography
                       variant="h6"
@@ -382,7 +421,7 @@ function InstructorPreview() {
                         color: "#ff9f43",
                       }}
                     >
-                      110
+                       {instructorDetails?.availableCredits}
                     </Typography>
                     <Typography
                       variant="h6"
@@ -402,6 +441,7 @@ function InstructorPreview() {
                     size="large"
                     fullWidth
                     type="button"
+                    onClick={()=>setOpen(true)}
                   >
                     Create Bonus Credit
                   </Button>
@@ -410,10 +450,11 @@ function InstructorPreview() {
             </Card>
           </Grid>
         </Grid>
-        {activeTab === "purchase_credit" && <PurchaseCredit />}
+        {activeTab === "purchase_credit" && <PurchaseCredit userId={userId} />}
         {activeTab === "credit_transfer_for_log" && (
           <Box mx="20px">
             <TransferCredit
+            userId={userId}
               listData={sessionData}
               tableFields={tableFields}
               headers={headers}

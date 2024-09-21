@@ -145,6 +145,7 @@ function SessionReassignMentTable({
       const payload = {
         _id: activationCodeId,
         // previousActivationCode:currentSessionDetails?.sessionCode,
+        // workbookSessionId:currentSessionDetails?.workbookSessionId,
         activationCode,
       };
       const result = await patchData(Api?.reAssignSession, payload);

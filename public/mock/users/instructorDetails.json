@@ -1,0 +1,35 @@
+{
+    "status": 200,
+    "data": {
+      "userDetails": [
+        {
+            "_id": "uSapZTb0YW",
+            "userRole": "Instructor",
+            "firstName": "Jennifer",
+            "lastName": "Smith",
+            "username": "smithjenni",
+            "email": "jenismith@yopmail.com",
+            "accountApproved": false,
+            "isIntialized": false,
+            "street_1": "1228 Ratone Street",
+            "street_2": "Noida",
+            "city": "Manhattan",
+            "state": "KS",
+            "country": "US",
+            "_postal_code": "66502",
+            "mobileNumber": "6623887013",
+            "isArchive": false,
+            "organization": "New",
+            "_created_at": "2024-09-21T08:12:24.986Z",
+            "_updated_at": "2024-09-21T08:12:24.990Z",
+            "__v": 0
+        }
+      ],
+      "totalCredits": 50,
+      "availableCredits": 30,
+      "assignedCredits": 20,
+      "usedCredits": 15
+    },
+    "success": true,
+    "error": false
+  }

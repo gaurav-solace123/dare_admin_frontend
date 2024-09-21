@@ -24,7 +24,15 @@ const Api = {
     //dashBoard
     sessionsActivatedByLevel:'/users/workbook-session-count',
     creditsActivatedByLevel:'/users/credit-consume',
-    totalCredit:'/users/dashboard/assigned-available-credit-count'
+    totalCredit:'/users/dashboard/assigned-available-credit-count',
+    //instructor credits
+    generateInstructorCredits:'/users/generate-creadits-instructor',
+    purchaseCreditInstructor:'/users/credits-purchase-details',
+    transferCreditInstructor:'/users/credits-transfer-details',
+    
+    //instructor details
+    instructorDetails:'/users/instructor-details'
+
 };
 
 export default Api;

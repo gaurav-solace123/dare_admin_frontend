@@ -24,6 +24,7 @@ import { getData } from "../../services/services";
 import Api from "../../services/constant";
 import Loader from "../../components/Loader";
 import useCustomToast from "../../hooks/CustomToastHook";
+import Config from "src/config/config.json";
 // import DownloadForOfflineSharpIcon from '@mui/icons-material/DownloadForOfflineSharp';
 
 const CustomTable = Loadable(lazy(() => import("./component/CustomTable")));
@@ -168,7 +169,12 @@ export default function EnhancedTable({role=''}) {
     }
     try {
       setIsLoading(true);
-      const result = await getData(`${Api.listUsers}${searchQuery}`); //
+      let apiPath=`${Api.listUsers}${searchQuery}`
+//       if(role=='Instructor'&&Config.isMock)
+// {
+//   apiPath=`/users/instructorList`
+// }
+      const result = await getData(apiPath); //
       if (result.status == 200) {
         const response = result?.data?.users;
         const tempData = response.map((item) => createData(item));
