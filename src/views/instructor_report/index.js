@@ -110,13 +110,14 @@ function InstructorReport() {
   ];
 
   const calendarTabs = [
+    { value: "day", label: "Day" },
     { value: "month", label: "Month" },
-    { value: "quarter", label: "Quarter" },
     { value: "year", label: "Year" },
+    { value: "range", label: "Range" },
   ];
   //all states
   const [selectedDate, setSelectedDate] = useState(dayjs());
-  const [filter, setFilter] = useState("month");
+  const [filter, setFilter] = useState("day");
   const [listData, setListData] = useState(instructorCreditActivityReport);
   return (
     <>

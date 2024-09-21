@@ -75,6 +75,7 @@ function StudentDetails() {
         data: [
           {
             WorkbookSessionDetails: {
+              _id: "4QrQMRlJzw",
               name: "Whitney",
               activationCode: "ljdfu",
             },
@@ -152,6 +153,7 @@ function StudentDetails() {
         if (response.length > 0) {
           const sessionReassignmentList = response.map((item) => ({
             sessionName: item?.WorkbookSessionDetails?.name,
+            workbookSessionId: item?.WorkbookSessionDetails?._id,
             sessionCode: item?.WorkbookSessionDetails?.activationCode,
             workbook: item?.WorkbookDetails?.name,
             instructor: `${item?.InstructorDetails?.firstName} ${item?.InstructorDetails?.lastName}`,

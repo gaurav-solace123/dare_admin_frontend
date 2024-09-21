@@ -1,0 +1,289 @@
+{
+    "status": 200,
+    "data": {
+        "users": [
+            {
+                "country": null,
+                "isArchive": false,
+                "_id": "li3W4wX5ih",
+                "userRole": "Instructor",
+                "firstName": "Kaseem",
+                "lastName": "Wiley",
+                "username": "sdfsafsfdsd",
+                "email": "ramecog@mailinator.com",
+                "accountApproved": false,
+                "isIntialized": false,
+                "street_1": "Corporis ipsam in es",
+                "street_2": "Accusantium aspernat",
+                "city": "Casselberry",
+                "state": "CO",
+                "_postal_code": "21212JSD",
+                "mobileNumber": "1234567890",
+                "organization": "this is my organisation",
+                "_created_at": "2024-09-10T13:14:19.217Z",
+                "_updated_at": "2024-09-10T13:14:19.217Z",
+                "__v": 0
+            },
+            {
+                "isArchive": false,
+                "_id": "P4WIvFCqFP",
+                "userRole": "Instructor",
+                "firstName": "Prasad",
+                "lastName": "Pawar",
+                "username": "prasadp",
+                "email": "prasadp@gmail.com",
+                "accountApproved": false,
+                "isIntialized": false,
+                "street_1": "920",
+                "street_2": "State Road",
+                "city": "Casselberry",
+                "state": "FL",
+                "_postal_code": "32707",
+                "mobileNumber": "1234567890",
+                "organization": "ABSNSNS",
+                "_created_at": "2024-09-10T12:18:26.228Z",
+                "_updated_at": "2024-09-10T12:18:26.228Z",
+                "__v": 0,
+                "country": "US"
+            },
+            {
+                "isArchive": false,
+                "_id": "jkaIPJNeCc",
+                "userRole": "Instructor",
+                "firstName": "Prasad",
+                "lastName": "Pawar",
+                "username": "prasad",
+                "email": "prasadp@gmail.com",
+                "accountApproved": false,
+                "isIntialized": false,
+                "street_1": "920",
+                "street_2": "State Road",
+                "city": "Casselberry",
+                "state": "FL",
+                "_postal_code": "32707",
+                "mobileNumber": "732883238274",
+                "organization": "Prasad P",
+                "_created_at": "2024-09-10T09:00:43.659Z",
+                "_updated_at": "2024-09-10T09:00:43.659Z",
+                "__v": 0,
+                "country": "US"
+            },
+            {
+                "country": null,
+                "isArchive": false,
+                "_id": "MSaytOYSo8",
+                "userRole": "Instructor",
+                "firstName": "Kevin",
+                "lastName": "Moara",
+                "username": "kevinmorar",
+                "email": "kevinmorar@yopmail.com",
+                "accountApproved": false,
+                "isIntialized": false,
+                "street_1": "920",
+                "street_2": "State Road",
+                "city": "Casselberry",
+                "state": "FL",
+                "_postal_code": "32707",
+                "mobileNumber": "2049889092",
+                "organization": "Kevin",
+                "_created_at": "2024-09-10T07:08:34.727Z",
+                "_updated_at": "2024-09-10T07:08:34.731Z",
+                "__v": 0
+            },
+            {
+                "country": null,
+                "isArchive": false,
+                "_id": "L9jEuujb2E",
+                "userRole": "Instructor",
+                "firstName": "Dova",
+                "lastName": "s",
+                "username": "melaniecons",
+                "email": "dova@mailinator.com",
+                "accountApproved": false,
+                "isIntialized": false,
+                "street_1": null,
+                "street_2": null,
+                "city": null,
+                "state": null,
+                "_postal_code": null,
+                "mobileNumber": null,
+                "organization": "wewee",
+                "_created_at": "2024-09-09T08:49:09.804Z",
+                "_updated_at": "2024-09-09T08:49:09.804Z",
+                "__v": 0
+            },
+            {
+                "country": null,
+                "isArchive": false,
+                "_id": "hMkJuEHtXf",
+                "userRole": "Instructor",
+                "firstName": "Rose",
+                "lastName": "Fletcher",
+                "username": "qecuv",
+                "email": "sycyvo@mailinator.com",
+                "accountApproved": false,
+                "isIntialized": false,
+                "street_1": null,
+                "street_2": null,
+                "city": null,
+                "state": null,
+                "_postal_code": null,
+                "mobileNumber": null,
+                "organization": "Mcclain and Sellers Traders",
+                "_created_at": "2024-09-06T11:23:56.018Z",
+                "_updated_at": "2024-09-06T11:23:56.018Z",
+                "__v": 0
+            },
+            {
+                "country": null,
+                "isArchive": false,
+                "_id": "eUGlmVmH51",
+                "userRole": "Instructor",
+                "firstName": "Latifah",
+                "lastName": "Terry",
+                "username": "zeqixe",
+                "email": "pudujomozo@mailinator.com",
+                "accountApproved": false,
+                "isIntialized": false,
+                "street_1": null,
+                "street_2": null,
+                "city": null,
+                "state": null,
+                "_postal_code": null,
+                "mobileNumber": null,
+                "organization": "Mays and Knight LLC",
+                "_created_at": "2024-09-06T11:16:25.250Z",
+                "_updated_at": "2024-09-06T11:16:25.252Z",
+                "__v": 0
+            },
+            {
+                "isIntialized": false,
+                "street_1": null,
+                "street_2": null,
+                "city": null,
+                "state": null,
+                "country": null,
+                "_postal_code": null,
+                "mobileNumber": null,
+                "isArchive": false,
+                "_id": "kuQZEDv1JB",
+                "email": "trammel@auglaizecounty.org",
+                "userRole": "Instructor",
+                "firstName": "Timothy",
+                "lastName": "Rammel",
+                "username": "trammel",
+                "accountApproved": false,
+                "isInitialized": true,
+                "displayName": "Timothy Rammel",
+                "_hashed_password": "$2a$10$DbGpsvAoCqinVcuGCHSgQ.UB6Fofaqk/UXVvs.3KzqNE8Rj2fKaTy",
+                "_email_verify_token": "HHHFGoBWI4fJtdXVe8616O1tY",
+                "emailVerified": true,
+                "_wperm": [
+                    "kuQZEDv1JB"
+                ],
+                "_rperm": [
+                    "*",
+                    "kuQZEDv1JB"
+                ],
+                "_acl": {
+                    "kuQZEDv1JB": {
+                        "w": true,
+                        "r": true
+                    },
+                    "*": {
+                        "r": true
+                    }
+                },
+                "_created_at": "2024-08-19T13:45:54.046Z",
+                "_updated_at": "2024-08-19T13:45:54.588Z"
+            },
+            {
+                "isIntialized": false,
+                "street_1": null,
+                "street_2": null,
+                "city": null,
+                "state": null,
+                "country": null,
+                "_postal_code": null,
+                "mobileNumber": null,
+                "isArchive": false,
+                "_id": "BwCebrFilx",
+                "email": "dadams@jonesboro.org",
+                "userRole": "Instructor",
+                "firstName": "Carey",
+                "lastName": "Adams",
+                "username": "dcadams",
+                "accountApproved": false,
+                "isInitialized": true,
+                "displayName": "Carey Adams",
+                "_hashed_password": "$2a$10$mx1QDonHgh0LDW7kFxBiLu8bLZE47TwGWL7YbeZwXbEv4g2/3aWeG",
+                "_email_verify_token": "N2aFoKd19BggtlESRa9UBn8hO",
+                "emailVerified": true,
+                "_wperm": [
+                    "BwCebrFilx"
+                ],
+                "_rperm": [
+                    "*",
+                    "BwCebrFilx"
+                ],
+                "_acl": {
+                    "BwCebrFilx": {
+                        "w": true,
+                        "r": true
+                    },
+                    "*": {
+                        "r": true
+                    }
+                },
+                "_created_at": "2024-08-15T19:04:12.122Z",
+                "_updated_at": "2024-08-15T19:04:12.757Z"
+            },
+            {
+                "isIntialized": false,
+                "street_1": null,
+                "street_2": null,
+                "city": null,
+                "state": null,
+                "country": null,
+                "_postal_code": null,
+                "mobileNumber": null,
+                "isArchive": false,
+                "_id": "yhrqye6OKR",
+                "email": "carolina.ortega@franklincountyva.gov",
+                "userRole": "Instructor",
+                "firstName": "Carolina",
+                "lastName": "Knotts",
+                "username": "cknotts",
+                "accountApproved": false,
+                "isInitialized": true,
+                "displayName": "Carolina Knotts",
+                "_hashed_password": "$2a$10$XtIAP9.O68.V9IGZ/V/IC.xsVvNzd7tnUg6FECDfY8NCDH/Gfw6DW",
+                "_email_verify_token": "7AWnrRJE8GeLWgKMIJp1BBuTB",
+                "emailVerified": false,
+                "_wperm": [
+                    "yhrqye6OKR"
+                ],
+                "_rperm": [
+                    "*",
+                    "yhrqye6OKR"
+                ],
+                "_acl": {
+                    "yhrqye6OKR": {
+                        "w": true,
+                        "r": true
+                    },
+                    "*": {
+                        "r": true
+                    }
+                },
+                "_created_at": "2024-08-14T16:26:56.110Z",
+                "_updated_at": "2024-08-14T16:26:56.710Z"
+            }
+        ],
+        "total": 2063,
+        "page": 1,
+        "limit": 10
+    },
+    "success": true,
+    "error": false
+}

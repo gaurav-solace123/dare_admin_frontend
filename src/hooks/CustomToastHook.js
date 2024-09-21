@@ -18,7 +18,7 @@ const useCustomToast = () => {
     setOpen(false);
   };
 
-  const showToast = (title,severity = "success" ,description, duration = 3000) => {
+  const showToast = (title, severity = "success", description, duration = 3000) => {
     setToastQueue((prevQueue) => [
       ...prevQueue,
       { title, description, severity, duration }
@@ -33,10 +33,14 @@ const useCustomToast = () => {
         onClose={handleClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <Alert onClose={handleClose} severity={currentToast.severity} sx={{ width: '100%',height:'100%' }}>
-          <strong>{currentToast.title}</strong>
-          {currentToast.description}
-        </Alert>
+         <Alert severity={currentToast.severity} sx={{ width: '100%', height: '100%',
+        backgroundColor: currentToast.severity === "success" ? "#DEF2D6" : currentToast.severity === "error" ? "#ECC8C5" : "blue",
+        color: currentToast.severity === "success" ? "#5A7052" : currentToast.severity === "error" ? "#B32F2D" : "white",
+        '& .MuiAlert-icon': { color: currentToast.severity === "success" ? "#5A7052" : currentToast.severity === "error" ? "#B32F2D" : "white" }
+      }}>
+        <strong>{currentToast.title}</strong>
+        {currentToast.description}
+      </Alert>
       </Snackbar>
     )
   );

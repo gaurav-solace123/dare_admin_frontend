@@ -27,10 +27,8 @@ function AddSvgForm({
   image,
   isMobile,
   handleSvgClose,
-  getListData
+  getListData,
 }) {
-  console.log("isMobile", isMobile);
-
   const baseStyle = {
     display: "flex",
     flexDirection: "column",
@@ -48,40 +46,34 @@ function AddSvgForm({
     justifyContent: "center",
   };
 
-  const [selectedFiles, setSelectedFiles] = useState(null); 
-  
+  const [selectedFiles, setSelectedFiles] = useState(null);
+
   const [isLoading, setIsLoading] = React.useState(false);
   const onFileSelect = (event) => {
     setSelectedFiles(event.target.files); // Store selected files when user selects them
   };
   const uploadCSVFile = async () => {
-   
-
     const formData = new FormData();
-    
+
     Array.from(selectedFiles).forEach((file) => {
-      formData.append('file', file); // 'files' is the key expected by the backend
+      formData.append("file", file); // 'files' is the key expected by the backend
     });
     // return
     try {
       const result = await postData(Api.bulkUplaod, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-        },});
-        
-        debugger
-        if (result.status == 200) {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-          showToast(result?.message)
-          handleSvgClose()
-          getListData()
-        }
-        else{
-          commonFunc.DownloadCSV(result, "Error");
-          handleSvgClose()
-        }
-
-     
+      if (result.status == 200) {
+        showToast(result?.message);
+        handleSvgClose();
+        getListData();
+      } else {
+        commonFunc.DownloadCSV(result, "Error");
+        handleSvgClose();
+      }
     } catch (error) {}
   };
   const downLoadSampleCSVFile = async () => {
@@ -129,15 +121,14 @@ function AddSvgForm({
               type="file"
               accept=".csv, .xls, .xlsx" // Restrict file types to CSV and XLS/XLSX
               onChange={onFileSelect}
-              
             />
           </Button>
         </Box>
         {selectedFiles && (
-        <Typography variant="body2" sx={{ mt: 2 }}>
-          Selected file: {selectedFiles[0].name}
-        </Typography>
-      )}
+          <Typography variant="body2" sx={{ mt: 2 }}>
+            Selected file: {selectedFiles[0].name}
+          </Typography>
+        )}
       </Box>
       <Grid container spacing={2} justifyContent="center">
         <Grid container item xs={12} spacing={2} mt={2} mx={"auto"}>
@@ -148,7 +139,7 @@ function AddSvgForm({
               size="large"
               fullWidth
               type="button"
-              disabled={!selectedFiles} 
+              disabled={!selectedFiles}
               onClick={uploadCSVFile}
             >
               Student Bulk Upload

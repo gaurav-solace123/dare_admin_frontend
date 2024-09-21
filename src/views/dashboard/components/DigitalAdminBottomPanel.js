@@ -1,12 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import DashboardCard from "../../../components/shared/DashboardCard";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, IconButton, Modal, Typography } from "@mui/material";
 import MenuOption from "./MenuOption";
+import SelectYear from "./SelectYear";
+import UnifiedDatePicker from "../../../components/YearMonthDayDatepicker";
 
 function DigitalAdminBottomPanel() {
-  const options = [
-    "Year",
-  ];
+  const options = ["Year"];
+  const styleModel = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 500,
+    bgcolor: "background.paper",
+    border: "2px solid #0055A4",
+    borderRadius: "5px",
+    boxShadow: 24,
+    p: 2,
+  }
+  const [open, setOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const handleClose = () => setOpen(false);
   return (
     <>
       <DashboardCard>
@@ -22,17 +38,16 @@ function DigitalAdminBottomPanel() {
             xl={12}
           >
             <Box display="flex" flexDirection="row" alignItems="center" gap={5}>
-              
-            <Typography variant="h5" component="h6">
-              Downloadable Reports
-            </Typography>
+              <Typography variant="h5" component="h6">
+                Downloadable Reports
+              </Typography>
               <Box display="flex" flexDirection="column" alignItems="center">
                 <img
                   src={"/src/assets/images/logos/affiliate-icon.png"}
                   alt={"gkgk"}
                   loading="lazy"
                   width={"35px"}
-                  style={{marginBottom:'10px'}}
+                  style={{ marginBottom: "10px" }}
                 />
 
                 <Typography variant="danger" textAlign={"center"}>
@@ -46,8 +61,7 @@ function DigitalAdminBottomPanel() {
                   alt={"gkgk"}
                   loading="lazy"
                   width={"35px"}
-                  style={{marginBottom:'10px'}}
-
+                  style={{ marginBottom: "10px" }}
                 />
                 <Typography variant="caption" textAlign={"center"}>
                   Buyer Information
@@ -73,20 +87,67 @@ function DigitalAdminBottomPanel() {
                   alt={"gkgk"}
                   loading="lazy"
                   width={"35px"}
-                  style={{marginBottom:'10px'}}
-
+                  style={{ marginBottom: "10px" }}
                 />
                 <Typography variant="caption" textAlign={"center"}>
                   Sessions Sold by State
                 </Typography>
               </Box>
               <Box display="flex" flexDirection="" alignItems="start">
-              <MenuOption options={options} />
+                <Button
+                  color="primary"
+                  variant="contained"
+                  size="large"
+                  fullWidth
+                  onClick={()=>setOpen(true)}
+                  type="button"
+                >
+                  Select Year
+                </Button>
+              </Box>
+              <Box display="flex" flexDirection="" alignItems="start">
+              <UnifiedDatePicker
+              label="Select a date"
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+              // setFilter={setFilter}
+              filter={'year'}
+              // calendarTabs={calendarTabs}
+            />
               </Box>
             </Box>
           </Grid>
         </Grid>
       </DashboardCard>
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styleModel}>
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+              color: "#0055a4", // Default color
+              "&:hover": {
+                color: "red", // Change color to green on hover
+              },
+            }}
+          >
+            {/* <CloseIcon /> */}X
+          </IconButton>
+          <SelectYear
+            cancel={() => handleClose()}
+            
+          />
+        </Box>
+      </Modal>
     </>
   );
 }
