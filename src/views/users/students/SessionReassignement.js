@@ -44,6 +44,7 @@ function SessionReassignMentTable({
   searchTerm,
   setUserRole,
   setSearchTerm,
+  userId,
   //   orderBy,
   //   getListData,
   // order,
@@ -143,10 +144,10 @@ function SessionReassignMentTable({
     try {
       setIsLoading(true);
       const payload = {
-        _id: activationCodeId,
-        // previousActivationCode:currentSessionDetails?.sessionCode,
-        // workbookSessionId:currentSessionDetails?.workbookSessionId,
-        activationCode,
+        newId: activationCodeId,
+        oldId:currentSessionDetails?.workbookSessionId,
+        studentId :userId,
+        
       };
       const result = await patchData(Api?.reAssignSession, payload);
 

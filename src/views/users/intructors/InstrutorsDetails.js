@@ -189,7 +189,7 @@ function InstructorPreview() {
           />
           <Tab
             value={"credit_transfer_for_log"}
-            label={"Credit transfer for log "}
+            label={"Credit Transfer Details"}
             sx={{ fontSize: "16px", margin: "15px 0 0", fontWeight: "500" }}
           />
         </Tabs>

@@ -261,6 +261,7 @@ function StudentDetails() {
               listData={specificStudentSessionList}
               tableFields={tableFields}
               headers={headers}
+              userId={userId}
             />
           </Box>
         </Box>

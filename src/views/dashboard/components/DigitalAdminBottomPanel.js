@@ -5,6 +5,7 @@ import MenuOption from "./MenuOption";
 import SelectYear from "./SelectYear";
 import UnifiedDatePicker from "../../../components/YearMonthDayDatepicker";
 import commonFunc from "../../../utils/common";
+import { CheckBox } from "@mui/icons-material";
 
 function DigitalAdminBottomPanel() {
   const options = ["Year"];
@@ -20,10 +21,10 @@ function DigitalAdminBottomPanel() {
     boxShadow: 24,
     p: 2,
   }
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
 
-  const handleClose = () => setOpen(false);
+  // const handleClose = () => setOpen(false);
   return (
     <>
       <DashboardCard>
@@ -106,6 +107,8 @@ function DigitalAdminBottomPanel() {
                   Select Year
                 </Button>
               </Box> */}
+              
+             
               <Box display="flex" flexDirection="" alignItems="start">
               <UnifiedDatePicker
               label="Select a date"
@@ -116,12 +119,23 @@ function DigitalAdminBottomPanel() {
               // calendarTabs={calendarTabs}
             />
               </Box>
+              <Box display="flex" flexDirection="" alignItems="center" pt='20px'>
+               <CheckBox sx={{
+                height:'1.5em',
+                width:'1.5em'
+               }}>
+                
+               </CheckBox>
+               <Typography paddingLeft={'10px'}>
+                  All
+                </Typography>
+              </Box>
             </Box>
           </Grid>
         </Grid>
       </DashboardCard>
 
-      <Modal
+      {/* <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -135,20 +149,19 @@ function DigitalAdminBottomPanel() {
               position: "absolute",
               top: 8,
               right: 8,
-              color: "#0055a4", // Default color
+              color: "#0055a4", 
               "&:hover": {
-                color: "red", // Change color to green on hover
+                color: "red", 
               },
             }}
-          >
-            {/* <CloseIcon /> */}X
+          >X
           </IconButton>
           <SelectYear
             cancel={() => handleClose()}
             
           />
         </Box>
-      </Modal>
+      </Modal> */}
     </>
   );
 }
