@@ -120,8 +120,8 @@ function InstructorPreview() {
   const viewData = async () => {
     try {
       setIsLoading(true);
-      // const result = await getData(`${Api?.instructorDetails}/${userId}`);
-      const result=mockInstructorDetails
+      const result = await getData(`${Api?.instructorDetails}/${userId}`);
+      // const result=mockInstructorDetails
       if (result?.success) {
         const response = result?.data?.userDetails[0];
         response.usedCredits=result?.data?.usedCredits

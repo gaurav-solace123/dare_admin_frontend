@@ -7,6 +7,8 @@ import UnifiedDatePicker from "../../../components/YearMonthDayDatepicker";
 import commonFunc from "../../../utils/common";
 import { CheckBox } from "@mui/icons-material";
 import Api from "../../../services/constant";
+import dayjs from "dayjs";
+import { getData } from "../../../services/services";
 
 function DigitalAdminBottomPanel() {
   const options = ["Year"];
@@ -27,16 +29,17 @@ function DigitalAdminBottomPanel() {
 
   // const handleClose = () => setOpen(false);
 
-  // const downLoadSampleCSVFile = async () => {
-  //   // const selectedDate
-  //   const year=selectedDateselectedDate?.year()
-  //   try {
-  //     let searchQuery = `?year{}`;
-  //     const result = await getData(`${Api.studentExport}${searchQuery}`);
-  //     commonFunc.DownloadCSV(result, "Student Details");
-  //     console.log("result", result);
-  //   } catch (error) {}
-  // };
+  const downLoadReportFile = async (apiPath, fileName) => {
+    // const selectedDate
+    
+    const year=selectedDate?selectedDate?.year():dayjs().year()
+    try {
+      let searchQuery = `?year=${year}`;
+      const result = await getData(`${apiPath}${searchQuery}`);
+      commonFunc.DownloadCSV(result, fileName);
+      console.log("result", result);
+    } catch (error) {}
+  };
   return (
     <>
       <DashboardCard>
@@ -55,16 +58,17 @@ function DigitalAdminBottomPanel() {
               <Typography variant="h5" component="h6">
                 Downloadable Reports
               </Typography>
-              <Box display="flex" flexDirection="column" alignItems="center">
+              <Box display="flex" flexDirection="column" alignItems="center" >
                 <img
                   src={commonFunc.getLocalImagePath("affiliate-icon.png")}
                   alt={"Officers Affiliation"}
                   loading="lazy"
                   width={"35px"}
                   style={{ marginBottom: "10px" }}
+                  onClick={()=>downLoadReportFile(Api.officerAffiliation,'Officers Affiliation')}
                 />
 
-                <Typography variant="danger" textAlign={"center"}>
+                <Typography variant="danger" textAlign={"center"} >
                   Officers Affiliation
                 </Typography>
               </Box>
@@ -74,6 +78,8 @@ function DigitalAdminBottomPanel() {
                   src={commonFunc.getLocalImagePath("buyer-info.png")}
                   alt={"Buyer Information"}
                   loading="lazy"
+                  
+                  onClick={()=>downLoadReportFile(Api.buyerInformation,'Buyer Information')}
                   width={"35px"}
                   style={{ marginBottom: "10px" }}
                 />

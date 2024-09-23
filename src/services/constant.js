@@ -25,6 +25,8 @@ const Api = {
     sessionsActivatedByLevel:'/users/workbook-session-count',
     creditsActivatedByLevel:'/users/credit-consume',
     totalCredit:'/users/dashboard/assigned-available-credit-count',
+    officerAffiliation:'/users/instructors-details-excel-report',
+    buyerInformation:'/users/instructors-purchase-credit-excel-report',
     //instructor credits
     generateInstructorCredits:'/users/generate-creadits-instructor',
     purchaseCreditInstructor:'/users/credits-purchase-details',

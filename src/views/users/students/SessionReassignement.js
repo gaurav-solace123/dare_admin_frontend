@@ -144,8 +144,8 @@ function SessionReassignMentTable({
     try {
       setIsLoading(true);
       const payload = {
-        newId: activationCode,
-        oldId:currentSessionDetails?.sessionCode,
+        newId: activationCodeId,
+        oldId:currentSessionDetails?.workbookSessionId,
         studentId :userId,
         
       };
