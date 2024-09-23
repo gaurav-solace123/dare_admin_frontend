@@ -43,7 +43,7 @@ function DigitalAdminBottomPanel() {
               </Typography>
               <Box display="flex" flexDirection="column" alignItems="center">
                 <img
-                  src={"/src/assets/images/logos/affiliate-icon.png"}
+                  src={"public/images/affiliate-icon.png"}
                   alt={"gkgk"}
                   loading="lazy"
                   width={"35px"}
@@ -57,7 +57,7 @@ function DigitalAdminBottomPanel() {
               <Box display="flex" flexDirection="column" alignItems="center">
                 {/* <AccountCircleOutlinedIcon fontSize="large" style={{color:"black"}} /> */}
                 <img
-                  src={"/src/assets/images/logos/buyer-info.png"}
+                  src={"public/images/buyer-info.png"}
                   alt={"gkgk"}
                   loading="lazy"
                   width={"35px"}
@@ -83,7 +83,7 @@ function DigitalAdminBottomPanel() {
               <Box display="flex" flexDirection="column" alignItems="center">
                 {/* <MapOutlinedIcon fontSize="large" style={{color:"black"}}/> */}
                 <img
-                  src={"/src/assets/images/logos/state-map.png"}
+                  src={"public/images/state-map.png"}
                   alt={"gkgk"}
                   loading="lazy"
                   width={"35px"}
