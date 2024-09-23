@@ -6,6 +6,7 @@ import SelectYear from "./SelectYear";
 import UnifiedDatePicker from "../../../components/YearMonthDayDatepicker";
 import commonFunc from "../../../utils/common";
 import { CheckBox } from "@mui/icons-material";
+import Api from "../../../services/constant";
 
 function DigitalAdminBottomPanel() {
   const options = ["Year"];
@@ -25,6 +26,17 @@ function DigitalAdminBottomPanel() {
   const [selectedDate, setSelectedDate] = useState(null);
 
   // const handleClose = () => setOpen(false);
+
+  // const downLoadSampleCSVFile = async () => {
+  //   // const selectedDate
+  //   const year=selectedDateselectedDate?.year()
+  //   try {
+  //     let searchQuery = `?year{}`;
+  //     const result = await getData(`${Api.studentExport}${searchQuery}`);
+  //     commonFunc.DownloadCSV(result, "Student Details");
+  //     console.log("result", result);
+  //   } catch (error) {}
+  // };
   return (
     <>
       <DashboardCard>

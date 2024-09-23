@@ -37,7 +37,7 @@ function SessionReassignMentTable({
   headers,
 
   //   totalCount,
-  setTotalCountgetListData,
+  getSingleStudentSessionList,
   //   rowsPerPage,
   //   page,
   userRole,
@@ -144,8 +144,8 @@ function SessionReassignMentTable({
     try {
       setIsLoading(true);
       const payload = {
-        newId: activationCodeId,
-        oldId:currentSessionDetails?.workbookSessionId,
+        newId: activationCode,
+        oldId:currentSessionDetails?.sessionCode,
         studentId :userId,
         
       };
@@ -153,6 +153,7 @@ function SessionReassignMentTable({
 
       if (result?.success) {
         showToast(result?.message);
+        getSingleStudentSessionList()
         handleClose();
         setIsLoading(false);
       } else {

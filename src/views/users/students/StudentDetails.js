@@ -68,85 +68,85 @@ function StudentDetails() {
   const getSingleStudentSessionList = async () => {
     try {
       setIsLoading(true);
-        // const result = await getData(`${Api?.studentSessionReassign}?userId=8vAxZsbWzk`);
-      const result = {
-        status: 200,
-        message: "Successfully retrieved user credit purchase details",
-        data: [
-          {
-            WorkbookSessionDetails: {
-              _id: "4QrQMRlJzw",
-              name: "Whitney",
-              activationCode: "ljdfu",
-            },
-            InstructorDetails: {
-              _id: "mO5cXhWDB3",
-              firstName: "David",
-              lastName: "Tetreau",
-              username: "dtetreau",
-            },
-            StudentDetails: {
-              _id: "8vAxZsbWzk",
-              username: "student",
-              firstName: "Student",
-              lastName: "Demo",
-              email: "student@daremobile.com",
-            },
-            WorkbookDetails: {
-              _id: "wGmQH6ECYV",
-              name: "Elementary English",
-            },
-          },
-          {
-            WorkbookSessionDetails: {
-              name: "Pico Rivera, Magee, Mrs. Smith",
-              activationCode: "suok6",
-            },
-            InstructorDetails: {
-              _id: "v7bRqpvg78",
-              username: "instructor",
-              firstName: "John",
-              lastName: "Salas",
-            },
-            StudentDetails: {
-              _id: "8vAxZsbWzk",
-              username: "student",
-              firstName: "Student",
-              lastName: "Demo",
-              email: "student@daremobile.com",
-            },
-            WorkbookDetails: {
-              _id: "XiqoxdFOKX",
-              name: "Elementary Spanish",
-            },
-          },
-          {
-            WorkbookSessionDetails: {
-              name: "Fundraising grade 5-6",
-              activationCode: "zz9wh",
-            },
-            InstructorDetails: {
-              _id: "tVgBUEfX1U",
-              firstName: "Liam",
-              lastName: "Raredon",
-              username: "mail92",
-            },
-            StudentDetails: {
-              _id: "8vAxZsbWzk",
-              username: "student",
-              firstName: "Student",
-              lastName: "Demo",
-              email: "student@daremobile.com",
-            },
-            WorkbookDetails: {
-              _id: "wGmQH7ECYV",
-              name: "Middle School English",
-            },
-          },
-        ],
-        success: true,
-        error: false,
-      };
+        const result = await getData(`${Api?.studentSessionReassign}?userId=${userId}`);
+      // const result = {
+      //   status: 200,
+      //   message: "Successfully retrieved user credit purchase details",
+      //   data: [
+      //     {
+      //       WorkbookSessionDetails: {
+      //         _id: "4QrQMRlJzw",
+      //         name: "Whitney",
+      //         activationCode: "ljdfu",
+      //       },
+      //       InstructorDetails: {
+      //         _id: "mO5cXhWDB3",
+      //         firstName: "David",
+      //         lastName: "Tetreau",
+      //         username: "dtetreau",
+      //       },
+      //       StudentDetails: {
+      //         _id: "8vAxZsbWzk",
+      //         username: "student",
+      //         firstName: "Student",
+      //         lastName: "Demo",
+      //         email: "student@daremobile.com",
+      //       },
+      //       WorkbookDetails: {
+      //         _id: "wGmQH6ECYV",
+      //         name: "Elementary English",
+      //       },
+      //     },
+      //     {
+      //       WorkbookSessionDetails: {
+      //         name: "Pico Rivera, Magee, Mrs. Smith",
+      //         activationCode: "suok6",
+      //       },
+      //       InstructorDetails: {
+      //         _id: "v7bRqpvg78",
+      //         username: "instructor",
+      //         firstName: "John",
+      //         lastName: "Salas",
+      //       },
+      //       StudentDetails: {
+      //         _id: "8vAxZsbWzk",
+      //         username: "student",
+      //         firstName: "Student",
+      //         lastName: "Demo",
+      //         email: "student@daremobile.com",
+      //       },
+      //       WorkbookDetails: {
+      //         _id: "XiqoxdFOKX",
+      //         name: "Elementary Spanish",
+      //       },
+      //     },
+      //     {
+      //       WorkbookSessionDetails: {
+      //         name: "Fundraising grade 5-6",
+      //         activationCode: "zz9wh",
+      //       },
+      //       InstructorDetails: {
+      //         _id: "tVgBUEfX1U",
+      //         firstName: "Liam",
+      //         lastName: "Raredon",
+      //         username: "mail92",
+      //       },
+      //       StudentDetails: {
+      //         _id: "8vAxZsbWzk",
+      //         username: "student",
+      //         firstName: "Student",
+      //         lastName: "Demo",
+      //         email: "student@daremobile.com",
+      //       },
+      //       WorkbookDetails: {
+      //         _id: "wGmQH7ECYV",
+      //         name: "Middle School English",
+      //       },
+      //     },
+      //   ],
+      //   success: true,
+      //   error: false,
+      // };
 
       if (result?.success) {
         const response = result?.data;
@@ -259,6 +259,7 @@ function StudentDetails() {
             </Typography>
             <SessionReassignMentTable
               listData={specificStudentSessionList}
+              getSingleStudentSessionList={getSingleStudentSessionList}
               tableFields={tableFields}
               headers={headers}
               userId={userId}
