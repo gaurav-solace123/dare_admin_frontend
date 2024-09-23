@@ -4,6 +4,7 @@ import { Box, Button, Grid, IconButton, Modal, Typography } from "@mui/material"
 import MenuOption from "./MenuOption";
 import SelectYear from "./SelectYear";
 import UnifiedDatePicker from "../../../components/YearMonthDayDatepicker";
+import commonFunc from "../../../utils/common";
 
 function DigitalAdminBottomPanel() {
   const options = ["Year"];
@@ -43,8 +44,8 @@ function DigitalAdminBottomPanel() {
               </Typography>
               <Box display="flex" flexDirection="column" alignItems="center">
                 <img
-                  src={"public/images/affiliate-icon.png"}
-                  alt={"gkgk"}
+                  src={commonFunc.getLocalImagePath("affiliate-icon.png")}
+                  alt={"Officers Affiliation"}
                   loading="lazy"
                   width={"35px"}
                   style={{ marginBottom: "10px" }}
@@ -57,8 +58,8 @@ function DigitalAdminBottomPanel() {
               <Box display="flex" flexDirection="column" alignItems="center">
                 {/* <AccountCircleOutlinedIcon fontSize="large" style={{color:"black"}} /> */}
                 <img
-                  src={"public/images/buyer-info.png"}
-                  alt={"gkgk"}
+                  src={commonFunc.getLocalImagePath("buyer-info.png")}
+                  alt={"Buyer Information"}
                   loading="lazy"
                   width={"35px"}
                   style={{ marginBottom: "10px" }}
@@ -83,8 +84,8 @@ function DigitalAdminBottomPanel() {
               <Box display="flex" flexDirection="column" alignItems="center">
                 {/* <MapOutlinedIcon fontSize="large" style={{color:"black"}}/> */}
                 <img
-                  src={"public/images/state-map.png"}
-                  alt={"gkgk"}
+                  src={commonFunc.getLocalImagePath('state-map.png')}
+                  alt={"Sessions Sold by State"}
                   loading="lazy"
                   width={"35px"}
                   style={{ marginBottom: "10px" }}
@@ -93,7 +94,7 @@ function DigitalAdminBottomPanel() {
                   Sessions Sold by State
                 </Typography>
               </Box>
-              <Box display="flex" flexDirection="" alignItems="start">
+              {/* <Box display="flex" flexDirection="" alignItems="start">
                 <Button
                   color="primary"
                   variant="contained"
@@ -104,7 +105,7 @@ function DigitalAdminBottomPanel() {
                 >
                   Select Year
                 </Button>
-              </Box>
+              </Box> */}
               <Box display="flex" flexDirection="" alignItems="start">
               <UnifiedDatePicker
               label="Select a date"

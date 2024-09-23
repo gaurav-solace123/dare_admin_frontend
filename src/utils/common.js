@@ -17,7 +17,7 @@ const commonFunc = {
     }
   },
   getLocalImagePath: (imgName) => {
-    return `/assets/images/${imgName}`;
+    return `/images/${imgName}`;
   },
   getLocationIcons: (imgName) => {
     return `/assets/images/pin_big/${imgName}`;
