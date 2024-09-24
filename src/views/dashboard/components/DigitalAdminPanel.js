@@ -5,7 +5,7 @@ import Chart from "react-apexcharts";
 import { useTheme } from "@mui/material/styles";
 import PieArcLabel from "./PieArcLabel";
 import MenuOption from "./MenuOption";
-function DigitalAdminPanel({ title, data, options, menuOnChange }) {
+function DigitalAdminPanel({ title,subTitle, data, options, menuOnChange }) {
   const [month, setMonth] = React.useState("1");
 
   const handleChange = (event) => {
@@ -97,6 +97,7 @@ function DigitalAdminPanel({ title, data, options, menuOnChange }) {
   return (
     <DashboardCard
       title={title}
+      subtitle={subTitle}
       action={<MenuOption options={options} onChange={menuOnChange} />}
     >
       <PieArcLabel data={data} />

@@ -1,4 +1,12 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Typography,
+} from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useState } from "react";
 import CustomTextField from "../../../components/forms/theme-elements/CustomTextField";
@@ -12,13 +20,18 @@ function BonusCredit({ showToast, cancel, userId }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const initialValues = {
-    credits: '',
+    credits: "",
+    creditType: "purchase", // default to Purchase Credit
   };
 
   const validationSchema = Yup.object().shape({
     credits: Yup.number()
       .required("Credits are required")
-      .min(100, "Credits must be greater than or equal to 100"),
+      .min(
+        Yup.ref("creditType") === "purchase" ? 100 : 1,
+        "Minimum credits required"
+      ),
+    creditType: Yup.string().required("Please select a credit type"),
   });
 
   const onSubmit = async (values, { setSubmitting }) => {
@@ -27,7 +40,7 @@ function BonusCredit({ showToast, cancel, userId }) {
     const payload = {
       credits: values.credits,
       instructorId: userId,
-      type: "BONUS",
+      type: values.creditType.toUpperCase(),
       totalCost,
     };
 
@@ -52,17 +65,45 @@ function BonusCredit({ showToast, cancel, userId }) {
   return (
     <>
       <Typography fontWeight="700" variant="h2" mb={1}>
-        Bonus Credits
+        {/* Bonus  */}
+        Credits
       </Typography>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        {({ values, handleChange }) => (
+        {({ values, handleChange, setFieldValue, errors }) => (
           <Form>
             <Stack spacing={2}>
-              <Grid item xs={12} p={"7px"}>
+              <Typography variant="subtitle1" fontWeight={600}>
+                Select Credit Type
+              </Typography>
+              <RadioGroup
+                row
+                name="creditType"
+                value={values.creditType}
+                onChange={handleChange}
+              >
+                <FormControlLabel
+                  value="purchase"
+                  control={<Radio />}
+                  label="Purchase Credit"
+                />
+                <FormControlLabel
+                  value="starter"
+                  control={<Radio />}
+                  label="Starter Kit Credits"
+                />
+
+                <FormControlLabel
+                  value="bonus"
+                  control={<Radio />}
+                  label="Bonus Credit"
+                />
+              </RadioGroup>
+
+              <Grid item xs={6} p={"7px"}>
                 <Typography
                   variant="subtitle1"
                   fontWeight={600}
@@ -81,8 +122,11 @@ function BonusCredit({ showToast, cancel, userId }) {
                   typeValid="number"
                   fullWidth
                 />
-                <ErrorMessage name="credits" component="div" style={{ color: "red" }} />
-                <Typography>$1.59 Per Credit</Typography>
+                <ErrorMessage
+                  name="credits"
+                  component="div"
+                  style={{ color: "red" }}
+                />
               </Grid>
               <Grid item xs={6} paddingLeft={"7px"} display={"flex"}>
                 <Box display={"flex"} alignItems={"center"}>
@@ -94,18 +138,7 @@ function BonusCredit({ showToast, cancel, userId }) {
                   >
                     Total Credits
                   </Typography>
-                  : <span style={{ color: "red" }}>{values.credits} </span>
-                </Box>
-                <Box display={"flex"} alignItems={"center"} ml={"10px"}>
-                  <Typography
-                    variant="subtitle1"
-                    fontWeight={600}
-                    component="label"
-                    htmlFor="credits"
-                  >
-                    Total Cost
-                  </Typography>
-                  :<span>${(values.credits * costPerCredit).toFixed(2)}</span>
+                  : <span style={{ color: "red" }}>{values.credits}</span>
                 </Box>
               </Grid>
 
@@ -129,7 +162,9 @@ function BonusCredit({ showToast, cancel, userId }) {
                     size="large"
                     fullWidth
                     type="submit"
-                    disabled={values.credits < 100}
+                    disabled={
+                      values.creditType === "purchase" && values.credits < 100
+                    }
                   >
                     Submit
                   </Button>

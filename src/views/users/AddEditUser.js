@@ -31,7 +31,7 @@ const AddEditUser = ({
   subtext,
   cancel,
   userId,
-  role,
+  role='',
   getListData,
   showToast = () => {},
 }) => {
@@ -172,7 +172,7 @@ const AddEditUser = ({
         userId
       }
       // setIsLoading(true);
-      const result = await postData(Api?.viewUser,payload);
+      const result = await postData(Api?.generatePassword,payload);
 
       if (result?.status == 200) {
         // showToast(result?.message);
@@ -265,7 +265,7 @@ const AddEditUser = ({
         <>
           {title ? (
             <Typography fontWeight="700" variant="h2" mb={1}>
-              {userId ? `Edit ${role??'user'}` : `Add ${role??'user'}`}
+              {userId ? `Edit ${role? role: 'User'}` : `Add ${role? role:'User'}`}
             </Typography>
           ) : null}
 
@@ -296,7 +296,7 @@ const AddEditUser = ({
                   <Grid container width={"100%"}>
                     {!isMailingAddres && (
                       <>
-                        {/* <Grid item xs={12} p={"7px"}>
+                        {role==''&&<Grid item xs={12} p={"7px"}>
                           <Typography
                             variant="subtitle1"
                             fontWeight={600}
@@ -318,7 +318,7 @@ const AddEditUser = ({
                             error={touched.userRole && Boolean(errors.userRole)}
                             helperText={<ErrorMessage name="userRole" />}
                           />
-                        </Grid> */}
+                        </Grid>}
                         <Grid item xs={6} p={"7px"}>
                           <Typography
                             variant="subtitle1"

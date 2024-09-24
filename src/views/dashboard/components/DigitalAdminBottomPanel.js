@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import DashboardCard from "../../../components/shared/DashboardCard";
-import { Box, Button, Grid, IconButton, Modal, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Grid,
+  IconButton,
+  Modal,
+  Typography,
+  FormControlLabel,
+} from "@mui/material";
 import MenuOption from "./MenuOption";
 import SelectYear from "./SelectYear";
 import UnifiedDatePicker from "../../../components/YearMonthDayDatepicker";
 import commonFunc from "../../../utils/common";
-import { CheckBox } from "@mui/icons-material";
 import Api from "../../../services/constant";
 import dayjs from "dayjs";
 import { getData } from "../../../services/services";
@@ -23,19 +31,27 @@ function DigitalAdminBottomPanel() {
     borderRadius: "5px",
     boxShadow: 24,
     p: 2,
-  }
+  };
   // const [open, setOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
-
+  const [isChecked, setIsChecked] = useState(true);
   // const handleClose = () => setOpen(false);
-
+  const handleChange = (event) => {
+    setIsChecked(event.target.checked);
+    if (event.target.checked) {
+      setSelectedDate(null);
+    }
+  };
   const downLoadReportFile = async (apiPath, fileName) => {
     // const selectedDate
-    
-    const year=selectedDate?selectedDate?.year():dayjs().year()
+
+    const year = selectedDate ? selectedDate?.year() : "";
     try {
-      let searchQuery = `?year=${year}`;
-      const result = await getData(`${apiPath}${searchQuery}`);
+      let searchQuery = `${apiPath}`;
+      if (year) {
+        searchQuery += `?year=${year}`;
+      }
+      const result = await getData(`${searchQuery}`);
       commonFunc.DownloadCSV(result, fileName);
       console.log("result", result);
     } catch (error) {}
@@ -58,28 +74,44 @@ function DigitalAdminBottomPanel() {
               <Typography variant="h5" component="h6">
                 Downloadable Reports
               </Typography>
-              <Box display="flex" flexDirection="column" alignItems="center" >
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                sx={{ cursor: "pointer" }}
+                onClick={() =>
+                  downLoadReportFile(
+                    Api.officerAffiliation,
+                    "Officers Affiliation"
+                  )
+                }
+              >
                 <img
                   src={commonFunc.getLocalImagePath("affiliate-icon.png")}
                   alt={"Officers Affiliation"}
                   loading="lazy"
                   width={"35px"}
                   style={{ marginBottom: "10px" }}
-                  onClick={()=>downLoadReportFile(Api.officerAffiliation,'Officers Affiliation')}
                 />
 
-                <Typography variant="danger" textAlign={"center"} >
+                <Typography variant="danger" textAlign={"center"}>
                   Officers Affiliation
                 </Typography>
               </Box>
-              <Box display="flex" flexDirection="column" alignItems="center">
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                sx={{ cursor: "pointer" }}
+                onClick={() =>
+                  downLoadReportFile(Api.buyerInformation, "Buyer Information")
+                }
+              >
                 {/* <AccountCircleOutlinedIcon fontSize="large" style={{color:"black"}} /> */}
                 <img
                   src={commonFunc.getLocalImagePath("buyer-info.png")}
                   alt={"Buyer Information"}
                   loading="lazy"
-                  
-                  onClick={()=>downLoadReportFile(Api.buyerInformation,'Buyer Information')}
                   width={"35px"}
                   style={{ marginBottom: "10px" }}
                 />
@@ -100,10 +132,10 @@ function DigitalAdminBottomPanel() {
                   Sessions Sold by District
                 </Typography>
               </Box> */}
-              <Box display="flex" flexDirection="column" alignItems="center">
+              <Box display="flex" flexDirection="column" alignItems="center"  sx={{ cursor: 'pointer' }}>
                 {/* <MapOutlinedIcon fontSize="large" style={{color:"black"}}/> */}
                 <img
-                  src={commonFunc.getLocalImagePath('state-map.png')}
+                  src={commonFunc.getLocalImagePath("state-map.png")}
                   alt={"Sessions Sold by State"}
                   loading="lazy"
                   width={"35px"}
@@ -125,28 +157,39 @@ function DigitalAdminBottomPanel() {
                   Select Year
                 </Button>
               </Box> */}
-              
-             
+
               <Box display="flex" flexDirection="" alignItems="start">
-              <UnifiedDatePicker
-              label="Select a date"
-              selectedDate={selectedDate}
-              setSelectedDate={setSelectedDate}
-              // setFilter={setFilter}
-              filter={'year'}
-              // calendarTabs={calendarTabs}
-            />
+                <UnifiedDatePicker
+                  label="Select a date"
+                  selectedDate={selectedDate}
+                  disabled={isChecked}
+                  setSelectedDate={setSelectedDate}
+                  // setFilter={setFilter}
+                  filter={"year"}
+                  // calendarTabs={calendarTabs}
+                />
               </Box>
-              <Box display="flex" flexDirection="" alignItems="center" pt='20px'>
-               <CheckBox sx={{
-                height:'1.5em',
-                width:'1.5em'
-               }}>
-                
-               </CheckBox>
-               <Typography paddingLeft={'10px'}>
-                  All
-                </Typography>
+              <Box
+                display="flex"
+                flexDirection=""
+                alignItems="center"
+                pt="20px"
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      sx={
+                        {
+                          // height: '1.5em',
+                          // width: '1.5em',
+                        }
+                      }
+                      checked={isChecked}
+                      onChange={handleChange}
+                    />
+                  }
+                  label="Export Full Dataset"
+                />
               </Box>
             </Box>
           </Grid>

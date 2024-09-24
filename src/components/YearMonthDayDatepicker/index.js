@@ -6,11 +6,22 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Tab, Tabs, Button, Grid, Box } from "@mui/material";
 import dayjs from "dayjs";
 
-const UnifiedDatePicker = ({ selectedDate = null, setSelectedDate, setFilter, filter, calendarTabs }) => {
+const UnifiedDatePicker = ({
+  selectedDate = null,
+  setSelectedDate,
+  setFilter,
+  filter,
+  calendarTabs,
+  disabled,
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
+}) => {
   const [activeTab, setActiveTab] = useState(filter); // Default to 'day' tab
   const [selectedQuarter, setSelectedQuarter] = useState(null);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  // const [startDate, setStartDate] = useState(null);
+  // const [endDate, setEndDate] = useState(null);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -48,26 +59,22 @@ const UnifiedDatePicker = ({ selectedDate = null, setSelectedDate, setFilter, fi
         ? ["year"]
         : [],
     openTo:
-      activeTab === "month"
-        ? "month"
-        : activeTab === "year"
-        ? "year"
-        : "day",
+      activeTab === "month" ? "month" : activeTab === "year" ? "year" : "day",
     minDate: dayjs().subtract(20, "year"), // Limit to last 20 years
     maxDate: dayjs(), // Limit to current year or current date
     sx: { height: "auto" },
   };
 
   return (
-    
     <div style={{ textAlign: "center" }}>
       {/* Tabs for Day, Month, Year, Quarter */}
-     {calendarTabs && <Tabs value={activeTab} onChange={handleTabChange} centered>
-        {calendarTabs?.map(({ label, value }) => (
-          <Tab key={label} value={value} label={label} />
-        ))}
-      </Tabs>
-      }
+      {calendarTabs && (
+        <Tabs value={activeTab} onChange={handleTabChange} centered>
+          {calendarTabs?.map(({ label, value }) => (
+            <Tab key={label} value={value} label={label} />
+          ))}
+        </Tabs>
+      )}
 
       {/* DatePicker or custom range picker */}
       <div style={{ marginTop: "20px" }}>
@@ -75,11 +82,10 @@ const UnifiedDatePicker = ({ selectedDate = null, setSelectedDate, setFilter, fi
           {activeTab !== "quarter" ? (
             <>
               {activeTab === "range" ? (
-                <Box display={'flex'} justifyContent={'space-between'}> 
+                <Box display={"flex"} justifyContent={"space-between"}>
                   <DatePicker
                     label="Start Date"
                     value={startDate}
-                    
                     onChange={(newValue) => {
                       setStartDate(newValue);
                       if (endDate && newValue && newValue.isAfter(endDate)) {
@@ -89,18 +95,18 @@ const UnifiedDatePicker = ({ selectedDate = null, setSelectedDate, setFilter, fi
                     maxDate={endDate || dayjs()} // Restrict end date if selected
                     sx={{ mr: 2 }}
                   />
-                  
+
                   <DatePicker
                     label="End Date"
                     value={endDate}
                     onChange={(newValue) => setEndDate(newValue)}
                     minDate={startDate || dayjs().subtract(20, "year")} // Restrict start date if selected
                     maxDate={dayjs()} // Maximum date is today or current date
-                    sx={{ ml: 2 }} 
+                    sx={{ ml: 2 }}
                   />
                 </Box>
               ) : (
-                <DatePicker {...datePickerProps} />
+                <DatePicker {...datePickerProps} disabled={disabled} />
               )}
             </>
           ) : (
@@ -108,10 +114,19 @@ const UnifiedDatePicker = ({ selectedDate = null, setSelectedDate, setFilter, fi
               {[1, 2, 3, 4].map((quarter) => (
                 <Grid item key={quarter}>
                   <Button
-                    variant={selectedQuarter === quarter ? "contained" : "outlined"}
+                    variant={
+                      selectedQuarter === quarter ? "contained" : "outlined"
+                    }
                     onClick={() => handleQuarterSelect(quarter)}
                   >
-                    Q{quarter} - {quarter === 1 ? "Jan-Mar" : quarter === 2 ? "Apr-Jun" : quarter === 3 ? "Jul-Sep" : "Oct-Dec"}
+                    Q{quarter} -{" "}
+                    {quarter === 1
+                      ? "Jan-Mar"
+                      : quarter === 2
+                      ? "Apr-Jun"
+                      : quarter === 3
+                      ? "Jul-Sep"
+                      : "Oct-Dec"}
                   </Button>
                 </Grid>
               ))}

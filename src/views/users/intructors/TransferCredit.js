@@ -78,9 +78,9 @@ function TransferCredit({ userId }) {
     try {
       const searchQuery = `?page=${page}&limit=${limit}&sortBy=${orderBy} &sortOrder=${order}`;
 
-      //   const result = await getData(
-      //     `${Api?.transferCreditInstructor}/${userId}${searchQuery}`);
-      const result = mockTransferDetails;
+        const result = await getData(
+          `${Api?.transferCreditInstructor}/${userId}${searchQuery}`);
+      // const result = mockTransferDetails;
       if (result?.success) {
         const response = result.data;
 
@@ -223,6 +223,15 @@ function TransferCredit({ userId }) {
               </TableBody>
             </Table>
           </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 50]}
+            component="div"
+            count={pagination.totalDocuments}
+            rowsPerPage={pagination.limit}
+            page={pagination.page - 1}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </Paper>
       </Box>
     </>

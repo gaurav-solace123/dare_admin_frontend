@@ -39,15 +39,15 @@ const DashboardCard = ({
               mb={3}
             >
               <Box>
-                {title ? <Typography variant="h5">{title}</Typography> : ''}
+                {title ? <Typography variant="h5">{title} {subtitle}</Typography> : ''}
 
-                {subtitle ? (
-                  <Typography variant="subtitle2" color="textSecondary">
+                {/* {subtitle ? (
+                  <Typography variant="h6" color="" display={'inline'}>
                     {subtitle}
                   </Typography>
                 ) : (
                   ''
-                )}
+                )} */}
               </Box>
               {action}
             </Stack>

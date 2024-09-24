@@ -195,7 +195,7 @@ function InstructorPreview() {
         </Tabs>
 
         <Grid container mt={1} spacing={3} alignItems="stretch">
-          <Grid item xs={12} sm={12} md={6} lg={6}>
+          <Grid item xs={12} sm={12} md={4} lg={4}>
             <Card sx={{ height: "100%", padding: "8px" }}>
               <CardContent>
                 <Box
@@ -221,6 +221,11 @@ function InstructorPreview() {
                         </Typography>
                       </Box>
 
+                      <Box display="flex" gap="8px">
+                        <Typography variant="subtitle1" fontWeight={400}>
+                          Phone: {instructorDetails?.mobileNumber}
+                        </Typography>
+                      </Box>
                       <Box display="flex" gap="8px">
                         <Typography variant="subtitle1" fontWeight={400}>
                           Username: {instructorDetails?.username}
@@ -260,195 +265,204 @@ function InstructorPreview() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={6}>
-            <Card sx={{ height: "100%", padding: "8px" }}>
-              <CardContent>
-                <Box
-                  display="flex"
-                  flexWrap="wrap"
-                  gap="20px"
-                  justifyContent="space-between"
-                >
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    gap="10px"
-                    alignItems="center"
-                    flexBasis="calc(50% - 10px)"
-                  >
-                    <Box
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                      height="48px"
-                      width="48px"
-                      backgroundColor="#3e80f9"
-                      borderRadius="50%"
-                    >
-                      <CreditCardOutlinedIcon sx={{ color: "#fff" }} />
-                    </Box>
-                    <Typography
-                      variant="h7"
-                      fontWeight={600}
-                      component="label"
-                      sx={{
-                        fontSize: "24px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {instructorDetails?.totalCredits}
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      fontWeight={400}
-                      fontSize={16}
-                      color={"#2b2d3b"}
-                      component="label"
-                    >
-                      Total Credits
-                    </Typography>
-                  </Box>
+          <Grid item xs={12} sm={12} md={8} lg={8}>
+  <Card sx={{ height: "100%", padding: "8px" }}>
+    <CardContent>
+      {/* Box for Credit Sections */}
+      <Box
+        display="flex"
+        flexDirection="row" // Set flex direction to row
+        gap="20px"
+        justifyContent="space-between" // Ensures even spacing between elements
+        flexWrap="nowrap" // Prevents the items from wrapping into a new line
+      >
+        {/* Total Credits Section */}
+        <Box
+          display="flex"
+          flexDirection="column"
+          gap="10px"
+          alignItems="center"
+          width="20%" // Ensure each section takes up 20% width (adjust based on need)
+        >
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            height="48px"
+            width="48px"
+            backgroundColor="#3e80f9"
+            borderRadius="50%"
+          >
+            <CreditCardOutlinedIcon sx={{ color: "#fff" }} />
+          </Box>
+          <Typography
+            variant="h7"
+            fontWeight={600}
+            component="label"
+            sx={{
+              fontSize: "24px",
+              fontWeight: "bold",
+            }}
+          >
+            {instructorDetails?.totalCredits ??0}
+          </Typography>
+          <Typography
+            variant="h6"
+            fontWeight={400}
+            fontSize={16}
+            color={"#2b2d3b"}
+            component="label"
+          >
+            Total Credits
+          </Typography>
+        </Box>
 
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    gap="10px"
-                    alignItems="center"
-                    flexBasis="calc(50% - 10px)"
-                  >
-                    <Box
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                      height="48px"
-                      width="48px"
-                      backgroundColor="#27cea7"
-                      borderRadius="50%"
-                    >
-                      <CardMembershipOutlinedIcon sx={{ color: "#fff" }} />
-                    </Box>
-                    <Typography
-                      variant="h7"
-                      fontWeight={600}
-                      component="label"
-                      sx={{
-                        fontSize: "24px",
-                        fontWeight: "bold",
-                        color: "#27cea7",
-                      }}
-                    >
-                      {instructorDetails?.assignedCredits}
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      fontWeight={400}
-                      fontSize={16}
-                      color={"#2b2d3b"}
-                      component="label"
-                    >
-                      Assigned Credits
-                    </Typography>
-                  </Box>
+        {/* Assigned Credits Section */}
+        <Box
+          display="flex"
+          flexDirection="column"
+          gap="10px"
+          alignItems="center"
+          width="20%" // Ensure each section takes up 20% width
+        >
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            height="48px"
+            width="48px"
+            backgroundColor="#27cea7"
+            borderRadius="50%"
+          >
+            <CardMembershipOutlinedIcon sx={{ color: "#fff" }} />
+          </Box>
+          <Typography
+            variant="h7"
+            fontWeight={600}
+            component="label"
+            sx={{
+              fontSize: "24px",
+              fontWeight: "bold",
+              color: "#27cea7",
+            }}
+          >
+            {instructorDetails?.assignedCredits??0}
+          </Typography>
+          <Typography
+            variant="h6"
+            fontWeight={400}
+            fontSize={16}
+            color={"#2b2d3b"}
+            component="label"
+          >
+            Assigned Credits
+          </Typography>
+        </Box>
 
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    gap="10px"
-                    alignItems="center"
-                    flexBasis="calc(50% - 10px)"
-                  >
-                    <Box
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                      height="48px"
-                      width="48px"
-                      backgroundColor="#6142ff"
-                      borderRadius="50%"
-                    >
-                      <AccountBalanceWalletOutlinedIcon
-                        sx={{ color: "#fff" }}
-                      />
-                    </Box>
-                    <Typography
-                      variant="h7"
-                      fontWeight={600}
-                      component="label"
-                      sx={{
-                        fontSize: "24px",
-                        fontWeight: "bold",
-                        color: "#6142ff",
-                      }}
-                    >
-                      {instructorDetails?.usedCredits}
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      fontWeight={400}
-                      fontSize={16}
-                      color={"#2b2d3b"}
-                      component="label"
-                    >
-                      Used Credits
-                    </Typography>
-                  </Box>
+        {/* Used Credits Section */}
+        <Box
+          display="flex"
+          flexDirection="column"
+          gap="10px"
+          alignItems="center"
+          width="20%"
+        >
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            height="48px"
+            width="48px"
+            backgroundColor="#6142ff"
+            borderRadius="50%"
+          >
+            <AccountBalanceWalletOutlinedIcon
+              sx={{ color: "#fff" }}
+            />
+          </Box>
+          <Typography
+            variant="h7"
+            fontWeight={600}
+            component="label"
+            sx={{
+              fontSize: "24px",
+              fontWeight: "bold",
+              color: "#6142ff",
+            }}
+          >
+            {instructorDetails?.usedCredits??0}
+          </Typography>
+          <Typography
+            variant="h6"
+            fontWeight={400}
+            fontSize={16}
+            color={"#2b2d3b"}
+            component="label"
+          >
+            Used Credits
+          </Typography>
+        </Box>
 
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    gap="10px"
-                    alignItems="center"
-                    flexBasis="calc(50% - 10px)"
-                  >
-                    <Box
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                      height="48px"
-                      width="48px"
-                      backgroundColor="#ff9f43"
-                      borderRadius="50%"
-                    >
-                      <PaymentsOutlinedIcon sx={{ color: "#fff" }} />
-                    </Box>
-                    <Typography
-                      variant="h7"
-                      fontWeight={600}
-                      component="label"
-                      sx={{
-                        fontSize: "24px",
-                        fontWeight: "bold",
-                        color: "#ff9f43",
-                      }}
-                    >
-                       {instructorDetails?.availableCredits}
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      fontWeight={400}
-                      fontSize={16}
-                      color={"#2b2d3b"}
-                      component="label"
-                    >
-                      Available Credits
-                    </Typography>
-                  </Box>
-                </Box>
-                <Box paddingTop={3}>
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    size="large"
-                    fullWidth
-                    type="button"
-                    onClick={()=>setOpen(true)}
-                  >
-                    Create Bonus Credit
-                  </Button>
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
+        {/* Available Credits Section */}
+        <Box
+          display="flex"
+          flexDirection="column"
+          gap="10px"
+          alignItems="center"
+          width="20%"
+        >
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            height="48px"
+            width="48px"
+            backgroundColor="#ff9f43"
+            borderRadius="50%"
+          >
+            <PaymentsOutlinedIcon sx={{ color: "#fff" }} />
+          </Box>
+          <Typography
+            variant="h7"
+            fontWeight={600}
+            component="label"
+            sx={{
+              fontSize: "24px",
+              fontWeight: "bold",
+              color: "#ff9f43",
+            }}
+          >
+            {instructorDetails?.availableCredits??0}
+          </Typography>
+          <Typography
+            variant="h6"
+            fontWeight={400}
+            fontSize={16}
+            color={"#2b2d3b"}
+            component="label"
+          >
+            Available Credits
+          </Typography>
+        </Box>
+      </Box>
+
+      {/* Button Below the Credit Sections */}
+      <Box paddingTop={3} alignItems={'center'} justifyContent={'center'} display={'flex'}>
+        <Button
+          color="primary"
+          variant="contained"
+          size="large"
+          width='90%'
+          type="button"
+          onClick={() => setOpen(true)}
+        >
+          Create Bonus Credit
+        </Button>
+      </Box>
+    </CardContent>
+  </Card>
+</Grid>
+
         </Grid>
         {activeTab === "purchase_credit" && <PurchaseCredit userId={userId} />}
         {activeTab === "credit_transfer_for_log" && (

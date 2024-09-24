@@ -50,13 +50,13 @@ const Dashboard = () => {
             value: response?.middleSchool,
             label: "Middle School",
             color: "#5cb7fc",
-            percentage: response?.middleSchool,
+            percentage: response?.middleSchoolPercentage?.toFixed(),
           },
           {
             value: response?.elementary,
             label: "Elementary School",
             color: "#fecc6c",
-            percentage: response?.elementary,
+            percentage: response?.elementaryPercentage?.toFixed(),
           },
         ];
         setCreditsActivatedByLevel(temp);
@@ -82,13 +82,13 @@ const Dashboard = () => {
             value: response?.middleSchool,
             label: "Middle School",
             color: "#5cb7fc",
-            percentage: response?.middleSchool,
+            percentage: response?.middleSchoolPercentage?.toFixed(),
           },
           {
             value: response?.elementary,
             label: "Elementary School",
             color: "#fecc6c",
-            percentage: response?.elementary,
+            percentage: response?.elementaryPercentage?.toFixed(),
           },
         ];
         setSessionsActivatedByLevel(temp);
@@ -204,6 +204,8 @@ const Dashboard = () => {
             <Grid item xs={12} sm={6} md={6} lg={6}>
               <DigitalAdminPanel
                 title={"Credits Activated By Level"}
+                
+                subTitle={` of this ${creditActivatedType.toLowerCase()}`}
                 data={creditsActivatedByLevel}
                 options={creditOptions}
                 menuOnChange={onChangeCreditsActivatedByLevel}
@@ -212,6 +214,7 @@ const Dashboard = () => {
             <Grid item xs={12} sm={6} md={6} lg={6}>
               <DigitalAdminPanel
                 title={"Sessions Activated by Level"}
+                subTitle={` of this ${sessionActivatedType.toLowerCase()}`}
                 data={sessionsActivatedByLevel}
                 options={sessionsOptions}
                 menuOnChange={onChangeSessionsActivatedByLevel}

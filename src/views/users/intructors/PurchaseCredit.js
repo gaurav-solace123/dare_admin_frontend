@@ -69,9 +69,9 @@ function PurchaseCredit({ userId }) {
     try {
       const searchQuery = `?page=${page}&limit=${limit}&sortBy=${orderBy} &sortOrder=${order}`;
 
-      //   const result = await getData(
-      //     `${Api?.purchaseCreditInstructor}/${userId}${searchQuery}`);
-      const result = mockPurchaseDetails;
+        const result = await getData(
+          `${Api?.purchaseCreditInstructor}/${userId}${searchQuery}`);
+      // const result = mockPurchaseDetails;
       if (result?.success) {
         const response = result.data;
 

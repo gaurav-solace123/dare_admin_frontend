@@ -118,6 +118,8 @@ function InstructorReport() {
   //all states
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [filter, setFilter] = useState("day");
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [listData, setListData] = useState(instructorCreditActivityReport);
   return (
     <>
@@ -179,6 +181,10 @@ function InstructorReport() {
               setFilter={setFilter}
               filter={filter}
               calendarTabs={calendarTabs}
+              startDate={startDate}
+              setStartDate={setStartDate}
+              endDate={endDate} 
+              setEndDate={setEndDate}
             />
           </Box>
         </Box>
