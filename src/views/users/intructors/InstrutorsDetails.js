@@ -109,6 +109,7 @@ function InstructorPreview() {
   const [activeTab, setActiveTab] = useState("purchase_credit"); // Default to 'day' tab
   const [isLoading, setIsLoading] = useState(false);
   const [instructorDetails, setInstructorDetails] = useState("");
+  const [allCredits, setAllCredits] = useState("");
   const [isList, setIsList] = useState(false);
   const [open, setOpen] = React.useState(false);
 
@@ -143,7 +144,28 @@ function InstructorPreview() {
     }
   };
 
-
+  const getAllCredits = async () => {
+    
+    try {
+      setIsLoading(true);
+      const result = await getData(`${Api?.instructorDetails}/${userId}`);
+      // const result=mockInstructorDetails
+      if (result?.success) {
+        let response ={}
+        response.usedCredits = result?.data?.usedCredits;
+        response.assignedCredits = result?.data?.assignedCredits;
+        response.availableCredits = result?.data?.availableCredits;
+        response.totalCredits = result?.data?.totalCredits;
+        setAllCredits(response);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.error(error);
+    }
+  };
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
@@ -152,6 +174,7 @@ function InstructorPreview() {
   //all useEffects
   useEffect(() => {
     viewData();
+    getAllCredits()
   }, []);
   return (
     <>
@@ -332,7 +355,7 @@ function InstructorPreview() {
                         fontWeight: "bold",
                       }}
                     >
-                      {instructorDetails?.totalCredits ?? 0}
+                      {allCredits?.totalCredits ?? 0}
                     </Typography>
                     <Typography
                       variant="h6"
@@ -374,7 +397,7 @@ function InstructorPreview() {
                         color: "#27cea7",
                       }}
                     >
-                      {instructorDetails?.assignedCredits ?? 0}
+                      {allCredits?.assignedCredits ?? 0}
                     </Typography>
                     <Typography
                       variant="h6"
@@ -418,7 +441,7 @@ function InstructorPreview() {
                         color: "#6142ff",
                       }}
                     >
-                      {instructorDetails?.usedCredits ?? 0}
+                      {allCredits?.usedCredits ?? 0}
                     </Typography>
                     <Typography
                       variant="h6"
@@ -460,7 +483,7 @@ function InstructorPreview() {
                         color: "#ff9f43",
                       }}
                     >
-                      {instructorDetails?.availableCredits ?? 0}
+                      {allCredits?.availableCredits ?? 0}
                     </Typography>
                     <Typography
                       variant="h6"
@@ -539,7 +562,7 @@ function InstructorPreview() {
             userId={userId}
             handleChangeList={handleChangeList}
             showToast={showToast}
-            viewData={viewData}
+            getAllCredits={getAllCredits}
           />
         </Box>
       </Modal>

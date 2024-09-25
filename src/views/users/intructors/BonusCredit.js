@@ -15,7 +15,7 @@ import Api from "../../../services/constant";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-function BonusCredit({ showToast, cancel, userId,handleChangeList,viewData }) {
+function BonusCredit({ showToast, cancel, userId,handleChangeList,getAllCredits }) {
   const costPerCredit = 1.59;
   const [isLoading, setIsLoading] = useState(false);
 
@@ -53,7 +53,7 @@ function BonusCredit({ showToast, cancel, userId,handleChangeList,viewData }) {
         setIsLoading(false);
         cancel();
         handleChangeList()
-        viewData()
+        getAllCredits()
       } else {
         setIsLoading(false);
         cancel();

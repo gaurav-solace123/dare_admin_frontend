@@ -17,6 +17,8 @@ import axios from "axios";
 import { getData } from "../../../services/services";
 import Api from "../../../services/constant";
 import dayjs from "dayjs";
+import Loader from "src/components/Loader";
+
 import { startCase } from "lodash";
 
 function PurchaseCredit({ userId ,isList}) {

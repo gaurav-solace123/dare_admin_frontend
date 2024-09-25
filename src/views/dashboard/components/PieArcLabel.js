@@ -21,8 +21,49 @@ export default function PieArcLabel({ data = [], size = sizes, sx }) {
 				justifyContent={"center"}
 				width={"100%"}
 				flexDirection={"column"}
-			>
-				<Grid item xs={12} sm={12} md={12} lg={12}>
+			><>
+			
+			
+				{data && data.every((item) => item.value === 0) ? (
+				<Box
+					sx={{
+						height: isMobile ? 250 : 250,
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+					}}
+				>
+					<Box
+						sx={{
+							height: isMobile ? 140 : 150,
+							width: isMobile ? 140 : 150,
+							borderRadius: "50%",
+							border: "1.5px solid #0055a4",
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+							position: "relative",
+						}}
+					>
+						<Typography
+							variant="h6"
+							fontWeight="500"
+							color="#0055a4"
+							sx={{
+								position: "absolute",
+								top: "50%",
+								left: "50%",
+								transform: "translate(-50%, -50%)",
+							}}
+						>
+							0%
+						</Typography>
+					</Box>
+				</Box>
+			):
+
+<>
+<Grid item xs={12} sm={12} md={12} lg={12}>
 					<PieChart
 						series={[
 							{
@@ -61,6 +102,10 @@ export default function PieArcLabel({ data = [], size = sizes, sx }) {
 							))}
 					</Box>
 				</Grid>
+</>
+
+				}
+				</>
 			</Grid>
 		</Box>
 	);

@@ -251,6 +251,10 @@ const AddEditUser = ({
       console.error(error);
     }
   };
+  const onBack=()=>{
+    setIsGenerate(true)
+    setIsMailingAddress(false)
+  }
 
   //all useEffects
   useEffect(() => {
@@ -799,6 +803,9 @@ const AddEditUser = ({
                           type="button"
                           onClick={() => {
                             // Handle cancel
+
+                            (formikRef?.current?.values?.userRole == "Instructor" ) ||
+                  isIntructerEdit ?onBack():
                             cancel();
                             // navigate('/users');
                           }}
