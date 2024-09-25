@@ -19,11 +19,12 @@ import Table from "./component/CustomTable";
 // const Login = Loadable(lazy(() => import('../views/authentication/Login')));
 import { borderRadius, height } from "@mui/system";
 import Loadable from "../../layouts/full/shared/loadable/Loadable";
-import AddSvgForm from "./component/AddSvgForm";
+import StudentBulkUpload from "./component/StudentBulkUpload";
 import { getData } from "../../services/services";
 import Api from "../../services/constant";
 import Loader from "../../components/Loader";
 import useCustomToast from "../../hooks/CustomToastHook";
+import Config from "src/config/config.json";
 // import DownloadForOfflineSharpIcon from '@mui/icons-material/DownloadForOfflineSharp';
 
 const CustomTable = Loadable(lazy(() => import("./component/CustomTable")));
@@ -51,21 +52,30 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
-  { id: "firstName", numeric: false, label: "Name" },
-  { id: "userRole", numeric: true, label: "Role" },
-  { id: "mobileNumber", numeric: true, label: "Mobile" },
-  { id: "email", numeric: true, label: "Email" },
-  { id: "username", numeric: true, label: "Username" },
+// const headCells = [
+//   { id: "firstName", numeric: false, label: "First Name" },
+//   { id: "lastName", numeric: false, label: "Last Name" },
+//   // { id: "userRole", numeric: true, label: "Role" },
+//   { id: "mobileNumber", numeric: true, label: "Phone" },
+//   { id: "email", numeric: true, label: "Email" },
+//   { id: "username", numeric: true, label: "Username" },
 
-  { id: "actions", numeric: true, label: "Actions" },
-];
+//   { id: "actions", numeric: true, label: "Actions" },
+// ];
 
-export default function EnhancedTable() {
+export default function EnhancedTable({role=''}) {
+  const baseHeadCells = [
+    { id: "firstName", numeric: false, label: "First Name" },
+    { id: "lastName", numeric: false, label: "Last Name" },
+    { id: "email", numeric: true, label: "Email" },
+    { id: "username", numeric: true, label: "Username" },
+    { id: "actions", numeric: true, label: "Actions" },
+  ];
+
   const [order, setOrder] = React.useState("desc");
   const [orderBy, setOrderBy] = React.useState("_created_at");
   const [page, setPage] = React.useState(1);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [listData, setListData] = React.useState([]);
 
   const [isLoading, setIsLoading] = React.useState(false);
@@ -73,7 +83,7 @@ export default function EnhancedTable() {
   const [userId, setUserId] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState("");
-  const [userRole, setUserRole] = React.useState("");
+  const [userRole, setUserRole] = React.useState(role??"");
   const [openSvgForm, setOpenSvgFrom] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -92,7 +102,7 @@ export default function EnhancedTable() {
     transform: "translate(-50%, -50%)",
     width: 500,
     bgcolor: "background.paper",
-    border: "2px solid #000",
+    border: "2px solid #0055A4",
     borderRadius: "5px",
     boxShadow: 24,
     p: 2,
@@ -104,31 +114,47 @@ export default function EnhancedTable() {
     transform: "translate(-50%, -50%)",
     width: 500,
     bgcolor: "background.paper",
-    border: "2px solid #000",
+    border: "2px solid #0055A4",
     borderRadius: "5px",
     boxShadow: 24,
     p: 2,
   };
+  const getHeadCells = () => {
+    let updatedHeadCells = [...baseHeadCells]; // Clone the baseHeadCells array
+
+    // Add "userRole" if role is empty
+    if (role === '') {
+      updatedHeadCells.splice(2, 0, { id: "userRole", numeric: false, label: "Role" });
+    }
+
+    // Add "mobileNumber" if role is "instructor"
+    if (role === 'Instructor') {
+      updatedHeadCells.splice(2, 0, { id: "mobileNumber", numeric: true, label: "Phone" });
+    }
+
+    return updatedHeadCells;
+  };
+  const headCells = getHeadCells();
   function createData({
     _id,
     firstName,
+    lastName,
     userRole,
     mobileNumber,
     email,
     username,
   }) {
-    return { _id, firstName, userRole, mobileNumber, email, username };
+    return { _id, firstName,lastName, userRole, mobileNumber, email, username };
   }
   const getListData = async (
     filters = {
       page: 1,
-      rowsPerPage: 10,
+      rowsPerPage: 25,
       sortBy: "_created_at",
       sortOrder: "desc",
     },search=''
 
   ) => {
-    // debugger
     let searchQuery = `?page=${filters?.page}&limit=${filters?.rowsPerPage}`;
     delete filters.page;
     delete filters.rowsPerPage;
@@ -143,7 +169,12 @@ export default function EnhancedTable() {
     }
     try {
       setIsLoading(true);
-      const result = await getData(`${Api.listUsers}${searchQuery}`); //
+      let apiPath=`${Api.listUsers}${searchQuery}`
+//       if(role=='Instructor'&&Config.isMock)
+// {
+//   apiPath=`/users/instructorList`
+// }
+      const result = await getData(apiPath); //
       if (result.status == 200) {
         const response = result?.data?.users;
         const tempData = response.map((item) => createData(item));
@@ -170,7 +201,8 @@ export default function EnhancedTable() {
       clearTimeout(handler);
     };
   }, [searchTerm]);
-  React.useEffect(() => {
+  console.log('first', searchTerm)
+  useEffect(() => {
     
     const pagination = {
       page,
@@ -181,7 +213,7 @@ export default function EnhancedTable() {
       sortOrder: order,
     };
     getListData(pagination);
-  }, [page, rowsPerPage, userRole,order,orderBy,debouncedSearchTerm]);
+  }, [page, rowsPerPage, userRole,order,orderBy,debouncedSearchTerm,role]);
   return (
     <>
       {isLoading ? (
@@ -216,7 +248,7 @@ export default function EnhancedTable() {
               component="label"
               htmlFor="mailingAddress"
             >
-              Users
+              {`${role?role:'User'}s`}
             </Typography>
           </Box>
           {/* <InputBase
@@ -233,6 +265,7 @@ export default function EnhancedTable() {
       /> */}
           <CustomTable
             Title={""}
+            role={role}
             totalCount={totalCount}
             setTotalCount={setTotalCount}
             headers={headCells}
@@ -290,10 +323,19 @@ export default function EnhancedTable() {
             userId={userId}
             getListData={getListData}
             showToast={showToast}
+            role={role}
           />
         </Box>
       </Modal>
-
+      {/* <CustomModal open={open} handleClose={handleClose}>
+        <AddEditUser
+          cancel={handleClose}
+          userId={userId}
+          getListData={getListData}
+          showToast={showToast}
+          role={role}
+        />
+      </CustomModal> */}
       <Modal
         open={openSvgForm}
         onClose={handleSvgClose}
@@ -321,12 +363,15 @@ export default function EnhancedTable() {
           </Typography>
 
           {/* <DownloadForOfflineSharpIcon/> */}
-          <AddSvgForm
+          <StudentBulkUpload
             onDrop={handleDrop}
             accept="image/svg+xml"
             userId={userId}
+            handleSvgClose={handleSvgClose}
+            showToast={showToast}
+            getListData={getListData}
           />
-          <Grid container spacing={2} justifyContent="center">
+          {/* <Grid container spacing={2} justifyContent="center">
             <Grid container item xs={12} spacing={2} mt={2} mx={"auto"}>
               <Grid item xs={6} p={"7px"}>
                 <Button
@@ -353,7 +398,7 @@ export default function EnhancedTable() {
                 </Button>
               </Grid>
             </Grid>
-          </Grid>
+          </Grid> */}
         </Box>
       </Modal>
       <ToastComponent />

@@ -15,6 +15,7 @@ function Filter({
   dropDownValue,
   handleChangeDropDown,
   userRole,
+  role,
   handleChangeSearch,
   setSearchTerm,
   searchTerm,
@@ -115,7 +116,7 @@ function Filter({
          onChange={(e)=>handleChangeSearch(e?.target?.value)}
         placeholder="Search"
       />
-      <FormControl sx={{ minHeight: "36px",width:"50%"}}>
+      {role==''&&<FormControl sx={{ minHeight: "36px",width:"50%"}}>
         <InputLabel
           id="demo-simple-select-label"
           sx={{ fontSize: "0.875rem", top: "-6px" }}
@@ -141,7 +142,7 @@ function Filter({
             </MenuItem>
           ))}
         </Select>
-      </FormControl>
+      </FormControl>}
     </Box>
   );
 }

@@ -1,39 +1,45 @@
 import React from 'react';
-import { Modal, Box, Typography, Button } from '@mui/material';
+import { Modal, Box, IconButton } from '@mui/material';
 
-const style = {
+const styleModel = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 600, // Adjust width according to your form size
+  width: 400,
   bgcolor: 'background.paper',
+  border: '2px solid #0055A4',
   boxShadow: 24,
   p: 4,
 };
 
-const CustomModal = ({ open, handleClose, title, children, actions }) => {
+const CustomModal = ({ open, handleClose, children }) => {
   return (
     <Modal
       open={open}
       onClose={handleClose}
-      aria-labelledby="modal-title"
-      aria-describedby="modal-description"
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
-        {title && (
-          <Typography id="modal-title" variant="h6" component="h2">
-            {title}
-          </Typography>
-        )}
-        <Box sx={{ mt: 2 }}>
-          {children} {/* The content of the modal will go here */}
-        </Box>
-        {actions && (
-          <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
-            {actions} {/* Custom actions for the modal */}
-          </Box>
-        )}
+      <Box sx={styleModel}>
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            position: 'absolute',
+            top: 8,
+            right: 8,
+            color: '#0055a4', // Default color
+            '&:hover': {
+              color: 'red', // Change color on hover
+            },
+          }}
+        >
+          X {/* You can replace this with <CloseIcon /> if you are using MUI icons */}
+        </IconButton>
+
+        {/* Children will be dynamically rendered here */}
+        {children}
       </Box>
     </Modal>
   );

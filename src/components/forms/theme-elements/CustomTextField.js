@@ -36,7 +36,7 @@ const CustomTextField = styled((props) => {
       }
       
     }
-    if(event?.target?.value?.length>length){
+    if(event?.target?.value?.length>=length){
       event?.preventDefault();
     }
   };
