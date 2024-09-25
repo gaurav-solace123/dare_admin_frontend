@@ -109,25 +109,25 @@ function InstructorPreview() {
   const [activeTab, setActiveTab] = useState("purchase_credit"); // Default to 'day' tab
   const [isLoading, setIsLoading] = useState(false);
   const [instructorDetails, setInstructorDetails] = useState("");
-  const [isList,setIsList]=useState(false)
+  const [isList, setIsList] = useState(false);
   const [open, setOpen] = React.useState(false);
-  
 
   const [specificStudentSessionList, setSpecificStudentSessionList] = useState(
     []
   );
 
   //all functions
-  const handleChangeList=()=>{
-    setIsList(!isList)
-  }
+  const handleChangeList = () => {
+    setIsList(!isList);
+  };
   const viewData = async () => {
+    
     try {
       setIsLoading(true);
-      const result = await getData(`${Api?.instructorDetails}/${userId}`);
+      const result = await getData(`${Api?.viewUser}/${userId}`);
       // const result=mockInstructorDetails
       if (result?.success) {
-        const response = result?.data?.userDetails[0];
+        const response = result?.data
         response.usedCredits = result?.data?.usedCredits;
         response.assignedCredits = result?.data?.assignedCredits;
         response.availableCredits = result?.data?.availableCredits;
@@ -142,6 +142,8 @@ function InstructorPreview() {
       console.error(error);
     }
   };
+
+
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
@@ -227,18 +229,18 @@ function InstructorPreview() {
 
                       <Box display="flex" gap="8px">
                         <Typography variant="subtitle1" fontWeight={400}>
-                          Phone: {instructorDetails?.mobileNumber}
+                          Phone: {instructorDetails?.mobileNumber ?? "-"}
                         </Typography>
                       </Box>
                       <Box display="flex" gap="8px">
                         <Typography variant="subtitle1" fontWeight={400}>
-                          Username: {instructorDetails?.username}
+                          Username: {instructorDetails?.username ?? "-"}
                         </Typography>
                       </Box>
 
                       <Box display="flex" gap="8px">
                         <Typography variant="subtitle1" fontWeight={400}>
-                          {instructorDetails?.email}
+                          {instructorDetails?.email }
                         </Typography>
                       </Box>
                     </Box>
@@ -260,9 +262,31 @@ function InstructorPreview() {
                       Address
                     </Typography>
                     <Typography variant="subtitle1" fontWeight={400}>
-                      {`${instructorDetails?.street_1} ${instructorDetails?.street_2}`}
-                      ,<br></br>
-                      {`${instructorDetails?.city}, ${instructorDetails?.state}, ${instructorDetails?.country} - ${instructorDetails?._postal_code}`}
+                      {!instructorDetails?.street_1 &&
+                      !instructorDetails?.street_2 &&
+                      !instructorDetails?.city &&
+                      !instructorDetails?.state &&
+                      !instructorDetails?.country &&
+                      !instructorDetails?._postal_code ? (
+                        "-"
+                      ) : (
+                        <>
+                          {instructorDetails?.street_1 &&
+                            `${instructorDetails.street_1} `}
+                          {instructorDetails?.street_2 &&
+                            `${instructorDetails.street_2}`}
+                          {(instructorDetails?.street_1 ||
+                            instructorDetails?.street_2) && <br />}
+                          {instructorDetails?.city &&
+                            `${instructorDetails.city}`}
+                          {instructorDetails?.state &&
+                            `, ${instructorDetails.state}`}
+                          {instructorDetails?.country &&
+                            `, ${instructorDetails.country}`}
+                          {instructorDetails?._postal_code &&
+                            ` - ${instructorDetails._postal_code}`}
+                        </>
+                      )}
                     </Typography>
                   </Box>
                 </Box>
@@ -472,7 +496,9 @@ function InstructorPreview() {
             </Card>
           </Grid>
         </Grid>
-        {activeTab === "purchase_credit" && <PurchaseCredit userId={userId} isList={isList}  />}
+        {activeTab === "purchase_credit" && (
+          <PurchaseCredit userId={userId} isList={isList} />
+        )}
         {activeTab === "credit_transfer_for_log" && (
           <Box mx="20px">
             <TransferCredit
@@ -481,7 +507,6 @@ function InstructorPreview() {
               tableFields={tableFields}
               headers={headers}
               isList={isList}
-              
             />
           </Box>
         )}
