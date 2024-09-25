@@ -43,6 +43,7 @@ function SessionReassignMentTable({
   searchTerm,
   setUserRole,
   setSearchTerm,
+  showToast,
   userId,
   //   orderBy,
   //   getListData,
@@ -50,7 +51,7 @@ function SessionReassignMentTable({
   // setOrder,
   // setOrderBy
 }) {
-  const { showToast, ToastComponent } = useCustomToast();
+  // const { showToast, ToastComponent } = useCustomToast();
   //all states
   const [row, setRow] = useState(listData ? listData : []);
   const [order, setOrder] = useState("desc");
@@ -531,7 +532,7 @@ function SessionReassignMentTable({
           </Formik>
         </Box>
       </Modal>
-      <ToastComponent />
+      {/* <ToastComponent /> */}
     </div>
   );
 }

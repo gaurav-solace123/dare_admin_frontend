@@ -347,6 +347,7 @@ function StudentDetails() {
               </Tooltip>}
             </Box>
             <SessionReassignMentTable
+            showToast={showToast}
               listData={specificStudentSessionList}
               getSingleStudentSessionList={getSingleStudentSessionList}
               tableFields={tableFields}

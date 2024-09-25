@@ -50,12 +50,12 @@ function NewSessionAssignModal({  cancel,userId,getSingleStudentSessionList,show
       if (result?.success) {
         showToast(result?.message);
         getSingleStudentSessionList()
-        handleClose();
+        cancel();
         setIsLoading(false);
       } else {
         showToast(result?.message, "error");
         setIsLoading(false);
-        handleClose();
+        cancel();
       }
     } catch (error) {
       setIsLoading(false);
