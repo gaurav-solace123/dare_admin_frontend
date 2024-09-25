@@ -75,7 +75,7 @@ export default function EnhancedTable({role=''}) {
   const [order, setOrder] = React.useState("desc");
   const [orderBy, setOrderBy] = React.useState("_created_at");
   const [page, setPage] = React.useState(1);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [listData, setListData] = React.useState([]);
 
   const [isLoading, setIsLoading] = React.useState(false);
@@ -149,7 +149,7 @@ export default function EnhancedTable({role=''}) {
   const getListData = async (
     filters = {
       page: 1,
-      rowsPerPage: 10,
+      rowsPerPage: 25,
       sortBy: "_created_at",
       sortOrder: "desc",
     },search=''

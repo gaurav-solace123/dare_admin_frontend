@@ -26,8 +26,9 @@ import useCustomToast from "../../../hooks/CustomToastHook";
 import BonusCredit from "./BonusCredit";
 
 function InstructorPreview() {
-	//all constants
+  //all constants
   const location = useLocation();
+  const { showToast, ToastComponent } = useCustomToast();
   const userId = location?.state?.userId;
   const sessionData = [
     {
@@ -69,54 +70,57 @@ function InstructorPreview() {
     { id: "instructor", numeric: false, label: "Instructor" },
     { id: "action", numeric: false, label: "Instructor Action" },
   ];
-  const mockInstructorDetails={
-    "status": 200,
-    "data": {
-      "userDetails": [
+  const mockInstructorDetails = {
+    status: 200,
+    data: {
+      userDetails: [
         {
-            "_id": "uSapZTb0YW",
-            "userRole": "Instructor",
-            "firstName": "Jennifer",
-            "lastName": "Smith",
-            "username": "smithjenni",
-            "email": "jenismith@yopmail.com",
-            "accountApproved": false,
-            "isIntialized": false,
-            "street_1": "1228 Ratone Street",
-            "street_2": "Noida",
-            "city": "Manhattan",
-            "state": "KS",
-            "country": "US",
-            "_postal_code": "66502",
-            "mobileNumber": "6623887013",
-            "isArchive": false,
-            "organization": "New",
-            "_created_at": "2024-09-21T08:12:24.986Z",
-            "_updated_at": "2024-09-21T08:12:24.990Z",
-            "__v": 0
-        }
+          _id: "uSapZTb0YW",
+          userRole: "Instructor",
+          firstName: "Jennifer",
+          lastName: "Smith",
+          username: "smithjenni",
+          email: "jenismith@yopmail.com",
+          accountApproved: false,
+          isIntialized: false,
+          street_1: "1228 Ratone Street",
+          street_2: "Noida",
+          city: "Manhattan",
+          state: "KS",
+          country: "US",
+          _postal_code: "66502",
+          mobileNumber: "6623887013",
+          isArchive: false,
+          organization: "New",
+          _created_at: "2024-09-21T08:12:24.986Z",
+          _updated_at: "2024-09-21T08:12:24.990Z",
+          __v: 0,
+        },
       ],
-      "totalCredits": 50,
-      "availableCredits": 30,
-      "assignedCredits": 20,
-      "usedCredits": 15
+      totalCredits: 50,
+      availableCredits: 30,
+      assignedCredits: 20,
+      usedCredits: 15,
     },
-    "success": true,
-    "error": false
-  }
+    success: true,
+    error: false,
+  };
   //all states
   const [activeTab, setActiveTab] = useState("purchase_credit"); // Default to 'day' tab
   const [isLoading, setIsLoading] = useState(false);
   const [instructorDetails, setInstructorDetails] = useState("");
-  const { showToast, ToastComponent } = useCustomToast();
-
+  const [isList,setIsList]=useState(false)
   const [open, setOpen] = React.useState(false);
+  
 
   const [specificStudentSessionList, setSpecificStudentSessionList] = useState(
     []
   );
-  
+
   //all functions
+  const handleChangeList=()=>{
+    setIsList(!isList)
+  }
   const viewData = async () => {
     try {
       setIsLoading(true);
@@ -124,10 +128,10 @@ function InstructorPreview() {
       // const result=mockInstructorDetails
       if (result?.success) {
         const response = result?.data?.userDetails[0];
-        response.usedCredits=result?.data?.usedCredits
-        response.assignedCredits=result?.data?.assignedCredits
-        response.availableCredits=result?.data?.availableCredits
-        response.totalCredits=result?.data?.totalCredits
+        response.usedCredits = result?.data?.usedCredits;
+        response.assignedCredits = result?.data?.assignedCredits;
+        response.availableCredits = result?.data?.availableCredits;
+        response.totalCredits = result?.data?.totalCredits;
         setInstructorDetails(response);
         setIsLoading(false);
       } else {
@@ -266,212 +270,218 @@ function InstructorPreview() {
             </Card>
           </Grid>
           <Grid item xs={12} sm={12} md={8} lg={8}>
-  <Card sx={{ height: "100%", padding: "8px" }}>
-    <CardContent>
-      {/* Box for Credit Sections */}
-      <Box
-        display="flex"
-        flexDirection="row" // Set flex direction to row
-        gap="20px"
-        justifyContent="space-between" // Ensures even spacing between elements
-        flexWrap="nowrap" // Prevents the items from wrapping into a new line
-      >
-        {/* Total Credits Section */}
-        <Box
-          display="flex"
-          flexDirection="column"
-          gap="10px"
-          alignItems="center"
-          width="20%" // Ensure each section takes up 20% width (adjust based on need)
-        >
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            height="48px"
-            width="48px"
-            backgroundColor="#3e80f9"
-            borderRadius="50%"
-          >
-            <CreditCardOutlinedIcon sx={{ color: "#fff" }} />
-          </Box>
-          <Typography
-            variant="h7"
-            fontWeight={600}
-            component="label"
-            sx={{
-              fontSize: "24px",
-              fontWeight: "bold",
-            }}
-          >
-            {instructorDetails?.totalCredits ??0}
-          </Typography>
-          <Typography
-            variant="h6"
-            fontWeight={400}
-            fontSize={16}
-            color={"#2b2d3b"}
-            component="label"
-          >
-            Total Credits
-          </Typography>
-        </Box>
+            <Card sx={{ height: "100%", padding: "8px" }}>
+              <CardContent>
+                {/* Box for Credit Sections */}
+                <Box
+                  display="flex"
+                  flexDirection="row" // Set flex direction to row
+                  gap="20px"
+                  justifyContent="space-between" // Ensures even spacing between elements
+                  flexWrap="nowrap" // Prevents the items from wrapping into a new line
+                >
+                  {/* Total Credits Section */}
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    gap="10px"
+                    alignItems="center"
+                    width="20%" // Ensure each section takes up 20% width (adjust based on need)
+                  >
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      height="48px"
+                      width="48px"
+                      backgroundColor="#3e80f9"
+                      borderRadius="50%"
+                    >
+                      <CreditCardOutlinedIcon sx={{ color: "#fff" }} />
+                    </Box>
+                    <Typography
+                      variant="h7"
+                      fontWeight={600}
+                      component="label"
+                      sx={{
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {instructorDetails?.totalCredits ?? 0}
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      fontWeight={400}
+                      fontSize={16}
+                      color={"#2b2d3b"}
+                      component="label"
+                    >
+                      Total Credits
+                    </Typography>
+                  </Box>
 
-        {/* Assigned Credits Section */}
-        <Box
-          display="flex"
-          flexDirection="column"
-          gap="10px"
-          alignItems="center"
-          width="20%" // Ensure each section takes up 20% width
-        >
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            height="48px"
-            width="48px"
-            backgroundColor="#27cea7"
-            borderRadius="50%"
-          >
-            <CardMembershipOutlinedIcon sx={{ color: "#fff" }} />
-          </Box>
-          <Typography
-            variant="h7"
-            fontWeight={600}
-            component="label"
-            sx={{
-              fontSize: "24px",
-              fontWeight: "bold",
-              color: "#27cea7",
-            }}
-          >
-            {instructorDetails?.assignedCredits??0}
-          </Typography>
-          <Typography
-            variant="h6"
-            fontWeight={400}
-            fontSize={16}
-            color={"#2b2d3b"}
-            component="label"
-          >
-            Assigned Credits
-          </Typography>
-        </Box>
+                  {/* Assigned Credits Section */}
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    gap="10px"
+                    alignItems="center"
+                    width="20%" // Ensure each section takes up 20% width
+                  >
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      height="48px"
+                      width="48px"
+                      backgroundColor="#27cea7"
+                      borderRadius="50%"
+                    >
+                      <CardMembershipOutlinedIcon sx={{ color: "#fff" }} />
+                    </Box>
+                    <Typography
+                      variant="h7"
+                      fontWeight={600}
+                      component="label"
+                      sx={{
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                        color: "#27cea7",
+                      }}
+                    >
+                      {instructorDetails?.assignedCredits ?? 0}
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      fontWeight={400}
+                      fontSize={16}
+                      color={"#2b2d3b"}
+                      component="label"
+                    >
+                      Assigned Credits
+                    </Typography>
+                  </Box>
 
-        {/* Used Credits Section */}
-        <Box
-          display="flex"
-          flexDirection="column"
-          gap="10px"
-          alignItems="center"
-          width="20%"
-        >
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            height="48px"
-            width="48px"
-            backgroundColor="#6142ff"
-            borderRadius="50%"
-          >
-            <AccountBalanceWalletOutlinedIcon
-              sx={{ color: "#fff" }}
-            />
-          </Box>
-          <Typography
-            variant="h7"
-            fontWeight={600}
-            component="label"
-            sx={{
-              fontSize: "24px",
-              fontWeight: "bold",
-              color: "#6142ff",
-            }}
-          >
-            {instructorDetails?.usedCredits??0}
-          </Typography>
-          <Typography
-            variant="h6"
-            fontWeight={400}
-            fontSize={16}
-            color={"#2b2d3b"}
-            component="label"
-          >
-            Used Credits
-          </Typography>
-        </Box>
+                  {/* Used Credits Section */}
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    gap="10px"
+                    alignItems="center"
+                    width="20%"
+                  >
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      height="48px"
+                      width="48px"
+                      backgroundColor="#6142ff"
+                      borderRadius="50%"
+                    >
+                      <AccountBalanceWalletOutlinedIcon
+                        sx={{ color: "#fff" }}
+                      />
+                    </Box>
+                    <Typography
+                      variant="h7"
+                      fontWeight={600}
+                      component="label"
+                      sx={{
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                        color: "#6142ff",
+                      }}
+                    >
+                      {instructorDetails?.usedCredits ?? 0}
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      fontWeight={400}
+                      fontSize={16}
+                      color={"#2b2d3b"}
+                      component="label"
+                    >
+                      Used Credits
+                    </Typography>
+                  </Box>
 
-        {/* Available Credits Section */}
-        <Box
-          display="flex"
-          flexDirection="column"
-          gap="10px"
-          alignItems="center"
-          width="20%"
-        >
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            height="48px"
-            width="48px"
-            backgroundColor="#ff9f43"
-            borderRadius="50%"
-          >
-            <PaymentsOutlinedIcon sx={{ color: "#fff" }} />
-          </Box>
-          <Typography
-            variant="h7"
-            fontWeight={600}
-            component="label"
-            sx={{
-              fontSize: "24px",
-              fontWeight: "bold",
-              color: "#ff9f43",
-            }}
-          >
-            {instructorDetails?.availableCredits??0}
-          </Typography>
-          <Typography
-            variant="h6"
-            fontWeight={400}
-            fontSize={16}
-            color={"#2b2d3b"}
-            component="label"
-          >
-            Available Credits
-          </Typography>
-        </Box>
-      </Box>
+                  {/* Available Credits Section */}
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    gap="10px"
+                    alignItems="center"
+                    width="20%"
+                  >
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      height="48px"
+                      width="48px"
+                      backgroundColor="#ff9f43"
+                      borderRadius="50%"
+                    >
+                      <PaymentsOutlinedIcon sx={{ color: "#fff" }} />
+                    </Box>
+                    <Typography
+                      variant="h7"
+                      fontWeight={600}
+                      component="label"
+                      sx={{
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                        color: "#ff9f43",
+                      }}
+                    >
+                      {instructorDetails?.availableCredits ?? 0}
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      fontWeight={400}
+                      fontSize={16}
+                      color={"#2b2d3b"}
+                      component="label"
+                    >
+                      Available Credits
+                    </Typography>
+                  </Box>
+                </Box>
 
-      {/* Button Below the Credit Sections */}
-      <Box paddingTop={3} alignItems={'center'} justifyContent={'center'} display={'flex'}>
-        <Button
-          color="primary"
-          variant="contained"
-          size="large"
-          width='90%'
-          type="button"
-          onClick={() => setOpen(true)}
-        >
-          Create Bonus Credit
-        </Button>
-      </Box>
-    </CardContent>
-  </Card>
-</Grid>
-
+                {/* Button Below the Credit Sections */}
+                <Box
+                  paddingTop={3}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                  display={"flex"}
+                >
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    size="large"
+                    width="90%"
+                    type="button"
+                    onClick={() => setOpen(true)}
+                  >
+                    Create Bonus Credit
+                  </Button>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
-        {activeTab === "purchase_credit" && <PurchaseCredit userId={userId} />}
+        {activeTab === "purchase_credit" && <PurchaseCredit userId={userId} isList={isList}  />}
         {activeTab === "credit_transfer_for_log" && (
           <Box mx="20px">
             <TransferCredit
-            userId={userId}
+              userId={userId}
               listData={sessionData}
               tableFields={tableFields}
               headers={headers}
+              isList={isList}
+              
             />
           </Box>
         )}
@@ -502,11 +512,13 @@ function InstructorPreview() {
           <BonusCredit
             cancel={() => handleClose()}
             userId={userId}
+            handleChangeList={handleChangeList}
             showToast={showToast}
+            viewData={viewData}
           />
         </Box>
       </Modal>
-	  <ToastComponent/>
+      <ToastComponent />
     </>
   );
 }

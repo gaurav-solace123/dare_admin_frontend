@@ -18,7 +18,7 @@ import { getData } from "../../../services/services";
 import Api from "../../../services/constant";
 import dayjs from "dayjs";
 
-function TransferCredit({ userId }) {
+function TransferCredit({ userId,isList }) {
   //all constant
   const mockTransferDetails = {
     status: 200,
@@ -101,7 +101,7 @@ function TransferCredit({ userId }) {
 
   useEffect(() => {
     getTransferDetails();
-  }, []);
+  }, [isList]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";

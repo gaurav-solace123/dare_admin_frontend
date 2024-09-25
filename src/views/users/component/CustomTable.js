@@ -319,7 +319,7 @@ function CustomTable({
                         <EditIcon sx={{ cursor: "pointer" }} />
                       </Tooltip>
                     </Box>
-                    {role !== 'Facilitator' && (
+                    {role !== 'Facilitator' &&row?.userRole!== 'Facilitator'&& (
                       <Box marginLeft={'10px'}>
                         <Tooltip
                           title={'Preview'}
@@ -332,7 +332,7 @@ function CustomTable({
                             to={
                               role === 'Student'
                                 ? '/student-details'
-                                : '/instructor-details'
+                                : row?.userRole === 'Student'?  '/student-details':'/instructor-details'
                             }
                             style={{ color: 'inherit', textDecoration: 'none' }}
                             state={{ userId: row?._id }}
@@ -351,7 +351,7 @@ function CustomTable({
       </Table>
     </TableContainer>
     {visibleRows?.length > 1 &&<TablePagination
-      rowsPerPageOptions={[10, 25, 50]}
+      rowsPerPageOptions={[25, 50, 100]}
       component="div"
       count={totalCount}
       rowsPerPage={rowsPerPage}

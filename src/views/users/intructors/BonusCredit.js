@@ -15,20 +15,20 @@ import Api from "../../../services/constant";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-function BonusCredit({ showToast, cancel, userId }) {
+function BonusCredit({ showToast, cancel, userId,handleChangeList,viewData }) {
   const costPerCredit = 1.59;
   const [isLoading, setIsLoading] = useState(false);
 
   const initialValues = {
     credits: "",
-    creditType: "purchase", // default to Purchase Credit
+    creditType: "CHEQUE", // default to Purchase Credit
   };
 
   const validationSchema = Yup.object().shape({
     credits: Yup.number()
       .required("Credits are required")
       .min(
-        Yup.ref("creditType") === "purchase" ? 100 : 1,
+        Yup.ref("creditType") === "CHEQUE" ? 100 : 1,
         "Minimum credits required"
       ),
     creditType: Yup.string().required("Please select a credit type"),
@@ -38,10 +38,10 @@ function BonusCredit({ showToast, cancel, userId }) {
     const totalCost = values.credits * costPerCredit;
 
     const payload = {
-      credits: values.credits,
+      credits: parseInt(values.credits),
       instructorId: userId,
-      type: values.creditType.toUpperCase(),
-      totalCost,
+      type: values.creditType,
+      // totalCost,
     };
 
     try {
@@ -52,9 +52,12 @@ function BonusCredit({ showToast, cancel, userId }) {
         showToast(result?.message);
         setIsLoading(false);
         cancel();
+        handleChangeList()
+        viewData()
       } else {
         setIsLoading(false);
         cancel();
+        
       }
     } catch (error) {
       setIsLoading(false);
@@ -86,18 +89,18 @@ function BonusCredit({ showToast, cancel, userId }) {
                 onChange={handleChange}
               >
                 <FormControlLabel
-                  value="purchase"
+                  value="CHEQUE"
                   control={<Radio />}
                   label="Purchase Credit"
                 />
                 <FormControlLabel
-                  value="starter"
+                  value="STARTER_KIT"
                   control={<Radio />}
                   label="Starter Kit Credits"
                 />
 
                 <FormControlLabel
-                  value="bonus"
+                  value="BONUS"
                   control={<Radio />}
                   label="Bonus Credit"
                 />
@@ -163,7 +166,7 @@ function BonusCredit({ showToast, cancel, userId }) {
                     fullWidth
                     type="submit"
                     disabled={
-                      values.creditType === "purchase" && values.credits < 100
+                      values.creditType === "CHEQUE" && values.credits < 100
                     }
                   >
                     Submit

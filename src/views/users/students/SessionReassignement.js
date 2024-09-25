@@ -35,7 +35,6 @@ function SessionReassignMentTable({
   tableFields,
   setUserId,
   headers,
-
   //   totalCount,
   getSingleStudentSessionList,
   //   rowsPerPage,
@@ -59,7 +58,7 @@ function SessionReassignMentTable({
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
-  const [sessionList, setSessionList] = useState();
+  const [sessionList, setSessionList] = useState([]);
   const [activationCode, setActivationCode] = useState("");
   const [activationCodeId, setActivationCodeId] = useState("");
   const [currentSessionDetails, setCurrentSessionDetails] = useState("");
@@ -142,6 +141,7 @@ function SessionReassignMentTable({
 
   const updateSessionCode = async () => {
     try {
+      // debugger
       setIsLoading(true);
       const payload = {
         newId: activationCodeId,
@@ -302,6 +302,14 @@ function SessionReassignMentTable({
                     </TableCell>
                   </TableRow>
                 ))}
+
+{visibleRows.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={5} align="center">
+                      <Typography>No Records found </Typography>
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </TableContainer>

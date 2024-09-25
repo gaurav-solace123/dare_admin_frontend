@@ -1,4 +1,14 @@
-import { Grid, Typography, Card, CardContent, Avatar } from "@mui/material";
+import {
+  Grid,
+  Typography,
+  Card,
+  CardContent,
+  Avatar,
+  Tooltip,
+  Button,
+  Modal,
+  IconButton,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import SessionReassignMentTable from "./SessionReassignement";
@@ -7,11 +17,32 @@ import Api from "../../../services/constant";
 import { getData } from "../../../services/services";
 import { head, upperFirst } from "lodash";
 import Loader from "../../../components/Loader";
+import NewSessionAssignModal from "./SessionReassignModal";
+import useCustomToast from "../../../hooks/CustomToastHook";
 
 function StudentDetails() {
   //all constant
   const location = useLocation();
   const userId = location?.state?.userId;
+  const {showToast,ToastComponent}=useCustomToast()
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 500,
+    bgcolor: "background.paper",
+    border: "2px solid #0055A4",
+    borderRadius: "5px",
+    boxShadow: 24,
+    p: 2,
+    paddingBottom: 2,
+    paddingTop: 4,
+  };
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   //   const sessionData = [
   //     {
   //       sessionName: "Judy Room",
@@ -46,7 +77,32 @@ function StudentDetails() {
     []
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [sessionList, setSessionList] = useState([]);
+
   //all functions
+
+  const getSessionList = async () => {
+    try {
+      setIsLoading(true);
+      const result = await getData(Api?.sessionList);
+
+      if (result?.success) {
+        const response = result?.data?.sessions;
+        // setStudentDetails(response);
+        const updatedResponse = response.map((item) => ({
+          label: `${item.activationCode}`,
+          value: item?._id,
+        }));
+        setSessionList(updatedResponse);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.error(error);
+    }
+  };
   const viewData = async () => {
     try {
       setIsLoading(true);
@@ -67,8 +123,11 @@ function StudentDetails() {
 
   const getSingleStudentSessionList = async () => {
     try {
+      // debugger
       setIsLoading(true);
-        const result = await getData(`${Api?.studentSessionReassign}?userId=${userId}`);
+      const result = await getData(
+        `${Api?.studentSessionReassign}?userId=${userId}`
+      );
       // const result = {
       //   status: 200,
       //   message: "Successfully retrieved user credit purchase details",
@@ -254,9 +313,39 @@ function StudentDetails() {
           </Grid>
 
           <Box mt={5}>
-            <Typography variant="h6" component="h6" mb={2}>
-              Sessions Reassignment
-            </Typography>
+            <Box
+              display={"flex"}
+              justifyContent={"space-between"}
+              alignItems={"center"}
+            >
+              <Typography variant="h6" component="h6" mb={2}>
+                Sessions Reassignment
+              </Typography>
+              {specificStudentSessionList.length==0&&<Tooltip
+                title={"Assign session"}
+
+                // onClick={() => {
+                //   handleOpen();
+                //   setCurrentSessionDetails(row);
+                // }}
+              >
+                <Button
+                  color="primary"
+                  variant="contained"
+                  size="large"
+                  type="button"
+                  onClick={handleOpen}
+                  sx={{
+                    marginBottom: "15px",
+                  }}
+                  // mb='15px'
+                >
+                  <Typography sx={{ flex: "1 1 100%" }} variant="h6">
+                    Assign
+                  </Typography>
+                </Button>
+              </Tooltip>}
+            </Box>
             <SessionReassignMentTable
               listData={specificStudentSessionList}
               getSingleStudentSessionList={getSingleStudentSessionList}
@@ -267,6 +356,33 @@ function StudentDetails() {
           </Box>
         </Box>
       )}
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Box sx={style}>
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+              color: "#0055a4", // Default color
+              "&:hover": {
+                color: "red", // Change color to green on hover
+              },
+            }}
+          >
+            {/* <CloseIcon /> */}X
+          </IconButton>
+          <NewSessionAssignModal showToast={showToast} cancel={handleClose} getSingleStudentSessionList={getSingleStudentSessionList} userId={userId} />
+        </Box>
+      </Modal>
+      <ToastComponent/>
     </>
   );
 }

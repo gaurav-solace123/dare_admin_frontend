@@ -132,7 +132,11 @@ function DigitalAdminBottomPanel() {
                   Sessions Sold by District
                 </Typography>
               </Box> */}
-              <Box display="flex" flexDirection="column" alignItems="center"  sx={{ cursor: 'pointer' }}>
+              <Box display="flex" flexDirection="column" alignItems="center"  sx={{ cursor: 'pointer' }}
+              
+              onClick={() =>
+                downLoadReportFile(Api.sessionSoldByState, "Sessions Sold by State")
+              }>
                 {/* <MapOutlinedIcon fontSize="large" style={{color:"black"}}/> */}
                 <img
                   src={commonFunc.getLocalImagePath("state-map.png")}

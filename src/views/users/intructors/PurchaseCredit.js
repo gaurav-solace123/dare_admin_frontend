@@ -17,8 +17,9 @@ import axios from "axios";
 import { getData } from "../../../services/services";
 import Api from "../../../services/constant";
 import dayjs from "dayjs";
+import { startCase } from "lodash";
 
-function PurchaseCredit({ userId }) {
+function PurchaseCredit({ userId ,isList}) {
   //all constant
   const mockPurchaseDetails = {
     status: 200,
@@ -92,7 +93,7 @@ function PurchaseCredit({ userId }) {
 
   useEffect(() => {
     fetchPurchaseDetails();
-  }, []);
+  }, [isList]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -192,13 +193,12 @@ function PurchaseCredit({ userId }) {
                     >
                       <Chip
                         label={
-                          detail.type === "CREDIT_CARD" ? "Offline" : "Unknown"
+                          startCase(detail.type)
                         }
                         sx={{
                           backgroundColor:
-                            detail.type === "CREDIT_CARD"
-                              ? "#2e7d32de"
-                              : "#ebebeb",
+                             "#2e7d32de",
+                              
                           color: "#fff",
                           minWidth: "100px",
                         }}

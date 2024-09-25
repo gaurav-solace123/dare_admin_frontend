@@ -362,7 +362,9 @@ const AddEditUser = ({
                           />
                         </Grid>
 
-                        {!userId&&<Grid item xs={6} p={"7px"}>
+                        {!userId&&
+                        <>
+                        <Grid item xs={6} p={"7px"}>
                           <Typography
                             variant="subtitle1"
                             fontWeight={600}
@@ -381,8 +383,7 @@ const AddEditUser = ({
                             error={touched.username && Boolean(errors.username)}
                             helperText={<ErrorMessage name="username" />}
                           />
-                        </Grid>}
-
+                        </Grid>
                         <Grid item xs={6} p={"7px"}>
                           <Typography
                             variant="subtitle1"
@@ -402,6 +403,10 @@ const AddEditUser = ({
                             helperText={<ErrorMessage name="email" />}
                           />
                         </Grid>
+                        </>
+                        }
+
+                       
                         {userId && isGenerate && (
                           <Grid item xs={6}  p={"7px"} pt={"30px"} display={"flex"} alignItems={"end"}>
                             {/* <Typography>dd</Typography> */}
@@ -798,7 +803,8 @@ const AddEditUser = ({
                             // navigate('/users');
                           }}
                         >
-                          Cancel
+                         {(formikRef?.current?.values?.userRole == "Instructor" ) ||
+                  isIntructerEdit ? 'Back':' Cancel'}  
                         </Button>
                       </Grid>
                       <Grid item xs={6} p={"7px"}>
