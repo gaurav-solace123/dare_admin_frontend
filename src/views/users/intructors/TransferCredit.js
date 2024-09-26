@@ -69,11 +69,10 @@ function TransferCredit({ userId,isList }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const getTransferDetails = async (
-    page = 1,
-    limit = 10,
-    order = "asc",
-    orderBy = "createdAt"
+   
   ) => {
+    const { page, limit } = pagination;
+
     setIsLoading(true);
     try {
       const searchQuery = `?page=${page}&limit=${limit}&sortBy=${orderBy} &sortOrder=${order}`;
@@ -101,7 +100,8 @@ function TransferCredit({ userId,isList }) {
 
   useEffect(() => {
     getTransferDetails();
-  }, [isList]);
+  }, [isList,order,pagination.page,
+    pagination.limit,]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";

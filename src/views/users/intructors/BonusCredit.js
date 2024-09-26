@@ -28,12 +28,24 @@ function BonusCredit({ showToast, cancel, userId,handleChangeList,getAllCredits 
     credits: Yup.number()
       .required("Credits are required")
       .min(
-        Yup.ref("creditType") === "CHEQUE" ? 100 : 1,
+        Yup.ref("creditType") === "Purchase" ? 100 : 1, // Minimum 100 credits for Purchase, 1 otherwise
         "Minimum credits required"
+      )
+      .test(
+        "purchase-credit-min", 
+        "Minimum 100 credits required for Purchase Credit.", 
+        function (value) {
+          // Using this.options.context to access the creditType field's value
+          const creditType = this.parent.creditType; 
+          if (creditType === "CHEQUE" && value) {
+            return value >= 100; // Check if the value is at least 100 for Purchase Credit
+          }
+          return true; // No error if creditType is not 'Purchase'
+        }
       ),
     creditType: Yup.string().required("Please select a credit type"),
   });
-
+  
   const onSubmit = async (values, { setSubmitting }) => {
     const totalCost = values.credits * costPerCredit;
 

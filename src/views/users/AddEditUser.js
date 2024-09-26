@@ -810,6 +810,7 @@ const AddEditUser = ({
                   {(formikRef?.current?.values?.userRole == "Instructor" &&
                     !isMailingAddres) ||
                   isIntructerEdit ? (
+                    <Grid item xs={12} mt='10px'>
                     <Box
                       display={"flex"}
                       justifyContent={"center"}
@@ -826,6 +827,7 @@ const AddEditUser = ({
                         Next
                       </Button>
                     </Box>
+                    </Grid>
                   ) : (
                     <Grid container >
                       <Grid item xs={6} p={"7px"}>

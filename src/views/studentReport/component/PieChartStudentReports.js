@@ -82,7 +82,7 @@ export default function PieChartStudentReports({
 							height={isMobile ? 300 : 450}
 							width={450}
 							slotProps={{ legend: { hidden: true } }}
-						/>
+							sx={{ transform: 'translate(11%, 0)' }}						/>
 					)}
 				</Grid>
 				<Box alignItems={"center"}>

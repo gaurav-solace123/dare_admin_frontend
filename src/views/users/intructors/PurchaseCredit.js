@@ -21,7 +21,7 @@ import Loader from "src/components/Loader";
 
 import { startCase } from "lodash";
 
-function PurchaseCredit({ userId ,isList}) {
+function PurchaseCredit({ userId, isList }) {
   //all constant
   const mockPurchaseDetails = {
     status: 200,
@@ -62,18 +62,15 @@ function PurchaseCredit({ userId ,isList}) {
   const [orderBy, setOrderBy] = useState("createdAt");
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchPurchaseDetails = async (
-    page = 1,
-    limit = 10,
-    order = "asc",
-    orderBy = "createdAt"
-  ) => {
+  const fetchPurchaseDetails = async () => {
+    const { page, limit } = pagination;
     setIsLoading(true);
     try {
       const searchQuery = `?page=${page}&limit=${limit}&sortBy=${orderBy} &sortOrder=${order}`;
 
-        const result = await getData(
-          `${Api?.purchaseCreditInstructor}/${userId}${searchQuery}`);
+      const result = await getData(
+        `${Api?.purchaseCreditInstructor}/${userId}${searchQuery}`
+      );
       // const result = mockPurchaseDetails;
       if (result?.success) {
         const response = result.data;
@@ -95,7 +92,8 @@ function PurchaseCredit({ userId ,isList}) {
 
   useEffect(() => {
     fetchPurchaseDetails();
-  }, [isList]);
+  }, [isList,order,pagination.page,
+    pagination.limit,]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -147,19 +145,12 @@ function PurchaseCredit({ userId ,isList}) {
                     </TableSortLabel>
                   </TableCell>
                   <TableCell align="center">
-                    <TableSortLabel
-                      variant="tableHead"
-                      active={orderBy === "numCredits"}
-                      direction={orderBy === "numCredits" ? order : "asc"}
-                      onClick={(event) =>
-                        handleRequestSort(event, "numCredits")
-                      }
-                    >
+                   
                       <Typography variant="tableHead">
                         {" "}
                         Purchase Credit#
                       </Typography>
-                    </TableSortLabel>
+                    
                   </TableCell>
                   <TableCell align="center">
                     <Typography variant="tableHead">Purchased Via</Typography>
@@ -194,13 +185,10 @@ function PurchaseCredit({ userId ,isList}) {
                       sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
                     >
                       <Chip
-                        label={
-                          startCase(detail.type)
-                        }
+                        label={startCase(detail.type)}
                         sx={{
-                          backgroundColor:
-                             "#2e7d32de",
-                              
+                          backgroundColor: "#2e7d32de",
+
                           color: "#fff",
                           minWidth: "100px",
                         }}

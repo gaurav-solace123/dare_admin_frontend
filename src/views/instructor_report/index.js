@@ -1,8 +1,10 @@
 import { Box, InputBase, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import UnifiedDatePicker from "../../components/YearMonthDayDatepicker";
 import dayjs from "dayjs";
 import InstructorReportTable from "./InstructorReportTable";
+import { getData } from "../../services/services";
+import Api from "../../services/constant";
 
 function InstructorReport() {
   //constant
@@ -120,7 +122,103 @@ function InstructorReport() {
   const [filter, setFilter] = useState("day");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [listData, setListData] = useState(instructorCreditActivityReport);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  const getFormattedDate = (date) => {
+    let formattedDate;
+
+    if (date) {
+      switch (filter) {
+        case "day":
+          formattedDate = date.format("DD-MM-YYYY"); // Format for day view
+          break;
+        case "month":
+          formattedDate = date.format("MM"); // Format for month view
+          break;
+        case "year":
+          formattedDate = date.format("YYYY"); // Format for year view
+          break;
+        default:
+          dayjs().format("DD-MM-YYYY");
+          break;
+      }
+      return formattedDate;
+    } else {
+      return dayjs().format("DD-MM-YYYY");
+    }
+  };
+  const getReports = async (type) => {
+    let searchQuery = `?schoolType=${type}`;
+    if (filter === 'range') {
+      if (startDate) {
+
+        searchQuery += `&startDate=${startDate.format("DD-MM-YYYY")}`; // Add startDate if it's defined
+      }
+      if (endDate) {
+        searchQuery += `&endDate=${endDate.format("DD-MM-YYYY")}`; // Add endDate if it's defined
+      }
+    }
+    else{
+
+      const date = getFormattedDate(selectedDate);
+      searchQuery+= `&${filter}=${date}`;
+
+    }
+    // let searchQuery = `?schoolType=${type}&${filter}=${date}`;
+    try {
+      setIsLoading(true);
+      const result = await getData(`${Api.studentReports}${searchQuery}`); //
+      if (result.status == 200) {
+        const response = result?.data.sort((a, b) =>
+          a.language.localeCompare(b.language)
+        );
+        const tempData = response.map((item) => ({
+          label: `${item?.language} Workbook Students`,
+          value: item?.totalStudents,
+          percentage: Math.round(item?.percentage),
+        }));
+        const updatedData = tempData.map((item, index) => ({
+          ...item,
+          color: colors[index % colors.length], // Use modulo to ensure index doesn't go out of bounds
+        }));
+        setListData(updatedData)
+        
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 500); // Adjust delay (500ms in this case) as needed
+
+    // Cleanup function to clear the timeout if searchTerm changes within the delay
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
+  // useEffect(() => {
+    
+  //   const pagination = {
+  //     page,
+  //     rowsPerPage,
+  //     search: debouncedSearchTerm,
+  //     userRole,
+  //     sortBy: orderBy,
+  //     sortOrder: order,
+  //   };
+  //   getListData(pagination);
+  // }, [page, rowsPerPage, userRole,order,orderBy,debouncedSearchTerm,role]);
+
+  
   return (
     <>
       <Box
