@@ -25,6 +25,7 @@ import Api from "../../services/constant";
 import Loader from "../../components/Loader";
 import useCustomToast from "../../hooks/CustomToastHook";
 import Config from "src/config/config.json";
+import Filter from "./component/Filter";
 // import DownloadForOfflineSharpIcon from '@mui/icons-material/DownloadForOfflineSharp';
 
 const CustomTable = Loadable(lazy(() => import("./component/CustomTable")));
@@ -90,7 +91,7 @@ export default function EnhancedTable({role=''}) {
   const handleSvgOpen = () => setOpenSvgFrom(true);
   const handleSvgClose = () => setOpenSvgFrom(false);
 
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const { showToast, ToastComponent } = useCustomToast();
   const handleDrop = (acceptedFiles) => {
     console.log(acceptedFiles);
@@ -119,6 +120,12 @@ export default function EnhancedTable({role=''}) {
     boxShadow: 24,
     p: 2,
   };
+  const dropDownData = [
+    { label: "All", value: "" },
+    { label: "Student", value: "Student" },
+    { label: "Facilitator", value: "Facilitator" },
+    { label: "Instructor", value: "Instructor" },
+  ];
   const getHeadCells = () => {
     let updatedHeadCells = [...baseHeadCells]; // Clone the baseHeadCells array
 
@@ -191,34 +198,32 @@ export default function EnhancedTable({role=''}) {
   };
 
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearchTerm(searchTerm);
-    }, 500); // Adjust delay (500ms in this case) as needed
+  // useEffect(() => {
+  //   const handler = setTimeout(() => {
+  //     setDebouncedSearchTerm(searchTerm);
+  //   }, 500); // Adjust delay (500ms in this case) as needed
 
-    // Cleanup function to clear the timeout if searchTerm changes within the delay
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [searchTerm]);
+  //   // Cleanup function to clear the timeout if searchTerm changes within the delay
+  //   return () => {
+  //     clearTimeout(handler);
+  //   };
+  // }, [searchTerm]);
   console.log('first', searchTerm)
   useEffect(() => {
     
     const pagination = {
       page,
       rowsPerPage,
-      search: debouncedSearchTerm,
+      search: searchTerm,
       userRole,
       sortBy: orderBy,
       sortOrder: order,
     };
     getListData(pagination);
-  }, [page, rowsPerPage, userRole,order,orderBy,debouncedSearchTerm,role]);
+  }, [page, rowsPerPage, userRole,order,orderBy,searchTerm,role]);
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : (
+      {
         <Box
           sx={{
             border: "2px solid",
@@ -264,6 +269,7 @@ export default function EnhancedTable({role=''}) {
         placeholder="Search"
       /> */}
           <CustomTable
+          isLoader={isLoading}
             Title={""}
             role={role}
             totalCount={totalCount}
@@ -292,10 +298,21 @@ export default function EnhancedTable({role=''}) {
             }}
             getListData={getListData}
           >
-           
+                <Filter
+           TitleForDropDown={"Role"}
+           getListData={getListData}
+           dropDownData={dropDownData}
+           handleChangeSearch={(e)=>setSearchTerm(e)}
+           handleChangeDropDown={(e)=>setUserRole(e.target?.value)}
+           setSearchTerm={setSearchTerm}
+            searchTerm={searchTerm}
+           userRole={userRole}
+          // setUserRole={setUserRole}
+           role={role}
+        />
             </CustomTable>
         </Box>
-      )}
+      }
       <Modal
         open={open}
         onClose={handleClose}

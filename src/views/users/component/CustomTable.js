@@ -22,6 +22,7 @@ import { Visibility } from "@mui/icons-material";
 import Api from "../../../services/constant";
 import { getData } from "src/services/services";
 import commonFunc from "../../../utils/common";
+import Loader from "../../../components/Loader";
 
 function CustomTable({
   children,
@@ -47,6 +48,7 @@ function CustomTable({
   order,
   setOrder,
   setOrderBy,
+  isLoading
 }) {
   const [row, setRow] = React.useState(listData ? listData : []);
   const dropDownData = [
@@ -121,7 +123,7 @@ function CustomTable({
         )}
         {children}
 
-        <Filter
+        {/* <Filter
           TitleForDropDown={"Role"}
           getListData={getListData}
           dropDownData={dropDownData}
@@ -132,7 +134,8 @@ function CustomTable({
           userRole={userRole}
           setUserRole={setUserRole}
           role={role}
-        />
+        /> */}
+        
         <Box
           sx={{
             display: "flex",
@@ -222,7 +225,9 @@ function CustomTable({
       <Box sx={{ width: "100%" }}>
         <Paper sx={{ width: "100%", mb: 2 }}>
           <EnhancedTableToolbar />
-          <TableContainer sx={{ borderRadius: "3px" }}>
+        { isLoading?
+        <Loader/>:
+         <TableContainer sx={{ borderRadius: "3px" }}>
             <Table>
               <EnhancedTableHead
                 order={order}
@@ -387,7 +392,7 @@ function CustomTable({
                 )}
               </TableBody>
             </Table>
-          </TableContainer>
+          </TableContainer>}
           {visibleRows?.length > 1 && (
             <TablePagination
               rowsPerPageOptions={[25, 50, 100]}
