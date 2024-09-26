@@ -166,7 +166,7 @@ const AuthLogin = ({ title, subtitle, subtext, showToast = () => {} }) => {
                         color: "primary.main",
                       }}
                     >
-                      Forgot Password ?
+                      Forgot password?
                     </Typography>
                   </Stack>
                 </Stack>

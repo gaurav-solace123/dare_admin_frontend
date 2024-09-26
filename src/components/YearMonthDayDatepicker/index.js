@@ -25,6 +25,12 @@ const UnifiedDatePicker = ({
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
+    if(startDate){
+      setStartDate(null)
+    }
+    if(endDate){
+      setEndDate(null)
+    }
   };
 
   const handleTabChange = (event, newValue) => {

@@ -28,6 +28,9 @@ const CustomTextField = styled((props) => {
       if (!regex.test(event.key)) {
         event.preventDefault();
       }
+      if(event?.target?.value?.length>=length){
+        event?.preventDefault();
+      }
     } 
     else if (typeValid === 'number') {
       const regex = /^[0-9]*$/; // allows only digits

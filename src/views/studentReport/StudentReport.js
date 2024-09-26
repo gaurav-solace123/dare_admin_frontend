@@ -9,10 +9,9 @@ import dayjs from "dayjs";
 import PieChartStudentReports from "./component/PieChartStudentReports";
 
 function StudentReport() {
-
-	//all constants
-	const colors = ["#74D3AE", "#DDBDD5", "#52D1DC"];
-//all states
+  //all constants
+  const colors = ["#74D3AE", "#DDBDD5", "#52D1DC"];
+  //all states
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -50,8 +49,23 @@ function StudentReport() {
     }
   };
   const getReports = async (type) => {
-    const date = getFormattedDate(selectedDate);
-    let searchQuery = `?schoolType=${type}&${filter}=${date}`;
+    let searchQuery = `?schoolType=${type}`;
+    if (filter === 'range') {
+      if (startDate) {
+
+        searchQuery += `&startDate=${startDate.format("DD-MM-YYYY")}`; // Add startDate if it's defined
+      }
+      if (endDate) {
+        searchQuery += `&endDate=${endDate.format("DD-MM-YYYY")}`; // Add endDate if it's defined
+      }
+    }
+    else{
+
+      const date = getFormattedDate(selectedDate);
+      searchQuery+= `&${filter}=${date}`;
+
+    }
+    // let searchQuery = `?schoolType=${type}&${filter}=${date}`;
     try {
       setIsLoading(true);
       const result = await getData(`${Api.studentReports}${searchQuery}`); //
@@ -96,7 +110,7 @@ function StudentReport() {
   useEffect(() => {
     getReports("Elementary");
     getReports("Middle School");
-  }, [selectedDate]);
+  }, [selectedDate,startDate,endDate]);
   return (
     <>
       {/* <Typography variant="h2">Elementary Student Report</Typography> */}
@@ -147,10 +161,10 @@ function StudentReport() {
                     setFilter={setFilter}
                     filter={filter}
                     calendarTabs={calendarTabs}
-					startDate={startDate}
-					setStartDate={setStartDate}
-					endDate={endDate} 
-					setEndDate={setEndDate}
+                    startDate={startDate}
+                    setStartDate={setStartDate}
+                    endDate={endDate}
+                    setEndDate={setEndDate}
                   />
                 </Box>
               }

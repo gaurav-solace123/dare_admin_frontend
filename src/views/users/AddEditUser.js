@@ -61,17 +61,54 @@ const AddEditUser = ({
         otherwise: (schema) => schema.notRequired(),
       }),
     userRole: Yup.string().required("Role selection is required."),
-    organization: Yup.string().test(
-      "organization-required-for-instructor", // Test name
-      "Organization is required.", // Error message
+    mobileNumber: Yup.string()
+    .test(
+      "mobileNumber-min-length-for-instructor", 
+      "Mobile number must be exactly 10 digits.", 
       function (value) {
-        const { userRole } = this.parent; // Access userRole from the current context
-        if (userRole === "Instructor") {
-          return !!value; // Ensure organization is required for 'Instructor'
+        const { userRole } = this.parent;
+        if (userRole === "Instructor"&&value) {
+          
+          return value && value.length >= 10; // Ensure organization has at least 3 characters for 'Instructor'
         }
-        return true; // Otherwise, organization is not required
+        return true;
       }
     ),
+    organization: Yup.string()
+    .test(
+      "organization-required-for-instructor", 
+      "Organization is required.", 
+      function (value) {
+        const { userRole } = this.parent; 
+        if (userRole === "Instructor") {
+          return !!value; // Check if organization is required for 'Instructor'
+        }
+        return true;
+      }
+    )
+    .test(
+      "organization-min-length-for-instructor", 
+      "Organization must be at least 3 characters.", 
+      function (value) {
+        const { userRole } = this.parent;
+        if (userRole === "Instructor") {
+          return value && value.length >= 3; // Ensure organization has at least 3 characters for 'Instructor'
+        }
+        return true;
+      }
+    )
+    // .test(
+    //   "organization-min-length-for-instructor", 
+    //   "Organization must be at least 3 characters.", 
+    //   function (value) {
+    //     const { userRole } = this.parent;
+    //     if (userRole === "Instructor") {
+    //       return value && value.length >= 19; // Ensure organization has at least 3 characters for 'Instructor'
+    //     }
+    //     return true;
+    //   }
+    // )
+  
     // _postal_code: Yup.string()
     // .matches(postalCodeRegex, "Invalid postal code format")
   });
@@ -296,7 +333,6 @@ const AddEditUser = ({
             {({ touched, errors, isSubmitting, values, handleChange }) => (
               <Form>
                 <Stack spacing={2}>
-                  {/* First Name and Last Name in one row */}
                   <Grid container width={"100%"}>
                     {!isMailingAddres && (
                       <>
@@ -730,7 +766,7 @@ const AddEditUser = ({
                             name="organization"
                             variant="outlined"
                             fullWidth
-                            // length={7}
+                            length={20}
                             error={
                               touched.organization &&
                               Boolean(errors.organization)
@@ -771,8 +807,6 @@ const AddEditUser = ({
                         </Grid>{" "}
                       </>
                     )}
-                  </Grid>
-                  {/* Submit and Cancel buttons */}
                   {(formikRef?.current?.values?.userRole == "Instructor" &&
                     !isMailingAddres) ||
                   isIntructerEdit ? (
@@ -793,7 +827,7 @@ const AddEditUser = ({
                       </Button>
                     </Box>
                   ) : (
-                    <Grid container spacing={2}>
+                    <Grid container >
                       <Grid item xs={6} p={"7px"}>
                         <Button
                           color="secondary"
@@ -828,6 +862,7 @@ const AddEditUser = ({
                       </Grid>
                     </Grid>
                   )}
+                  </Grid>
                 </Stack>
               </Form>
             )}
