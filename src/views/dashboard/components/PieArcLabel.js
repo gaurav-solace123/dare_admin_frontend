@@ -11,7 +11,7 @@ const sizes = {
 
 export default function PieArcLabel({ data = [], size = sizes, sx }) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // For small screens
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); 
 
   return (
     <Box position={"relative"}>
