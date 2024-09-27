@@ -34,7 +34,12 @@ const Api = {
     transferCreditInstructor:'/users/credits-transfer-details',
     
     //instructor details
-    instructorDetails:'/users/instructor-details'
+    instructorDetails:'/users/instructor-details',
+    //instructor report
+    instructorReport:'/users/instructors-credit-transfer-purchase-list',
+    instructorReportExport:'/users/instructors-purchase-transfer-credit-excel-report',
+
+
 
 };
 

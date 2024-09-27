@@ -59,18 +59,19 @@ function DigitalAdminBottomPanel() {
   return (
     <>
       <DashboardCard>
-        <Grid container spacing={3}>
+      <Grid container spacing={3}>
           <Grid
             display="flex"
             gap="40px"
             item
             xs={12}
             sm={12}
-            md={12}
+            md={6}
             lg={10}
             xl={12}
           >
-            <Box display="flex" flexDirection="row" alignItems="center" gap={5}>
+            <Box display="flex" flexDirection={{ xs: "column", sm: "column", md: "row" }} width="100%" justifyContent="center" alignItems="center" gap={5}>
+              
               <Typography variant="h5" component="h6">
                 Downloadable Reports
               </Typography>

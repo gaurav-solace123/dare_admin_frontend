@@ -1,10 +1,21 @@
-import { Box, InputBase, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  InputBase,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import UnifiedDatePicker from "../../components/YearMonthDayDatepicker";
 import dayjs from "dayjs";
 import InstructorReportTable from "./InstructorReportTable";
 import { getData } from "../../services/services";
+
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import Api from "../../services/constant";
+import { lowerCase, startCase } from "lodash";
+import commonFunc from "../../utils/common";
 
 function InstructorReport() {
   //constant
@@ -125,7 +136,9 @@ function InstructorReport() {
   const [isLoading, setIsLoading] = useState(false);
   const [listData, setListData] = useState(instructorCreditActivityReport);
   const [searchTerm, setSearchTerm] = useState("");
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const getFormattedDate = (date) => {
     let formattedDate;
 
@@ -149,42 +162,124 @@ function InstructorReport() {
       return dayjs().format("DD-MM-YYYY");
     }
   };
-  const getReports = async (type) => {
-    let searchQuery = `?schoolType=${type}`;
-    if (filter === 'range') {
+  const getInstructorReport = async () => {
+    let searchQuery = `?page=${page}&limit=${rowsPerPage}`;
+    if (filter === "range") {
       if (startDate) {
-
         searchQuery += `&startDate=${startDate.format("DD-MM-YYYY")}`; // Add startDate if it's defined
       }
       if (endDate) {
         searchQuery += `&endDate=${endDate.format("DD-MM-YYYY")}`; // Add endDate if it's defined
       }
-    }
-    else{
-
+    } else {
       const date = getFormattedDate(selectedDate);
-      searchQuery+= `&${filter}=${date}`;
-
+      searchQuery += `&${filter}=${date}`;
     }
-    // let searchQuery = `?schoolType=${type}&${filter}=${date}`;
     try {
       setIsLoading(true);
-      const result = await getData(`${Api.studentReports}${searchQuery}`); //
-      if (result.status == 200) {
-        const response = result?.data.sort((a, b) =>
-          a.language.localeCompare(b.language)
-        );
+      const result = await getData(`${Api.instructorReport}${searchQuery}`);
+      // const result = {
+      //   status: 200,
+      //   message: "Successfully retrieved user credit purchase details",
+      //   data: [
+      //     {
+      //       availableCredits: 15,
+      //       assignedCredits: 100,
+      //       usedCredits: 0,
+      //       userDetails: {
+      //         _id: "AT4jSZtTs0",
+      //         email: "mailto:sarge6340@gmail.com",
+      //         userRole: "Instructor",
+      //         firstName: "Kenneth",
+      //         lastName: "Straughter",
+      //         username: "kstraughter",
+      //         accountApproved: false,
+      //         isInitialized: true,
+      //         displayName: "Kenneth Straughter",
+      //         _hashed_password:
+      //           "$2b$10$czQkFQt3gMSXzaylqq1Y6uR4J24qdK6lLN/uSuiG82L1S9ZGPzunG",
+      //         _email_verify_token: "A4tGVUaBVKvdzdIg1l88igHAi",
+      //         emailVerified: false,
+      //         _wperm: ["AT4jSZtTs0"],
+      //         _rperm: ["*", "AT4jSZtTs0"],
+      //         _acl: {
+      //           AT4jSZtTs0: {
+      //             w: true,
+      //             r: true,
+      //           },
+      //           "*": {
+      //             r: true,
+      //           },
+      //         },
+      //         _created_at: "2016-07-18T20:36:16.062Z",
+      //         _updated_at: "2017-03-27T18:56:13.016Z",
+      //       },
+      //       purchaseDetails: {
+      //         numCredits: 100,
+      //         description: "Credits bonus for 100 Workbook Session Credits",
+      //         type: "BONUS",
+      //         createdAt: "2024-09-25T06:26:31.343Z",
+      //       },
+      //     },
+      //     {
+      //       availableCredits: 15,
+      //       assignedCredits: 100,
+      //       usedCredits: 0,
+      //       userDetails: {
+      //         _id: "AT4jSZtTs0",
+      //         email: "mailto:sarge6340@gmail.com",
+      //         userRole: "Instructor",
+      //         firstName: "Kenneth",
+      //         lastName: "Straughter",
+      //         username: "kstraughter",
+      //         accountApproved: false,
+      //         isInitialized: true,
+      //         displayName: "Kenneth Straughter",
+      //         _hashed_password:
+      //           "$2b$10$czQkFQt3gMSXzaylqq1Y6uR4J24qdK6lLN/uSuiG82L1S9ZGPzunG",
+      //         _email_verify_token: "A4tGVUaBVKvdzdIg1l88igHAi",
+      //         emailVerified: false,
+      //         _wperm: ["AT4jSZtTs0"],
+      //         _rperm: ["*", "AT4jSZtTs0"],
+      //         _acl: {
+      //           AT4jSZtTs0: {
+      //             w: true,
+      //             r: true,
+      //           },
+      //           "*": {
+      //             r: true,
+      //           },
+      //         },
+      //         _created_at: "2016-07-18T20:36:16.062Z",
+      //         _updated_at: "2017-03-27T18:56:13.016Z",
+      //       },
+      //       purchaseDetails: {
+      //         numCredits: 100,
+      //         description: "Credits bonus for 100 Workbook Session Credits",
+      //         type: "BONUS",
+      //         createdAt: "2024-09-25T06:26:31.343Z",
+      //       },
+      //     },
+      //   ],
+      //   success: true,
+      //   error: false,
+      // };
+      if (result.success) {
+        const response = result?.data;
         const tempData = response.map((item) => ({
-          label: `${item?.language} Workbook Students`,
-          value: item?.totalStudents,
-          percentage: Math.round(item?.percentage),
+          instructorName: item?.userDetails?.displayName,
+          date: dayjs(item?.purchaseDetails.createdAt).format("DD-MM-YYYY"),
+          activityType: startCase(lowerCase(item?.purchaseDetails?.type)),
+          creditsPurchased: item?.purchaseDetails?.numCredits,
+          creditsTransferredIn: 50,
+          creditsTransferredOut: 0,
+          remainingCredits: item?.availableCredits,
+          transferredTo: "N/A",
+          transferredFrom: "Instructor D",
         }));
-        const updatedData = tempData.map((item, index) => ({
-          ...item,
-          color: colors[index % colors.length], // Use modulo to ensure index doesn't go out of bounds
-        }));
-        setListData(updatedData)
-        
+
+        setListData(tempData);
+
         setIsLoading(false);
       } else {
         setIsLoading(false);
@@ -194,7 +289,34 @@ function InstructorReport() {
       setIsLoading(false);
     }
   };
-
+  const downLoadInstructorReport = async () => {
+    try {
+      const params = new URLSearchParams();
+  
+      // Add pagination params if defined
+      // if (page !== undefined) params.append("page", page);
+      // if (rowsPerPage !== undefined) params.append("limit", rowsPerPage);
+  
+      // Handle date range or other filters
+      if (filter === "range") {
+        if (startDate) params.append("startDate", startDate.format("DD-MM-YYYY"));
+        if (endDate) params.append("endDate", endDate.format("DD-MM-YYYY"));
+      } else {
+        const date = getFormattedDate(selectedDate);
+        params.append(filter, date);
+      }
+  
+      // Construct the full URL with query params
+      const result = await getData(`${Api.instructorReportExport}?${params.toString()}`);
+  
+      console.log("result", result);
+      // Optionally download the CSV
+      commonFunc.DownloadCSV(result, "Instructor Report");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
@@ -205,20 +327,18 @@ function InstructorReport() {
       clearTimeout(handler);
     };
   }, [searchTerm]);
-  // useEffect(() => {
-    
-  //   const pagination = {
-  //     page,
-  //     rowsPerPage,
-  //     search: debouncedSearchTerm,
-  //     userRole,
-  //     sortBy: orderBy,
-  //     sortOrder: order,
-  //   };
-  //   getListData(pagination);
-  // }, [page, rowsPerPage, userRole,order,orderBy,debouncedSearchTerm,role]);
+  useEffect(() => {
+    // const pagination = {
+    //   page,
+    //   rowsPerPage,
+    //   // search: debouncedSearchTerm,
+    //   userRole,
+    //   sortBy: orderBy,
+    //   sortOrder: order,
+    // };
+    getInstructorReport();
+  }, []);
 
-  
   return (
     <>
       <Box
@@ -258,19 +378,41 @@ function InstructorReport() {
           alignItems={"end"}
           marginBottom={"10px"}
         >
-          <InputBase
-            sx={{
-              border: "1px solid grey", // Adds a border to all sides
-              paddingX: "5px", // Padding inside the input
-              paddingY: "2px",
-              borderRadius: "4px", // Optional: Adds rounded corners
-              width: "50%",
-              height:'53px'
-            }}
-            //  value={searchTerm}
-            //  onChange={(e)=>handleChangeSearch(e?.target?.value)}
-            placeholder="Search"
-          />
+          <Box display={"flex"} justifyContent={"start"}>
+            <>
+              <InputBase
+                sx={{
+                  border: "1px solid grey", // Adds a border to all sides
+                  paddingX: "5px", // Padding inside the input
+                  paddingY: "2px",
+                  borderRadius: "4px", // Optional: Adds rounded corners
+                  width: "400px",
+                  height: "53px",
+                }}
+                //  value={searchTerm}
+                //  onChange={(e)=>handleChangeSearch(e?.target?.value)}
+                placeholder="Search"
+              />
+            </>
+            <Box marginLeft={"20px"}>
+              <Tooltip title=" Download Instructor Report">
+                <Button
+                  color="primary"
+                  variant="contained"
+                  size="large"
+                  type="button"
+                  sx={{ height: "53px" }}
+                  onClick={downLoadInstructorReport}
+                >
+                  <Typography sx={{ flex: "1 1 100%" }} variant="h6">
+                    Export
+                  </Typography>
+                  <FileDownloadIcon />
+                </Button>
+              </Tooltip>
+            </Box>
+          </Box>
+
           <Box display={"flex"} justifyContent={"end"}>
             <UnifiedDatePicker
               label="Select a date"
@@ -281,12 +423,19 @@ function InstructorReport() {
               calendarTabs={calendarTabs}
               startDate={startDate}
               setStartDate={setStartDate}
-              endDate={endDate} 
+              endDate={endDate}
               setEndDate={setEndDate}
             />
           </Box>
         </Box>
-        <InstructorReportTable listData={listData} tableFields={tableFields} />
+        <InstructorReportTable
+          page={page}
+          setPage={setPage}
+          rowsPerPage={rowsPerPage}
+          setRowsPerPage={setRowsPerPage}
+          listData={listData}
+          tableFields={tableFields}
+        />
       </Box>
     </>
   );

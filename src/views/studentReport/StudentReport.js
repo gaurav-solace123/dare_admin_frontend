@@ -52,7 +52,6 @@ function StudentReport() {
     let searchQuery = `?schoolType=${type}`;
     if (filter === 'range') {
       if (startDate) {
-
         searchQuery += `&startDate=${startDate.format("DD-MM-YYYY")}`; // Add startDate if it's defined
       }
       if (endDate) {
@@ -118,6 +117,7 @@ function StudentReport() {
         <Loader />
       ) : (
         <>
+        
           <Box
             sx={{
               border: "2px solid",

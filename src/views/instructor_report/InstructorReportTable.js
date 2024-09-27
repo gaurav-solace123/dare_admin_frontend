@@ -36,6 +36,10 @@ function InstructorReportTable({
   searchTerm,
   setUserRole,
   setSearchTerm,
+  page,
+  setPage,
+  rowsPerPage,
+  setRowsPerPage,
   //   orderBy,
   //   getListData,
   // order,
@@ -45,8 +49,7 @@ function InstructorReportTable({
   const [row, setRow] = React.useState(listData ? listData : []);
   const [order, setOrder] = React.useState("desc");
   const [orderBy, setOrderBy] = React.useState("_created_at");
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
   // const [searchTerm,setSearchTerm]=React.useState('')
   // const [userRole,setUserRole]=React.useState('')
   // const [listData, setListData] = React.useState([])

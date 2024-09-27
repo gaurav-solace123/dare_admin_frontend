@@ -12,19 +12,20 @@ import {
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import SessionReassignMentTable from "./SessionReassignement";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Api from "../../../services/constant";
 import { getData } from "../../../services/services";
 import { head, upperFirst } from "lodash";
 import Loader from "../../../components/Loader";
 import NewSessionAssignModal from "./SessionReassignModal";
 import useCustomToast from "../../../hooks/CustomToastHook";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 function StudentDetails() {
   //all constant
   const location = useLocation();
+  const navigate = useNavigate()
   const userId = location?.state?.userId;
-  const {showToast,ToastComponent}=useCustomToast()
+  const { showToast, ToastComponent } = useCustomToast();
   const style = {
     position: "absolute",
     top: "50%",
@@ -237,125 +238,146 @@ function StudentDetails() {
       {isLoading ? (
         <Loader />
       ) : (
-        <Box
-          sx={{
-            border: "2px solid",
-            color: "#0055a4",
-            padding: 2,
-            position: "relative",
-            borderRadius: 2,
-          }}
-        >
+        <>
+          <Tooltip title={"Go back"}>
+            <Button
+              color="primary"
+              variant="contained"
+              size="large"
+              type="button"
+              startIcon={<ArrowBackIcon />} // Adding arrow icon
+              onClick={() => navigate(-1)} // Assuming you're using React Router to navigate back
+              sx={{
+                marginBottom: "25px",
+              }}
+            >
+              <Typography sx={{ flex: "1 1 100%" }} variant="h6">
+                Back
+              </Typography>
+            </Button>
+          </Tooltip>
           <Box
             sx={{
-              position: "absolute",
-              top: "-12px", // Adjust this to make the text overlap more or less with the border
-              left: "16px",
-              backgroundColor: "#fff",
-              padding: "0 8px",
-              display: "inline-block",
-              // color: 'red', // To match the border color
-              fontSize: "24px",
-              fontWeight: "bold",
+              border: "2px solid",
+              color: "#0055a4",
+              padding: 2,
+              position: "relative",
+              borderRadius: 2,
             }}
           >
-            <Typography
-              variant="h7"
-              fontWeight={600}
-              component="label"
-              htmlFor="mailingAddress"
+            <Box
+              sx={{
+                position: "absolute",
+                top: "-12px", // Adjust this to make the text overlap more or less with the border
+                left: "16px",
+                backgroundColor: "#fff",
+                padding: "0 8px",
+                display: "inline-block",
+                // color: 'red', // To match the border color
+                fontSize: "24px",
+                fontWeight: "bold",
+              }}
             >
-              Student Details
-            </Typography>
-          </Box>
-          <Grid container mt={1} spacing={1}>
-            <Grid item xs={12} sm={12} md={12} lg={12}>
-              {/* <Typography variant="h6" component="h6" mb={2}>
+              <Typography
+                variant="h7"
+                fontWeight={600}
+                component="label"
+                htmlFor="mailingAddress"
+              >
+                Student Details
+              </Typography>
+            </Box>
+            <Grid container mt={1} spacing={1}>
+              <Grid item xs={12} sm={12} md={12} lg={12}>
+                {/* <Typography variant="h6" component="h6" mb={2}>
 						Student Details
 					</Typography> */}
-              <Card>
-                <CardContent>
-                  <Box display="flex" gap="15px">
-                    <Avatar sx={{ bgcolor: "#673ab7" }}>
-                      {" "}
-                      {upperFirst(head(studentDetails?.firstName))}
-                      {upperFirst(head(studentDetails?.lastName))}
-                    </Avatar>
-                    <Box display="flex" flexDirection="column" gap="8px">
-                      <Box display="flex" gap="8px">
-                        <Typography
-                          variant="h6"
-                          fontWeight={600}
-                          color={"#2b2d3b"}
-                          component="label"
-                          htmlFor="firstName"
-                        >
-                          {`${studentDetails?.firstName} ${studentDetails?.lastName}`}
-                        </Typography>
-                      </Box>
+                <Card>
+                  <CardContent>
+                    <Box display="flex" gap="15px">
+                      <Avatar sx={{ bgcolor: "#673ab7" }}>
+                        {" "}
+                        {upperFirst(head(studentDetails?.firstName))}
+                        {upperFirst(head(studentDetails?.lastName))}
+                      </Avatar>
+                      <Box display="flex" flexDirection="column" gap="8px">
+                        <Box display="flex" gap="8px">
+                          <Typography
+                            variant="h6"
+                            fontWeight={600}
+                            color={"#2b2d3b"}
+                            component="label"
+                            htmlFor="firstName"
+                          >
+                            {`${studentDetails?.firstName} ${studentDetails?.lastName}`}
+                          </Typography>
+                        </Box>
 
-                      <Box display="flex" gap="8px">
-                        <Typography variant="subtitle1" fontWeight={400}>
-                          Username: {studentDetails?.username}
-                        </Typography>
-                      </Box>
+                        <Box display="flex" gap="8px">
+                          <Typography variant="subtitle1" fontWeight={400}>
+                            Username: {studentDetails?.username}
+                          </Typography>
+                        </Box>
 
-                      <Box display="flex" gap="8px">
-                        <Typography variant="subtitle1" fontWeight={400}>
-                          {studentDetails?.email}
-                        </Typography>
+                        <Box display="flex" gap="8px">
+                          <Typography variant="subtitle1" fontWeight={400}>
+                            {studentDetails?.email}
+                          </Typography>
+                        </Box>
                       </Box>
                     </Box>
-                  </Box>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </Grid>
             </Grid>
-          </Grid>
 
-          <Box mt={5}>
-            <Box
-              display={"flex"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-            >
-              <Typography variant="h6" component="h6" mb={2}>
-                Sessions Reassignment
-              </Typography>
-              {specificStudentSessionList.length==0&&<Tooltip
-                title={"Assign session"}
-
-                // onClick={() => {
-                //   handleOpen();
-                //   setCurrentSessionDetails(row);
-                // }}
+            <Box mt={5}>
+              <Box
+                display={"flex"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
               >
-                <Button
-                  color="primary"
-                  variant="contained"
-                  size="large"
-                  type="button"
-                  onClick={handleOpen}
-                  sx={{
-                    marginBottom: "15px",
-                  }}
-                  // mb='15px'
-                >
-                  <Typography sx={{ flex: "1 1 100%" }} variant="h6">
-                    Assign
-                  </Typography>
-                </Button>
-              </Tooltip>}
+                <Typography variant="h6" component="h6" mb={2}>
+                  Sessions Reassignment
+                </Typography>
+                {specificStudentSessionList.length == 0 && (
+                  <Tooltip
+                    title={"Assign session"}
+
+                    // onClick={() => {
+                    //   handleOpen();
+                    //   setCurrentSessionDetails(row);
+                    // }}
+                  >
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      size="large"
+                      type="button"
+                      onClick={handleOpen}
+                      sx={{
+                        marginBottom: "15px",
+                      }}
+                      // mb='15px'
+                    >
+                      <Typography sx={{ flex: "1 1 100%" }} variant="h6">
+                        Assign
+                      </Typography>
+                    </Button>
+                  </Tooltip>
+                )}
+              </Box>
+              <SessionReassignMentTable
+                showToast={showToast}
+                listData={specificStudentSessionList}
+                getSingleStudentSessionList={getSingleStudentSessionList}
+                tableFields={tableFields}
+                headers={headers}
+                userId={userId}
+              />
             </Box>
-            <SessionReassignMentTable
-            showToast={showToast}
-              listData={specificStudentSessionList}
-              getSingleStudentSessionList={getSingleStudentSessionList}
-              tableFields={tableFields}
-              headers={headers}
-              userId={userId}
-            />
           </Box>
-        </Box>
+        </>
       )}
 
       <Modal
@@ -380,10 +402,15 @@ function StudentDetails() {
           >
             {/* <CloseIcon /> */}X
           </IconButton>
-          <NewSessionAssignModal showToast={showToast} cancel={handleClose} getSingleStudentSessionList={getSingleStudentSessionList} userId={userId} />
+          <NewSessionAssignModal
+            showToast={showToast}
+            cancel={handleClose}
+            getSingleStudentSessionList={getSingleStudentSessionList}
+            userId={userId}
+          />
         </Box>
       </Modal>
-      <ToastComponent/>
+      <ToastComponent />
     </>
   );
 }
