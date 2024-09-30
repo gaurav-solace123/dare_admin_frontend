@@ -107,23 +107,23 @@ function TransferCredit({ userId,isList }) {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-    getTransferDetails(
-      pagination.page,
-      pagination.limit,
-      isAsc ? "desc" : "asc",
-      property
-    );
+    // getTransferDetails(
+    //   pagination.page,
+    //   pagination.limit,
+    //   isAsc ? "desc" : "asc",
+    //   property
+    // );
   };
 
   const handleChangePage = (event, newPage) => {
     setPagination({ ...pagination, page: newPage + 1 });
-    getTransferDetails(newPage + 1, pagination.limit, order, orderBy);
+    // getTransferDetails(newPage + 1, pagination.limit, order, orderBy);
   };
 
   const handleChangeRowsPerPage = (event) => {
     const newLimit = parseInt(event.target.value, 10);
     setPagination({ ...pagination, limit: newLimit });
-    getTransferDetails(1, newLimit, order, orderBy); // Reset to page 1 when changing rows per page
+    // getTransferDetails(1, newLimit, order, orderBy); // Reset to page 1 when changing rows per page
   };
 
   const visibleRows = React.useMemo(() => {
