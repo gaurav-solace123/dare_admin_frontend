@@ -28,7 +28,7 @@ function InstructorReportTable({
   tableFields,
   setUserId,
   AddSvg,
-  //   totalCount,
+    totalCount,
   setTotalCountgetListData,
   //   rowsPerPage,
   //   page,
@@ -54,7 +54,6 @@ function InstructorReportTable({
   // const [userRole,setUserRole]=React.useState('')
   // const [listData, setListData] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false);
-  const [totalCount, setTotalCount] = React.useState("");
 
   const headers = [
     { id: "instructorName", numeric: false, label: "Instructor Name" },
@@ -188,7 +187,16 @@ function InstructorReportTable({
                 onRequestSort={handleRequestSort}
               />
               <TableBody>
-                {visibleRows.map((row) => (
+                {visibleRows?.length === 0 ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={9}
+                      align="center"
+                    >
+                      No records found
+                    </TableCell>
+                  </TableRow>
+                ) :visibleRows.map((row) => (
                   <TableRow
                     key={row._id}
                     sx={{

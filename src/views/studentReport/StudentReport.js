@@ -31,7 +31,7 @@ function StudentReport() {
     if (date) {
       switch (filter) {
         case "day":
-          formattedDate = date.format("DD-MM-YYYY"); // Format for day view
+          formattedDate = date.format("YYYY-MM-DD"); // Format for day view
           break;
         case "month":
           formattedDate = date.format("MM"); // Format for month view
@@ -52,10 +52,10 @@ function StudentReport() {
     let searchQuery = `?schoolType=${type}`;
     if (filter === 'range') {
       if (startDate) {
-        searchQuery += `&startDate=${startDate.format("DD-MM-YYYY")}`; // Add startDate if it's defined
+        searchQuery += `&startDate=${startDate.format("YYYY-MM-DD")}`; // Add startDate if it's defined
       }
       if (endDate) {
-        searchQuery += `&endDate=${endDate.format("DD-MM-YYYY")}`; // Add endDate if it's defined
+        searchQuery += `&endDate=${endDate.format("YYYY-MM-DD")}`; // Add endDate if it's defined
       }
     }
     else{

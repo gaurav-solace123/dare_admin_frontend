@@ -16,6 +16,7 @@ import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import Api from "../../services/constant";
 import { lowerCase, startCase } from "lodash";
 import commonFunc from "../../utils/common";
+import Loader from "../../components/Loader";
 
 function InstructorReport() {
   //constant
@@ -118,7 +119,7 @@ function InstructorReport() {
     "creditsTransferredIn",
     "creditsTransferredOut",
     "remainingCredits",
-    "transferredTo",
+    "transferredFrom",
     "transferredTo",
   ];
 
@@ -134,18 +135,20 @@ function InstructorReport() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [listData, setListData] = useState(instructorCreditActivityReport);
+  const [listData, setListData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  
+  const [totalCount, setTotalCount] = useState("");
   const getFormattedDate = (date) => {
     let formattedDate;
 
     if (date) {
       switch (filter) {
         case "day":
-          formattedDate = date.format("DD-MM-YYYY"); // Format for day view
+          formattedDate = date.format("YYYY-MM-DD"); // Format for day view
           break;
         case "month":
           formattedDate = date.format("MM"); // Format for month view
@@ -166,15 +169,27 @@ function InstructorReport() {
     let searchQuery = `?page=${page}&limit=${rowsPerPage}`;
     if (filter === "range") {
       if (startDate) {
-        searchQuery += `&startDate=${startDate.format("DD-MM-YYYY")}`; // Add startDate if it's defined
+        searchQuery += `&startDate=${startDate.format("YYYY-MM-DD")}`; // Add startDate if it's defined
       }
       if (endDate) {
-        searchQuery += `&endDate=${endDate.format("DD-MM-YYYY")}`; // Add endDate if it's defined
+        searchQuery += `&endDate=${endDate.format("YYYY-MM-DD")}`; // Add endDate if it's defined
       }
     } else {
       const date = getFormattedDate(selectedDate);
       searchQuery += `&${filter}=${date}`;
+
+      if(filter=='month'){
+        const year= selectedDate.format("YYYY")
+        searchQuery += `&year=${year}`;
+
+      }
     }
+
+    if(debouncedSearchTerm){
+
+      searchQuery += `&search=${debouncedSearchTerm}`
+    }
+    
     try {
       setIsLoading(true);
       const result = await getData(`${Api.instructorReport}${searchQuery}`);
@@ -265,18 +280,19 @@ function InstructorReport() {
       //   error: false,
       // };
       if (result.success) {
-        const response = result?.data;
-        const tempData = response.map((item) => ({
+        const response = result?.data?.results;
+        const tempData = response?.map((item) => ({
           instructorName: item?.userDetails?.displayName,
           date: dayjs(item?.purchaseDetails.createdAt).format("DD-MM-YYYY"),
           activityType: startCase(lowerCase(item?.purchaseDetails?.type)),
           creditsPurchased: item?.purchaseDetails?.numCredits,
-          creditsTransferredIn: 50,
-          creditsTransferredOut: 0,
+          creditsTransferredIn: item?.incomingTransfers?.numCredits??'-',
+          creditsTransferredOut:item?.creditTransfers?.numCredits?? '-',
           remainingCredits: item?.availableCredits,
-          transferredTo: "N/A",
-          transferredFrom: "Instructor D",
+          transferredTo: item?.creditTransfers?.destinationUser?? '-',
+          transferredFrom:  item?.incomingTransfers?.incomingSourceUser??'-',
         }));
+        setTotalCount(result?.data?.pagination?.totalDocuments)
 
         setListData(tempData);
 
@@ -337,11 +353,11 @@ function InstructorReport() {
     //   sortOrder: order,
     // };
     getInstructorReport();
-  }, []);
+  }, [filter,startDate,endDate,selectedDate,debouncedSearchTerm,page,rowsPerPage]);
 
   return (
     <>
-      <Box
+      {isLoading? <Loader/> :<Box
         sx={{
           border: "2px solid",
           color: "#0055a4",
@@ -389,8 +405,8 @@ function InstructorReport() {
                   width: "400px",
                   height: "53px",
                 }}
-                //  value={searchTerm}
-                //  onChange={(e)=>handleChangeSearch(e?.target?.value)}
+                 value={searchTerm}
+                 onChange={(e)=>setSearchTerm(e?.target?.value)}
                 placeholder="Search"
               />
             </>
@@ -434,9 +450,10 @@ function InstructorReport() {
           rowsPerPage={rowsPerPage}
           setRowsPerPage={setRowsPerPage}
           listData={listData}
+          totalCount={totalCount}
           tableFields={tableFields}
         />
-      </Box>
+      </Box>}
     </>
   );
 }
