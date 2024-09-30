@@ -7,6 +7,7 @@ import DigitalAdminBottomPanel from "./components/DigitalAdminBottomPanel";
 import Loader from "src/components/Loader";
 import { getData } from "../../services/services";
 import Api from "../../services/constant";
+import commonFunc from "../../utils/common";
 
 const Dashboard = () => {
   const data = [
@@ -163,7 +164,7 @@ const Dashboard = () => {
                   fontSize={20}
                   fontWeight="bold"
                 >
-                  {totalCredit?.totalAvailableCredits}
+                  {commonFunc.formatNumberWithCommas(totalCredit?.totalAvailableCredits)}
                 </Box>
               </Box>
             </Grid>
@@ -194,7 +195,7 @@ const Dashboard = () => {
                   fontSize={20}
                   fontWeight="bold"
                 >
-                  {totalCredit?.totalAssignedCredits}
+                  {commonFunc.formatNumberWithCommas(totalCredit?.totalAssignedCredits)}
                 </Box>
               </Box>
             </Grid>

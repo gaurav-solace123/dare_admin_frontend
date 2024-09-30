@@ -10,6 +10,7 @@ import {
   Button,
   Modal,
   IconButton,
+  Tooltip,
 } from "@mui/material";
 import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
 import CardMembershipOutlinedIcon from "@mui/icons-material/CardMembershipOutlined";
@@ -18,16 +19,18 @@ import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 import React, { useEffect, useState } from "react";
 import PurchaseCredit from "./PurchaseCredit";
 import TransferCredit from "./TransferCredit";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { head, upperFirst } from "lodash";
 import { getData } from "../../../services/services";
 import Api from "../../../services/constant";
 import useCustomToast from "../../../hooks/CustomToastHook";
 import BonusCredit from "./BonusCredit";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 function InstructorPreview() {
   //all constants
   const location = useLocation();
+  const navigate = useNavigate()
   const { showToast, ToastComponent } = useCustomToast();
   const userId = location?.state?.userId;
   const sessionData = [
@@ -178,6 +181,23 @@ function InstructorPreview() {
   }, []);
   return (
     <>
+    <Tooltip title={"Go back"}>
+            <Button
+              color="primary"
+              variant="contained"
+              size="large"
+              type="button"
+              startIcon={<ArrowBackIcon />} // Adding arrow icon
+              onClick={() => navigate(-1)} // Assuming you're using React Router to navigate back
+              sx={{
+                marginBottom: "25px",
+              }}
+            >
+              <Typography sx={{ flex: "1 1 100%" }} variant="h6">
+                Back
+              </Typography>
+            </Button>
+          </Tooltip>
       <Box
         sx={{
           border: "2px solid",
