@@ -20,37 +20,11 @@ import dayjs from "dayjs";
 import Loader from "src/components/Loader";
 
 import { startCase } from "lodash";
+import commonFunc from "../../../utils/common";
 
 function PurchaseCredit({ userId, isList }) {
   //all constant
-  const mockPurchaseDetails = {
-    status: 200,
-    message: "Successfully retrieved user credit purchase details",
-    data: {
-      purchaseDetails: [
-        {
-          numCredits: 600,
-          description: "Credits Purchase for 600 Workbook Session Credits",
-          type: "CREDIT_CARD",
-          createdAt: "2016-08-11T11:16:30.241Z",
-        },
-        {
-          numCredits: 600,
-          description: "Credits Purchase for 600 Workbook Session Credits",
-          type: "CREDIT_CARD",
-          createdAt: "2016-08-11T11:16:30.241Z",
-        },
-      ],
-      pagination: {
-        page: 1,
-        limit: 10,
-        totalDocuments: 2,
-        totalPages: 1,
-      },
-    },
-    success: true,
-    error: false,
-  };
+ 
   const [purchaseDetails, setPurchaseDetails] = useState([]);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -61,10 +35,10 @@ function PurchaseCredit({ userId, isList }) {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("createdAt");
   const [isLoading, setIsLoading] = useState(false);
-
+  const {page,limit}=pagination
   const fetchPurchaseDetails = async () => {
-    const { page, limit } = pagination;
-    setIsLoading(true);
+   
+    // setIsLoading(true);
     try {
       const searchQuery = `?page=${page}&limit=${limit}&sortBy=${orderBy} &sortOrder=${order}`;
 
@@ -91,31 +65,41 @@ function PurchaseCredit({ userId, isList }) {
   };
 
   useEffect(() => {
+    
     fetchPurchaseDetails();
-  }, [isList,order,pagination.page,
-    pagination.limit,]);
+  }, [isList,page,
+    limit,]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-    fetchPurchaseDetails(
-      pagination.page,
-      pagination.limit,
-      isAsc ? "desc" : "asc",
-      property
-    );
+    // fetchPurchaseDetails(
+    //   pagination.page,
+    //   pagination.limit,
+    //   isAsc ? "desc" : "asc",
+    //   property
+    // );
   };
 
   const handleChangePage = (event, newPage) => {
     setPagination({ ...pagination, page: newPage + 1 });
-    fetchPurchaseDetails(newPage + 1, pagination.limit, order, orderBy);
+    // fetchPurchaseDetails(newPage + 1, pagination.limit, order, orderBy);
   };
 
   const handleChangeRowsPerPage = (event) => {
     const newLimit = parseInt(event.target.value, 10);
     setPagination({ ...pagination, limit: newLimit });
-    fetchPurchaseDetails(1, newLimit, order, orderBy); // Reset to page 1 when changing rows per page
+    // fetchPurchaseDetails(1, newLimit, order, orderBy); // Reset to page 1 when changing rows per page
+  };
+
+  const formatDescription = (description) => {
+    const numberInDescription = description.match(/\d+/); // Extract the first number in the description
+    if (numberInDescription) {
+      const formattedNumber =  commonFunc.formatNumberWithCommas(numberInDescription[0]);
+      return description.replace(numberInDescription[0], formattedNumber); // Replace the number with formatted one
+    }
+    return description; // Return the original description if no number is found
   };
 
   const visibleRows = React.useMemo(() => {
@@ -124,7 +108,7 @@ function PurchaseCredit({ userId, isList }) {
 
   return (
     <>
-      <Box sx={{ width: "100%", marginTop: "30px" }}>
+      {isLoading? <Loader/>:<Box sx={{ width: "100%", marginTop: "30px" }}>
         <Paper sx={{ width: "100%", mb: 2 }}>
           <TableContainer sx={{ borderRadius: "3px" }}>
             <Table>
@@ -177,7 +161,7 @@ function PurchaseCredit({ userId, isList }) {
                       sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
                     >
                       <Typography variant="tableText">
-                        {detail.numCredits}
+                        {commonFunc.formatNumberWithCommas(detail.numCredits)}
                       </Typography>
                     </TableCell>
                     <TableCell
@@ -199,7 +183,7 @@ function PurchaseCredit({ userId, isList }) {
                       sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
                     >
                       <Typography variant="tableText">
-                        {detail.description}
+                        {formatDescription(detail.description)}
                       </Typography>
                     </TableCell>
                   </TableRow>
@@ -227,7 +211,7 @@ function PurchaseCredit({ userId, isList }) {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Paper>
-      </Box>
+      </Box>}
     </>
   );
 }

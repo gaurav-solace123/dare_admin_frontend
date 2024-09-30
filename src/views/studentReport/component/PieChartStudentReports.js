@@ -3,6 +3,7 @@ import { PieChart } from "@mui/x-charts/PieChart";
 import { Box } from "@mui/system";
 import { Grid, Typography } from "@mui/material";
 import { useTheme, useMediaQuery } from "@mui/material";
+import commonFunc from "../../../utils/common";
 
 const sizes = {
 	width: 500,
@@ -102,7 +103,7 @@ export default function PieChartStudentReports({
 						>
 							<Box height={"25px"} width={"25px"} bgcolor={item?.color} />
 							<Typography fontWeight="500" variant="subtitle2" mb={0}>
-								{`${item?.label}  - #${item?.value || "0"}`}
+								{`${item?.label}  - #${commonFunc.formatNumberWithCommas(item?.value) || "0"}`}
 							</Typography>
 						</Box>
 					))}

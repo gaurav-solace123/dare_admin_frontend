@@ -112,39 +112,47 @@ function InstructorReportTable({
     };
 
     return (
-      <TableHead
-        style={{ backgroundColor: "#d9edf7", borderRadius: "0 0 10px 2" }}
-      >
-        <TableRow>
-          {headers.map((headCell) => (
+      <TableHead style={{ backgroundColor: "#d9edf7", borderRadius: "0 0 10px 2" }}>
+      <TableRow >
+        {headers.map((headCell) => {
+          const words = headCell.label.split(" ");
+          const firstWord = words[0];
+          const remainingWords = words.slice(1).join(" ");
+    
+          return (
             <TableCell
-              color="secondary"
               key={headCell.id}
-              align="left"
-              sx={{ whiteSpace: "nowrap" }}
+              align="center" 
+              sx={{ whiteSpace: "nowrap", padding:"20px" }}
               sortDirection={orderBy === headCell.id ? order : false}
-            >
-              <TableSortLabel
+            >        
+              {/* <TableSortLabel
                 active={orderBy === headCell.id}
                 direction={orderBy === headCell.id ? order : "asc"}
                 onClick={createSortHandler(headCell.id)}
               >
                 <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
-                  {headCell.label}
+                  <div>{firstWord}</div>
+                  <div>{remainingWords}</div> 
                 </Typography>
-
+    
                 {orderBy === headCell.id ? (
                   <Box component="span" sx={visuallyHidden}>
-                    {order === "desc"
-                      ? "sorted descending"
-                      : "sorted ascending"}
+                    {order === "desc" ? "sorted descending" : "sorted ascending"}
                   </Box>
                 ) : null}
-              </TableSortLabel>
+              </TableSortLabel> */}
+              <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
+                  <div>{firstWord}</div>
+                  <div>{remainingWords}</div> 
+                </Typography>
             </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
+            
+          );
+        })}
+      </TableRow>
+    </TableHead>
+    
     );
   }
 
@@ -205,22 +213,25 @@ function InstructorReportTable({
                     }}
                   >
                     {tableFields.map((field) => (
-                      <TableCell
-                        key={field}
-                        // sx={{}}
-                        align="left"
-                        sx={{
-                          borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        <Typography
-                          sx={{ flex: "1 1 100%" }}
-                          variant="tableText"
-                        >
-                          {row?.[field]}
-                        </Typography>
-                      </TableCell>
+                       <TableCell
+                       key={field}
+                       // sx={{}}
+                       align="left"
+                       sx={{
+                         borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                         whiteSpace: "nowrap",
+                         textAlign: "center"
+                       }}
+                     >
+                       <Typography
+                         sx={{ flex: "1 1 100%", textAlign: "center" }}
+                         variant="tableText"
+
+                       >
+                          { row?.[field]}
+
+                       </Typography>
+                     </TableCell>
                     ))}
                   </TableRow>
                 ))}
