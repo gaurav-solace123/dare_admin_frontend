@@ -179,13 +179,13 @@ const AddEditUser = ({
       );
     }
   };
-  
+
 
   const viewData = async () => {
     try {
       // setIsLoading(true);
       const result = await getData(`${Api?.viewUser}/${userId}`);
-
+  
       if (result?.success) {
         const response = result?.data;
         setIsGenerate(true);
@@ -194,7 +194,7 @@ const AddEditUser = ({
             setIsMailingAddress(false);
             setIsInstructorEdit(true);
           }
-      
+  
           // Define the valid fields that match the Formik form
           const validFields = [
             'firstName',
@@ -212,7 +212,7 @@ const AddEditUser = ({
             'street_2',
 
           ];
-      
+  
           // Filter the response to only include valid fields and skip null/empty values
           const filteredResponse = Object.keys(response)
             .filter(key => validFields.includes(key) && response[key] !== null && response[key] !== "")
@@ -220,17 +220,21 @@ const AddEditUser = ({
               obj[key] = response[key];
               return obj;
             }, {});
-      
+  
+          // Ensure 'organization' is present, defaulting to an empty string if it's missing
+          filteredResponse.organization = filteredResponse.organization || '';
+  
           // Reset the form with only valid fields that are non-empty and non-null
           setEditRole(filteredResponse?.userRole);
           formikRef?.current.resetForm({ values: filteredResponse });
         }
       }
-      
+  
     } catch (error) {
       console.error(error);
     }
   };
+  
   const clearData = () => {
     if (formikRef?.current) {
       formikRef?.current.resetForm();
