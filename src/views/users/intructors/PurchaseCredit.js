@@ -183,7 +183,7 @@ function PurchaseCredit({ userId, isList }) {
                       sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
                     >
                       <Typography variant="tableText">
-                        {formatDescription(detail.description)}
+                        {detail?.description}
                       </Typography>
                     </TableCell>
                   </TableRow>

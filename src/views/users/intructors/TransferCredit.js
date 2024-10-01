@@ -85,10 +85,10 @@ function TransferCredit({ userId,isList }) {
 
         setTransferDetails(response.transfers);
         setPagination({
-          page: response.transferPagination.transferPage,
-          limit: response.transferPagination.transferPageSize,
+          page: response.transferPagination?.page,
+          limit: response.transferPagination?.limit,
           totalPages: response.transferPagination.totalPages,
-          totalDocuments: response.transferPagination.totalTransfers,
+          totalDocuments: response.transferPagination.totalDocuments,
         });
       }
     } catch (error) {

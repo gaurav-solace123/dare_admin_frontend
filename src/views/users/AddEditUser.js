@@ -138,6 +138,7 @@ const AddEditUser = ({
   const [isGenerate, setIsGenerate] = useState(false);
   const [isShowGeneratePassword, setIsShowGeneratedPassword] = useState(false);
   const [successMsg,setSuccessMsg]= useState('')
+  const [editRole,setEditRole]= useState('')
   //all functions
   const togglePasswordVisibility = (setShowPassword) => {
     setShowPassword((prev) => !prev);
@@ -191,6 +192,7 @@ const AddEditUser = ({
             setIsMailingAddress(false);
             setIsInstructorEdit(true);
           }
+          setEditRole(response?.userRole)
           formikRef?.current.resetForm({ values: response });
         }
       }
@@ -424,28 +426,12 @@ const AddEditUser = ({
                             helperText={<ErrorMessage name="username" />}
                           />
                         </Grid>
-                        <Grid item xs={6} p={"7px"}>
-                          <Typography
-                            variant="subtitle1"
-                            fontWeight={600}
-                            component="label"
-                            htmlFor="email"
-                          >
-                            Email <span style={{ color: "red" }}>*</span>
-                          </Typography>
-                          <Field
-                            as={CustomTextField}
-                            id="email"
-                            name="email"
-                            variant="outlined"
-                            fullWidth
-                            error={touched.email && Boolean(errors.email)}
-                            helperText={<ErrorMessage name="email" />}
-                          />
-                        </Grid>
+                      
                         </>
                         }
-
+                       {
+                        
+                       }
                        
                         {userId && isGenerate && (
                           <Grid item xs={6}  p={"7px"} pt={"30px"} display={"flex"} alignItems={"end"}>
