@@ -532,7 +532,7 @@ function InstructorPreview() {
                     type="button"
                     onClick={() => setOpen(true)}
                   >
-                    Create Bonus Credit
+                    Create Credit
                   </Button>
                 </Box>
               </CardContent>
