@@ -83,13 +83,16 @@ function TransferCredit({ userId,isList }) {
       // const result = mockTransferDetails;
       if (result?.success) {
         const response = result.data;
-        setTransferDetails(response.transfers);
-        setPagination({
-          page: response.transferPagination?.page,
-          limit: response.transferPagination?.limit,
-          totalPages: response.transferPagination.totalPages,
-          totalDocuments: response.transferPagination.totalDocuments,
-        });
+        if(response.transfers[0]?.numCredits){
+
+          setTransferDetails(response.transfers);
+          setPagination({
+            page: response.transferPagination?.page,
+            limit: response.transferPagination?.limit,
+            totalPages: response.transferPagination.totalPages,
+            totalDocuments: response.transferPagination.totalDocuments,
+          });
+        }
       }
     } catch (error) {
       console.error("Error fetching purchase details:", error);

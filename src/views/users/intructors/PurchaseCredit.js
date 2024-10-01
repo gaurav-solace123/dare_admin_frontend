@@ -48,14 +48,17 @@ function PurchaseCredit({ userId, isList }) {
       // const result = mockPurchaseDetails;
       if (result?.success) {
         const response = result.data;
-
-        setPurchaseDetails(response.purchaseDetails);
-        setPagination({
-          page: response.pagination.page,
-          limit: response.pagination.limit,
-          totalPages: response.pagination.totalPages,
-          totalDocuments: response.pagination.totalDocuments,
-        });
+        if(response.purchaseDetails[0]?.numCredits)
+          
+          {
+            setPurchaseDetails(response.purchaseDetails);
+            setPagination({
+              page: response.pagination.page,
+              limit: response.pagination.limit,
+              totalPages: response.pagination.totalPages,
+              totalDocuments: response.pagination.totalDocuments,
+            });
+          }
       }
     } catch (error) {
       console.error("Error fetching purchase details:", error);
