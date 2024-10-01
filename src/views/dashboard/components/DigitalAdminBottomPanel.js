@@ -141,13 +141,13 @@ function DigitalAdminBottomPanel() {
                 {/* <MapOutlinedIcon fontSize="large" style={{color:"black"}}/> */}
                 <img
                   src={commonFunc.getLocalImagePath("state-map.png")}
-                  alt={"Sessions Sold by State"}
+                  alt={"Session by State"}
                   loading="lazy"
                   width={"35px"}
                   style={{ marginBottom: "10px" }}
                 />
                 <Typography variant="caption" textAlign={"center"}>
-                  Sessions Sold by State
+                Session by State
                 </Typography>
               </Box>
               {/* <Box display="flex" flexDirection="" alignItems="start">

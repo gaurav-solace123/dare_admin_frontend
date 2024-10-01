@@ -4,7 +4,7 @@ import { Box } from "@mui/system";
 import { Grid, Typography } from "@mui/material";
 import { useTheme, useMediaQuery } from "@mui/material";
 import commonFunc from "../../../utils/common";
-
+import './index.css'
 const sizes = {
   width: 500,
   height: 200,
