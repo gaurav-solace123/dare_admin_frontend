@@ -130,25 +130,52 @@ function InstructorReport() {
   };
   const downLoadInstructorReport = async () => {
     try {
-      const params = new URLSearchParams();
+      // const params = new URLSearchParams();
 
       // Add pagination params if defined
       // if (page !== undefined) params.append("page", page);
       // if (rowsPerPage !== undefined) params.append("limit", rowsPerPage);
 
       // Handle date range or other filters
-      if (filter === "range") {
-        if (startDate)
-          params.append("startDate", startDate.format("DD-MM-YYYY"));
-        if (endDate) params.append("endDate", endDate.format("DD-MM-YYYY"));
-      } else {
-        const date = getFormattedDate(selectedDate);
-        params.append(filter, date);
-      }
+      // if (filter === "range") {
+      //   if (startDate)
+      //     params.append("startDate", startDate.format("DD-MM-YYYY"));
+      //   if (endDate) params.append("endDate", endDate.format("DD-MM-YYYY"));
+      // } else {
+      //   const date = getFormattedDate(selectedDate);
+      //   params.append(filter, date);
+      // }
 
       // Construct the full URL with query params
+      // const result = await getData(
+      //   `${Api.instructorReportExport}?${params.toString()}`
+      // );
+
+
+      let searchQuery = `?page=${page}&limit=${rowsPerPage}`;
+    if (filter === "range") {
+      if (startDate) {
+        searchQuery += `&startDate=${startDate.format("YYYY-MM-DD")}`; // Add startDate if it's defined
+      }
+      if (endDate) {
+        searchQuery += `&endDate=${endDate.format("YYYY-MM-DD")}`; // Add endDate if it's defined
+      }
+    } else {
+      const date = getFormattedDate(selectedDate);
+      searchQuery += `&${filter}=${date}`;
+
+      if (filter == "month") {
+        const year = selectedDate.format("YYYY");
+        searchQuery += `&year=${year}`;
+      }
+    }
+
+    if (debouncedSearchTerm) {
+      searchQuery += `&search=${debouncedSearchTerm}`;
+    }
+
       const result = await getData(
-        `${Api.instructorReportExport}?${params.toString()}`
+        `${Api.instructorReportExport}?${searchQuery}`
       );
 
       console.log("result", result);

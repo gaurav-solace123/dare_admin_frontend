@@ -12,7 +12,7 @@ import {
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import SessionReassignMentTable from "./SessionReassignement";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Api from "../../../services/constant";
 import { getData } from "../../../services/services";
 import { head, upperFirst } from "lodash";
@@ -24,7 +24,9 @@ function StudentDetails() {
   //all constant
   const location = useLocation();
   const navigate = useNavigate()
-  const userId = location?.state?.userId;
+  const { id } = useParams()
+  const userId = id;
+  // const userId = location?.state?.userId;
   const { showToast, ToastComponent } = useCustomToast();
   const style = {
     position: "absolute",

@@ -31,7 +31,7 @@ const AddEditUser = ({
   subtext,
   cancel,
   userId,
-  role='',
+  role = "",
   getListData,
   showToast = () => {},
 }) => {
@@ -61,45 +61,43 @@ const AddEditUser = ({
         otherwise: (schema) => schema.notRequired(),
       }),
     userRole: Yup.string().required("Role selection is required."),
-    mobileNumber: Yup.string()
-    .test(
-      "mobileNumber-min-length-for-instructor", 
-      "Mobile number must be exactly 10 digits.", 
+    mobileNumber: Yup.string().test(
+      "mobileNumber-min-length-for-instructor",
+      "Mobile number must be exactly 10 digits.",
       function (value) {
         const { userRole } = this.parent;
-        if (userRole === "Instructor"&&value) {
-          
+        if (userRole === "Instructor" && value) {
           return value && value.length >= 10; // Ensure organization has at least 3 characters for 'Instructor'
         }
         return true;
       }
     ),
     organization: Yup.string()
-    .test(
-      "organization-required-for-instructor", 
-      "Organization is required.", 
-      function (value) {
-        const { userRole } = this.parent; 
-        if (userRole === "Instructor") {
-          return !!value; // Check if organization is required for 'Instructor'
+      .test(
+        "organization-required-for-instructor",
+        "Organization is required.",
+        function (value) {
+          const { userRole } = this.parent;
+          if (userRole === "Instructor") {
+            return !!value; // Check if organization is required for 'Instructor'
+          }
+          return true;
         }
-        return true;
-      }
-    )
-    .test(
-      "organization-min-length-for-instructor", 
-      "Organization must be at least 3 characters.", 
-      function (value) {
-        const { userRole } = this.parent;
-        if (userRole === "Instructor") {
-          return value && value.length >= 3; // Ensure organization has at least 3 characters for 'Instructor'
+      )
+      .test(
+        "organization-min-length-for-instructor",
+        "Organization must be at least 3 characters.",
+        function (value) {
+          const { userRole } = this.parent;
+          if (userRole === "Instructor") {
+            return value && value.length >= 3; // Ensure organization has at least 3 characters for 'Instructor'
+          }
+          return true;
         }
-        return true;
-      }
-    )
+      ),
     // .test(
-    //   "organization-min-length-for-instructor", 
-    //   "Organization must be at least 3 characters.", 
+    //   "organization-min-length-for-instructor",
+    //   "Organization must be at least 3 characters.",
     //   function (value) {
     //     const { userRole } = this.parent;
     //     if (userRole === "Instructor") {
@@ -108,7 +106,7 @@ const AddEditUser = ({
     //     return true;
     //   }
     // )
-  
+
     // _postal_code: Yup.string()
     // .matches(postalCodeRegex, "Invalid postal code format")
   });
@@ -137,8 +135,8 @@ const AddEditUser = ({
   const [isIntructerEdit, setIsInstructorEdit] = useState(false);
   const [isGenerate, setIsGenerate] = useState(false);
   const [isShowGeneratePassword, setIsShowGeneratedPassword] = useState(false);
-  const [successMsg,setSuccessMsg]= useState('')
-  const [editRole,setEditRole]= useState('')
+  const [successMsg, setSuccessMsg] = useState("");
+  const [editRole, setEditRole] = useState("");
   //all functions
   const togglePasswordVisibility = (setShowPassword) => {
     setShowPassword((prev) => !prev);
@@ -147,6 +145,7 @@ const AddEditUser = ({
   const handleNext = async () => {
     setIsInstructorEdit(false);
     setIsGenerate(false);
+  
     const fieldsToValidate = [
       "email",
       "password",
@@ -155,16 +154,18 @@ const AddEditUser = ({
       "username",
       "confirmPassword",
     ];
-
+  
     // Trigger validation for the specified fields
     const errors = {};
+    
     for (const field of fieldsToValidate) {
-      const error = await formikRef.current.validateField(field);
+      await formikRef.current.validateField(field);
+      const error = formikRef.current.errors[field];
       if (error) {
         errors[field] = error;
       }
     }
-
+  
     if (Object.keys(errors).length === 0) {
       // If no errors, proceed to the next step
       setIsMailingAddress(true);
@@ -178,24 +179,54 @@ const AddEditUser = ({
       );
     }
   };
+  
 
   const viewData = async () => {
     try {
       // setIsLoading(true);
       const result = await getData(`${Api?.viewUser}/${userId}`);
 
-      if (result?.status == 200) {
+      if (result?.success) {
         const response = result?.data;
         setIsGenerate(true);
         if (formikRef?.current) {
-          if (response?.userRole == "Instructor") {
+          if (response?.userRole === "Instructor") {
             setIsMailingAddress(false);
             setIsInstructorEdit(true);
           }
-          setEditRole(response?.userRole)
-          formikRef?.current.resetForm({ values: response });
+      
+          // Define the valid fields that match the Formik form
+          const validFields = [
+            'firstName',
+            'lastName',
+            'email',
+            'userRole',
+            'mobileNumber',
+            '_id',
+            'username',
+            'organization',
+            'country',
+            'city',
+            '_postal_code',
+            'street_1',
+            'street_2',
+
+          ];
+      
+          // Filter the response to only include valid fields and skip null/empty values
+          const filteredResponse = Object.keys(response)
+            .filter(key => validFields.includes(key) && response[key] !== null && response[key] !== "")
+            .reduce((obj, key) => {
+              obj[key] = response[key];
+              return obj;
+            }, {});
+      
+          // Reset the form with only valid fields that are non-empty and non-null
+          setEditRole(filteredResponse?.userRole);
+          formikRef?.current.resetForm({ values: filteredResponse });
         }
       }
+      
     } catch (error) {
       console.error(error);
     }
@@ -207,16 +238,16 @@ const AddEditUser = ({
   };
   const generatePassword = async () => {
     try {
-      const payload ={
-        userId
-      }
+      const payload = {
+        userId,
+      };
       // setIsLoading(true);
-      const result = await postData(Api?.generatePassword,payload);
+      const result = await postData(Api?.generatePassword, payload);
 
       if (result?.status == 200) {
         // showToast(result?.message);
         // showToast(result?.message);
-        setSuccessMsg(result?.message)
+        setSuccessMsg(result?.message);
         setIsGenerate(false);
         setIsShowGeneratedPassword(true);
       }
@@ -233,10 +264,10 @@ const AddEditUser = ({
       email: values?.email,
       userRole: values?.userRole,
     };
-       if(!userId){
-        // payload._id=userId;
-        payload.username= values?.username
-       }
+    if (!userId) {
+      // payload._id=userId;
+      payload.username = values?.username;
+    }
     if (values?.password) {
       payload.password = values?.password;
     }
@@ -290,10 +321,10 @@ const AddEditUser = ({
       console.error(error);
     }
   };
-  const onBack=()=>{
-    setIsGenerate(true)
-    setIsMailingAddress(false)
-  }
+  const onBack = () => {
+    setIsGenerate(true);
+    setIsMailingAddress(false);
+  };
 
   //all useEffects
   useEffect(() => {
@@ -308,7 +339,9 @@ const AddEditUser = ({
         <>
           {title ? (
             <Typography fontWeight="700" variant="h2" mb={1}>
-              {userId ? `Edit ${role? role: 'User'}` : `Add ${role? role:'User'}`}
+              {userId
+                ? `Edit ${role ? role : "User"}`
+                : `Add ${role ? role : "User"}`}
             </Typography>
           ) : null}
 
@@ -322,7 +355,7 @@ const AddEditUser = ({
               email: "",
               password: "",
               confirmPassword: "",
-              userRole: role??"",
+              userRole: role ?? "",
               _id: userId ?? "",
               organization: "",
               mobileNumber: "",
@@ -338,29 +371,33 @@ const AddEditUser = ({
                   <Grid container width={"100%"}>
                     {!isMailingAddres && (
                       <>
-                        {role==''&&<Grid item xs={12} p={"7px"}>
-                          <Typography
-                            variant="subtitle1"
-                            fontWeight={600}
-                            component="label"
-                            htmlFor="userRole"
-                          >
-                            Select user role{" "}
-                            <span style={{ color: "red" }}>*</span>
-                          </Typography>
+                        {role == "" && (
+                          <Grid item xs={12} p={"7px"}>
+                            <Typography
+                              variant="subtitle1"
+                              fontWeight={600}
+                              component="label"
+                              htmlFor="userRole"
+                            >
+                              Select user role{" "}
+                              <span style={{ color: "red" }}>*</span>
+                            </Typography>
 
-                          <Field
-                            as={CustomSelect}
-                            id="userRole"
-                            name="userRole"
-                            label="Select your role"
-                            displayEmpty
-                            disabled={role}
-                            options={roleOptions}
-                            error={touched.userRole && Boolean(errors.userRole)}
-                            helperText={<ErrorMessage name="userRole" />}
-                          />
-                        </Grid>}
+                            <Field
+                              as={CustomSelect}
+                              id="userRole"
+                              name="userRole"
+                              label="Select your role"
+                              displayEmpty
+                              disabled={role}
+                              options={roleOptions}
+                              error={
+                                touched.userRole && Boolean(errors.userRole)
+                              }
+                              helperText={<ErrorMessage name="userRole" />}
+                            />
+                          </Grid>
+                        )}
                         <Grid item xs={6} p={"7px"}>
                           <Typography
                             variant="subtitle1"
@@ -403,44 +440,71 @@ const AddEditUser = ({
                             helperText={<ErrorMessage name="lastName" />}
                           />
                         </Grid>
+                        {console.log('errors', errors)}
+                        {!userId && (
+                          <>
+                            <Grid item xs={6} p={"7px"}>
+                              <Typography
+                                variant="subtitle1"
+                                fontWeight={600}
+                                component="label"
+                                htmlFor="username"
+                              >
+                                Username <span style={{ color: "red" }}>*</span>
+                              </Typography>
+                              <Field
+                                as={CustomTextField}
+                                id="username"
+                                name="username"
+                                variant="outlined"
+                                fullWidth
+                                isUsername
+                                error={
+                                  touched.username && Boolean(errors.username)
+                                }
+                                helperText={<ErrorMessage name="username" />}
+                              />
+                            </Grid>
+                          </>
+                        )}
+                       {(!userId || (editRole !== "Instructor" && formikRef?.current?.values?.userRole === "Instructor")) && (
+  <Grid item xs={6} p={"7px"}>
+    <Typography
+      variant="subtitle1"
+      fontWeight={600}
+      component="label"
+      htmlFor="email"
+    >
+      Email <span style={{ color: "red" }}>*</span>
+    </Typography>
+    <Field
+      as={CustomTextField}
+      id="email"
+      name="email"
+      variant="outlined"
+      fullWidth
+      error={touched.email && Boolean(errors.email)}
+      helperText={<ErrorMessage name="email" />}
+    />
+  </Grid>
+)}
 
-                        {!userId&&
-                        <>
-                        <Grid item xs={6} p={"7px"}>
-                          <Typography
-                            variant="subtitle1"
-                            fontWeight={600}
-                            component="label"
-                            htmlFor="username"
-                          >
-                            Username <span style={{ color: "red" }}>*</span>
-                          </Typography>
-                          <Field
-                            as={CustomTextField}
-                            id="username"
-                            name="username"
-                            variant="outlined"
-                            fullWidth
-                            isUsername
-                            error={touched.username && Boolean(errors.username)}
-                            helperText={<ErrorMessage name="username" />}
-                          />
-                        </Grid>
-                      
-                        </>
-                        }
-                       {
-                        
-                       }
-                       
+
                         {userId && isGenerate && (
-                          <Grid item xs={6}  p={"7px"} pt={"30px"} display={"flex"} alignItems={"end"}>
+                          <Grid
+                            item
+                            xs={6}
+                            p={"7px"}
+                            pt={"30px"}
+                            display={"flex"}
+                            alignItems={"end"}
+                          >
                             {/* <Typography>dd</Typography> */}
                             <Button
                               color="success"
                               variant="contained"
                               size="large"
-                              sx={{ height: '53px' }}
+                              sx={{ height: "53px" }}
                               fullWidth
                               onClick={generatePassword}
                               type="button"
@@ -793,63 +857,66 @@ const AddEditUser = ({
                         </Grid>{" "}
                       </>
                     )}
-                  {(formikRef?.current?.values?.userRole == "Instructor" &&
-                    !isMailingAddres) ||
-                  isIntructerEdit ? (
-                    <Grid item xs={12} mt='10px'>
-                    <Box
-                      display={"flex"}
-                      justifyContent={"center"}
-                      alignItems={"center"}
-                    >
-                      <Button
-                        color="primary"
-                        variant="contained"
-                        size="large"
-                        fullWidth
-                        type="button"
-                        onClick={handleNext}
-                      >
-                        Next
-                      </Button>
-                    </Box>
-                    </Grid>
-                  ) : (
-                    <Grid container >
-                      <Grid item xs={6} p={"7px"}>
-                        <Button
-                          color="secondary"
-                          variant="outlined"
-                          size="large"
-                          fullWidth
-                          type="button"
-                          onClick={() => {
-                            // Handle cancel
+                    {(formikRef?.current?.values?.userRole == "Instructor" &&
+                      !isMailingAddres) ||
+                    isIntructerEdit ? (
+                      <Grid item xs={12} mt="10px">
+                        <Box
+                          display={"flex"}
+                          justifyContent={"center"}
+                          alignItems={"center"}
+                        >
+                          <Button
+                            color="primary"
+                            variant="contained"
+                            size="large"
+                            fullWidth
+                            type="button"
+                            onClick={handleNext}
+                          >
+                            Next
+                          </Button>
+                        </Box>
+                      </Grid>
+                    ) : (
+                      <Grid container>
+                        <Grid item xs={6} p={"7px"}>
+                          <Button
+                            color="secondary"
+                            variant="outlined"
+                            size="large"
+                            fullWidth
+                            type="button"
+                            onClick={() => {
+                              // Handle cancel
 
-                            (formikRef?.current?.values?.userRole == "Instructor" ) ||
-                  isIntructerEdit ?onBack():
-                            cancel();
-                            // navigate('/users');
-                          }}
-                        >
-                         {(formikRef?.current?.values?.userRole == "Instructor" ) ||
-                  isIntructerEdit ? 'Back':' Cancel'}  
-                        </Button>
+                              formikRef?.current?.values?.userRole ==
+                                "Instructor" || isIntructerEdit
+                                ? onBack()
+                                : cancel();
+                              // navigate('/users');
+                            }}
+                          >
+                            {formikRef?.current?.values?.userRole ==
+                              "Instructor" || isIntructerEdit
+                              ? "Back"
+                              : " Cancel"}
+                          </Button>
+                        </Grid>
+                        <Grid item xs={6} p={"7px"}>
+                          <Button
+                            color="primary"
+                            variant="contained"
+                            size="large"
+                            fullWidth
+                            type="submit"
+                            disabled={isSubmitting}
+                          >
+                            Submit
+                          </Button>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={6} p={"7px"}>
-                        <Button
-                          color="primary"
-                          variant="contained"
-                          size="large"
-                          fullWidth
-                          type="submit"
-                          disabled={isSubmitting}
-                        >
-                          Submit
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  )}
+                    )}
                   </Grid>
                 </Stack>
               </Form>

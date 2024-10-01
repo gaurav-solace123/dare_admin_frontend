@@ -19,7 +19,7 @@ import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 import React, { useEffect, useState } from "react";
 import PurchaseCredit from "./PurchaseCredit";
 import TransferCredit from "./TransferCredit";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { head, upperFirst } from "lodash";
 import { getData } from "../../../services/services";
 import Api from "../../../services/constant";
@@ -29,10 +29,12 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 function InstructorPreview() {
   //all constants
-  const location = useLocation();
+  // const location = useLocation();
   const navigate = useNavigate()
   const { showToast, ToastComponent } = useCustomToast();
-  const userId = location?.state?.userId;
+  const { id } = useParams()
+  // const userId = location?.state?.userId;
+  const userId = id;
   const sessionData = [
     {
       sessionName: "Judy Room",
