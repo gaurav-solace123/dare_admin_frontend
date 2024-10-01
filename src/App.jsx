@@ -7,7 +7,6 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { useRoutes } from 'react-router-dom';
 import Router from './routes/Router';
 
-// local "http://192.168.1.24:3000/v1"
 // http://13.127.23.222:3001/
 import { baselightTheme } from "src/theme/DefaultColors";
 

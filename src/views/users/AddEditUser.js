@@ -271,7 +271,7 @@ const AddEditUser = ({
         ? patchData(`${Api?.updateUser}/${userId}`, payload)
         : postData(`${Api?.createUser}`, payload));
 
-      if (result?.status == 200 || result?.status == 201) {
+      if (result?.success) {
         //   showToast("Success", result?.message, "success");
         showToast(result?.message);
         cancel();
