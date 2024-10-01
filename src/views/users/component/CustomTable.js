@@ -48,7 +48,7 @@ function CustomTable({
   order,
   setOrder,
   setOrderBy,
-  isLoading
+  isLoading,
 }) {
   const [row, setRow] = React.useState(listData ? listData : []);
   const dropDownData = [
@@ -135,7 +135,7 @@ function CustomTable({
           setUserRole={setUserRole}
           role={role}
         /> */}
-        
+
         <Box
           sx={{
             display: "flex",
@@ -225,174 +225,171 @@ function CustomTable({
       <Box sx={{ width: "100%" }}>
         <Paper sx={{ width: "100%", mb: 2 }}>
           <EnhancedTableToolbar />
-        { isLoading?
-        <Loader/>:
-         <TableContainer sx={{ borderRadius: "3px" }}>
-            <Table>
-              <EnhancedTableHead
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-              />
-              <TableBody>
-                {/* Check if data is empty */}
-                {visibleRows?.length === 0 ? (
-                  <TableRow>
-                    <TableCell
-                      colSpan={role == "" || role == "Instructor" ? 6 : 5}
-                      align="center"
-                    >
-                      No records found
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  visibleRows.map((row) => (
-                    <TableRow
-                      key={row._id}
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                      }}
-                    >
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <TableContainer sx={{ borderRadius: "3px" }}>
+              <Table>
+                <EnhancedTableHead
+                  order={order}
+                  orderBy={orderBy}
+                  onRequestSort={handleRequestSort}
+                />
+                <TableBody>
+                  {/* Check if data is empty */}
+                  {visibleRows?.length === 0 ? (
+                    <TableRow>
                       <TableCell
-                        align="left"
-                        sx={{
-                          borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                        }}
+                        colSpan={role == "" || role == "Instructor" ? 6 : 5}
+                        align="center"
                       >
-                        <Typography
-                          sx={{ flex: "1 1 100%" }}
-                          variant="tableText"
-                        >
-                          {row?.firstName}
-                        </Typography>
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        sx={{
-                          borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                        }}
-                      >
-                        <Typography
-                          sx={{ flex: "1 1 100%" }}
-                          variant="tableText"
-                        >
-                          {row?.lastName}
-                        </Typography>
-                      </TableCell>
-
-                      {/* Conditionally render based on the role */}
-                      {role === "" && (
-                        <TableCell
-                          align="left"
-                          sx={{
-                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                          }}
-                        >
-                          <Typography
-                            sx={{ flex: "1 1 100%" }}
-                            variant="tableText"
-                          >
-                            {row?.userRole}
-                          </Typography>
-                        </TableCell>
-                      )}
-                      {role === "Instructor" && (
-                        <TableCell
-                          align="left"
-                          sx={{
-                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                          }}
-                        >
-                          <Typography
-                            sx={{ flex: "1 1 100%" }}
-                            variant="tableText"
-                          >
-                            {row?.mobileNumber}
-                          </Typography>
-                        </TableCell>
-                      )}
-                      <TableCell
-                        align="left"
-                        sx={{
-                          borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                        }}
-                      >
-                        <Typography
-                          sx={{ flex: "1 1 100%" }}
-                          variant="tableText"
-                        >
-                          {row?.email}
-                        </Typography>
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        sx={{
-                          borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                        }}
-                      >
-                        <Typography
-                          sx={{ flex: "1 1 100%" }}
-                          variant="tableText"
-                        >
-                          {row?.username}
-                        </Typography>
-                      </TableCell>
-                      <TableCell
-                        align="left"
-                        sx={{
-                          borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                        }}
-                      >
-                        <Box display={"flex"} justifyContent={"flex-start"}>
-                          <Box>
-                            <Tooltip
-                              title={`Edit ${role ? role : "User"}`}
-                              onClick={() => {
-                                onAddClick();
-                                setUserId(row?._id);
-                              }}
-                            >
-                              <EditIcon sx={{ cursor: "pointer" }} />
-                            </Tooltip>
-                          </Box>
-                          {role !== "Facilitator" &&
-                            row?.userRole !== "Facilitator" && (
-                              <Box marginLeft={"10px"}>
-                                <Tooltip
-                                  title={"Preview"}
-                                  onClick={() => {
-                                    onAddClick();
-                                    setUserId(row?._id);
-                                  }}
-                                >
-                                  <NavLink
-                                    to={
-                                      role === "Student"
-                                        ? "/student-details"
-                                        : row?.userRole === "Student"
-                                        ? "/student-details"
-                                        : "/instructor-details"
-                                    }
-                                    style={{
-                                      color: "inherit",
-                                      textDecoration: "none",
-                                    }}
-                                    state={{ userId: row?._id }}
-                                  >
-                                    <Visibility sx={{ cursor: "pointer" }} />
-                                  </NavLink>
-                                </Tooltip>
-                              </Box>
-                            )}
-                        </Box>
+                        No records found
                       </TableCell>
                     </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>}
+                  ) : (
+                    visibleRows.map((row) => (
+                      <TableRow
+                        key={row._id}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                          borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                        }}
+                      >
+                        <TableCell
+                          align="left"
+                          sx={{
+                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                          }}
+                        >
+                          <Typography
+                            sx={{ flex: "1 1 100%" }}
+                            variant="tableText"
+                          >
+                            {row?.firstName}
+                          </Typography>
+                        </TableCell>
+                        <TableCell
+                          align="left"
+                          sx={{
+                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                          }}
+                        >
+                          <Typography
+                            sx={{ flex: "1 1 100%" }}
+                            variant="tableText"
+                          >
+                            {row?.lastName}
+                          </Typography>
+                        </TableCell>
+
+                        {/* Conditionally render based on the role */}
+                        {role === "" && (
+                          <TableCell
+                            align="left"
+                            sx={{
+                              borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                            }}
+                          >
+                            <Typography
+                              sx={{ flex: "1 1 100%" }}
+                              variant="tableText"
+                            >
+                              {row?.userRole}
+                            </Typography>
+                          </TableCell>
+                        )}
+                        {role === "Instructor" && (
+                          <TableCell
+                            align="left"
+                            sx={{
+                              borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                            }}
+                          >
+                            <Typography
+                              sx={{ flex: "1 1 100%" }}
+                              variant="tableText"
+                            >
+                              {row?.mobileNumber}
+                            </Typography>
+                          </TableCell>
+                        )}
+                        <TableCell
+                          align="left"
+                          sx={{
+                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                          }}
+                        >
+                          <Typography
+                            sx={{ flex: "1 1 100%" }}
+                            variant="tableText"
+                          >
+                            {row?.email}
+                          </Typography>
+                        </TableCell>
+                        <TableCell
+                          align="left"
+                          sx={{
+                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                          }}
+                        >
+                          <Typography
+                            sx={{ flex: "1 1 100%" }}
+                            variant="tableText"
+                          >
+                            {row?.username}
+                          </Typography>
+                        </TableCell>
+                        <TableCell
+                          align="left"
+                          sx={{
+                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                          }}
+                        >
+                          <Box display={"flex"} justifyContent={"flex-start"}>
+                            <Box>
+                              <Tooltip title={`Edit ${role ? role : "User"}`}>
+                                <EditIcon
+                                  sx={{ cursor: "pointer" }}
+                                  onClick={() => {
+                                    onAddClick(); // Only called on Edit
+                                    setUserId(row?._id);
+                                  }}
+                                />
+                              </Tooltip>
+                            </Box>
+
+                            {role !== "Facilitator" &&
+                              row?.userRole !== "Facilitator" && (
+                                <Box marginLeft={"10px"}>
+                                  <Tooltip title={"Preview"}>
+                                    <NavLink
+                                      to={
+                                        role === "Student"
+                                          ? `/student-details/${row?._id}`
+                                          : row?.userRole === "Student"
+                                          ? `/student-details/${row?._id}`
+                                          : `/instructor-details/${row?._id}`
+                                      }
+                                      style={{
+                                        color: "inherit",
+                                        textDecoration: "none",
+                                      }}
+                                      state={{ userId: row?._id }}
+                                    >
+                                      <Visibility sx={{ cursor: "pointer" }} />
+                                    </NavLink>
+                                  </Tooltip>
+                                </Box>
+                              )}
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
           {visibleRows?.length > 1 && (
             <TablePagination
               rowsPerPageOptions={[25, 50, 100]}

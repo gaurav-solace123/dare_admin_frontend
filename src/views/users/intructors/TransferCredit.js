@@ -72,17 +72,17 @@ function TransferCredit({ userId,isList }) {
    
   ) => {
     const { page, limit } = pagination;
-
+    const newPage=parseInt(page)
+    const newLimit=parseInt(limit)
     setIsLoading(true);
     try {
-      const searchQuery = `?page=${page}&limit=${limit}&sortBy=${orderBy} &sortOrder=${order}`;
+      const searchQuery = `?page=${newPage}&limit=${newLimit}&sortBy=${orderBy} &sortOrder=${order}`;
 
         const result = await getData(
           `${Api?.transferCreditInstructor}/${userId}${searchQuery}`);
       // const result = mockTransferDetails;
       if (result?.success) {
         const response = result.data;
-
         setTransferDetails(response.transfers);
         setPagination({
           page: response.transferPagination?.page,

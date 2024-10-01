@@ -63,7 +63,7 @@ const Router = [
         ),
       },
       {
-        path: "/student-details",
+        path: "/student-details/:id",
         exact: true,
         element: <PrivateRoute element={<StudentDetails />} />,
       },
@@ -77,7 +77,7 @@ const Router = [
         ),
       },
       {
-        path: "/instructor-details",
+        path: "/instructor-details/:id",
         exact: true,
         element: <PrivateRoute element={<InstructorPreview />} />,
       },
