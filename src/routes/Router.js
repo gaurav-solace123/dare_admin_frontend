@@ -4,6 +4,7 @@ import Loadable from "../layouts/full/shared/loadable/Loadable";
 import InstructorPreview from "../views/users/intructors/InstrutorsDetails";
 import WorkbookLessons from "../views/content_management";
 import LessonActivities from "../views/content_management/LessonActivities";
+import EditContent from "../views/content_management/EditContent";
 
 
 /* ***Layouts**** */
@@ -97,7 +98,8 @@ const Router = [
         exact: true,
         element: (
           <PrivateRoute
-            element={<WorkbookLessons  />}
+            // element={<WorkbookLessons  />}
+            element={<EditContent  />}
           />
         ),
       },
