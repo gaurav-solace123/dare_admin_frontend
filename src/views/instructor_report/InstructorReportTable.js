@@ -146,7 +146,7 @@ function InstructorReportTable({
                   <div>{firstWord}</div>
                   <div>{remainingWords}</div> 
                 </Typography>
-            </TableCell>
+            </TableCell>                                                                                                                                                                                           
             
           );
         })}

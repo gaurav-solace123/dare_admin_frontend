@@ -12,26 +12,34 @@ import {
 } from '@mui/material';
 
 import { IconListCheck, IconMail, IconUser } from '@tabler/icons-react';
-
 import ProfileImg from 'src/assets/images/profile/user-1.jpg';
+import SweetAlertComponent from '../../../components/sweetAlert/SweetAlertComponent';
 
 const Profile = () => {
-  const navigate= useNavigate()
+  const [isAlert, setAlert] = useState(false);
+  const navigate = useNavigate();
   const [anchorEl2, setAnchorEl2] = useState(null);
+
   const handleClick2 = (event) => {
     setAnchorEl2(event.currentTarget);
   };
+
   const handleClose2 = () => {
-    setAnchorEl2(null);
+    setAnchorEl2(null); 
   };
 
-  const handleLogout=()=>{
-    localStorage.clear()
-    navigate('/auth/login')
-  }
+  const handleLogout = () => {
+    localStorage.clear(); 
+    navigate('/auth/login'); 
+  };
+
+  const openLogoutAlert = () => {
+    handleClose2(); 
+    setAlert(true);  
+  };
 
   return (
-    <Box>
+    <>
       <IconButton
         size="large"
         aria-label="show 11 new notifications"
@@ -54,9 +62,8 @@ const Profile = () => {
           }}
         />
       </IconButton>
-      {/* ------------------------------------------- */}
+      
       {/* Message Dropdown */}
-      {/* ------------------------------------------- */}
       <Menu
         id="msgs-menu"
         anchorEl={anchorEl2}
@@ -77,13 +84,39 @@ const Profile = () => {
           </ListItemIcon>
           <ListItemText>My Profile</ListItemText>
         </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <IconMail width={20} />
+          </ListItemIcon>
+          <ListItemText>My Account</ListItemText>
+        </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <IconListCheck width={20} />
+          </ListItemIcon>
+          <ListItemText>My Tasks</ListItemText>
+        </MenuItem>
         <Box mt={1} py={1} px={2}>
-          <Button onClick={handleLogout} variant="outlined" color="primary"  fullWidth>
+     
+          <Button onClick={openLogoutAlert} variant="outlined" color="primary" fullWidth>
             Logout
           </Button>
         </Box>
       </Menu>
-    </Box>
+
+      {isAlert && (                                                  
+        <SweetAlertComponent
+          title="You want to logout?"
+          text="You will be logged out."
+          onConfirm={handleLogout} 
+          onCancel={() => setAlert(false)}
+          setAlert={setAlert}
+          title2="Logout!"
+          text2= "You have Successfully Logged Out"
+         
+        />
+      )}                                                   
+    </>
   );
 };
 
