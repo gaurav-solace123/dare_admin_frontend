@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import Loadable from "../layouts/full/shared/loadable/Loadable";
 import InstructorPreview from "../views/users/intructors/InstrutorsDetails";
 import WorkbookLessons from "../views/content_management";
+import LessonActivities from "../views/content_management/LessonActivities";
 
 
 /* ***Layouts**** */
@@ -97,6 +98,15 @@ const Router = [
         element: (
           <PrivateRoute
             element={<WorkbookLessons  />}
+          />
+        ),
+      },
+      {
+        path: "/lessons-activities/:id",
+        exact: true,
+        element: (
+          <PrivateRoute
+            element={<LessonActivities  />}
           />
         ),
       },

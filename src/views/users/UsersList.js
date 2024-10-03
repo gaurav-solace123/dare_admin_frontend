@@ -84,7 +84,7 @@ export default function EnhancedTable({role=''}) {
   const [userId, setUserId] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState("");
-  const [userRole, setUserRole] = React.useState(role??"");
+  const [userRole, setUserRole] = React.useState(role);
   const [openSvgForm, setOpenSvgFrom] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -154,18 +154,21 @@ export default function EnhancedTable({role=''}) {
     return { _id, firstName,lastName, userRole, mobileNumber, email, username };
   }
   const getListData = async (
-    filters = {
-      page: 1,
-      rowsPerPage: 25,
-      sortBy: "_created_at",
-      sortOrder: "desc",
-    },search=''
-
+    
   ) => {
+
+    let filters = {
+      page,
+      rowsPerPage,
+      search: searchTerm,
+      userRole,
+      sortBy: orderBy,
+      sortOrder: order,
+    };
     let searchQuery = `?page=${filters?.page}&limit=${filters?.rowsPerPage}`;
     delete filters.page;
     delete filters.rowsPerPage;
-    for (const key in filters) {
+    for (let key in filters) {
       if (
         filters[key] !== "" &&
         filters[key] !== "page" &&
@@ -211,15 +214,16 @@ export default function EnhancedTable({role=''}) {
   console.log('first', searchTerm)
   useEffect(() => {
     
-    const pagination = {
-      page,
-      rowsPerPage,
-      search: searchTerm,
-      userRole,
-      sortBy: orderBy,
-      sortOrder: order,
-    };
-    getListData(pagination);
+    // const pagination = {
+    //   page,
+    //   rowsPerPage,
+    //   search: searchTerm,
+    //   userRole,
+    //   sortBy: orderBy,
+    //   sortOrder: order,
+    // };
+    debugger
+    getListData();
   }, [page, rowsPerPage, userRole,order,orderBy,searchTerm,role]);
   return (
     <>

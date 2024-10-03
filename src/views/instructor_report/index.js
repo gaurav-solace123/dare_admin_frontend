@@ -235,7 +235,7 @@ function InstructorReport() {
               lg: 1050,
               xl: "100%",
             },
-            maxWidth: 1200,
+            maxWidth: 1050,
             margin: "auto",
           }}
         >

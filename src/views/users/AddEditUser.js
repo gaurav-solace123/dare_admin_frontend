@@ -314,6 +314,7 @@ const AddEditUser = ({
         cancel();
         setIsLoading(false);
         setIsInstructorEdit(false);
+        
         getListData();
 
         setIsMailingAddress(false);
