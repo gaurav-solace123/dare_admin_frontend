@@ -2,6 +2,7 @@ import React, { lazy } from "react";
 import { Navigate } from "react-router-dom";
 import Loadable from "../layouts/full/shared/loadable/Loadable";
 import InstructorPreview from "../views/users/intructors/InstrutorsDetails";
+import WorkbookLessons from "../views/content_management";
 
 
 /* ***Layouts**** */
@@ -87,6 +88,15 @@ const Router = [
         element: (
           <PrivateRoute
             element={<UsersList role="Facilitator" key="facilitator" />}
+          />
+        ),
+      },
+      {
+        path: "/content-management",
+        exact: true,
+        element: (
+          <PrivateRoute
+            element={<WorkbookLessons  />}
           />
         ),
       },

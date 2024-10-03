@@ -1,5 +1,5 @@
 import {
-  IconAperture, IconCopy, IconLayoutDashboard, IconLogin, IconMoodHappy, IconTypography, IconUserPlus
+  IconGridDots ,IconFileText , IconReport , IconLayoutDashboard, IconUsers, IconUser , IconReportAnalytics, IconUserPlus
 } from '@tabler/icons-react';
 
 import { uniqueId } from 'lodash';
@@ -38,20 +38,26 @@ const Menuitems = [
   {
     id: uniqueId(),
     title: 'Student Management',
-    icon: IconLayoutDashboard,
+    icon: IconGridDots,
     href: '/student-management',
   },
   {
     id: uniqueId(),
     title: 'Instructor Management',
-    icon: IconUserPlus,
+    icon: IconUsers,
     href: '/instructor-management',
   },
   {
     id: uniqueId(),
     title: 'Facilator Management',
-    icon: IconUserPlus,
+    icon: IconUser,
     href: '/facilator-management',
+  },
+  {
+    id: uniqueId(),
+    title: 'Content Management',
+    icon: IconFileText ,
+    href: '/content-management',
   },
   {
     navlabel: true,
@@ -60,13 +66,13 @@ const Menuitems = [
   {
     id: uniqueId(),
     title: 'Student Report',
-    icon: IconUserPlus,
+    icon: IconReport,
     href: '/student-report',
   },
   {
     id: uniqueId(),
     title: 'Instructor Report',
-    icon: IconCopy,
+    icon: IconReportAnalytics,
     href: '/instructor-report',
   },
   
