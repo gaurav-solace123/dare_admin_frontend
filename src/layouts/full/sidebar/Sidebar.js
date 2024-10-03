@@ -54,6 +54,7 @@ const MSidebar = (props) => {
           variant="permanent"
           PaperProps={{
             sx: {
+              zIndex:1000,
               boxSizing: 'border-box',
               ...scrollbarStyles,
             },
@@ -65,6 +66,7 @@ const MSidebar = (props) => {
           <Box
             sx={{
               height: '100%',
+              zIndex:444,
             }}
           >
 
