@@ -66,10 +66,11 @@ function StudentDetails() {
   //       instructor: "Instructor Dashboard",
   //     },
   //   ];
-  const tableFields = ["sessionName", "sessionCode", "workbook", "instructor"];
+  const tableFields = ["sessionName", "sessionCode","status", "workbook", "instructor"];
   const headers = [
     { id: "sessionName", numeric: false, label: "Session Name" },
     { id: "sessionCode", numeric: false, label: "Session Code" },
+    { id: "status", numeric: false, label: "Status" },
     { id: "workbook", numeric: false, label: "Workbook" },
     { id: "instructor", numeric: false, label: "Instructor" },
     { id: "action", numeric: false, label: "Instructor Action" },
@@ -217,6 +218,7 @@ function StudentDetails() {
             sessionName: item?.WorkbookSessionDetails?.name,
             workbookSessionId: item?.WorkbookSessionDetails?._id,
             sessionCode: item?.WorkbookSessionDetails?.activationCode,
+            status: item?.WorkbookSessionDetails?.isArchive?'Inactive':"Active",
             workbook: item?.WorkbookDetails?.name,
             instructor: `${item?.InstructorDetails?.firstName} ${item?.InstructorDetails?.lastName}`,
           }));
@@ -231,6 +233,8 @@ function StudentDetails() {
       console.error(error);
     }
   };
+
+  console.log('specificStudentSessionList', specificStudentSessionList)
   useEffect(() => {
     viewData();
     getSingleStudentSessionList();

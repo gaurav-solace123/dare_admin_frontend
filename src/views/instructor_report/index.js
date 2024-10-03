@@ -108,10 +108,20 @@ function InstructorReport() {
           instructorName: item?.userDetails?.displayName,
           date: dayjs(item?.purchaseDetails.createdAt).format("DD-MM-YYYY"),
           activityType: startCase(lowerCase(item?.purchaseDetails?.type)),
-          creditsPurchased: commonFunc.formatNumberWithCommas(item?.purchaseDetails?.numCredits),
-          creditsTransferredIn: commonFunc.formatNumberWithCommas(item?.incomingTransfers?.numCredits) ?? "-",
-          creditsTransferredOut: commonFunc.formatNumberWithCommas(item?.creditTransfers?.numCredits) ?? "-",
-          remainingCredits: commonFunc.formatNumberWithCommas(item?.availableCredits),
+          creditsPurchased: commonFunc.formatNumberWithCommas(
+            item?.purchaseDetails?.numCredits
+          ),
+          creditsTransferredIn:
+            commonFunc.formatNumberWithCommas(
+              item?.incomingTransfers?.numCredits
+            ) ?? "-",
+          creditsTransferredOut:
+            commonFunc.formatNumberWithCommas(
+              item?.creditTransfers?.numCredits
+            ) ?? "-",
+          remainingCredits: commonFunc.formatNumberWithCommas(
+            item?.availableCredits
+          ),
           transferredTo: item?.creditTransfers?.destinationUser ?? "-",
           transferredFrom: item?.incomingTransfers?.incomingSourceUser ?? "-",
         }));
@@ -151,31 +161,30 @@ function InstructorReport() {
       //   `${Api.instructorReportExport}?${params.toString()}`
       // );
 
-
       let searchQuery = `?page=${page}&limit=${rowsPerPage}`;
-    if (filter === "range") {
-      if (startDate) {
-        searchQuery += `&startDate=${startDate.format("YYYY-MM-DD")}`; // Add startDate if it's defined
-      }
-      if (endDate) {
-        searchQuery += `&endDate=${endDate.format("YYYY-MM-DD")}`; // Add endDate if it's defined
-      }
-    } else {
-      const date = getFormattedDate(selectedDate);
-      searchQuery += `&${filter}=${date}`;
+      if (filter === "range") {
+        if (startDate) {
+          searchQuery += `&startDate=${startDate.format("YYYY-MM-DD")}`; // Add startDate if it's defined
+        }
+        if (endDate) {
+          searchQuery += `&endDate=${endDate.format("YYYY-MM-DD")}`; // Add endDate if it's defined
+        }
+      } else {
+        const date = getFormattedDate(selectedDate);
+        searchQuery += `&${filter}=${date}`;
 
-      if (filter == "month") {
-        const year = selectedDate.format("YYYY");
-        searchQuery += `&year=${year}`;
+        if (filter == "month") {
+          const year = selectedDate.format("YYYY");
+          searchQuery += `&year=${year}`;
+        }
       }
-    }
 
-    if (debouncedSearchTerm) {
-      searchQuery += `&search=${debouncedSearchTerm}`;
-    }
+      if (debouncedSearchTerm) {
+        searchQuery += `&search=${debouncedSearchTerm}`;
+      }
 
       const result = await getData(
-        `${Api.instructorReportExport}?${searchQuery}`
+        `${Api.instructorReportExport}${searchQuery}`
       );
 
       console.log("result", result);
@@ -197,13 +206,11 @@ function InstructorReport() {
     };
   }, [searchTerm]);
   useEffect(() => {
-   
     getInstructorReport();
   }, [
-    filter,
     startDate,
     endDate,
-    selectedDate,
+    selectedDate !== null,
     debouncedSearchTerm,
     page,
     rowsPerPage,
@@ -221,7 +228,6 @@ function InstructorReport() {
             padding: 2,
             position: "relative",
             borderRadius: 2,
-
             width: {
               xs: "90%",
               sm: "90%",
@@ -229,6 +235,7 @@ function InstructorReport() {
               lg: 1050,
               xl: "100%",
             },
+            maxWidth: 1200,
             margin: "auto",
           }}
         >
