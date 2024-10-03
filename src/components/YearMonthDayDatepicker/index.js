@@ -24,7 +24,7 @@ const UnifiedDatePicker = ({
   // const [endDate, setEndDate] = useState(null);
 
   const handleDateChange = (date) => {
-    setSelectedDate(date);
+        setSelectedDate(date);
     if(startDate){
       setStartDate(null)
     }

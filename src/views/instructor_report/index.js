@@ -210,7 +210,7 @@ function InstructorReport() {
   }, [
     startDate,
     endDate,
-    selectedDate !== null,
+    selectedDate &&selectedDate,
     debouncedSearchTerm,
     page,
     rowsPerPage,
