@@ -231,11 +231,10 @@ function InstructorReport() {
             width: {
               xs: "90%",
               sm: "90%",
-              md: 950,
-              lg: 950, 
-              xl: 1200,
+              md: "100%",
+              lg: "100%", 
+              xl: "100%",
             },
-            maxWidth: 1200,
             margin: "auto",
           }}
         >
