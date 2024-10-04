@@ -325,7 +325,7 @@ const canadaPostalCodeRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; // Canada
 
         setIsMailingAddress(false);
       } else {
-        // cancel();
+        cancel();
         setIsLoading(false);
         showToast(result?.message, "error");
       }

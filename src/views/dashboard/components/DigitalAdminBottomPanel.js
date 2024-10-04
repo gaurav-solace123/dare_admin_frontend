@@ -95,7 +95,7 @@ function DigitalAdminBottomPanel() {
                   style={{ marginBottom: "10px" }}
                 />
 
-                <Typography variant="danger" textAlign={"center"}>
+                <Typography variant="caption" textAlign={"center"}>
                   Officers Affiliation
                 </Typography>
               </Box>
