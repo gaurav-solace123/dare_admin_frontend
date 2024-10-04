@@ -1,9 +1,37 @@
 import React, { useState } from 'react'; // Import useState for managing accordion state
-import { Box, Button, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@mui/material';
+import { Box, Button, Typography, Accordion, AccordionSummary, AccordionDetails,TextField, Grid } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'; // You can keep this if you want to use it
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import draftToHtml from 'draftjs-to-html';
+
+// Initial content for the editor
+const initialContent = `You play on a soccer team. The team depends on you as a goalkeeper. You are invited to your best friend's birthday party at the same time as the big game. You would have to miss the game to go to the party. How do you decide what to do?`
 
 const EditContent = () => {
   const [expanded, setExpanded] = useState(false); // State to manage accordion expansion
+  const [title, setTitle] = useState('D.A.R.E. Decision Making Model Practice');
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
+
+  // State for editor content
+  const [editorState, setEditorState] = useState(
+    EditorState.createWithContent(ContentState.createFromText(initialContent))
+  );
+
+  const handleEditorChange = (state) => {
+    setEditorState(state);
+  };
+
+  const handleSave = () => {
+    const rawContent = convertToRaw(editorState.getCurrentContent());
+    const htmlContent = draftToHtml(rawContent);
+    console.log('Saved Title:', title);
+    console.log('Saved HTML Content:', htmlContent);
+    // Handle saving title and htmlContent to the backend or store as needed
+  };
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -150,20 +178,41 @@ const EditContent = () => {
             <Button variant="contained" color="primary">Next</Button>
           </Box>
 
-          <Typography variant="h4">D.A.R.E. Decision Making Model Practice</Typography>
+          <TextField
+        value={title}
+        onChange={handleTitleChange}
+        variant="outlined"
+        label="Lesson Title"
+        fullWidth
+        margin="normal"
+      />
 
           <Box border={1} borderRadius={2} padding={2} marginTop={2}>
-            <Typography variant="h6">Situation 1</Typography>
-            <p>
-              You play on a soccer team. The team depends on you as a goalkeeper. You are invited
-              to your best friend's birthday party at the same time as the big game. You would have to
-              miss the game to go to the party. How do you decide what to do?
-            </p>
+          <Editor
+          editorState={editorState}
+          toolbarClassName="toolbarClassName"
+          wrapperClassName="wrapperClassName"
+          editorClassName="editorClassName"
+          onEditorStateChange={handleEditorChange}
+          editorStyle={{
+            border: '1px solid #F1F1F1',
+            minHeight: '200px',
+            padding: '10px',
+          }}
+        />
+
           </Box>
 
           {/* <WysiwygEditor/> */}
+          <Button 
+        variant="contained" 
+        color="primary" 
+        style={{ marginTop: 20 }} 
+        onClick={handleSave}
+      >
+        Update
+      </Button>
 
-          <Button variant="contained" color="primary" style={{ marginTop: 20 }}>Update</Button>
         </Box>
       </Grid>
     </Grid>
