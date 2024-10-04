@@ -9,7 +9,9 @@ import Router from './routes/Router';
 
 // http://13.127.23.222:3001/
 import { baselightTheme } from "src/theme/DefaultColors";
-
+if (typeof global === 'undefined') {
+  window.global = window;
+}
 function App() {
   
   const routing = useRoutes(Router);
