@@ -232,10 +232,10 @@ function InstructorReport() {
               xs: "90%",
               sm: "90%",
               md: 950,
-              lg: 950,
+              lg: 950, 
               xl: 1200,
             },
-            maxWidth: 1050,
+            maxWidth: 1200,
             margin: "auto",
           }}
         >
@@ -249,12 +249,12 @@ function InstructorReport() {
               display: "inline-block",
               fontSize: "24px",
               fontWeight: "bold",
-            }}
-          >
+            }} 
+          >                                              
             <Typography
               variant="h6"
               fontWeight={600}
-              component="label"
+              component="label"                                                                                                                
               htmlFor="mailingAddress"
             >
               Instructor Report

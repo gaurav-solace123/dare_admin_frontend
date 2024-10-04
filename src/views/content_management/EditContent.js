@@ -1,32 +1,172 @@
-import React from 'react';
-import { Box, Button, Typography } from '@mui/material';
-// import WysiwygEditor from '../../components/Editor';
+import React, { useState } from 'react'; // Import useState for managing accordion state
+import { Box, Button, Typography, Accordion, AccordionSummary, AccordionDetails, Grid } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'; // You can keep this if you want to use it
 
 const EditContent = () => {
+  const [expanded, setExpanded] = useState(false); // State to manage accordion expansion
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
   return (
-    <Box display="flex" flexDirection="column" alignItems="center">
-      <Typography variant="h6">LESSON 1</Typography>
+    <Grid container spacing={2} padding={2}>
+      {/* Left Side: Content Box */}
+      <Grid item xs={12} md={3}
+        sx={{
+          fontSize: 20
+        }}
+      >
+        <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+          <AccordionSummary
+            expandIcon={expanded ? '-' : '+'}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography variant="h6">Lesson 1</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
 
-      <Box display="flex" justifyContent="space-between" width="100%">
-        <Button variant="contained" color="primary">Go Back</Button>
-        <Button variant="contained" color="primary">Next</Button>
-      </Box>
+            <Typography style={{ marginLeft: 5, marginBottom:10 }}>
+              1.1 D.A.R.E Rules
+            </Typography>
+            <Typography style={{ marginLeft: 5, marginBottom:10 }}>
+              1.2 D.A.R.E. Decision-Making Model
+            </Typography>
 
-      <Typography variant="h4">D.A.R.E. Decision Making Model Practice</Typography>
+            <Typography style={{ marginLeft: 5, marginBottom:10 }}>
+              1.3 D.A.R.E. Decision Making Model Practice
+            </Typography>
+            <Typography style={{ marginLeft: 5, marginBottom:10 }}>
+              1.4 Journal-What I Learned Today
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+          <AccordionSummary
+            expandIcon={expanded ? '-' : '+'}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography variant="h6">Lesson 2</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
 
-      <Box border={1} borderRadius={2} padding={2} marginTop={2}>
-        <Typography variant="h6">Situation 1</Typography>
-        <p>
-          You play on a soccer team. The team depends on you as a goalkeeper. You are invited
-          to your best friend's birthday party at the same time as the big game. You would have to
-          miss the game to go to the party. How do you decide what to do?
-        </p>
-      </Box>
+            <Typography style={{ marginLeft: 5, marginBottom:10 }}>
+              2.1 Alcohol - Did You Know?
+            </Typography>
+            <Typography style={{ marginLeft: 5, marginBottom:10 }}>
+              2.2 Tobacco - Did You Know?
+            </Typography>
 
-      {/* <WysiwygEditor/> */}
+            <Typography style={{ marginLeft: 5, marginBottom:10 }}>
+              2.3 Illustration - Parts of The Body
+            </Typography>
+            <Typography style={{ marginLeft: 5, marginBottom:10 }}>
+              2.4 Define The Problem
+            </Typography>
+            <Typography style={{ marginLeft: 5, marginBottom:10 }}>
+              2.5 Journal - What I Learned Today
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+          <AccordionSummary
+            expandIcon={expanded ? '-' : '+'}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography variant="h6">Lesson 3</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
 
-      <Button variant="contained" color="primary" style={{ marginTop: 20 }}>Update</Button>
-    </Box>
+            <Typography style={{ marginLeft: 5, marginBottom:10 }}>
+              2.1 Alcohol - Did You Know?
+            </Typography>
+            <Typography style={{ marginLeft: 5, marginBottom:10 }}>
+              2.2 Tobacco - Did You Know?
+            </Typography>
+
+            <Typography style={{ marginLeft: 5, marginBottom:10 }}>
+              2.3 Illustration - Parts of The Body
+            </Typography>
+            
+          </AccordionDetails>
+        </Accordion>
+        <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
+          <AccordionSummary
+            expandIcon={expanded ? '-' : '+'}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography variant="h6">Lesson 4</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+
+            <Typography style={{ marginLeft: 5, marginBottom:10 }}>
+              2.1 Alcohol - Did You Know?
+            </Typography>
+            <Typography style={{ marginLeft: 5, marginBottom:10 }}>
+              2.2 Tobacco - Did You Know?
+            </Typography>
+
+            <Typography style={{ marginLeft: 5, marginBottom:10 }}>
+              2.3 Illustration - Parts of The Body
+            </Typography>
+            
+          </AccordionDetails>
+        </Accordion>
+        <Accordion expanded={expanded === 'panel5'} onChange={handleChange('panel5')}>
+          <AccordionSummary
+            expandIcon={expanded ? '-' : '+'}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography variant="h6">Lesson 5</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+
+            <Typography style={{ marginLeft: 5, marginBottom:10 }}>
+              2.1 Alcohol - Did You Know?
+            </Typography>
+            <Typography style={{ marginLeft: 5, marginBottom:10 }}>
+              2.2 Tobacco - Did You Know?
+            </Typography>
+
+            <Typography style={{ marginLeft: 5, marginBottom:10 }}>
+              2.3 Illustration - Parts of The Body
+            </Typography>
+            
+          </AccordionDetails>
+        </Accordion>
+      </Grid>
+
+      {/* Right Side: Content Box */}
+      <Grid item xs={12} md={9}>
+        <Box display="flex" flexDirection="column" alignItems="center">
+          <Typography variant="h6">LESSON 1</Typography>
+
+          <Box display="flex" justifyContent="space-between" width="100%">
+            <Button variant="contained" color="primary">Go Back</Button>
+            <Button variant="contained" color="primary">Next</Button>
+          </Box>
+
+          <Typography variant="h4">D.A.R.E. Decision Making Model Practice</Typography>
+
+          <Box border={1} borderRadius={2} padding={2} marginTop={2}>
+            <Typography variant="h6">Situation 1</Typography>
+            <p>
+              You play on a soccer team. The team depends on you as a goalkeeper. You are invited
+              to your best friend's birthday party at the same time as the big game. You would have to
+              miss the game to go to the party. How do you decide what to do?
+            </p>
+          </Box>
+
+          {/* <WysiwygEditor/> */}
+
+          <Button variant="contained" color="primary" style={{ marginTop: 20 }}>Update</Button>
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 
