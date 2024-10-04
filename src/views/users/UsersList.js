@@ -222,7 +222,7 @@ export default function EnhancedTable({role=''}) {
     //   sortBy: orderBy,
     //   sortOrder: order,
     // };
-    debugger
+    
     getListData();
   }, [page, rowsPerPage, userRole,order,orderBy,searchTerm,role]);
   return (

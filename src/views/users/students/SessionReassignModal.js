@@ -37,7 +37,7 @@ function NewSessionAssignModal({  cancel,userId,getSingleStudentSessionList,show
 
   const updateSessionCode = async () => {
     try {
-      // debugger
+      // 
       setIsLoading(true);
       const payload = {
         newId: activationCodeId,

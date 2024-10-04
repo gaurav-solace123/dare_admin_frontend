@@ -142,7 +142,7 @@ function SessionReassignMentTable({
 
   const updateSessionCode = async () => {
     try {
-      // debugger
+      // 
       setIsLoading(true);
       const payload = {
         newId: activationCodeId,

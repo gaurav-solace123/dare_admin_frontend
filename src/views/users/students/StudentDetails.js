@@ -127,7 +127,7 @@ function StudentDetails() {
 
   const getSingleStudentSessionList = async () => {
     try {
-      // debugger
+      // 
       setIsLoading(true);
       const result = await getData(
         `${Api?.studentSessionReassign}?userId=${userId}`

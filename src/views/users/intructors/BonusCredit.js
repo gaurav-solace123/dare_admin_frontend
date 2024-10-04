@@ -21,7 +21,7 @@ function BonusCredit({ showToast, cancel, userId,handleChangeList,getAllCredits 
 
   const initialValues = {
     credits: "",
-    creditType: "CHEQUE", // default to Purchase Credit
+    creditType: "CHECK", // default to Purchase Credit
   };
 
   const validationSchema = Yup.object().shape({
@@ -37,7 +37,7 @@ function BonusCredit({ showToast, cancel, userId,handleChangeList,getAllCredits 
         function (value) {
           // Using this.options.context to access the creditType field's value
           const creditType = this.parent.creditType; 
-          if (creditType === "CHEQUE" && value) {
+          if (creditType === "CHECK" && value) {
             return value >= 100; // Check if the value is at least 100 for Purchase Credit
           }
           return true; // No error if creditType is not 'Purchase'
@@ -101,7 +101,7 @@ function BonusCredit({ showToast, cancel, userId,handleChangeList,getAllCredits 
                 onChange={handleChange}
               >
                 <FormControlLabel
-                  value="CHEQUE"
+                  value="CHECK"
                   control={<Radio />}
                   label="Purchase Credit"
                 />
@@ -178,7 +178,7 @@ function BonusCredit({ showToast, cancel, userId,handleChangeList,getAllCredits 
                     fullWidth
                     type="submit"
                     disabled={
-                      values.creditType === "CHEQUE" && values.credits < 100
+                      values.creditType === "CHECK" && values.credits < 100
                     }
                   >
                     Submit
