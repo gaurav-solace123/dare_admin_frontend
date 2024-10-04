@@ -66,8 +66,8 @@ function DigitalAdminBottomPanel() {
             item
             xs={12}
             sm={12}
-            md={6}
-            lg={10}
+            md={12}
+            lg={12}
             xl={12}
           >
             <Box display="flex" flexDirection={{ xs: "column", sm: "column", md: "row" }} width="100%" justifyContent="center" alignItems="center" gap={5}>
