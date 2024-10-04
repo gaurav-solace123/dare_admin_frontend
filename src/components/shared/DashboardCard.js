@@ -17,19 +17,19 @@ const DashboardCard = ({
 
   return (
     <Card
-      sx={sx?sx:{ padding: 0 }}
+      sx={sx?sx:{ padding: 0}}
       elevation={9}
       variant={undefined}
     >
       {cardheading ? (
         <CardContent>
-          <Typography variant="h5">{headtitle}</Typography>
+          <Typography sx={{height:"50px"}} variant="h6">{headtitle}</Typography>
           <Typography variant="subtitle2" color="primary" >
             {headsubtitle}
           </Typography>
         </CardContent>
       ) : (
-        <CardContent sx={{ p: "30px" }}>
+        <CardContent sx={{ p: "10px" }}>
           {title ? (
             <Stack
               direction="row"
