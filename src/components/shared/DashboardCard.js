@@ -17,7 +17,7 @@ const DashboardCard = ({
 
   return (
     <Card
-      sx={sx?sx:{ padding: 0}}
+      sx={sx?sx:{ padding: 0 }}
       elevation={9}
       variant={undefined}
     >

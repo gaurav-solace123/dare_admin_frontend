@@ -222,21 +222,20 @@ function InstructorReport() {
         <Loader />
       ) : (
         <Box
-          sx={{
-            border: "2px solid",
-            color: "#0055a4",
-            padding: 2,
-            position: "relative",
-            borderRadius: 2,
-            width: {
-              xs: "90%",
-              sm: "90%",
-              md: "100%",
-              lg: "100%", 
-              xl: "100%",
-            },
-            margin: "auto",
-          }}
+        sx={{
+          border: "2px solid",
+          color: "#0055a4",
+          padding: 2,
+          position: "relative",
+          borderRadius: 2,
+          width: {
+            xs: "100%", // Extra small screens
+            sm: "100%", // Small screens
+            md: "100%", // Medium screens
+            lg: "85%", // Large screens
+            xl: "100%", // Extra large screens
+          },
+        }}
         >
           <Box
             sx={{
