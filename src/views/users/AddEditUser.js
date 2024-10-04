@@ -37,7 +37,9 @@ const AddEditUser = ({
 }) => {
   //constants
 
-  const postalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
+  const usPostalCodeRegex = /^\d{5}(?:[-\s]\d{4})?$/; // US postal code format (e.g., 12345 or 12345-6789)
+const canadaPostalCodeRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; // Canada postal code format (e.g., A1A 1A1)
+
   // Validation schema using Yup
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required."),
@@ -95,20 +97,24 @@ const AddEditUser = ({
           return true;
         }
       ),
-    // .test(
-    //   "organization-min-length-for-instructor",
-    //   "Organization must be at least 3 characters.",
-    //   function (value) {
-    //     const { userRole } = this.parent;
-    //     if (userRole === "Instructor") {
-    //       return value && value.length >= 19; // Ensure organization has at least 3 characters for 'Instructor'
-    //     }
-    //     return true;
-    //   }
-    // )
-
-    // _postal_code: Yup.string()
-    // .matches(postalCodeRegex, "Invalid postal code format")
+      _postal_code: Yup.string().test(
+        "_postal_code-validation",
+        function (value) {
+          const { country } = this.parent;
+    
+          if (country === "US" && value) {
+            return usPostalCodeRegex.test(value)
+              ? true
+              : this.createError({ message: "Please enter a valid US postal code (e.g., 12345 or 12345-6789)." });
+          }
+          if (country === "Canada" && value) {
+            return canadaPostalCodeRegex.test(value)
+              ? true
+              : this.createError({ message: "Please enter a valid Canadian postal code (e.g., A1A 1A1)." });
+          }
+          return true; // If no value or country is neither US nor Canada, pass the test
+        }
+      ),
   });
 
   const { ToastComponent } = useCustomToast();
@@ -319,6 +325,7 @@ const AddEditUser = ({
 
         setIsMailingAddress(false);
       } else {
+        // cancel();
         setIsLoading(false);
         showToast(result?.message, "error");
       }
