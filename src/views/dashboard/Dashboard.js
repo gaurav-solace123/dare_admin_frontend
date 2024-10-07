@@ -215,7 +215,7 @@ const Dashboard = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={6} lg={6}>
               <DigitalAdminPanel
-                title={"Sessions Activated by Level"}
+                title={"Sessions Activated By Level"}
                 subTitle={` of this ${sessionActivatedType.toLowerCase()}`}
                 data={sessionsActivatedByLevel}
                 options={sessionsOptions}

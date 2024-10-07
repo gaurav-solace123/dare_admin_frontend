@@ -38,7 +38,7 @@ const AddEditUser = ({
   //constants
 
   const usPostalCodeRegex = /^\d{5}(?:[-\s]\d{4})?$/; // US postal code format (e.g., 12345 or 12345-6789)
-const canadaPostalCodeRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; // Canada postal code format (e.g., A1A 1A1)
+  const canadaPostalCodeRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; // Canada postal code format (e.g., A1A 1A1)
 
   // Validation schema using Yup
   const validationSchema = Yup.object().shape({
@@ -97,24 +97,30 @@ const canadaPostalCodeRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; // Canada
           return true;
         }
       ),
-      _postal_code: Yup.string().test(
-        "_postal_code-validation",
-        function (value) {
-          const { country } = this.parent;
-    
-          if (country === "US" && value) {
-            return usPostalCodeRegex.test(value)
-              ? true
-              : this.createError({ message: "Please enter a valid US postal code (e.g., 12345 or 12345-6789)." });
-          }
-          if (country === "Canada" && value) {
-            return canadaPostalCodeRegex.test(value)
-              ? true
-              : this.createError({ message: "Please enter a valid Canadian postal code (e.g., A1A 1A1)." });
-          }
-          return true; // If no value or country is neither US nor Canada, pass the test
+    _postal_code: Yup.string().test(
+      "_postal_code-validation",
+      function (value) {
+        const { country } = this.parent;
+
+        if (country === "US" && value) {
+          return usPostalCodeRegex.test(value)
+            ? true
+            : this.createError({
+                message:
+                  "Please enter a valid US postal code (e.g., 12345 or 12345-6789).",
+              });
         }
-      ),
+        if (country === "Canada" && value) {
+          return canadaPostalCodeRegex.test(value)
+            ? true
+            : this.createError({
+                message:
+                  "Please enter a valid Canadian postal code (e.g., A1A 1A1).",
+              });
+        }
+        return true; // If no value or country is neither US nor Canada, pass the test
+      }
+    ),
   });
 
   const { ToastComponent } = useCustomToast();
@@ -151,7 +157,7 @@ const canadaPostalCodeRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; // Canada
   const handleNext = async () => {
     setIsInstructorEdit(false);
     setIsGenerate(false);
-  
+
     const fieldsToValidate = [
       "email",
       "password",
@@ -160,10 +166,10 @@ const canadaPostalCodeRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; // Canada
       "username",
       "confirmPassword",
     ];
-  
+
     // Trigger validation for the specified fields
     const errors = {};
-    
+
     for (const field of fieldsToValidate) {
       await formikRef.current.validateField(field);
       const error = formikRef.current.errors[field];
@@ -171,7 +177,7 @@ const canadaPostalCodeRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; // Canada
         errors[field] = error;
       }
     }
-  
+
     if (Object.keys(errors).length === 0) {
       // If no errors, proceed to the next step
       setIsMailingAddress(true);
@@ -186,12 +192,11 @@ const canadaPostalCodeRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; // Canada
     }
   };
 
-
   const viewData = async () => {
     try {
       // setIsLoading(true);
       const result = await getData(`${Api?.viewUser}/${userId}`);
-  
+
       if (result?.success) {
         const response = result?.data;
         setIsGenerate(true);
@@ -200,47 +205,50 @@ const canadaPostalCodeRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; // Canada
             setIsMailingAddress(false);
             setIsInstructorEdit(true);
           }
-  
+
           // Define the valid fields that match the Formik form
           const validFields = [
-            'firstName',
-            'lastName',
-            'email',
-            'userRole',
-            'mobileNumber',
-            '_id',
-            'username',
-            'organization',
-            'country',
-            'city',
-            '_postal_code',
-            'street_1',
-            'street_2',
-
+            "firstName",
+            "lastName",
+            "email",
+            "userRole",
+            "mobileNumber",
+            "_id",
+            "username",
+            "organization",
+            "country",
+            "city",
+            "_postal_code",
+            "street_1",
+            "street_2",
           ];
-  
+
           // Filter the response to only include valid fields and skip null/empty values
           const filteredResponse = Object.keys(response)
-            .filter(key => validFields.includes(key) && response[key] !== null && response[key] !== "")
+            .filter(
+              (key) =>
+                validFields.includes(key) &&
+                response[key] !== null &&
+                response[key] !== ""
+            )
             .reduce((obj, key) => {
               obj[key] = response[key];
               return obj;
             }, {});
-  
+
           // Ensure 'organization' is present, defaulting to an empty string if it's missing
-          filteredResponse.organization = filteredResponse.organization || '';
-  
+          filteredResponse.organization = filteredResponse.organization || "";
+
           // Reset the form with only valid fields that are non-empty and non-null
           setEditRole(filteredResponse?.userRole);
           formikRef?.current.resetForm({ values: filteredResponse });
         }
       }
-  
     } catch (error) {
       console.error(error);
     }
   };
-  
+
   const clearData = () => {
     if (formikRef?.current) {
       formikRef?.current.resetForm();
@@ -320,7 +328,7 @@ const canadaPostalCodeRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; // Canada
         cancel();
         setIsLoading(false);
         setIsInstructorEdit(false);
-        
+
         getListData();
 
         setIsMailingAddress(false);
@@ -371,7 +379,7 @@ const canadaPostalCodeRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; // Canada
               _id: userId ?? "",
               organization: "",
               mobileNumber: "",
-              _postal_code:''
+              _postal_code: "",
             }}
             validationSchema={validationSchema}
             context={{ userId: formikRef?.current?.values?._id }}
@@ -453,7 +461,7 @@ const canadaPostalCodeRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; // Canada
                             helperText={<ErrorMessage name="lastName" />}
                           />
                         </Grid>
-                        {console.log('errors', errors)}
+                        {console.log("errors", errors)}
                         {!userId && (
                           <>
                             <Grid item xs={6} p={"7px"}>
@@ -480,28 +488,30 @@ const canadaPostalCodeRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; // Canada
                             </Grid>
                           </>
                         )}
-                       {(!userId || (editRole !== "Instructor" && formikRef?.current?.values?.userRole === "Instructor")) && (
-  <Grid item xs={6} p={"7px"}>
-    <Typography
-      variant="subtitle1"
-      fontWeight={600}
-      component="label"
-      htmlFor="email"
-    >
-      Email <span style={{ color: "red" }}>*</span>
-    </Typography>
-    <Field
-      as={CustomTextField}
-      id="email"
-      name="email"
-      variant="outlined"
-      fullWidth
-      error={touched.email && Boolean(errors.email)}
-      helperText={<ErrorMessage name="email" />}
-    />
-  </Grid>
-)}
-
+                        {(!userId ||
+                          (editRole !== "Instructor" &&
+                            formikRef?.current?.values?.userRole ===
+                              "Instructor")) && (
+                          <Grid item xs={6} p={"7px"}>
+                            <Typography
+                              variant="subtitle1"
+                              fontWeight={600}
+                              component="label"
+                              htmlFor="email"
+                            >
+                              Email <span style={{ color: "red" }}>*</span>
+                            </Typography>
+                            <Field
+                              as={CustomTextField}
+                              id="email"
+                              name="email"
+                              variant="outlined"
+                              fullWidth
+                              error={touched.email && Boolean(errors.email)}
+                              helperText={<ErrorMessage name="email" />}
+                            />
+                          </Grid>
+                        )}
 
                         {userId && isGenerate && (
                           <Grid
@@ -545,11 +555,13 @@ const canadaPostalCodeRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; // Canada
                                     <IconButton
                                       edge="end"
                                       color="primary"
-                                      onClick={() =>
+                                      onClick={() => {
                                         navigator.clipboard.writeText(
                                           "daretogo"
-                                        )
-                                      }
+                                        );
+                                        cancel()
+                                        showToast('Password copied to clipboard!')
+                                      }}
                                     >
                                       <ContentCopyIcon />
                                     </IconButton>
