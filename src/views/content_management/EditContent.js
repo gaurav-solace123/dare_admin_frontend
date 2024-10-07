@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, Accordion, AccordionSummary, AccordionDetails, TextField, Grid } from '@mui/material';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
@@ -39,9 +39,17 @@ const lessons = [
 const EditContent = () => {
   const [expanded, setExpanded] = useState(false); // State to manage accordion expansion
   const [title, setTitle] = useState('D.A.R.E. Decision Making Model Practice');
-  
+  const [currentLessonDetails,setCurrentLessonDetails]=useState({
+    lessonName:'LESSON 1',
+    lessonTitle:'D.A.R.E. Decision Making Model Practice'
+  })
+  const[lessonsData,setLessonsData]=useState([])
   const handleTitleChange = (event) => {
-    setTitle(event.target.value);
+    // setTitle(event.target.value);
+    setCurrentLessonDetails({
+      ...currentLessonDetails,
+      lessonTitle:event.target.value
+    })
   };
 
   
@@ -53,7 +61,15 @@ const EditContent = () => {
   const handleEditorChange = (state) => {
     setEditorState(state);
   };
-
+const handleChangeLessons= (item,lessonNo)=>{
+  setCurrentLessonDetails(
+    {
+      lessonName:lessonNo,
+      lessonTitle:item?.name,
+      moduleId:item?.objectId
+    }
+  )
+}
   const handleSave = () => {
     if (editorState) {
       const rawContent = convertToRaw(editorState.getCurrentContent());
@@ -66,13 +82,68 @@ const EditContent = () => {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      const url = 'https://www.dareremote.org/parse/functions/fetchModuleDataForWorkbook';
+      const payload = {
+        "workbookId": "wGmQH6ECYV",
+        "_ApplicationId": "MLtfFvD42DtH5U5GFdkr0z1HslEJjwdcELFAeanV",
+        "_JavaScriptKey": "K9Z2YZvG8zC22e66VsAEujnmQ66PaR7pf8WShhsN",
+        "_ClientVersion": "js1.8.5",
+        "_InstallationId": "b900596a-b0b3-8803-f835-b61a993fb5f3",
+        "_SessionToken": "r:e2605c1874ffbca8af2bf60ea0180564"
+      };
 
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+
+       if(result?.result){
+
+        let tempData= result?.result?.moduleData?.lessons.map((item)=>({
+          id:item?.name,
+          lessonId:item?.objectId,
+          title:item?.name
+        }))
+
+        const updatedTempDataArray = tempData.map((tempData,tempIndex) => {
+          const filteredItems = result?.result?.moduleData?.modules
+            .filter(mod => mod.lesson.objectId === tempData.lessonId)  // Filter by lessonId
+            .map(mod => ({
+              objectId: mod.objectId,
+              name: mod.name
+            }));
+        
+          return {
+            ...tempData,
+            items: filteredItems  // Replace items with filtered array of objectId and name
+          };
+        });
+        // tempData=result?.result?.moduleData?.modules
+        setLessonsData(updatedTempDataArray)
+        console.log('first', updatedTempDataArray)
+       }
+      } catch (error) {
+        console.error('Error fetching module data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <PageContainer title="Content Management" >
     <Grid container spacing={2} padding={2}>
       {/* Left Side: Content Box */}
       <Grid item xs={12} md={3} sx={{ fontSize: 20 }}>
-        {lessons.map((lesson) => (
+        {lessonsData?.map((lesson,lessonIndex) => (
           <Accordion
             key={lesson.id}
             expanded={expanded === lesson.id}
@@ -87,8 +158,10 @@ const EditContent = () => {
             </AccordionSummary>
             <AccordionDetails>
               {lesson.items.map((item, index) => (
-                <Typography key={index} style={{ marginLeft: 5, marginBottom: 10 }}>
-                  {item}
+                <Typography  component="div" key={index} style={{ marginLeft: 5, marginBottom: 10,cursor:'pointer' }} onClick={
+                  ()=>handleChangeLessons(item,lesson.title)
+                }>
+                  {`${lessonIndex+1}.${index+1} ${item?.name}`}
                 </Typography>
               ))}
             </AccordionDetails>
@@ -99,7 +172,7 @@ const EditContent = () => {
       {/* Right Side: Content Box */}
       <Grid item xs={12} md={9}>
         <Box display="flex" flexDirection="column" alignItems="center">
-          <Typography variant="h6">LESSON 1</Typography>
+          <Typography variant="h6">{currentLessonDetails?.lessonName}</Typography>
 
           <Box display="flex" justifyContent="space-between" width="100%">
             <Button variant="contained" color="primary">Go Back</Button>
@@ -107,7 +180,7 @@ const EditContent = () => {
           </Box>
 
           <TextField
-            value={title}
+            value={currentLessonDetails?.lessonTitle}
             onChange={handleTitleChange}
             variant="outlined"
             label="Lesson Title"

@@ -108,7 +108,7 @@ function CustomTable({
   function EnhancedTableToolbar() {
     const downLoadSampleCSVFile = async () => {
       try {
-        let searchQuery = `?page=${page}&limit=${rowsPerPage}`;
+        let searchQuery = `?search=${searchTerm}`;
         const result = await getData(`${Api.studentExport}${searchQuery}`);
         commonFunc.DownloadCSV(result, "Student Details");
         console.log("result", result);
