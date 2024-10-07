@@ -8,6 +8,7 @@ import Loader from "src/components/Loader";
 import { getData } from "../../services/services";
 import Api from "../../services/constant";
 import commonFunc from "../../utils/common";
+import PageContainer from 'src/components/container/PageContainer';
 
 const Dashboard = () => {
   const data = [
@@ -131,7 +132,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <>
+    <PageContainer title='Dashboard'>
       {isLoading ? (
         <Loader />
       ) : (
@@ -228,7 +229,7 @@ const Dashboard = () => {
           </Grid>
         </Box>
       )}
-    </>
+    </PageContainer>
   );
 };
 

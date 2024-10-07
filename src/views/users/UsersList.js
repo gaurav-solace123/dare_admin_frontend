@@ -28,6 +28,7 @@ import Config from "src/config/config.json";
 import Filter from "./component/Filter";
 // import DownloadForOfflineSharpIcon from '@mui/icons-material/DownloadForOfflineSharp';
 
+import PageContainer from 'src/components/container/PageContainer';
 const CustomTable = Loadable(lazy(() => import("./component/CustomTable")));
 const AddEditUser = Loadable(lazy(() => import("./AddEditUser")));
 
@@ -226,7 +227,7 @@ export default function EnhancedTable({role=''}) {
     getListData();
   }, [page, rowsPerPage, userRole,order,orderBy,searchTerm,role]);
   return (
-    <>
+    <PageContainer title={role?`${role} Management`:'Users'}>
       {
         <Box
           sx={{
@@ -423,6 +424,6 @@ export default function EnhancedTable({role=''}) {
         </Box>
       </Modal>
       <ToastComponent />
-    </>
+    </PageContainer>
   );
 }

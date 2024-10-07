@@ -3,6 +3,8 @@ import { Grid, Card, CardContent, Typography, Button } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useNavigate } from 'react-router-dom';
 
+import PageContainer from 'src/components/container/PageContainer';
+
 // Example session data
 const sessions = [
   { title: "Judy Room No. 3", students: 1, availableSeats: 0, activationCode: "F042J", id: 1 },
@@ -20,6 +22,8 @@ const WorkbookLessons = () => {
   };
 
   return (
+    
+    <PageContainer title="Content Management" >
     <Grid container spacing={2}>
       {sessions.map((session, index) => (
         <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
@@ -45,6 +49,7 @@ const WorkbookLessons = () => {
         </Grid>
       ))}
     </Grid>
+    </PageContainer>
   );
 };
 

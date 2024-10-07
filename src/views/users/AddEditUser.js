@@ -371,6 +371,7 @@ const canadaPostalCodeRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; // Canada
               _id: userId ?? "",
               organization: "",
               mobileNumber: "",
+              _postal_code:''
             }}
             validationSchema={validationSchema}
             context={{ userId: formikRef?.current?.values?._id }}

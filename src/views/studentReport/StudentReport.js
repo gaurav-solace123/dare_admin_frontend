@@ -7,7 +7,7 @@ import UnifiedDatePicker from "src/components/YearMonthDayDatepicker";
 import { getData } from "src/services/services";
 import dayjs from "dayjs";
 import PieChartStudentReports from "./component/PieChartStudentReports";
-
+import PageContainer from 'src/components/container/PageContainer';
 function StudentReport() {
   //all constants
   const colors = ["#74D3AE", "#DDBDD5", "#52D1DC"];
@@ -111,7 +111,7 @@ function StudentReport() {
     getReports("Middle School");
   }, [selectedDate,startDate,endDate]);
   return (
-    <>
+    <PageContainer title='Students Report'>
       {/* <Typography variant="h2">Elementary Student Report</Typography> */}
       {isLoading ? (
         <Loader />
@@ -211,7 +211,7 @@ function StudentReport() {
           </Box>
         </>
       )}
-    </>
+    </PageContainer>
   );
 }
 

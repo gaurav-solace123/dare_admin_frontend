@@ -11,7 +11,7 @@ import UnifiedDatePicker from "../../components/YearMonthDayDatepicker";
 import dayjs from "dayjs";
 import InstructorReportTable from "./InstructorReportTable";
 import { getData } from "../../services/services";
-
+import PageContainer from 'src/components/container/PageContainer';
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import Api from "../../services/constant";
 import { lowerCase, startCase } from "lodash";
@@ -217,7 +217,7 @@ function InstructorReport() {
   ]);
 
   return (
-    <>
+    <PageContainer title='Instructor Report'>
       {isLoading ? (
         <Loader />
       ) : (
@@ -326,7 +326,7 @@ function InstructorReport() {
           />
         </Box>
       )}
-    </>
+    </PageContainer>
   );
 }
 

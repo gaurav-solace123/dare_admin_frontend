@@ -38,7 +38,7 @@ const Menuitems = [
   {
     id: uniqueId(),
     title: 'Student Management',
-    icon: IconGridDots,
+    icon: IconUsers,
     href: '/student-management',
   },
   {
@@ -50,7 +50,7 @@ const Menuitems = [
   {
     id: uniqueId(),
     title: 'Facilator Management',
-    icon: IconUser,
+    icon: IconUsers,
     href: '/facilator-management',
   },
   {
@@ -72,7 +72,7 @@ const Menuitems = [
   {
     id: uniqueId(),
     title: 'Instructor Report',
-    icon: IconReportAnalytics,
+    icon: IconReport,
     href: '/instructor-report',
   },
   

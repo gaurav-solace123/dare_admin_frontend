@@ -20,6 +20,7 @@ import Loader from "../../../components/Loader";
 import NewSessionAssignModal from "./SessionReassignModal";
 import useCustomToast from "../../../hooks/CustomToastHook";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 function StudentDetails() {
   //all constant
   const location = useLocation();

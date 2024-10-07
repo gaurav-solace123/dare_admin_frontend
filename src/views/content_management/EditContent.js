@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Box, Button, Typography, Accordion, AccordionSummary, AccordionDetails, TextField, Grid } from '@mui/material';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
+
+import PageContainer from 'src/components/container/PageContainer';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html';
 
@@ -66,6 +68,7 @@ const EditContent = () => {
   };
 
   return (
+    <PageContainer title="Content Management" >
     <Grid container spacing={2} padding={2}>
       {/* Left Side: Content Box */}
       <Grid item xs={12} md={3} sx={{ fontSize: 20 }}>
@@ -138,6 +141,7 @@ const EditContent = () => {
         </Box>
       </Grid>
     </Grid>
+    </PageContainer>
   );
 };
 
