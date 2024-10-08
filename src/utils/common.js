@@ -102,6 +102,16 @@ const commonFunc = {
       })
       .filter((obj) => Object.keys(obj).length > 0);
   },
+
+   generateHTMLContent : (items) => {
+    const htmlContent = `
+      <ul>
+        ${items.map(item => `<li>${item.detailText}</li>`).join("")}
+      </ul>
+    `;
+
+    return htmlContent;
+  }
   
   
 };

@@ -33,8 +33,9 @@ function PurchaseCredit({ userId, isList }) {
     totalDocuments: 0,
   });
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("createdAt");
+  const [orderBy, setOrderBy] = useState("_created_at");
   const [isLoading, setIsLoading] = useState(false);
+  console.log('orderBy', order)
   const {page,limit}=pagination
   const fetchPurchaseDetails = async () => {
    
@@ -71,7 +72,7 @@ function PurchaseCredit({ userId, isList }) {
     
     fetchPurchaseDetails();
   }, [isList,page,
-    limit,]);
+    limit,order,]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -124,9 +125,9 @@ function PurchaseCredit({ userId, isList }) {
                 <TableRow>
                   <TableCell align="center">
                     <TableSortLabel
-                      active={orderBy === "createdAt"}
-                      direction={orderBy === "createdAt" ? order : "asc"}
-                      onClick={(event) => handleRequestSort(event, "createdAt")}
+                      active={orderBy === "_created_at"}
+                      direction={orderBy === "_created_at" ? order : "asc"}
+                      onClick={(event) => handleRequestSort(event, "_created_at")}
                     >
                       <Typography variant="tableHead">Purchase Date</Typography>
                     </TableSortLabel>

@@ -39,6 +39,12 @@ const Api = {
     instructorReport:'/users/instructors-credit-transfer-purchase-list',
     instructorReportExport:'/users/instructors-purchase-transfer-credit-excel-report',
 
+    //workbooks
+    workbookList:'/users/workbook-list',
+
+    //cms
+    updateCMS:'/users/update/cms'
+
 
 
 };
