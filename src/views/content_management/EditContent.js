@@ -8,6 +8,7 @@ import {
   AccordionDetails,
   TextField,
   Grid,
+  Skeleton,
 } from "@mui/material";
 import {
   EditorState,
@@ -28,40 +29,15 @@ import commonFunc from "../../utils/common";
 import useCustomToast from "../../hooks/CustomToastHook";
 
 // Initial content for the editor
-const initialContent = `You play on a soccer team. The team depends on you as a goalkeeper. You are invited to your best friend's birthday party at the same time as the big game. You would have to miss the game to go to the party. How do you decide what to do?`;
-
-// Example lessons data
-const lessons = [
-  {
-    id: "panel1",
-    title: "Lesson 1",
-    items: [
-      "1.1 D.A.R.E Rules",
-      "1.2 D.A.R.E. Decision-Making Model",
-      "1.3 D.A.R.E. Decision Making Model Practice",
-      "1.4 Journal-What I Learned Today",
-    ],
-  },
-  {
-    id: "panel2",
-    title: "Lesson 2",
-    items: [
-      "2.1 Alcohol - Did You Know?",
-      "2.2 Tobacco - Did You Know?",
-      "2.3 Illustration - Parts of The Body",
-      "2.4 Define The Problem",
-      "2.5 Journal - What I Learned Today",
-    ],
-  },
-  // Add more lessons as needed...
-];
+const initialContent = "";
+const skeletonArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const EditContent = () => {
   const { showToast, ToastComponent } = useCustomToast();
 
-  const [expanded, setExpanded] = useState(false); // State to manage accordion expansion
-  const [title, setTitle] = useState("D.A.R.E. Decision Making Model Practice");
-  const [isLoading, setIsLoading] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [currentLessonsSubtitles, setCurrentLessonsSubtitles] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const [currentLessonDetails, setCurrentLessonDetails] = useState({
     lessonName: "",
@@ -72,6 +48,18 @@ const EditContent = () => {
   const [lessonsData, setLessonsData] = useState([]);
   const [moduleItems, setModuleItems] = useState([]);
   const [workbookId, setWorkbookId] = useState("wGmQH6ECYV");
+
+  const onChangeWorkbook = (event) => {
+    setWorkbookId(event.target.value);
+    setCurrentLessonDetails({
+      lessonName: "",
+      lessonTitle: "",
+    });
+    setContentDetails([]);
+    setEditorState(
+      EditorState.createWithContent(ContentState.createFromText(initialContent))
+    );
+  };
   const handleTitleChange = (event) => {
     // setTitle(event.target.value);
     setCurrentLessonDetails({
@@ -85,6 +73,17 @@ const EditContent = () => {
     EditorState.createWithContent(ContentState.createFromText(initialContent))
   );
   const [currentLessonIndex, setCurrentLessonIndex] = useState(0);
+  const [rootLessonIndex,setRootLessonIndex]=useState(0)
+  const handleChangeEditorState = (tempContent) => {
+    const htmlContent = commonFunc.generateHTMLContent(tempContent);
+
+    const blocksFromHTML = convertFromHTML(htmlContent);
+    const contentState = ContentState.createFromBlockArray(
+      blocksFromHTML.contentBlocks,
+      blocksFromHTML.entityMap
+    );
+    setEditorState(EditorState.createWithContent(contentState));
+  };
   const handleEditorChange = (newEditorState) => {
     setEditorState(newEditorState); // Update the editor state
 
@@ -99,7 +98,10 @@ const EditContent = () => {
       }));
     });
   };
-  const handleChangeLessons = (item, lessonNo) => {
+  const handleChangeLessons = (
+    item,
+    lessonNo = currentLessonDetails?.lessonName
+  ) => {
     setCurrentLessonDetails({
       lessonName: lessonNo,
       lessonTitle: item?.name,
@@ -110,23 +112,19 @@ const EditContent = () => {
       (element) =>
         element?.module?.objectId === item?.objectId && element?.detailText
     );
-    console.log("tempContent", tempContent);
     setContentDetails(tempContent);
-    const htmlContent = commonFunc.generateHTMLContent(tempContent);
+    handleChangeEditorState(tempContent);
+    // const htmlContent = commonFunc.generateHTMLContent(tempContent);
 
-    const blocksFromHTML = convertFromHTML(htmlContent);
-    const contentState = ContentState.createFromBlockArray(
-      blocksFromHTML.contentBlocks,
-      blocksFromHTML.entityMap
-    );
-    setEditorState(EditorState.createWithContent(contentState));
+    // const blocksFromHTML = convertFromHTML(htmlContent);
+    // const contentState = ContentState.createFromBlockArray(
+    //   blocksFromHTML.contentBlocks,
+    //   blocksFromHTML.entityMap
+    // );
+    // setEditorState(EditorState.createWithContent(contentState));
   };
   const handleSave = () => {
     if (editorState) {
-      const rawContent = convertToRaw(editorState.getCurrentContent());
-      const htmlContent = draftToHtml(rawContent);
-      console.log("Saved Title:", title);
-      console.log("Saved HTML Content:", htmlContent);
       const savedDetails = contentDetails.map((item) => ({
         detailText: item.detailText,
         itemIds: item.objectId,
@@ -234,16 +232,36 @@ const EditContent = () => {
   console.log("contentDetails", contentDetails);
   const handleGoBack = () => {
     if (currentLessonIndex > 0) {
-      const prevLesson = lessonsData[currentLessonIndex - 1];
+      // Navigate within the current lesson subtitles
+      const prevLesson = currentLessonsSubtitles[currentLessonIndex - 1];
       setCurrentLessonIndex(currentLessonIndex - 1);
-      handleChangeLessons(prevLesson.items[0], prevLesson.title);
+      handleChangeLessons(prevLesson);
+    } else if (rootLessonIndex > 0) {
+      // Go to the previous root lesson when at the first subtitle
+      const prevRootLesson = lessonsData[rootLessonIndex - 1];
+      setRootLessonIndex(rootLessonIndex - 1);
+      setCurrentLessonsSubtitles(prevRootLesson.items);
+      
+      const lastSubtitle = prevRootLesson.items[prevRootLesson.items.length - 1];
+      setCurrentLessonIndex(prevRootLesson.items.length - 1);
+      
+      handleChangeLessons(lastSubtitle, prevRootLesson.title);
     }
   };
+  
 
   const handleNext = () => {
-    if (currentLessonIndex < lessonsData.length - 1) {
-      const nextLesson = lessonsData[currentLessonIndex + 1];
+    if (currentLessonIndex < currentLessonsSubtitles.length - 1) {
+      const nextLesson = currentLessonsSubtitles[currentLessonIndex + 1];
+
       setCurrentLessonIndex(currentLessonIndex + 1);
+      handleChangeLessons(nextLesson);
+    } else  {
+      setCurrentLessonIndex(0)
+      const nextLesson = lessonsData[rootLessonIndex + 1];
+      setRootLessonIndex(rootLessonIndex + 1);
+      
+      setCurrentLessonsSubtitles(nextLesson.items);
       handleChangeLessons(nextLesson.items[0], nextLesson.title);
     }
   };
@@ -286,125 +304,142 @@ const EditContent = () => {
         <Loader />
       ) : (
         <>
-          <Box width={"30%"}>
-            <CustomSelect
-              id="userRole"
-              name="userRole"
-              label="Select A Workbook"
-              displayEmpty
-              // disabled={role}
-              value={workbookId}
-              options={workbooks}
-              onChange={(e) => setWorkbookId(e.target.value)}
-              // error={
-              //   touched.userRole && Boolean(errors.userRole)
-              // }
-              // helperText={<ErrorMessage name="userRole" />}
-            />
-          </Box>
+          {/* {currentLessonDetails?.lessonName&&
+         <Typography variant="h6" textAlign={'center'}>
+                  {currentLessonDetails?.lessonName}
+                </Typography>} */}
+
           <Grid container spacing={2} padding={2}>
             {/* Left Side: Content Box */}
 
             <Grid item xs={12} md={3} sx={{ fontSize: 20 }}>
-              {lessonsData?.map((lesson, lessonIndex) => (
-                <Accordion
-                  key={lesson.id}
-                  expanded={expanded === lesson.id}
-                  onChange={handleChange(lesson.id)}
-                >
-                  <AccordionSummary
-                    expandIcon={expanded === lesson.id ? "-" : "+"}
-                    aria-controls={`${lesson.id}-content`}
-                    id={`${lesson.id}-header`}
+              <Box mb={"10px"}>
+                <CustomSelect
+                  id="userRole"
+                  name="userRole"
+                  label="Select A Workbook"
+                  displayEmpty
+                  value={workbookId}
+                  options={workbooks}
+                  onChange={onChangeWorkbook}
+                />
+              </Box>
+
+              {lessonsData.length > 0 ? (
+                lessonsData.map((lesson, lessonIndex) => (
+                  <Accordion
+                    key={lesson.id}
+                    expanded={expanded === lesson.id}
+                    onChange={handleChange(lesson.id)}
                   >
-                    <Typography variant="h6">{lesson.title}</Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    {lesson.items.map((item, index) => (
-                      <Typography
-                        component="div"
-                        key={index}
-                        style={{
-                          marginLeft: 5,
-                          marginBottom: 10,
-                          cursor: "pointer",
-                        }}
-                        onClick={() => handleChangeLessons(item, lesson.title)}
-                      >
-                        {`${lessonIndex + 1}.${index + 1} ${item?.name}`}
-                      </Typography>
-                    ))}
-                  </AccordionDetails>
-                </Accordion>
-              ))}
+                    <AccordionSummary
+                      expandIcon={expanded === lesson.id ? "-" : "+"}
+                      aria-controls={`${lesson.id}-content`}
+                      id={`${lesson.id}-header`}
+                    >
+                      <Typography variant="h6">{lesson.title}</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      {lesson.items.map((item, index) => (
+                        <Typography
+                          component="div"
+                          key={index}
+                          style={{
+                            marginLeft: 5,
+                            marginBottom: 10,
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            setCurrentLessonsSubtitles(lesson.items);
+                            handleChangeLessons(item, lesson.title);
+                            setCurrentLessonIndex(index)
+                            setRootLessonIndex(lessonIndex)
+                          }}
+                        >
+                          {`${lessonIndex + 1}.${index + 1} ${item?.name}`}
+                        </Typography>
+                      ))}
+                    </AccordionDetails>
+                  </Accordion>
+                ))
+              ) : (
+                // Skeleton loader to fill the blank space
+                <Box>
+                  {skeletonArray.map((skeletonIndex) => (
+                    <Accordion key={skeletonIndex}>
+                      <AccordionSummary>
+                        <Skeleton variant="text" width="80%" height={40} />
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <Skeleton variant="text" width="90%" />
+                        <Skeleton variant="text" width="90%" />
+                      </AccordionDetails>
+                    </Accordion>
+                  ))}
+                </Box>
+              )}
             </Grid>
-
             {/* Right Side: Content Box */}
-            {contentDetails?.length > 0 && (
-              <Grid item xs={12} md={9}>
-                <Box display="flex" flexDirection="column" alignItems="center">
-                  <Typography variant="h6">
-                    {currentLessonDetails?.lessonName}
-                  </Typography>
 
-                  <Box
-                    display="flex"
-                    justifyContent="space-between"
-                    width="100%"
-                  >
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      disabled={currentLessonIndex === 0}
-                      onClick={handleGoBack}
-                    >
-                      Go Back
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      disabled={currentLessonIndex === lessonsData.length - 1}
-                      onClick={handleNext}
-                    >
-                      Next
-                    </Button>
-                  </Box>
+            <Grid item xs={12} md={9}>
+              <Box display="flex" flexDirection="column" alignItems="center">
+                <Typography variant="h6">
+                  {currentLessonDetails?.lessonName}
+                </Typography>
 
-                  <TextField
-                    value={currentLessonDetails?.lessonTitle}
-                    onChange={handleTitleChange}
-                    variant="outlined"
-                    label="Lesson Title"
-                    fullWidth
-                    margin="normal"
-                  />
-
-                  <Box border={1} borderRadius={2} padding={2} marginTop={2}>
-                    <Editor
-                      editorState={editorState}
-                      toolbarClassName="toolbarClassName"
-                      wrapperClassName="wrapperClassName"
-                      editorClassName="editorClassName"
-                      onEditorStateChange={handleEditorChange}
-                      editorStyle={{
-                        border: "1px solid #F1F1F1",
-                        minHeight: "200px",
-                        padding: "10px",
-                      }}
-                    />
-                  </Box>
-
+                <Box display="flex" justifyContent="space-between" width="100%">
                   <Button
                     variant="contained"
                     color="primary"
-                    style={{ marginTop: 20 }}
-                    onClick={handleSave}
+                    disabled={currentLessonIndex === 0&&rootLessonIndex===0}
+                    onClick={handleGoBack}
                   >
-                    Update
+                    Go Back
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    disabled={currentLessonIndex === currentLessonsSubtitles.length - 1&&rootLessonIndex===lessonsData.length-1}
+                    onClick={handleNext}
+                  >
+                    Next
                   </Button>
                 </Box>
-              </Grid>
-            )}
+
+                <TextField
+                  value={currentLessonDetails?.lessonTitle}
+                  onChange={handleTitleChange}
+                  variant="outlined"
+                  label="Lesson Title"
+                  fullWidth
+                  margin="normal"
+                />
+
+                <Box border={1} borderRadius={2} padding={2} marginTop={2}>
+                  <Editor
+                    editorState={editorState}
+                    toolbarClassName="toolbarClassName"
+                    wrapperClassName="wrapperClassName"
+                    editorClassName="editorClassName"
+                    onEditorStateChange={handleEditorChange}
+                    editorStyle={{
+                      border: "1px solid #F1F1F1",
+                      minHeight: "200px",
+                      padding: "10px",
+                    }}
+                  />
+                </Box>
+
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{ marginTop: 20 }}
+                  onClick={handleSave}
+                >
+                  Update
+                </Button>
+              </Box>
+            </Grid>
           </Grid>
 
           <ToastComponent />

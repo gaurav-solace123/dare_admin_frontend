@@ -46,6 +46,8 @@ function InstructorReport() {
   const [endDate, setEndDate] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [listData, setListData] = useState([]);
+  const[isDisabled,setIsDisabled]= useState(false)
+
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [page, setPage] = useState(1);
@@ -140,27 +142,7 @@ function InstructorReport() {
   };
   const downLoadInstructorReport = async () => {
     try {
-      // const params = new URLSearchParams();
-
-      // Add pagination params if defined
-      // if (page !== undefined) params.append("page", page);
-      // if (rowsPerPage !== undefined) params.append("limit", rowsPerPage);
-
-      // Handle date range or other filters
-      // if (filter === "range") {
-      //   if (startDate)
-      //     params.append("startDate", startDate.format("DD-MM-YYYY"));
-      //   if (endDate) params.append("endDate", endDate.format("DD-MM-YYYY"));
-      // } else {
-      //   const date = getFormattedDate(selectedDate);
-      //   params.append(filter, date);
-      // }
-
-      // Construct the full URL with query params
-      // const result = await getData(
-      //   `${Api.instructorReportExport}?${params.toString()}`
-      // );
-
+      setIsDisabled(!isDisabled)
       let searchQuery = `?page=${page}&limit=${rowsPerPage}`;
       if (filter === "range") {
         if (startDate) {
@@ -186,9 +168,7 @@ function InstructorReport() {
       const result = await getData(
         `${Api.instructorReportExport}${searchQuery}`
       );
-
-      console.log("result", result);
-      // Optionally download the CSV
+      setIsDisabled(false)
       commonFunc.DownloadCSV(result, "Instructor Report");
     } catch (error) {
       console.error(error);
@@ -292,6 +272,7 @@ function InstructorReport() {
                   size="large"
                   type="button"
                   sx={{ height: "53px" }}
+                  disabled={isDisabled}
                   onClick={downLoadInstructorReport}
                 >
                   <Typography variant="h6">Export</Typography>

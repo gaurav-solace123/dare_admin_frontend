@@ -51,18 +51,7 @@ function CustomTable({
   isLoading,
 }) {
   const [row, setRow] = React.useState(listData ? listData : []);
-  const dropDownData = [
-    { label: "All", value: "" },
-    { label: "Student", value: "Student" },
-    { label: "Facilitator", value: "Facilitator" },
-    { label: "Instructor", value: "Instructor" },
-  ];
-  const handleChangeDropDown = (e) => {
-    setUserRole(e.target?.value);
-  };
-  const handleChangeSearch = (e) => {
-    setSearchTerm(e);
-  };
+  
   function EnhancedTableHead(props) {
     const { order, orderBy, onRequestSort } = props;
     const createSortHandler = (property) => (event) => {
@@ -74,7 +63,7 @@ function CustomTable({
         style={{ backgroundColor: "#d9edf7", borderRadius: "0 0 10px 2" }}
       >
         <TableRow>
-          {headers.map((headCell) => (
+          {headers?.map((headCell) => (
             <TableCell
               color="secondary"
               key={headCell.id}
@@ -106,10 +95,14 @@ function CustomTable({
   }
 
   function EnhancedTableToolbar() {
+    const[isDisabled,setIsDisabled]= React.useState(false)
     const downLoadSampleCSVFile = async () => {
+
+      setIsDisabled(!isDisabled)
       try {
         let searchQuery = `?search=${searchTerm}`;
         const result = await getData(`${Api.studentExport}${searchQuery}`);
+        setIsDisabled(false)
         commonFunc.DownloadCSV(result, "Student Details");
         console.log("result", result);
       } catch (error) {}
@@ -182,6 +175,7 @@ function CustomTable({
                 variant="contained"
                 size="large"
                 type="button"
+                disabled={isDisabled}
                 onClick={downLoadSampleCSVFile}
               >
                 <Typography sx={{ flex: "1 1 100%" }} variant="h6">
