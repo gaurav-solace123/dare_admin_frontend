@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Box,
   Button,
@@ -15,6 +16,7 @@ import {
   convertToRaw,
   ContentState,
   convertFromHTML,
+  Modifier ,SelectionState 
 } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 
@@ -73,7 +75,7 @@ const EditContent = () => {
     EditorState.createWithContent(ContentState.createFromText(initialContent))
   );
   const [currentLessonIndex, setCurrentLessonIndex] = useState(0);
-  const [rootLessonIndex,setRootLessonIndex]=useState(0)
+  const [rootLessonIndex, setRootLessonIndex] = useState(0);
   const handleChangeEditorState = (tempContent) => {
     const htmlContent = commonFunc.generateHTMLContent(tempContent);
 
@@ -84,6 +86,7 @@ const EditContent = () => {
     );
     setEditorState(EditorState.createWithContent(contentState));
   };
+ 
   const handleEditorChange = (newEditorState) => {
     setEditorState(newEditorState); // Update the editor state
 
@@ -114,14 +117,7 @@ const EditContent = () => {
     );
     setContentDetails(tempContent);
     handleChangeEditorState(tempContent);
-    // const htmlContent = commonFunc.generateHTMLContent(tempContent);
-
-    // const blocksFromHTML = convertFromHTML(htmlContent);
-    // const contentState = ContentState.createFromBlockArray(
-    //   blocksFromHTML.contentBlocks,
-    //   blocksFromHTML.entityMap
-    // );
-    // setEditorState(EditorState.createWithContent(contentState));
+    
   };
   const handleSave = () => {
     if (editorState) {
@@ -131,12 +127,12 @@ const EditContent = () => {
       }));
 
       updateContent(savedDetails);
-      // Handle saving title and htmlContent to the backend or store as needed
     }
   };
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+
   const fetchData = async () => {
     setIsLoading(true);
     const url =
@@ -151,15 +147,13 @@ const EditContent = () => {
     };
 
     try {
-      const response = await fetch(url, {
-        method: "POST",
+      const response = await axios.post(url, payload, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
       });
 
-      const result = await response.json();
+      const result = response.data;
       setIsLoading(false);
       if (result?.result) {
         let tempData = result?.result?.moduleData?.lessons.map((item) => ({
@@ -181,6 +175,7 @@ const EditContent = () => {
             items: filteredItems, // Replace items with filtered array of objectId and name
           };
         });
+
         setLessonsData(updatedTempDataArray);
         setModuleItems(result?.result?.moduleItems);
         console.log("first", updatedTempDataArray);
@@ -197,24 +192,6 @@ const EditContent = () => {
       const result = await getData(Api.workbookList); //
       if (result.success) {
         const response = result?.data;
-        // const response = [
-        //   {
-        //     _id: "XiqoxdFOKX",
-        //     name: "Elementary Spanish",
-        //   },
-        //   {
-        //     _id: "f7taeaAsGg",
-        //     name: "Elementary French",
-        //   },
-        //   {
-        //     _id: "wGmQH6ECYV",
-        //     name: "Elementary English",
-        //   },
-        //   {
-        //     _id: "wGmQH7ECYV",
-        //     name: "Middle School English",
-        //   },
-        // ];
         const tempData = response.map((item) => ({
           label: item?.name,
           value: item?._id,
@@ -241,14 +218,14 @@ const EditContent = () => {
       const prevRootLesson = lessonsData[rootLessonIndex - 1];
       setRootLessonIndex(rootLessonIndex - 1);
       setCurrentLessonsSubtitles(prevRootLesson.items);
-      
-      const lastSubtitle = prevRootLesson.items[prevRootLesson.items.length - 1];
+
+      const lastSubtitle =
+        prevRootLesson.items[prevRootLesson.items.length - 1];
       setCurrentLessonIndex(prevRootLesson.items.length - 1);
-      
+
       handleChangeLessons(lastSubtitle, prevRootLesson.title);
     }
   };
-  
 
   const handleNext = () => {
     if (currentLessonIndex < currentLessonsSubtitles.length - 1) {
@@ -256,11 +233,11 @@ const EditContent = () => {
 
       setCurrentLessonIndex(currentLessonIndex + 1);
       handleChangeLessons(nextLesson);
-    } else  {
-      setCurrentLessonIndex(0)
+    } else {
+      setCurrentLessonIndex(0);
       const nextLesson = lessonsData[rootLessonIndex + 1];
       setRootLessonIndex(rootLessonIndex + 1);
-      
+
       setCurrentLessonsSubtitles(nextLesson.items);
       handleChangeLessons(nextLesson.items[0], nextLesson.title);
     }
@@ -352,8 +329,8 @@ const EditContent = () => {
                           onClick={() => {
                             setCurrentLessonsSubtitles(lesson.items);
                             handleChangeLessons(item, lesson.title);
-                            setCurrentLessonIndex(index)
-                            setRootLessonIndex(lessonIndex)
+                            setCurrentLessonIndex(index);
+                            setRootLessonIndex(lessonIndex);
                           }}
                         >
                           {`${lessonIndex + 1}.${index + 1} ${item?.name}`}
@@ -391,7 +368,7 @@ const EditContent = () => {
                   <Button
                     variant="contained"
                     color="primary"
-                    disabled={currentLessonIndex === 0&&rootLessonIndex===0}
+                    disabled={currentLessonIndex === 0 && rootLessonIndex === 0}
                     onClick={handleGoBack}
                   >
                     Go Back
@@ -399,7 +376,12 @@ const EditContent = () => {
                   <Button
                     variant="contained"
                     color="primary"
-                    disabled={currentLessonIndex === currentLessonsSubtitles.length - 1&&rootLessonIndex===lessonsData.length-1}
+                    disabled={
+                      (currentLessonIndex ===
+                        currentLessonsSubtitles.length - 1 &&
+                        rootLessonIndex === lessonsData.length - 1) ||
+                      currentLessonDetails.lessonName === ""
+                    }
                     onClick={handleNext}
                   >
                     Next
@@ -410,6 +392,7 @@ const EditContent = () => {
                   value={currentLessonDetails?.lessonTitle}
                   onChange={handleTitleChange}
                   variant="outlined"
+                  disabled={currentLessonDetails.lessonName === ""}
                   label="Lesson Title"
                   fullWidth
                   margin="normal"
@@ -422,6 +405,8 @@ const EditContent = () => {
                     wrapperClassName="wrapperClassName"
                     editorClassName="editorClassName"
                     onEditorStateChange={handleEditorChange}
+                   
+                    readOnly={currentLessonDetails.lessonName === ""}
                     editorStyle={{
                       border: "1px solid #F1F1F1",
                       minHeight: "200px",
@@ -433,6 +418,7 @@ const EditContent = () => {
                 <Button
                   variant="contained"
                   color="primary"
+                  disabled={currentLessonDetails.lessonName === ""}
                   style={{ marginTop: 20 }}
                   onClick={handleSave}
                 >

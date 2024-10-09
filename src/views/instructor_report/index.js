@@ -107,7 +107,7 @@ function InstructorReport() {
       if (result.success) {
         const response = result?.data?.results;
         const tempData = response?.map((item) => ({
-          instructorName: item?.userDetails?.displayName,
+          instructorName: `${item?.userDetails?.firstName} ${item?.userDetails?.lastName}`,
           date: dayjs(item?.purchaseDetails.createdAt).format("DD-MM-YYYY"),
           activityType: startCase(lowerCase(item?.purchaseDetails?.type)),
           creditsPurchased: commonFunc.formatNumberWithCommas(
