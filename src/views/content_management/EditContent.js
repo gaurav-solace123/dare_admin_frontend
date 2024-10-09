@@ -80,8 +80,19 @@ const EditContent = () => {
     EditorState.createWithContent(ContentState.createFromText(initialContent))
   );
 
-  const handleEditorChange = (state) => {
-    setEditorState(state);
+  const handleEditorChange = (newEditorState) => {
+    setEditorState(newEditorState); // Update the editor state
+  
+    const rawContent = convertToRaw(newEditorState.getCurrentContent());
+    const newDetailText = rawContent.blocks.map((block) => block.text); // Extract detailText from editor
+  
+    // Update contentDetails with the new detailText while keeping objectId and other data intact
+    setContentDetails((prevDetails) => {
+      return prevDetails.map((item, index) => ({
+        ...item,
+        detailText: newDetailText[index] || item.detailText, // Update detailText for each corresponding item
+      }));
+    });
   };
   const handleChangeLessons = (item, lessonNo) => {
     setCurrentLessonDetails({
@@ -95,7 +106,7 @@ const EditContent = () => {
         element?.module?.objectId === item?.objectId && element?.detailText
     );
     console.log("tempContent", tempContent);
-
+    setContentDetails(tempContent)
     const htmlContent = commonFunc.generateHTMLContent(tempContent)
 
   const blocksFromHTML = convertFromHTML(htmlContent);
@@ -111,8 +122,12 @@ const EditContent = () => {
       const htmlContent = draftToHtml(rawContent);
       console.log("Saved Title:", title);
       console.log("Saved HTML Content:", htmlContent);
+      const savedDetails = contentDetails.map((item) => ({
+        detailText: item.detailText,
+        itemIds: item.objectId,
+      }));
 
-      updateContent()
+      updateContent(savedDetails)
       // Handle saving title and htmlContent to the backend or store as needed
     }
   };
@@ -211,16 +226,18 @@ const EditContent = () => {
       setIsLoading(false);
     }
   };
-
-  const updateContent = async () => {
+console.log('contentDetails', contentDetails)
+  const updateContent = async (savedDetails) => {
     try {
       // 
+      const detailTexts = savedDetails.map(item => item.detailText);
+const itemIds = savedDetails.map(item => item.itemIds);
       setIsLoading(true);
       const payload = {
-        name: activationCodeId,
-        detailText:currentSessionDetails?.workbookSessionId,
-        moduleId :userId,
-        moduleItemId
+        name: currentLessonDetails?.lessonTitle,
+        detailText:detailTexts,
+        moduleId :currentLessonDetails?.moduleId,
+        itemIds
       };
       const result = await patchData(Api?.updateCMS, payload);
 
