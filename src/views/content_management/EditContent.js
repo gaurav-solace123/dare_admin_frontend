@@ -16,13 +16,12 @@ import {
   convertToRaw,
   ContentState,
   convertFromHTML,
-  Modifier ,SelectionState 
 } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 
 import PageContainer from "src/components/container/PageContainer";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import draftToHtml from "draftjs-to-html";
+// import draftToHtml from "draftjs-to-html";
 import CustomSelect from "../../components/forms/theme-elements/CustomSelectField";
 import Api from "../../services/constant";
 import { getData, patchData } from "../../services/services";
@@ -113,7 +112,7 @@ const EditContent = () => {
 
     const tempContent = moduleItems.filter(
       (element) =>
-        element?.module?.objectId === item?.objectId && element?.detailText
+        element?._p_module === `Module$${item?.objectId}` && element?.detailText
     );
     setContentDetails(tempContent);
     handleChangeEditorState(tempContent);
@@ -121,9 +120,10 @@ const EditContent = () => {
   };
   const handleSave = () => {
     if (editorState) {
+      debugger
       const savedDetails = contentDetails.map((item) => ({
         detailText: item.detailText,
-        itemIds: item.objectId,
+        itemIds: item._id,
       }));
 
       updateContent(savedDetails);
@@ -185,6 +185,47 @@ const EditContent = () => {
     }
   };
 
+  const getCMSDetails = async () => {
+
+    const searchQuery=`?workbookId=${workbookId}`
+    try {
+      setIsLoading(true);
+
+      const result = await getData(`${Api.cmsDetails}${searchQuery}`); //
+      if (result?.success) {
+        let tempData = result?.data?.lessons.map((item) => ({
+          id: item?.name,
+          lessonId: item?._id,
+          title: item?.name,
+        }));
+
+        const updatedTempDataArray = tempData?.map((tempData, tempIndex) => {
+          // debugger
+          const filteredItems = result?.data?.modules
+            .filter((mod) => mod._p_lesson === `Lesson$${tempData.lessonId}`) // Filter by lessonId
+            .map((mod) => ({
+              objectId: mod._id,
+              name: mod.name,
+            }));
+
+          return {
+            ...tempData,
+            items: filteredItems, // Replace items with filtered array of objectId and name
+          };
+        });
+
+        setLessonsData(updatedTempDataArray);
+        
+        setModuleItems(result?.data?.moduleItems);
+        console.log("first", updatedTempDataArray);
+      } else {
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
+  };
   const getListData = async () => {
     try {
       setIsLoading(true);
@@ -258,7 +299,8 @@ const EditContent = () => {
 
       if (result?.success) {
         showToast(result?.message);
-        fetchData();
+        // fetchData();
+        getCMSDetails()
         setIsLoading(false);
       } else {
         showToast(result?.message, "error");
@@ -270,7 +312,8 @@ const EditContent = () => {
     }
   };
   useEffect(() => {
-    fetchData();
+    // fetchData();
+    getCMSDetails()
   }, [workbookId]);
   useEffect(() => {
     getListData();

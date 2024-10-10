@@ -22,7 +22,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import CustomTextField from "../../components/forms/theme-elements/CustomTextField";
 import Loader from "../../components/Loader";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { canadaProvinces, usStates } from "../../utils/Constant";
+import { bahrainGovernorates, bruneiDistricts, canadaProvinces, countries, mexicoStates, thailandProvinces, usStates } from "../../utils/Constant";
 import CustomSelect from "../../components/forms/theme-elements/CustomSelectField";
 
 const AddEditUser = ({
@@ -127,6 +127,10 @@ const AddEditUser = ({
   const countryStateMapping = {
     US: usStates,
     Canada: canadaProvinces,
+    Mexico: mexicoStates,
+    Brunei: bruneiDistricts,
+    Thailand: thailandProvinces,
+    Bahrain: bahrainGovernorates,
   };
 
   const formikRef = useRef(null);
@@ -238,6 +242,7 @@ const AddEditUser = ({
 
           // Ensure 'organization' is present, defaulting to an empty string if it's missing
           filteredResponse.organization = filteredResponse.organization || "";
+          filteredResponse.country = filteredResponse.country || "US";
 
           // Reset the form with only valid fields that are non-empty and non-null
           setEditRole(filteredResponse?.userRole);
@@ -380,6 +385,7 @@ const AddEditUser = ({
               organization: "",
               mobileNumber: "",
               _postal_code: "",
+              country: "US"
             }}
             validationSchema={validationSchema}
             context={{ userId: formikRef?.current?.values?._id }}
@@ -692,7 +698,7 @@ const AddEditUser = ({
                             component="label"
                             htmlFor="country"
                           >
-                            Country
+                            Country  <span style={{ color: "red" }}>*</span>
                           </Typography>
                           <Field
                             name="country"
@@ -701,10 +707,7 @@ const AddEditUser = ({
                             label="Select your country"
                             fullWidth
                             displayEmpty
-                            options={[
-                              { value: "US", label: "United States" },
-                              { value: "Canada", label: "Canada" },
-                            ]}
+                            options={countries}
                             value={values.country || ""}
                             onChange={handleChange}
                             error={touched.country && Boolean(errors.country)}
