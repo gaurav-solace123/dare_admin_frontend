@@ -37,6 +37,7 @@ const EditContent = () => {
   const { showToast, ToastComponent } = useCustomToast();
 
   const [expanded, setExpanded] = useState(false);
+  const [lessonId,setLessonId]=useState('')
   const [currentLessonsSubtitles, setCurrentLessonsSubtitles] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -120,7 +121,7 @@ const EditContent = () => {
   };
   const handleSave = () => {
     if (editorState) {
-      debugger
+      
       const savedDetails = contentDetails.map((item) => ({
         detailText: item.detailText,
         itemIds: item._id,
@@ -133,60 +134,60 @@ const EditContent = () => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const fetchData = async () => {
-    setIsLoading(true);
-    const url =
-      "https://www.dareremote.org/parse/functions/fetchModuleDataForWorkbook";
-    const payload = {
-      workbookId,
-      _ApplicationId: "MLtfFvD42DtH5U5GFdkr0z1HslEJjwdcELFAeanV",
-      _JavaScriptKey: "K9Z2YZvG8zC22e66VsAEujnmQ66PaR7pf8WShhsN",
-      _ClientVersion: "js1.8.5",
-      _InstallationId: "b900596a-b0b3-8803-f835-b61a993fb5f3",
-      _SessionToken: "r:e2605c1874ffbca8af2bf60ea0180564",
-    };
+  // const fetchData = async () => {
+  //   setIsLoading(true);
+  //   const url =
+  //     "https://www.dareremote.org/parse/functions/fetchModuleDataForWorkbook";
+  //   const payload = {
+  //     workbookId,
+  //     _ApplicationId: "MLtfFvD42DtH5U5GFdkr0z1HslEJjwdcELFAeanV",
+  //     _JavaScriptKey: "K9Z2YZvG8zC22e66VsAEujnmQ66PaR7pf8WShhsN",
+  //     _ClientVersion: "js1.8.5",
+  //     _InstallationId: "b900596a-b0b3-8803-f835-b61a993fb5f3",
+  //     _SessionToken: "r:e2605c1874ffbca8af2bf60ea0180564",
+  //   };
 
-    try {
-      const response = await axios.post(url, payload, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+  //   try {
+  //     const response = await axios.post(url, payload, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
 
-      const result = response.data;
-      setIsLoading(false);
-      if (result?.result) {
-        let tempData = result?.result?.moduleData?.lessons.map((item) => ({
-          id: item?.name,
-          lessonId: item?.objectId,
-          title: item?.name,
-        }));
+  //     const result = response.data;
+  //     setIsLoading(false);
+  //     if (result?.result) {
+  //       let tempData = result?.result?.moduleData?.lessons.map((item) => ({
+  //         id: item?.name,
+  //         lessonId: item?.objectId,
+  //         title: item?.name,
+  //       }));
 
-        const updatedTempDataArray = tempData?.map((tempData, tempIndex) => {
-          const filteredItems = result?.result?.moduleData?.modules
-            .filter((mod) => mod.lesson.objectId === tempData.lessonId) // Filter by lessonId
-            .map((mod) => ({
-              objectId: mod.objectId,
-              name: mod.name,
-            }));
+  //       const updatedTempDataArray = tempData?.map((tempData, tempIndex) => {
+  //         const filteredItems = result?.result?.moduleData?.modules
+  //           .filter((mod) => mod.lesson.objectId === tempData.lessonId) // Filter by lessonId
+  //           .map((mod) => ({
+  //             objectId: mod.objectId,
+  //             name: mod.name,
+  //           }));
 
-          return {
-            ...tempData,
-            items: filteredItems, // Replace items with filtered array of objectId and name
-          };
-        });
+  //         return {
+  //           ...tempData,
+  //           items: filteredItems, // Replace items with filtered array of objectId and name
+  //         };
+  //       });
 
-        setLessonsData(updatedTempDataArray);
-        setModuleItems(result?.result?.moduleItems);
-        console.log("first", updatedTempDataArray);
-      }
-    } catch (error) {
-      console.error("Error fetching module data:", error);
-    }
-  };
+  //       setLessonsData(updatedTempDataArray);
+  //       setModuleItems(result?.result?.moduleItems);
+  //       console.log("first", updatedTempDataArray);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching module data:", error);
+  //   }
+  // };
 
   const getCMSDetails = async () => {
-debugger
+
     const searchQuery=`?workbookId=${workbookId}`
     try {
       setIsLoading(true);
@@ -200,7 +201,7 @@ debugger
         }));
 
         const updatedTempDataArray = tempData?.map((tempData, tempIndex) => {
-          // debugger
+         
           const filteredItems = result?.data?.modules
             .filter((mod) => mod._p_lesson === `Lesson$${tempData.lessonId}`) // Filter by lessonId
             .map((mod) => ({
@@ -251,7 +252,10 @@ debugger
   const handleGoBack = () => {
     if (currentLessonIndex > 0) {
       // Navigate within the current lesson subtitles
-      const prevLesson = currentLessonsSubtitles[currentLessonIndex - 1];
+
+      const tempSubtitles=lessonsData.find((item)=>item?.lessonId===lessonId)
+      
+      const prevLesson = tempSubtitles?.items[currentLessonIndex - 1];
       setCurrentLessonIndex(currentLessonIndex - 1);
       handleChangeLessons(prevLesson);
     } else if (rootLessonIndex > 0) {
@@ -282,6 +286,7 @@ debugger
       setCurrentLessonsSubtitles(nextLesson.items);
       handleChangeLessons(nextLesson.items[0], nextLesson.title);
     }
+    getCMSDetails()
   };
   const updateContent = async (savedDetails) => {
     try {
@@ -374,6 +379,8 @@ debugger
                             handleChangeLessons(item, lesson.title);
                             setCurrentLessonIndex(index);
                             setRootLessonIndex(lessonIndex);
+                            
+                            setLessonId(lesson?.lessonId)
                           }}
                         >
                           {`${lessonIndex + 1}.${index + 1} ${item?.name}`}
