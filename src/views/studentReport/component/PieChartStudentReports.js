@@ -32,11 +32,13 @@ export default function PieChartStudentReports({
 					<Box
 						sx={{
 							height: isMobile ? 250 : 250,
+							width: isMobile ? 250 : 250,
 							height: 450, 
 							width: 450,  
 							display: "flex",
 							justifyContent: "center",
 							alignItems: "center",
+							position: "relative",
 						}}
 					>
 						<Box

@@ -7,4 +7,4 @@ const PublicRoute = ({ element }) => {
   return isAuthenticated ? element : <Navigate to="/dashboard" />;
 };
 
-export default PublicRoute;
+export default PublicRoute;                                                                                                                                               

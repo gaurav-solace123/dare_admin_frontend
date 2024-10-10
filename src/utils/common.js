@@ -1,6 +1,10 @@
 import { format } from "date-fns";
 import { saveAs } from 'file-saver';
 const commonFunc = {
+  setEncodedValue:(key,value)=>{
+    const encodedValue=btoa(value)
+    localStorage.setItem(key,encodedValue)
+  },
   getHeaders: () => {
     return {
       "Content-Type": "application/json",

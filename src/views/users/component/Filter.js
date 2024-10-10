@@ -17,35 +17,36 @@ function Filter({
   setSearchTerm,
   searchTerm,
   getListData,
+  handleSearchTermChange, // New prop
 }) {
   const [search, setSearch] = useState(searchTerm);
-  const inputRef = useRef(null); // Create a ref to the input element
+  const inputRef = useRef(null);
 
   const handleSearchChange = (event) => {
     const value = event.target.value;
     setSearch(value);
     setSearchTerm(value);
+    handleSearchTermChange(value); // Notify about search term change
   };
 
-  // Focus input when searchTerm changes
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.focus(); // Ensure inputRef exists before calling focus()
+      inputRef.current.focus();
     }
-  }, [searchTerm]); // Only trigger when searchTerm changes
+  }, [searchTerm]);
 
   return (
     <Box sx={{ width: "100%", display: "flex", gap: 2 }}>
       <Input
-        inputRef={inputRef} // Attach the ref to the input element
+        inputRef={inputRef}
         sx={{
-          border: "1px solid grey", // Adds a border to all sides
-          paddingX: "5px", // Padding inside the input
+          border: "1px solid grey",
+          paddingX: "5px",
           paddingY: "2px",
-          borderRadius: "4px", // Optional: Adds rounded corners
+          borderRadius: "4px",
           width: "50%",
         }}
-        value={search} // Use local state for input
+        value={search}
         onChange={handleSearchChange}
         placeholder="Search"
       />

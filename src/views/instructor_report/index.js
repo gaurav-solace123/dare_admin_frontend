@@ -11,7 +11,7 @@ import UnifiedDatePicker from "../../components/YearMonthDayDatepicker";
 import dayjs from "dayjs";
 import InstructorReportTable from "./InstructorReportTable";
 import { getData } from "../../services/services";
-import PageContainer from 'src/components/container/PageContainer';
+
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import Api from "../../services/constant";
 import { lowerCase, startCase } from "lodash";
@@ -19,8 +19,7 @@ import commonFunc from "../../utils/common";
 import Loader from "../../components/Loader";
 
 function InstructorReport() {
-  //constant
-
+  // Constants
   const tableFields = [
     "instructorName",
     "date",
@@ -39,58 +38,46 @@ function InstructorReport() {
     { value: "year", label: "Year" },
     { value: "range", label: "Range" },
   ];
-  //all states
+
+  // All states
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [filter, setFilter] = useState("day");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [listData, setListData] = useState([]);
-  const[isDisabled,setIsDisabled]= useState(false)
-
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
   const [totalCount, setTotalCount] = useState("");
-  const getFormattedDate = (date) => {
-    let formattedDate;
+  const [isExportDisabled, setIsExportDisabled] = useState(true);
 
-    if (date) {
-      switch (filter) {
-        case "day":
-          formattedDate = date.format("YYYY-MM-DD"); // Format for day view
-          break;
-        case "month":
-          formattedDate = date.format("MM"); // Format for month view
-          break;
-        case "year":
-          formattedDate = date.format("YYYY"); // Format for year view
-          break;
-        default:
-          dayjs().format("DD-MM-YYYY");
-          break;
-      }
-      return formattedDate;
-    } else {
-      return dayjs().format("DD-MM-YYYY");
+  const getFormattedDate = (date) => {
+    if (!date) return dayjs().format("DD-MM-YYYY");
+
+    switch (filter) {
+      case "day":
+        return date.format("YYYY-MM-DD");
+      case "month":
+        return date.format("MM");
+      case "year":
+        return date.format("YYYY");
+      default:
+        return dayjs().format("DD-MM-YYYY");
     }
   };
+
   const getInstructorReport = async () => {
     let searchQuery = `?page=${page}&limit=${rowsPerPage}`;
+    
     if (filter === "range") {
-      if (startDate) {
-        searchQuery += `&startDate=${startDate.format("YYYY-MM-DD")}`; // Add startDate if it's defined
-      }
-      if (endDate) {
-        searchQuery += `&endDate=${endDate.format("YYYY-MM-DD")}`; // Add endDate if it's defined
-      }
+      if (startDate) searchQuery += `&startDate=${startDate.format("YYYY-MM-DD")}`;
+      if (endDate) searchQuery += `&endDate=${endDate.format("YYYY-MM-DD")}`;
     } else {
       const date = getFormattedDate(selectedDate);
       searchQuery += `&${filter}=${date}`;
-
-      if (filter == "month") {
+      if (filter === "month") {
         const year = selectedDate.format("YYYY");
         searchQuery += `&year=${year}`;
       }
@@ -103,34 +90,23 @@ function InstructorReport() {
     try {
       setIsLoading(true);
       const result = await getData(`${Api.instructorReport}${searchQuery}`);
-
+      
       if (result.success) {
-        const response = result?.data?.results;
-        const tempData = response?.map((item) => ({
-          instructorName: `${item?.userDetails?.firstName} ${item?.userDetails?.lastName}`,
-          date: dayjs(item?.purchaseDetails.createdAt).format("DD-MM-YYYY"),
-          activityType: startCase(lowerCase(item?.purchaseDetails?.type)),
-          creditsPurchased: commonFunc.formatNumberWithCommas(
-            item?.purchaseDetails?.numCredits
-          ),
-          creditsTransferredIn:
-            commonFunc.formatNumberWithCommas(
-              item?.incomingTransfers?.numCredits
-            ) ?? "-",
-          creditsTransferredOut:
-            commonFunc.formatNumberWithCommas(
-              item?.creditTransfers?.numCredits
-            ) ?? "-",
-          remainingCredits: commonFunc.formatNumberWithCommas(
-            item?.availableCredits
-          ),
-          transferredTo: item?.creditTransfers?.destinationUser ?? "-",
-          transferredFrom: item?.incomingTransfers?.incomingSourceUser ?? "-",
+        const response = result.data.results;
+        const tempData = response.map((item) => ({
+          instructorName: item.userDetails.displayName,
+          date: dayjs(item.purchaseDetails.createdAt).format("DD-MM-YYYY"),
+          activityType: startCase(lowerCase(item.purchaseDetails.type)),
+          creditsPurchased: commonFunc.formatNumberWithCommas(item.purchaseDetails.numCredits),
+          creditsTransferredIn: commonFunc.formatNumberWithCommas(item.incomingTransfers?.numCredits) ?? "-",
+          creditsTransferredOut: commonFunc.formatNumberWithCommas(item.creditTransfers?.numCredits) ?? "-",
+          remainingCredits: commonFunc.formatNumberWithCommas(item.availableCredits),
+          transferredTo: item.creditTransfers?.destinationUser ?? "-",
+          transferredFrom: item.incomingTransfers?.incomingSourceUser ?? "-",
         }));
-        setTotalCount(result?.data?.pagination?.totalDocuments);
-
+        
+        setTotalCount(result.data.pagination.totalDocuments);
         setListData(tempData);
-
         setIsLoading(false);
       } else {
         setIsLoading(false);
@@ -140,22 +116,17 @@ function InstructorReport() {
       setIsLoading(false);
     }
   };
+
   const downLoadInstructorReport = async () => {
     try {
-      setIsDisabled(!isDisabled)
       let searchQuery = `?page=${page}&limit=${rowsPerPage}`;
       if (filter === "range") {
-        if (startDate) {
-          searchQuery += `&startDate=${startDate.format("YYYY-MM-DD")}`; // Add startDate if it's defined
-        }
-        if (endDate) {
-          searchQuery += `&endDate=${endDate.format("YYYY-MM-DD")}`; // Add endDate if it's defined
-        }
+        if (startDate) searchQuery += `&startDate=${startDate.format("YYYY-MM-DD")}`;
+        if (endDate) searchQuery += `&endDate=${endDate.format("YYYY-MM-DD")}`;
       } else {
         const date = getFormattedDate(selectedDate);
         searchQuery += `&${filter}=${date}`;
-
-        if (filter == "month") {
+        if (filter === "month") {
           const year = selectedDate.format("YYYY");
           searchQuery += `&year=${year}`;
         }
@@ -165,10 +136,7 @@ function InstructorReport() {
         searchQuery += `&search=${debouncedSearchTerm}`;
       }
 
-      const result = await getData(
-        `${Api.instructorReportExport}${searchQuery}`
-      );
-      setIsDisabled(false)
+      const result = await getData(`${Api.instructorReportExport}${searchQuery}`);
       commonFunc.DownloadCSV(result, "Instructor Report");
     } catch (error) {
       console.error(error);
@@ -178,44 +146,44 @@ function InstructorReport() {
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
-    }, 500); // Adjust delay (500ms in this case) as needed
+    }, 500); // Debounce delay
 
-    // Cleanup function to clear the timeout if searchTerm changes within the delay
     return () => {
       clearTimeout(handler);
     };
   }, [searchTerm]);
+
   useEffect(() => {
     getInstructorReport();
-  }, [
-    startDate,
-    endDate,
-    selectedDate &&selectedDate,
-    debouncedSearchTerm,
-    page,
-    rowsPerPage,
-  ]);
+  }, [startDate, endDate, selectedDate, debouncedSearchTerm, page, rowsPerPage]);
+
+  useEffect(() => {
+    const hasResults = listData.some(item =>
+      item.instructorName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+    );
+    setIsExportDisabled(!hasResults);
+  }, [debouncedSearchTerm, listData]);
 
   return (
-    <PageContainer title='Instructor Report'>
+    <>
       {isLoading ? (
         <Loader />
       ) : (
         <Box
-        sx={{
-          border: "2px solid",
-          color: "#0055a4",
-          padding: 2,
-          position: "relative",
-          borderRadius: 2,
-          width: {
-            xs: "100%", // Extra small screens
-            sm: "100%", // Small screens
-            md: "100%", // Medium screens
-            lg: "85%", // Large screens
-            xl: "100%", // Extra large screens
-          },
-        }}
+          sx={{
+            border: "2px solid",
+            color: "#0055a4",
+            padding: 2,
+            position: "relative",
+            borderRadius: 2,
+            width: {
+              xs: "100%",
+              sm: "100%",
+              md: "100%",
+              lg: "85%",
+              xl: "100%",
+            },
+          }}
         >
           <Box
             sx={{
@@ -227,42 +195,32 @@ function InstructorReport() {
               display: "inline-block",
               fontSize: "24px",
               fontWeight: "bold",
-            }} 
-          >                                              
-            <Typography
-              variant="h6"
-              fontWeight={600}
-              component="label"                                                                                                                
-              htmlFor="mailingAddress"
-            >
+            }}
+          >
+            <Typography variant="h6" fontWeight={600}>
               Instructor Report
             </Typography>
           </Box>
           <Box
             display={"flex"}
-            flexDirection={{ xs: "column", md: "row" }} // Stack on small screens, row on larger screens
+            flexDirection={{ xs: "column", md: "row" }}
             justifyContent={"space-between"}
             alignItems={"end"}
             marginBottom={"10px"}
           >
-            <Box
-              display={"flex"}
-              justifyContent={"start"}
-              alignItems={"center"}
-              flexGrow={1}
-            >
+            <Box display={"flex"} justifyContent={"start"} alignItems={"center"} flexGrow={1}>
               <InputBase
                 sx={{
                   border: "1px solid grey",
                   paddingX: "5px",
                   paddingY: "2px",
                   borderRadius: "4px",
-                  width: { xs: "100%", sm: "40ch" }, // Full width on mobile, 40ch on larger screens
+                  width: { xs: "100%", sm: "40ch" },
                   marginRight: "20px",
                   height: "53px",
                 }}
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e?.target?.value)}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search by name"
               />
               <Tooltip title="Download Instructor Report">
@@ -272,8 +230,8 @@ function InstructorReport() {
                   size="large"
                   type="button"
                   sx={{ height: "53px" }}
-                  disabled={isDisabled}
                   onClick={downLoadInstructorReport}
+                  disabled={isExportDisabled} // Disable based on search results
                 >
                   <Typography variant="h6">Export</Typography>
                   <FileDownloadIcon />
@@ -304,10 +262,11 @@ function InstructorReport() {
             listData={listData}
             totalCount={totalCount}
             tableFields={tableFields}
+            searchTerm={searchTerm} // Pass searchTerm if needed in the table
           />
         </Box>
       )}
-    </PageContainer>
+    </>
   );
 }
 

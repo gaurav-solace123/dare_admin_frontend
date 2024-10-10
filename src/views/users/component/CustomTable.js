@@ -51,7 +51,20 @@ function CustomTable({
   isLoading,
 }) {
   const [row, setRow] = React.useState(listData ? listData : []);
+  const [isExportDisabled, setIsExportDisabled] = React.useState(true);
+
+  React.useEffect(() => {
+    const hasResults = listData.some((item) => 
+      (item.firstName && item.firstName.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (item.lastName && item.lastName.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (item.email && item.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (item.username && item.username.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+    setIsExportDisabled(!hasResults);
+  }, [searchTerm, listData]);
   
+  
+
   function EnhancedTableHead(props) {
     const { order, orderBy, onRequestSort } = props;
     const createSortHandler = (property) => (event) => {
@@ -81,9 +94,7 @@ function CustomTable({
 
                 {orderBy === headCell.id ? (
                   <Box component="span" sx={visuallyHidden}>
-                    {order === "desc"
-                      ? "sorted descending"
-                      : "sorted ascending"}
+                    {order === "desc" ? "sorted descending" : "sorted ascending"}
                   </Box>
                 ) : null}
               </TableSortLabel>
@@ -95,18 +106,20 @@ function CustomTable({
   }
 
   function EnhancedTableToolbar() {
-    const[isDisabled,setIsDisabled]= React.useState(false)
+    const [isDisabled, setIsDisabled] = React.useState(false);
     const downLoadSampleCSVFile = async () => {
-
-      setIsDisabled(!isDisabled)
+      setIsDisabled(true);
       try {
         let searchQuery = `?search=${searchTerm}`;
         const result = await getData(`${Api.studentExport}${searchQuery}`);
-        setIsDisabled(false)
         commonFunc.DownloadCSV(result, "Student Details");
-        console.log("result", result);
-      } catch (error) {}
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsDisabled(false);
+      }
     };
+
     return (
       <Toolbar>
         {Title && (
@@ -115,19 +128,6 @@ function CustomTable({
           </Typography>
         )}
         {children}
-
-        {/* <Filter
-          TitleForDropDown={"Role"}
-          getListData={getListData}
-          dropDownData={dropDownData}
-          handleChangeSearch={handleChangeSearch}
-          handleChangeDropDown={handleChangeDropDown}
-          setSearchTerm={setSearchTerm}
-          searchTerm={searchTerm}
-          userRole={userRole}
-          setUserRole={setUserRole}
-          role={role}
-        /> */}
 
         <Box
           sx={{
@@ -138,7 +138,7 @@ function CustomTable({
           }}
         >
           {role === "Student" && (
-            <Tooltip title=" Student Bulk Upload">
+            <Tooltip title="Student Bulk Upload">
               <Button
                 color="success"
                 variant="contained"
@@ -169,24 +169,19 @@ function CustomTable({
             </Button>
           </Tooltip>
           {role === "Student" && (
-            <Tooltip title=" Download students details">
+            <Tooltip title="Download students details">
               <Button
                 color="primary"
                 variant="contained"
                 size="large"
                 type="button"
-                disabled={isDisabled}
+                disabled={isExportDisabled || isDisabled} // Button disabled condition
                 onClick={downLoadSampleCSVFile}
               >
                 <Typography sx={{ flex: "1 1 100%" }} variant="h6">
                   Export
                 </Typography>
                 <FileDownloadIcon />
-                {/* <Image 
-      src={DowloadCSV}  // Replace with your image path
-      alt="Download CSV"
-      style={{ width: 24, marginLeft: 8 }}    // Adjust the style as needed
-    /> */}
               </Button>
             </Tooltip>
           )}
@@ -202,18 +197,22 @@ function CustomTable({
   };
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage + 1); // Adjust for 1-indexed page state
+    setPage(newPage + 1);
   };
+
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(page);
   };
+
   const visibleRows = React.useMemo(() => {
     return listData;
   }, [order, orderBy, page, rowsPerPage, row, listData]);
+
   React.useEffect(() => {
     setRow(listData);
   }, [listData, headers]);
+
   return (
     <div>
       <Box sx={{ width: "100%" }}>
@@ -230,11 +229,10 @@ function CustomTable({
                   onRequestSort={handleRequestSort}
                 />
                 <TableBody>
-                  {/* Check if data is empty */}
                   {visibleRows?.length === 0 ? (
                     <TableRow>
                       <TableCell
-                        colSpan={role == "" || role == "Instructor" ? 6 : 5}
+                        colSpan={role === "" || role === "Instructor" ? 6 : 5}
                         align="center"
                       >
                         No records found
@@ -249,132 +247,63 @@ function CustomTable({
                           borderBottom: "1px solid rgba(224, 224, 224, 1)",
                         }}
                       >
-                        <TableCell
-                          align="left"
-                          sx={{
-                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                          }}
-                        >
-                          <Typography
-                            sx={{ flex: "1 1 100%" }}
-                            variant="tableText"
-                          >
-                            {row?.firstName}
-                          </Typography>
+                        <TableCell align="left">
+                          <Typography variant="tableText">{row?.firstName}</Typography>
                         </TableCell>
-                        <TableCell
-                          align="left"
-                          sx={{
-                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                          }}
-                        >
-                          <Typography
-                            sx={{ flex: "1 1 100%" }}
-                            variant="tableText"
-                          >
-                            {row?.lastName}
-                          </Typography>
+                        <TableCell align="left">
+                          <Typography variant="tableText">{row?.lastName}</Typography>
                         </TableCell>
-
-                        {/* Conditionally render based on the role */}
                         {role === "" && (
-                          <TableCell
-                            align="left"
-                            sx={{
-                              borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                            }}
-                          >
-                            <Typography
-                              sx={{ flex: "1 1 100%" }}
-                              variant="tableText"
-                            >
-                              {row?.userRole}
-                            </Typography>
+                          <TableCell align="left">
+                            <Typography variant="tableText">{row?.userRole}</Typography>
                           </TableCell>
                         )}
                         {role === "Instructor" && (
-                          <TableCell
-                            align="left"
-                            sx={{
-                              borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                            }}
-                          >
-                            <Typography
-                              sx={{ flex: "1 1 100%" }}
-                              variant="tableText"
-                            >
-                              {row?.mobileNumber}
-                            </Typography>
+                          <TableCell align="left">
+                            <Typography variant="tableText">{row?.mobileNumber}</Typography>
                           </TableCell>
                         )}
-                        <TableCell
-                          align="left"
-                          sx={{
-                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                          }}
-                        >
-                          <Typography
-                            sx={{ flex: "1 1 100%" }}
-                            variant="tableText"
-                          >
-                            {row?.email}
-                          </Typography>
+                        <TableCell align="left">
+                          <Typography variant="tableText">{row?.email}</Typography>
                         </TableCell>
-                        <TableCell
-                          align="left"
-                          sx={{
-                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                          }}
-                        >
-                          <Typography
-                            sx={{ flex: "1 1 100%" }}
-                            variant="tableText"
-                          >
-                            {row?.username}
-                          </Typography>
+                        <TableCell align="left">
+                          <Typography variant="tableText">{row?.username}</Typography>
                         </TableCell>
-                        <TableCell
-                          align="left"
-                          sx={{
-                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                          }}
-                        >
+                        <TableCell align="left">
                           <Box display={"flex"} justifyContent={"flex-start"}>
                             <Box>
                               <Tooltip title={`Edit ${role ? role : "User"}`}>
                                 <EditIcon
                                   sx={{ cursor: "pointer" }}
                                   onClick={() => {
-                                    onAddClick(); // Only called on Edit
+                                    onAddClick();
                                     setUserId(row?._id);
                                   }}
                                 />
                               </Tooltip>
                             </Box>
-
-                            {role !== "Facilitator" &&
-                              row?.userRole !== "Facilitator" && (
-                                <Box marginLeft={"10px"}>
-                                  <Tooltip title={"Preview"}>
-                                    <NavLink
-                                      to={
-                                        role === "Student"
-                                          ? `/student-details/${row?._id}`
-                                          : row?.userRole === "Student"
-                                          ? `/student-details/${row?._id}`
-                                          : `/instructor-details/${row?._id}`
-                                      }
-                                      style={{
-                                        color: "inherit",
-                                        textDecoration: "none",
-                                      }}
-                                      state={{ userId: row?._id }}
-                                    >
-                                      <Visibility sx={{ cursor: "pointer" }} />
-                                    </NavLink>
-                                  </Tooltip>
-                                </Box>
-                              )}
+                            {role !== "Facilitator" && row?.userRole !== "Facilitator" && (
+                              <Box marginLeft={"10px"}>
+                                <Tooltip title={"Preview"}>
+                                  <NavLink
+                                    to={
+                                      role === "Student"
+                                        ? `/student-details/${row?._id}`
+                                        : row?.userRole === "Student"
+                                        ? `/student-details/${row?._id}`
+                                        : `/instructor-details/${row?._id}`
+                                    }
+                                    style={{
+                                      color: "inherit",
+                                      textDecoration: "none",
+                                    }}
+                                    state={{ userId: row?._id }}
+                                  >
+                                    <Visibility sx={{ cursor: "pointer" }} />
+                                  </NavLink>
+                                </Tooltip>
+                              </Box>
+                            )}
                           </Box>
                         </TableCell>
                       </TableRow>
