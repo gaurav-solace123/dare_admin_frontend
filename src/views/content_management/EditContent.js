@@ -186,7 +186,7 @@ const EditContent = () => {
   };
 
   const getCMSDetails = async () => {
-
+debugger
     const searchQuery=`?workbookId=${workbookId}`
     try {
       setIsLoading(true);
@@ -217,7 +217,7 @@ const EditContent = () => {
         setLessonsData(updatedTempDataArray);
         
         setModuleItems(result?.data?.moduleItems);
-        console.log("first", updatedTempDataArray);
+        setIsLoading(false);
       } else {
         setIsLoading(false);
       }
