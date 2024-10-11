@@ -4,6 +4,7 @@ import config from "../../config/config.json";
 // import { getSession } from "next-auth/react";
 // import useSession from "@/src/hooks/useSession";
 // import Cookies from "js-cookie";
+import commonFunc from "../../utils/common";
 
 const serviceConfig = {
   timeout: 45000,
@@ -22,22 +23,29 @@ const getServiceInstance = (baseURL) => {
   serviceInstance.isCancel = axios.isCancel;
 
   serviceInstance.interceptors.request.use(async (config) => {
-    const token = localStorage.getItem('token');
-    // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmNjMTQzNzE2MzA0ZWFlZWE4YTI0NDEiLCJlbWFpbCI6InN1cGVyYWRtaW5AZGFyZS5jb20iLCJfX3YiOjAsImlhdCI6MTcyNDY2MTc4NCwiZXhwIjoxNzI1MjY2NTg0fQ.AWPwlH49NPXKRlzIxFTuG5p8Fxn9FdYWKN36DZFP3vA'
-    console.log("sessionfromAPi",token)
+    const encodedToken = localStorage.getItem('token'); // Get encoded token directly from localStorage
+    // console.log("Encoded Token from localStorage:", encodedToken);
+
+    const token = commonFunc.getDecodedValue('token'); // Get and decode token
+    // console.log("Decoded Token:", token);
+
     const modifiedConfig = {
-      ...config,
+        ...config,
     };
-    if(config.url.indexOf("adminConfigs") > -1 ||  config.url.indexOf('superAdmin') > -1){
-      modifiedConfig.headers["Authorization"] = `gxczMcoDRtr9Qv9bgLkfjTZHNjZqcOuU95Q06O5lEurYzzql2AUkBrPvBT0r5sj5modLHZBQ7jHljae3PYT1Ry43gKIPQstB`;
-     }else{
-      if (token) {
-        modifiedConfig.headers["Authorization"] = `Bearer ${JSON.parse(token)}`;
-        // modifiedConfig.headers["Authorization"] = `Bearer ${token}`;
-      }
-     }
+
+    if (config.url.indexOf("adminConfigs") > -1 || config.url.indexOf('superAdmin') > -1) {
+        modifiedConfig.headers["Authorization"] = `gxczMcoDRtr9Qv9bgLkfjTZHNjZqcOuU95Q06O5lEurYzzql2AUkBrPvBT0r5sj5modLHZBQ7jHljae3PYT1Ry43gKIPQstB`;
+    } else {
+        if (token) {
+            modifiedConfig.headers["Authorization"] = `Bearer ${token}`; // Use the decoded token directly
+        } else {
+            console.error("Token is null or undefined."); // Log if token is not retrieved correctly
+        }
+    }
+
     return modifiedConfig;
-  });
+});
+
 
   serviceInstance.interceptors.response.use(
     (response) => {

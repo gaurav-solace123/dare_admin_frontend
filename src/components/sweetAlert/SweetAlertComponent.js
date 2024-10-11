@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Swal from 'sweetalert2';
-import { useEffect } from 'react';
 
 const SweetAlertComponent = ({ title, text, onConfirm, onCancel, setAlert, title2, text2 }) => {
   useEffect(() => {
@@ -16,12 +15,12 @@ const SweetAlertComponent = ({ title, text, onConfirm, onCancel, setAlert, title
       });
 
       if (result.isConfirmed) {
+        await onConfirm();
         await Swal.fire({
           title: title2,
           text: text2,
           icon: "success"
         });
-        onConfirm();
       } else {
         onCancel();
       }
@@ -53,4 +52,3 @@ const SweetAlertComponent = ({ title, text, onConfirm, onCancel, setAlert, title
 };
 
 export default SweetAlertComponent;
-                                                                                                                        

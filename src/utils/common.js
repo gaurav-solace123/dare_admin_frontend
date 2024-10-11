@@ -1,9 +1,14 @@
 import { format } from "date-fns";
 import { saveAs } from 'file-saver';
 const commonFunc = {
-  setEncodedValue:(key,value)=>{
-    const encodedValue=btoa(value)
-    localStorage.setItem(key,encodedValue)
+  setEncodedValue: (key, value) => {
+    const encodedValue = btoa(value);
+    localStorage.setItem(key, encodedValue);
+  },
+
+  getDecodedValue: (key) => {
+    const encodedValue = localStorage.getItem(key);
+    return encodedValue ? atob(encodedValue) : null; // Decode if exists
   },
   getHeaders: () => {
     return {

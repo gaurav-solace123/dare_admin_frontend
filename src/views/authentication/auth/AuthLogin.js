@@ -15,7 +15,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { postData } from "src/services/services";
 import Api from "src/services/constant";
 import Loader from "src/components/Loader";
-
+import commonFunc from "../../../utils/common";
 // Validation schema using Yup
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -26,7 +26,7 @@ const validationSchema = Yup.object({
     .required("Password is required."),
 });
 
-const AuthLogin = ({ title, subtitle, subtext, showToast = () => {} }) => {
+const AuthLogin = ({ title, subtitle, subtext, showToast = () => { } }) => {
   //all constants
   const { ToastComponent } = useCustomToast();
   const navigate = useNavigate();
@@ -44,12 +44,14 @@ const AuthLogin = ({ title, subtitle, subtext, showToast = () => {} }) => {
     try {
       setIsLoading(true);
       const result = await postData(Api.userLogin, userValues);
-      if (result?.status == 200) {
-        localStorage.setItem(
-          "token",
-          JSON.stringify(result?.data?.token.replace("Bearer ", ""))
-        );
-        localStorage.setItem("email", JSON.stringify(result?.data?.email));
+      if (result?.status === 200) {
+        // Encode email and token before saving
+        commonFunc.setEncodedValue("token", result?.data?.token.replace("Bearer ", ""));
+        commonFunc.setEncodedValue("email", result?.data?.email);
+
+
+        // localStorage.setItem("token", JSON.stringify(encodedToken));
+        // localStorage.setItem("email", JSON.stringify(encodedEmail));
 
         showToast(result?.message);
         setTimeout(() => {
@@ -64,6 +66,7 @@ const AuthLogin = ({ title, subtitle, subtext, showToast = () => {} }) => {
       console.error(error);
     }
   };
+
   const togglePasswordVisibility = (setShowPassword) => {
     setShowPassword((prev) => !prev);
   };
