@@ -247,29 +247,50 @@ function CustomTable({
                           borderBottom: "1px solid rgba(224, 224, 224, 1)",
                         }}
                       >
-                        <TableCell align="left">
+                        <TableCell align="left" sx={{
+                         borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                        
+                       }}>
                           <Typography variant="tableText">{row?.firstName}</Typography>
                         </TableCell>
-                        <TableCell align="left">
+                        <TableCell align="left" sx={{
+                         borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                      
+                       }}>
                           <Typography variant="tableText">{row?.lastName}</Typography>
                         </TableCell>
                         {role === "" && (
-                          <TableCell align="left">
+                          <TableCell align="left" sx={{
+                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                            
+                          }}>
                             <Typography variant="tableText">{row?.userRole}</Typography>
                           </TableCell>
                         )}
                         {role === "Instructor" && (
-                          <TableCell align="left">
+                          <TableCell align="left" sx={{
+                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                           
+                          }}>
                             <Typography variant="tableText">{row?.mobileNumber}</Typography>
                           </TableCell>
                         )}
-                        <TableCell align="left">
+                        <TableCell align="left" sx={{
+                         borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                       
+                       }}>
                           <Typography variant="tableText">{row?.email}</Typography>
                         </TableCell>
-                        <TableCell align="left">
+                        <TableCell align="left" sx={{
+                         borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                        
+                       }}>
                           <Typography variant="tableText">{row?.username}</Typography>
                         </TableCell>
-                        <TableCell align="left">
+                        <TableCell align="left" sx={{
+                         borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                        
+                       }}>
                           <Box display={"flex"} justifyContent={"flex-start"}>
                             <Box>
                               <Tooltip title={`Edit ${role ? role : "User"}`}>
