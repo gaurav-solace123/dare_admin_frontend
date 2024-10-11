@@ -4,7 +4,6 @@ function EnhancedTableToolbar() {
         let searchQuery = `?page=${page}&limit=${rowsPerPage}`;
         const result = await getData(`${Api.studentExport}${searchQuery}`);
         commonFunc.DownloadCSV(result, "Student Details");
-        console.log("result", result);
       } catch (error) {}
     };
     return (

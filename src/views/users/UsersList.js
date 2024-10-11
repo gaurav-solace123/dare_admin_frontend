@@ -212,18 +212,7 @@ export default function EnhancedTable({role=''}) {
       clearTimeout(handler);
     };
   }, [searchTerm]);
-  console.log('first', searchTerm)
   useEffect(() => {
-    
-    // const pagination = {
-    //   page,
-    //   rowsPerPage,
-    //   search: searchTerm,
-    //   userRole,
-    //   sortBy: orderBy,
-    //   sortOrder: order,
-    // };
-    
     getListData();
   }, [page, rowsPerPage, userRole,order,orderBy,debouncedSearchTerm,role]);
   return (

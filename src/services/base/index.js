@@ -23,12 +23,7 @@ const getServiceInstance = (baseURL) => {
   serviceInstance.isCancel = axios.isCancel;
 
   serviceInstance.interceptors.request.use(async (config) => {
-    const encodedToken = localStorage.getItem('token'); // Get encoded token directly from localStorage
-    // console.log("Encoded Token from localStorage:", encodedToken);
-
     const token = commonFunc.getDecodedValue('token'); // Get and decode token
-    // console.log("Decoded Token:", token);
-
     const modifiedConfig = {
         ...config,
     };

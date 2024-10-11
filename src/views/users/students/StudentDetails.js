@@ -235,7 +235,6 @@ function StudentDetails() {
     }
   };
 
-  console.log('specificStudentSessionList', specificStudentSessionList)
   useEffect(() => {
     viewData();
     getSingleStudentSessionList();

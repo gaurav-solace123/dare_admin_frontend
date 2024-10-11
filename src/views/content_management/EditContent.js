@@ -196,7 +196,6 @@ const EditContent = () => {
       setIsLoading(false);
     }
   };
-  console.log("contentDetails", contentDetails);
   const handleGoBack = () => {
     if (currentLessonIndex > 0) {
       // Navigate within the current lesson subtitles

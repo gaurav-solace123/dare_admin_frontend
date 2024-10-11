@@ -58,7 +58,6 @@ function DigitalAdminBottomPanel() {
 
       const result = await getData(`${searchQuery}`);
       commonFunc.DownloadCSV(result, fileName);
-      console.log("result", result);
     } catch (error) {}
     finally {
       setIsLoading(false);

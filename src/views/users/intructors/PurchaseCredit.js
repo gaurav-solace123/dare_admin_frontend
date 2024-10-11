@@ -35,7 +35,6 @@ function PurchaseCredit({ userId, isList }) {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("_created_at");
   const [isLoading, setIsLoading] = useState(false);
-  console.log('orderBy', order)
   const {page,limit}=pagination
   const fetchPurchaseDetails = async () => {
    

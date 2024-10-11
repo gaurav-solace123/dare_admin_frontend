@@ -80,7 +80,6 @@ function AddSvgForm({
     try {
       const result = await getData(Api.bulkSampleFile);
       commonFunc.DownloadCSV(result, "Sample");
-      console.log("result", result);
     } catch (error) {}
   };
 

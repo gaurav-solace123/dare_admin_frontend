@@ -468,7 +468,6 @@ const AddEditUser = ({
                             helperText={<ErrorMessage name="lastName" />}
                           />
                         </Grid>
-                        {console.log("errors", errors)}
                         {!userId && (
                           <>
                             <Grid item xs={6} p={"7px"}>
