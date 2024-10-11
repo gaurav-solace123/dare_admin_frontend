@@ -9,54 +9,16 @@ import {
   TableHead,
   TableRow,
   Typography,
-  Chip,
   TablePagination,
   TableSortLabel,
 } from "@mui/material";
-import axios from "axios";
 import { getData } from "../../../services/services";
 import Api from "../../../services/constant";
 import dayjs from "dayjs";
+import Loader from "../../../components/Loader";
 
 function TransferCredit({ userId,isList }) {
-  //all constant
-  const mockTransferDetails = {
-    status: 200,
-    data: {
-      transfers: [
-        {
-          numCredits: 150,
-          createdAt: "2020-09-16T19:05:42.445Z",
-          destinationUser: {
-            _id: "4JJK9hFmry",
-            firstName: "Fierre",
-            lastName: "Johnson",
-            email: "johnsf@co.comal.tx.us",
-            username: "deputyjohnson",
-          },
-        },
-        {
-          numCredits: 75,
-          createdAt: "2020-09-16T19:06:32.942Z",
-          destinationUser: {
-            _id: "8B5HmF1FzR",
-            firstName: "Roxie",
-            lastName: "Haik",
-            email: "haikro@co.comal.tx.us",
-            username: "roxiehaik",
-          },
-        },
-      ],
-      transferPagination: {
-        transferPage: 1,
-        transferPageSize: 10,
-        totalTransfers: 1,
-      },
-    },
-    success: true,
-    error: false,
-  };
-
+  //all states
   const [transferDetails, setTransferDetails] = useState([]);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -101,42 +63,37 @@ function TransferCredit({ userId,isList }) {
     }
   };
 
-  useEffect(() => {
-    getTransferDetails();
-  }, [isList,order,pagination.page,
-    pagination.limit,]);
+ 
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-    // getTransferDetails(
-    //   pagination.page,
-    //   pagination.limit,
-    //   isAsc ? "desc" : "asc",
-    //   property
-    // );
+   
   };
 
   const handleChangePage = (event, newPage) => {
     setPagination({ ...pagination, page: newPage + 1 });
-    // getTransferDetails(newPage + 1, pagination.limit, order, orderBy);
   };
 
   const handleChangeRowsPerPage = (event) => {
     const newLimit = parseInt(event.target.value, 10);
     setPagination({ ...pagination, limit: newLimit });
-    // getTransferDetails(1, newLimit, order, orderBy); // Reset to page 1 when changing rows per page
   };
-
+//all useMemo
   const visibleRows = React.useMemo(() => {
     return transferDetails;
   }, [order, orderBy, pagination.page, pagination.limit, transferDetails]);
 
+  //all useEffect
+  useEffect(() => {
+    getTransferDetails();
+  }, [isList,order,pagination.page,
+    pagination.limit,]);
   return (
     <>
-      {" "}
-      <Box sx={{ width: "100%", marginTop: "30px" }}>
+      
+      {isLoading?<Loader/>:<Box sx={{ width: "100%", marginTop: "30px" }}>
         <Paper sx={{ width: "100%", mb: 2 }}>
           <TableContainer sx={{ borderRadius: "3px" }}>
             <Table>
@@ -236,7 +193,7 @@ function TransferCredit({ userId,isList }) {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Paper>
-      </Box>
+      </Box>}
     </>
   );
 }

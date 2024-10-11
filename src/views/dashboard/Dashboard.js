@@ -11,10 +11,7 @@ import commonFunc from "../../utils/common";
 import PageContainer from 'src/components/container/PageContainer';
 
 const Dashboard = () => {
-  const data = [
-    { value: 55, label: "Middle School", color: "#5cb7fc", percentage: 20 },
-    { value: 45, label: "Elementary School", color: "#fecc6c", percentage: 40 },
-  ];
+
   const creditOptions = [
     { label: "Credits this Month", value: "MONTH" },
     { label: "Credits this Quarter", value: "QUARTER" },

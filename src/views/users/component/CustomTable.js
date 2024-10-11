@@ -54,16 +54,19 @@ function CustomTable({
   const [isExportDisabled, setIsExportDisabled] = React.useState(true);
 
   React.useEffect(() => {
-    const hasResults = listData.some((item) => 
-      (item.firstName && item.firstName.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (item.lastName && item.lastName.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (item.email && item.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (item.username && item.username.toLowerCase().includes(searchTerm.toLowerCase()))
+    const hasResults = listData.some(
+      (item) =>
+        (item.firstName &&
+          item.firstName.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (item.lastName &&
+          item.lastName.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (item.email &&
+          item.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (item.username &&
+          item.username.toLowerCase().includes(searchTerm.toLowerCase()))
     );
     setIsExportDisabled(!hasResults);
   }, [searchTerm, listData]);
-  
-  
 
   function EnhancedTableHead(props) {
     const { order, orderBy, onRequestSort } = props;
@@ -78,26 +81,36 @@ function CustomTable({
         <TableRow>
           {headers?.map((headCell) => (
             <TableCell
-              color="secondary"
               key={headCell.id}
+              color="secondary"
               align="left"
               sortDirection={orderBy === headCell.id ? order : false}
             >
-              <TableSortLabel
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : "asc"}
-                onClick={createSortHandler(headCell.id)}
-              >
-                <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
-                  {headCell.label}
-                </Typography>
+              {headCell.label == "Phone" ? (
+                <>
+                  <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
+                    {headCell.label}
+                  </Typography>
+                </>
+              ) : (
+                <TableSortLabel
+                  active={orderBy === headCell.id}
+                  direction={orderBy === headCell.id ? order : "asc"}
+                  onClick={createSortHandler(headCell.id)}
+                >
+                  <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
+                    {headCell.label}
+                  </Typography>
 
-                {orderBy === headCell.id ? (
-                  <Box component="span" sx={visuallyHidden}>
-                    {order === "desc" ? "sorted descending" : "sorted ascending"}
-                  </Box>
-                ) : null}
-              </TableSortLabel>
+                  {orderBy === headCell.id ? (
+                    <Box component="span" sx={visuallyHidden}>
+                      {order === "desc"
+                        ? "sorted descending"
+                        : "sorted ascending"}
+                    </Box>
+                  ) : null}
+                </TableSortLabel>
+              )}
             </TableCell>
           ))}
         </TableRow>
@@ -107,8 +120,8 @@ function CustomTable({
 
   function EnhancedTableToolbar() {
     const [isDisabled, setIsDisabled] = React.useState(false);
-    
-  const [isLoading, setIsLoading] = React.useState(false);
+
+    const [isLoading, setIsLoading] = React.useState(false);
     const downLoadSampleCSVFile = async () => {
       setIsDisabled(true);
       setIsLoading(true);
@@ -127,78 +140,78 @@ function CustomTable({
     };
 
     return (
-
       <>
-      {isLoading? <Loader/>:
-      <Toolbar>
-      {Title && (
-        <Typography sx={{ flex: "1 1 100%" }} variant="tableTitle">
-          {Title}
-        </Typography>
-      )}
-      {children}
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <Toolbar>
+            {Title && (
+              <Typography sx={{ flex: "1 1 100%" }} variant="tableTitle">
+                {Title}
+              </Typography>
+            )}
+            {children}
 
-      <Box
-        sx={{
-          display: "flex",
-          width: "100%",
-          gap: "5px",
-          justifyContent: "end",
-        }}
-      >
-        {role === "Student" && (
-          <Tooltip title="Student Bulk Upload">
-            <Button
-              color="success"
-              variant="contained"
-              size="large"
-              type="submit"
-              onClick={() => AddSvg()}
+            <Box
+              sx={{
+                display: "flex",
+                width: "100%",
+                gap: "5px",
+                justifyContent: "end",
+              }}
             >
-              <Typography
-                sx={{ flex: "1 1 100%", fontSize: "18px" }}
-                variant="h6"
-              >
-                Student Bulk Upload
-              </Typography>
-            </Button>
-          </Tooltip>
+              {role === "Student" && (
+                <Tooltip title="Student Bulk Upload">
+                  <Button
+                    color="success"
+                    variant="contained"
+                    size="large"
+                    type="submit"
+                    onClick={() => AddSvg()}
+                  >
+                    <Typography
+                      sx={{ flex: "1 1 100%", fontSize: "18px" }}
+                      variant="h6"
+                    >
+                      Student Bulk Upload
+                    </Typography>
+                  </Button>
+                </Tooltip>
+              )}
+              <Tooltip title={`Add ${role ? role : "User"}`}>
+                <Button
+                  color="info"
+                  variant="contained"
+                  size="large"
+                  type="submit"
+                  onClick={() => onAddClick()}
+                >
+                  <Typography sx={{ flex: "1 1 100%" }} variant="h6">
+                    Add {role ? role : "User"}
+                  </Typography>
+                </Button>
+              </Tooltip>
+              {role === "Student" && (
+                <Tooltip title="Download students details">
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    size="large"
+                    type="button"
+                    disabled={isExportDisabled || isDisabled} // Button disabled condition
+                    onClick={downLoadSampleCSVFile}
+                  >
+                    <Typography sx={{ flex: "1 1 100%" }} variant="h6">
+                      Export
+                    </Typography>
+                    <FileDownloadIcon />
+                  </Button>
+                </Tooltip>
+              )}
+            </Box>
+          </Toolbar>
         )}
-        <Tooltip title={`Add ${role ? role : "User"}`}>
-          <Button
-            color="info"
-            variant="contained"
-            size="large"
-            type="submit"
-            onClick={() => onAddClick()}
-          >
-            <Typography sx={{ flex: "1 1 100%" }} variant="h6">
-              Add {role ? role : "User"}
-            </Typography>
-          </Button>
-        </Tooltip>
-        {role === "Student" && (
-          <Tooltip title="Download students details">
-            <Button
-              color="primary"
-              variant="contained"
-              size="large"
-              type="button"
-              disabled={isExportDisabled || isDisabled} // Button disabled condition
-              onClick={downLoadSampleCSVFile}
-            >
-              <Typography sx={{ flex: "1 1 100%" }} variant="h6">
-                Export
-              </Typography>
-              <FileDownloadIcon />
-            </Button>
-          </Tooltip>
-        )}
-      </Box>
-    </Toolbar>
-      }
       </>
-      
     );
   }
 
@@ -259,50 +272,76 @@ function CustomTable({
                           borderBottom: "1px solid rgba(224, 224, 224, 1)",
                         }}
                       >
-                        <TableCell align="left" sx={{
-                         borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                        
-                       }}>
-                          <Typography variant="tableText">{row?.firstName}</Typography>
+                        <TableCell
+                          align="left"
+                          sx={{
+                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                          }}
+                        >
+                          <Typography variant="tableText">
+                            {row?.firstName}
+                          </Typography>
                         </TableCell>
-                        <TableCell align="left" sx={{
-                         borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                      
-                       }}>
-                          <Typography variant="tableText">{row?.lastName}</Typography>
+                        <TableCell
+                          align="left"
+                          sx={{
+                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                          }}
+                        >
+                          <Typography variant="tableText">
+                            {row?.lastName}
+                          </Typography>
                         </TableCell>
                         {role === "" && (
-                          <TableCell align="left" sx={{
-                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                            
-                          }}>
-                            <Typography variant="tableText">{row?.userRole}</Typography>
+                          <TableCell
+                            align="left"
+                            sx={{
+                              borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                            }}
+                          >
+                            <Typography variant="tableText">
+                              {row?.userRole}
+                            </Typography>
                           </TableCell>
                         )}
                         {role === "Instructor" && (
-                          <TableCell align="left" sx={{
-                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                           
-                          }}>
-                            <Typography variant="tableText">{row?.mobileNumber}</Typography>
+                          <TableCell
+                            align="left"
+                            sx={{
+                              borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                            }}
+                          >
+                            <Typography variant="tableText">
+                              {row?.mobileNumber}
+                            </Typography>
                           </TableCell>
                         )}
-                        <TableCell align="left" sx={{
-                         borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                       
-                       }}>
-                          <Typography variant="tableText">{row?.email}</Typography>
+                        <TableCell
+                          align="left"
+                          sx={{
+                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                          }}
+                        >
+                          <Typography variant="tableText">
+                            {row?.email}
+                          </Typography>
                         </TableCell>
-                        <TableCell align="left" sx={{
-                         borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                        
-                       }}>
-                          <Typography variant="tableText">{row?.username}</Typography>
+                        <TableCell
+                          align="left"
+                          sx={{
+                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                          }}
+                        >
+                          <Typography variant="tableText">
+                            {row?.username}
+                          </Typography>
                         </TableCell>
-                        <TableCell align="left" sx={{
-                         borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                        
-                       }}>
+                        <TableCell
+                          align="left"
+                          sx={{
+                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                          }}
+                        >
                           <Box display={"flex"} justifyContent={"flex-start"}>
                             <Box>
                               <Tooltip title={`Edit ${role ? role : "User"}`}>
@@ -315,28 +354,29 @@ function CustomTable({
                                 />
                               </Tooltip>
                             </Box>
-                            {role !== "Facilitator" && row?.userRole !== "Facilitator" && (
-                              <Box marginLeft={"10px"}>
-                                <Tooltip title={"Preview"}>
-                                  <NavLink
-                                    to={
-                                      role === "Student"
-                                        ? `/student-details/${row?._id}`
-                                        : row?.userRole === "Student"
-                                        ? `/student-details/${row?._id}`
-                                        : `/instructor-details/${row?._id}`
-                                    }
-                                    style={{
-                                      color: "inherit",
-                                      textDecoration: "none",
-                                    }}
-                                    state={{ userId: row?._id }}
-                                  >
-                                    <Visibility sx={{ cursor: "pointer" }} />
-                                  </NavLink>
-                                </Tooltip>
-                              </Box>
-                            )}
+                            {role !== "Facilitator" &&
+                              row?.userRole !== "Facilitator" && (
+                                <Box marginLeft={"10px"}>
+                                  <Tooltip title={"Preview"}>
+                                    <NavLink
+                                      to={
+                                        role === "Student"
+                                          ? `/student-details/${row?._id}`
+                                          : row?.userRole === "Student"
+                                          ? `/student-details/${row?._id}`
+                                          : `/instructor-details/${row?._id}`
+                                      }
+                                      style={{
+                                        color: "inherit",
+                                        textDecoration: "none",
+                                      }}
+                                      state={{ userId: row?._id }}
+                                    >
+                                      <Visibility sx={{ cursor: "pointer" }} />
+                                    </NavLink>
+                                  </Tooltip>
+                                </Box>
+                              )}
                           </Box>
                         </TableCell>
                       </TableRow>
