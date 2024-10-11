@@ -22,7 +22,15 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import CustomTextField from "../../components/forms/theme-elements/CustomTextField";
 import Loader from "../../components/Loader";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { bahrainGovernorates, bruneiDistricts, canadaProvinces, countries, mexicoStates, thailandProvinces, usStates } from "../../utils/Constant";
+import {
+  bahrainGovernorates,
+  bruneiDistricts,
+  canadaProvinces,
+  countries,
+  mexicoStates,
+  thailandProvinces,
+  usStates,
+} from "../../utils/Constant";
 import CustomSelect from "../../components/forms/theme-elements/CustomSelectField";
 
 const AddEditUser = ({
@@ -386,7 +394,7 @@ const AddEditUser = ({
               organization: "",
               mobileNumber: "",
               _postal_code: "",
-              country: "US"
+              country: "US",
             }}
             validationSchema={validationSchema}
             context={{ userId: formikRef?.current?.values?._id }}
@@ -419,6 +427,11 @@ const AddEditUser = ({
                               displayEmpty
                               disabled={role}
                               options={roleOptions}
+                              onChange={(e) => {
+                                if (e?.target.value !== "Instructor")
+                                  setIsInstructorEdit(false);
+                                handleChange(e);
+                              }}
                               error={
                                 touched.userRole && Boolean(errors.userRole)
                               }
@@ -565,8 +578,10 @@ const AddEditUser = ({
                                         navigator.clipboard.writeText(
                                           "daretogo"
                                         );
-                                        cancel()
-                                        showToast('Password copied to clipboard!')
+                                        cancel();
+                                        showToast(
+                                          "Password copied to clipboard!"
+                                        );
                                       }}
                                     >
                                       <ContentCopyIcon />
@@ -698,7 +713,7 @@ const AddEditUser = ({
                             component="label"
                             htmlFor="country"
                           >
-                            Country  <span style={{ color: "red" }}>*</span>
+                            Country <span style={{ color: "red" }}>*</span>
                           </Typography>
                           <Field
                             name="country"

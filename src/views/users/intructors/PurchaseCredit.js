@@ -13,7 +13,6 @@ import {
   TablePagination,
   TableSortLabel,
 } from "@mui/material";
-import axios from "axios";
 import { getData } from "../../../services/services";
 import Api from "../../../services/constant";
 import dayjs from "dayjs";
