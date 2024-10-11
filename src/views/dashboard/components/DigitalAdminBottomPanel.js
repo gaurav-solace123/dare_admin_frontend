@@ -17,6 +17,7 @@ import commonFunc from "../../../utils/common";
 import Api from "../../../services/constant";
 import dayjs from "dayjs";
 import { getData } from "../../../services/services";
+import Loader from "../../../components/Loader";
 
 function DigitalAdminBottomPanel() {
   const options = ["Year"];
@@ -34,6 +35,8 @@ function DigitalAdminBottomPanel() {
   };
   // const [open, setOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
+  
+  const [isLoading, setIsLoading] = useState(false);
   const [isChecked, setIsChecked] = useState(true);
   // const handleClose = () => setOpen(false);
   const handleChange = (event) => {
@@ -51,13 +54,19 @@ function DigitalAdminBottomPanel() {
       if (year) {
         searchQuery += `?year=${year}`;
       }
+      setIsLoading(true);
+
       const result = await getData(`${searchQuery}`);
       commonFunc.DownloadCSV(result, fileName);
       console.log("result", result);
     } catch (error) {}
+    finally {
+      setIsLoading(false);
+    }
   };
   return (
     <>
+    {isLoading? <Loader/>:
       <DashboardCard>
       <Grid container spacing={3}>
           <Grid
@@ -201,33 +210,7 @@ function DigitalAdminBottomPanel() {
         </Grid>
       </DashboardCard>
 
-      {/* <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={styleModel}>
-          <IconButton
-            aria-label="close"
-            onClick={handleClose}
-            sx={{
-              position: "absolute",
-              top: 8,
-              right: 8,
-              color: "#0055a4", 
-              "&:hover": {
-                color: "red", 
-              },
-            }}
-          >X
-          </IconButton>
-          <SelectYear
-            cancel={() => handleClose()}
-            
-          />
-        </Box>
-      </Modal> */}
+                }
     </>
   );
 }

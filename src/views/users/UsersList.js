@@ -161,7 +161,7 @@ export default function EnhancedTable({role=''}) {
     let filters = {
       page,
       rowsPerPage,
-      search: searchTerm,
+      search: debouncedSearchTerm,
       userRole,
       sortBy: orderBy,
       sortOrder: order,
@@ -202,16 +202,16 @@ export default function EnhancedTable({role=''}) {
   };
 
 
-  // useEffect(() => {
-  //   const handler = setTimeout(() => {
-  //     setDebouncedSearchTerm(searchTerm);
-  //   }, 500); // Adjust delay (500ms in this case) as needed
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 900); // Adjust delay (500ms in this case) as needed
 
-  //   // Cleanup function to clear the timeout if searchTerm changes within the delay
-  //   return () => {
-  //     clearTimeout(handler);
-  //   };
-  // }, [searchTerm]);
+    // Cleanup function to clear the timeout if searchTerm changes within the delay
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
   console.log('first', searchTerm)
   useEffect(() => {
     
@@ -225,8 +225,10 @@ export default function EnhancedTable({role=''}) {
     // };
     
     getListData();
-  }, [page, rowsPerPage, userRole,order,orderBy,searchTerm,role]);
+  }, [page, rowsPerPage, userRole,order,orderBy,debouncedSearchTerm,role]);
   return (
+    <>
+    {isLoading?<Loader/>:
     <PageContainer title={role?`${role} Management`:'Users'}>
       {
         <Box
@@ -425,5 +427,7 @@ export default function EnhancedTable({role=''}) {
       </Modal>
       <ToastComponent />
     </PageContainer>
+    }
+    </>
   );
 }

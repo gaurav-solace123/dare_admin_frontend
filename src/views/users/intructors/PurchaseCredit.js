@@ -41,7 +41,7 @@ function PurchaseCredit({ userId, isList }) {
    
     // setIsLoading(true);
     try {
-      const searchQuery = `?page=${page}&limit=${limit}&sortBy=${orderBy} &sortOrder=${order}`;
+      const searchQuery = `?page=${page}&limit=${limit}&sortBy=${orderBy}&sortOrder=${order}`;
 
       const result = await getData(
         `${Api?.purchaseCreditInstructor}/${userId}${searchQuery}`

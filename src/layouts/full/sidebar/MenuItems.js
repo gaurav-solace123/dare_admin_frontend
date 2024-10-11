@@ -49,7 +49,7 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: 'Facilator Management',
+    title: 'Facilitator Management',
     icon: IconUsers,
     href: '/facilator-management',
   },

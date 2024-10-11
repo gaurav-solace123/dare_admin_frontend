@@ -135,8 +135,11 @@ function InstructorReport() {
       if (debouncedSearchTerm) {
         searchQuery += `&search=${debouncedSearchTerm}`;
       }
+      setIsLoading(true);
 
       const result = await getData(`${Api.instructorReportExport}${searchQuery}`);
+      setIsLoading(false);
+
       commonFunc.DownloadCSV(result, "Instructor Report");
     } catch (error) {
       console.error(error);
@@ -146,7 +149,7 @@ function InstructorReport() {
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
-    }, 500); // Debounce delay
+    }, 900); // Debounce delay
 
     return () => {
       clearTimeout(handler);

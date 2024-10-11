@@ -29,7 +29,7 @@ function BonusCredit({ showToast, cancel, userId,handleChangeList,getAllCredits 
       .required("Credits are required")
       .min(
         Yup.ref("creditType") === "Purchase" ? 100 : 1, // Minimum 100 credits for Purchase, 1 otherwise
-        "Minimum credits required"
+        "Minimum 1 credit is required."
       )
       .test(
         "purchase-credit-min", 
@@ -178,7 +178,7 @@ function BonusCredit({ showToast, cancel, userId,handleChangeList,getAllCredits 
                     fullWidth
                     type="submit"
                     disabled={
-                      values.creditType === "CHECK" && values.credits < 100
+                    values.credits== ''
                     }
                   >
                     Submit

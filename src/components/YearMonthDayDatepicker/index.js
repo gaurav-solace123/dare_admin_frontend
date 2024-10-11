@@ -36,6 +36,7 @@ const UnifiedDatePicker = ({
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
     setFilter(newValue);
+    
     setSelectedDate(null)
   };
 
