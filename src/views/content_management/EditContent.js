@@ -134,58 +134,6 @@ const EditContent = () => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  // const fetchData = async () => {
-  //   setIsLoading(true);
-  //   const url =
-  //     "https://www.dareremote.org/parse/functions/fetchModuleDataForWorkbook";
-  //   const payload = {
-  //     workbookId,
-  //     _ApplicationId: "MLtfFvD42DtH5U5GFdkr0z1HslEJjwdcELFAeanV",
-  //     _JavaScriptKey: "K9Z2YZvG8zC22e66VsAEujnmQ66PaR7pf8WShhsN",
-  //     _ClientVersion: "js1.8.5",
-  //     _InstallationId: "b900596a-b0b3-8803-f835-b61a993fb5f3",
-  //     _SessionToken: "r:e2605c1874ffbca8af2bf60ea0180564",
-  //   };
-
-  //   try {
-  //     const response = await axios.post(url, payload, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-
-  //     const result = response.data;
-  //     setIsLoading(false);
-  //     if (result?.result) {
-  //       let tempData = result?.result?.moduleData?.lessons.map((item) => ({
-  //         id: item?.name,
-  //         lessonId: item?.objectId,
-  //         title: item?.name,
-  //       }));
-
-  //       const updatedTempDataArray = tempData?.map((tempData, tempIndex) => {
-  //         const filteredItems = result?.result?.moduleData?.modules
-  //           .filter((mod) => mod.lesson.objectId === tempData.lessonId) // Filter by lessonId
-  //           .map((mod) => ({
-  //             objectId: mod.objectId,
-  //             name: mod.name,
-  //           }));
-
-  //         return {
-  //           ...tempData,
-  //           items: filteredItems, // Replace items with filtered array of objectId and name
-  //         };
-  //       });
-
-  //       setLessonsData(updatedTempDataArray);
-  //       setModuleItems(result?.result?.moduleItems);
-  //       console.log("first", updatedTempDataArray);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching module data:", error);
-  //   }
-  // };
-
   const getCMSDetails = async () => {
 
     const searchQuery=`?workbookId=${workbookId}`

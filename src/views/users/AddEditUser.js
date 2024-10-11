@@ -222,6 +222,7 @@ const AddEditUser = ({
             "organization",
             "country",
             "city",
+            "state",
             "_postal_code",
             "street_1",
             "street_2",
