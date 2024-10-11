@@ -43,7 +43,8 @@ const Api = {
     workbookList:'/users/workbook-list',
 
     //cms
-    updateCMS:'/users/update/cms'
+    updateCMS:'/users/update/cms',
+    cmsDetails:'/users/cms-details',
 
 
 
