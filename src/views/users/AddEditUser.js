@@ -1,21 +1,16 @@
-import React, { useEffect, useId, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Typography,
   Grid,
   Button,
   Stack,
-  MenuItem,
   IconButton,
   InputAdornment,
-  InputLabel,
-  FormControl,
-  Select,
 } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import useCustomToast from "../../hooks/CustomToastHook";
-import { useLocation, useNavigate } from "react-router-dom";
 import { getData, patchData, postData } from "../../services/services";
 import Api from "../../services/constant";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -142,9 +137,6 @@ const AddEditUser = ({
   };
 
   const formikRef = useRef(null);
-  const navigate = useNavigate();
-  // const location= useLocation()
-  //  const [id] =useState(location?.state?.id??'')
   const roleOptions = [
     { value: "Facilitator", label: "Facilitator" },
     { value: "Student", label: "Student" },
@@ -482,30 +474,28 @@ const AddEditUser = ({
                           />
                         </Grid>
                         {!userId && (
-                          <>
-                            <Grid item xs={6} p={"7px"}>
-                              <Typography
-                                variant="subtitle1"
-                                fontWeight={600}
-                                component="label"
-                                htmlFor="username"
-                              >
-                                Username <span style={{ color: "red" }}>*</span>
-                              </Typography>
-                              <Field
-                                as={CustomTextField}
-                                id="username"
-                                name="username"
-                                variant="outlined"
-                                fullWidth
-                                isUsername
-                                error={
-                                  touched.username && Boolean(errors.username)
-                                }
-                                helperText={<ErrorMessage name="username" />}
-                              />
-                            </Grid>
-                          </>
+                          <Grid item xs={6} p={"7px"}>
+                            <Typography
+                              variant="subtitle1"
+                              fontWeight={600}
+                              component="label"
+                              htmlFor="username"
+                            >
+                              Username <span style={{ color: "red" }}>*</span>
+                            </Typography>
+                            <Field
+                              as={CustomTextField}
+                              id="username"
+                              name="username"
+                              variant="outlined"
+                              fullWidth
+                              isUsername
+                              error={
+                                touched.username && Boolean(errors.username)
+                              }
+                              helperText={<ErrorMessage name="username" />}
+                            />
+                          </Grid>
                         )}
                         {(!userId ||
                           (editRole !== "Instructor" &&

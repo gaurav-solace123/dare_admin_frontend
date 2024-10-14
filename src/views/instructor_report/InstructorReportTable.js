@@ -1,5 +1,4 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,52 +7,21 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import TableSortLabel from "@mui/material/TableSortLabel";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import Tooltip from "@mui/material/Tooltip";
-import { visuallyHidden } from "@mui/utils";
-// import { getData } from '../../services/services';
-// import Api from '../../services/constant';
-import EditIcon from "@mui/icons-material/Edit";
-import InputBase from "@mui/material/InputBase";
 
 function InstructorReportTable({
-  children,
-  role,
-  Title,
-  //   setRowsPerPage,
-  //   setPage,
   listData = [],
   tableFields,
-  setUserId,
-  AddSvg,
-    totalCount,
-  setTotalCountgetListData,
-  //   rowsPerPage,
-  //   page,
-  userRole,
-  searchTerm,
-  setUserRole,
-  setSearchTerm,
+  totalCount,
   page,
   setPage,
   rowsPerPage,
   setRowsPerPage,
-  //   orderBy,
-  //   getListData,
-  // order,
-  // setOrder,
-  // setOrderBy
 }) {
   const [row, setRow] = React.useState(listData ? listData : []);
   const [order, setOrder] = React.useState("desc");
   const [orderBy, setOrderBy] = React.useState("_created_at");
-
-  // const [searchTerm,setSearchTerm]=React.useState('')
-  // const [userRole,setUserRole]=React.useState('')
-  // const [listData, setListData] = React.useState([])
-  const [isLoading, setIsLoading] = React.useState(false);
 
   const headers = [
     { id: "instructorName", numeric: false, label: "Instructor Name" },
@@ -112,47 +80,31 @@ function InstructorReportTable({
     };
 
     return (
-      <TableHead style={{ backgroundColor: "#d9edf7", borderRadius: "0 0 10px 2" }}>
-      <TableRow >
-        {headers.map((headCell) => {
-          const words = headCell.label.split(" ");
-          const firstWord = words[0];
-          const remainingWords = words.slice(1).join(" ");
-    
-          return (
-            <TableCell
-              key={headCell.id}
-              align="center" 
-              sx={{ whiteSpace: "nowrap", padding:"20px" }}
-              sortDirection={orderBy === headCell.id ? order : false}
-            >        
-              {/* <TableSortLabel
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : "asc"}
-                onClick={createSortHandler(headCell.id)}
+      <TableHead
+        style={{ backgroundColor: "#d9edf7", borderRadius: "0 0 10px 2" }}
+      >
+        <TableRow>
+          {headers.map((headCell) => {
+            const words = headCell.label.split(" ");
+            const firstWord = words[0];
+            const remainingWords = words.slice(1).join(" ");
+
+            return (
+              <TableCell
+                key={headCell.id}
+                align="center"
+                sx={{ whiteSpace: "nowrap", padding: "20px" }}
+                sortDirection={orderBy === headCell.id ? order : false}
               >
                 <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
                   <div>{firstWord}</div>
-                  <div>{remainingWords}</div> 
+                  <div>{remainingWords}</div>
                 </Typography>
-    
-                {orderBy === headCell.id ? (
-                  <Box component="span" sx={visuallyHidden}>
-                    {order === "desc" ? "sorted descending" : "sorted ascending"}
-                  </Box>
-                ) : null}
-              </TableSortLabel> */}
-              <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
-                  <div>{firstWord}</div>
-                  <div>{remainingWords}</div> 
-                </Typography>
-            </TableCell>                                                                                                                                                                                           
-            
-          );
-        })}
-      </TableRow>
-    </TableHead>
-    
+              </TableCell>
+            );
+          })}
+        </TableRow>
+      </TableHead>
     );
   }
 
@@ -162,10 +114,6 @@ function InstructorReportTable({
     setOrderBy(property);
   };
 
-  // const handleChangePage = (event, newPage) => {
-
-  //   setPage(page + newPage);
-  // };
   const handleChangePage = (event, newPage) => {
     setPage(newPage + 1); // Adjust for 1-indexed page state
   };
@@ -175,10 +123,6 @@ function InstructorReportTable({
   };
   const visibleRows = React.useMemo(() => {
     return listData;
-    //   return stableSort(listData, getComparator(order, orderBy)).slice(
-    //   page  * rowsPerPage,
-    //   page * rowsPerPage + rowsPerPage,
-    // )
   }, [order, orderBy, page, rowsPerPage, row, listData]);
   React.useEffect(() => {
     setRow(listData);
@@ -197,44 +141,41 @@ function InstructorReportTable({
               <TableBody>
                 {visibleRows?.length === 0 ? (
                   <TableRow>
-                    <TableCell
-                      colSpan={9}
-                      align="center"
-                    >
+                    <TableCell colSpan={9} align="center">
                       No records found
                     </TableCell>
                   </TableRow>
-                ) :visibleRows.map((row) => (
-                  <TableRow
-                    key={row._id}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                    }}
-                  >
-                    {tableFields.map((field) => (
-                       <TableCell
-                       key={field}
-                       // sx={{}}
-                       align="left"
-                       sx={{
-                         borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                         whiteSpace: "nowrap",
-                         textAlign: "center"
-                       }}
-                     >
-                       <Typography
-                         sx={{ flex: "1 1 100%", textAlign: "center" }}
-                         variant="tableText"
-
-                       >
-                          { row?.[field]}
-
-                       </Typography>
-                     </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
+                ) : (
+                  visibleRows.map((row) => (
+                    <TableRow
+                      key={row._id}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                      }}
+                    >
+                      {tableFields.map((field) => (
+                        <TableCell
+                          key={field}
+                          // sx={{}}
+                          align="left"
+                          sx={{
+                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                            whiteSpace: "nowrap",
+                            textAlign: "center",
+                          }}
+                        >
+                          <Typography
+                            sx={{ flex: "1 1 100%", textAlign: "center" }}
+                            variant="tableText"
+                          >
+                            {row?.[field]}
+                          </Typography>
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
           </TableContainer>

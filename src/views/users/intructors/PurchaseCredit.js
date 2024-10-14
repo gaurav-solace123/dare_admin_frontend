@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import { getData } from "../../../services/services";
 import Api from "../../../services/constant";
-import dayjs from "dayjs";
 import Loader from "src/components/Loader";
 
 import { startCase } from "lodash";

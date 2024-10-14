@@ -24,7 +24,7 @@ export default function PieArcLabel({ data = [], size = sizes, sx }) {
         flexDirection={"column"}
       >
         <>
-          {data && data.every((item) => item.value === 0) ? (
+          {data.length>0 && data.every((item) => item.value === 0) ? (
             <>
               <Box
                 sx={{
@@ -66,13 +66,14 @@ export default function PieArcLabel({ data = [], size = sizes, sx }) {
               </Box>
               <Grid item xs={12} sm={12} md={12} lg={12}>
                 <Box alignItems={"center"}>
-                  {data?.length &&
+                  {data?.length>0 &&
                     data?.map((item) => (
                       <Box
                         display={"flex"}
                         alignItems={"center"}
                         gap={"12px"}
                         mb={1}
+                        key={item?.value}
                       >
                         <Box
                           height={"25px"}
@@ -114,13 +115,14 @@ export default function PieArcLabel({ data = [], size = sizes, sx }) {
 
               <Grid item xs={12} sm={12} md={12} lg={12}>
                 <Box alignItems={"center"}>
-                  {data?.length &&
+                  {data?.length>0 &&
                     data?.map((item) => (
                       <Box
                         display={"flex"}
                         alignItems={"center"}
                         gap={"12px"}
                         mb={1}
+                        key={item?.label}
                       >
                         <Box
                           height={"25px"}
