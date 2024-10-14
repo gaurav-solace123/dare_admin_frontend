@@ -26,25 +26,25 @@ function BonusCredit({ showToast, cancel, userId,handleChangeList,getAllCredits 
 
   const validationSchema = Yup.object().shape({
     credits: Yup.number()
-      .required("Credits are required")
-      .min(
-        Yup.ref("creditType") === "Purchase" ? 100 : 1, // Minimum 100 credits for Purchase, 1 otherwise
-        "Minimum 1 credit is required."
-      )
       .test(
-        "purchase-credit-min", 
-        "Minimum 100 credits required for Purchase Credit.", 
+        "purchase-credit-min",
+        "Minimum 100 credits required for Purchase Credit.",
         function (value) {
-          // Using this.options.context to access the creditType field's value
-          const creditType = this.parent.creditType; 
-          if (creditType === "CHECK" && value) {
-            return value >= 100; // Check if the value is at least 100 for Purchase Credit
+          const creditType = this.parent.creditType;
+          // Validate CHECK type with minimum 100 credits
+          if (creditType === "CHECK" && value !== undefined) {
+            return value >= 100; // If CHECK, the credits should be 100 or more
           }
-          return true; // No error if creditType is not 'Purchase'
+          return true; // No error for other credit types
         }
+      )
+      .min(
+        1, // Minimum 1 credit for non-CHECK credit types
+        "Minimum 1 credit is required."
       ),
     creditType: Yup.string().required("Please select a credit type"),
   });
+  
   
   const onSubmit = async (values, { setSubmitting }) => {
     const totalCost = values.credits * costPerCredit;
