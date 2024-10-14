@@ -51,6 +51,14 @@ const EditContent = () => {
   const [moduleItems, setModuleItems] = useState([]);
   const [workbookId, setWorkbookId] = useState("wGmQH6ECYV");
 
+ 
+  // State for editor content
+  const [editorState, setEditorState] = useState(
+    EditorState.createWithContent(ContentState.createFromText(initialContent))
+  );
+  const [currentLessonIndex, setCurrentLessonIndex] = useState(0);
+  const [rootLessonIndex, setRootLessonIndex] = useState(0);
+
   const onChangeWorkbook = (event) => {
     setWorkbookId(event.target.value);
     setCurrentLessonDetails({
@@ -70,12 +78,6 @@ const EditContent = () => {
     });
   };
 
-  // State for editor content
-  const [editorState, setEditorState] = useState(
-    EditorState.createWithContent(ContentState.createFromText(initialContent))
-  );
-  const [currentLessonIndex, setCurrentLessonIndex] = useState(0);
-  const [rootLessonIndex, setRootLessonIndex] = useState(0);
   const handleChangeEditorState = (tempContent) => {
     const htmlContent = commonFunc.generateHTMLContent(tempContent);
 
@@ -216,6 +218,8 @@ const EditContent = () => {
       setCurrentLessonIndex(prevRootLesson.items.length - 1);
 
       handleChangeLessons(lastSubtitle, prevRootLesson.title);
+      
+      setExpanded(false)
     }
   };
 
@@ -233,7 +237,8 @@ const EditContent = () => {
       setCurrentLessonsSubtitles(nextLesson.items);
       handleChangeLessons(nextLesson.items[0], nextLesson.title);
     }
-    getCMSDetails()
+    // getCMSDetails()
+    setExpanded(false)
   };
   const updateContent = async (savedDetails) => {
     try {
@@ -301,11 +306,11 @@ const EditContent = () => {
                 lessonsData.map((lesson, lessonIndex) => (
                   <Accordion
                     key={lesson.id}
-                    expanded={expanded === lesson.id}
+                    expanded={expanded === lesson.id||lesson?.id==currentLessonDetails?.lessonName}
                     onChange={handleChange(lesson.id)}
                   >
                     <AccordionSummary
-                      expandIcon={expanded === lesson.id ? "-" : "+"}
+                      expandIcon={expanded === lesson.id ||lesson?.id==currentLessonDetails?.lessonName? "-" : "+"}
                       aria-controls={`${lesson.id}-content`}
                       id={`${lesson.id}-header`}
                     >
