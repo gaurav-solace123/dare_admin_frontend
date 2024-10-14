@@ -1,30 +1,20 @@
 import React, { lazy, useEffect, useState } from "react";
-import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 // import Table from '@mui/material/Table';
-
 import {
-  Badge,
-  Button,
-  Grid,
   IconButton,
-  InputBase,
   Modal,
   Typography,
 } from "@mui/material";
-import { IconBellRinging } from "@tabler/icons-react";
-import Table from "./component/CustomTable";
 // import CustomTable from './component/CustomTable';
 // import AddEditUser from './AddEditUser';
 // const Login = Loadable(lazy(() => import('../views/authentication/Login')));
-import { borderRadius, height } from "@mui/system";
 import Loadable from "../../layouts/full/shared/loadable/Loadable";
 import StudentBulkUpload from "./component/StudentBulkUpload";
 import { getData } from "../../services/services";
 import Api from "../../services/constant";
 import Loader from "../../components/Loader";
 import useCustomToast from "../../hooks/CustomToastHook";
-import Config from "src/config/config.json";
 import Filter from "./component/Filter";
 // import DownloadForOfflineSharpIcon from '@mui/icons-material/DownloadForOfflineSharp';
 
@@ -38,32 +28,6 @@ function descendingComparator(a, b, orderBy) {
   return 0;
 }
 
-function getComparator(order, orderBy) {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
-// const headCells = [
-//   { id: "firstName", numeric: false, label: "First Name" },
-//   { id: "lastName", numeric: false, label: "Last Name" },
-//   // { id: "userRole", numeric: true, label: "Role" },
-//   { id: "mobileNumber", numeric: true, label: "Phone" },
-//   { id: "email", numeric: true, label: "Email" },
-//   { id: "username", numeric: true, label: "Username" },
-
-//   { id: "actions", numeric: true, label: "Actions" },
-// ];
 
 export default function EnhancedTable({role=''}) {
   const baseHeadCells = [
@@ -340,15 +304,6 @@ export default function EnhancedTable({role=''}) {
           />
         </Box>
       </Modal>
-      {/* <CustomModal open={open} handleClose={handleClose}>
-        <AddEditUser
-          cancel={handleClose}
-          userId={userId}
-          getListData={getListData}
-          showToast={showToast}
-          role={role}
-        />
-      </CustomModal> */}
       <Modal
         open={openSvgForm}
         onClose={handleSvgClose}
@@ -384,34 +339,7 @@ export default function EnhancedTable({role=''}) {
             showToast={showToast}
             getListData={getListData}
           />
-          {/* <Grid container spacing={2} justifyContent="center">
-            <Grid container item xs={12} spacing={2} mt={2} mx={"auto"}>
-              <Grid item xs={6} p={"7px"}>
-                <Button
-                  color="primary"
-                  variant="contained"
-                  size="large"
-                  fullWidth
-                  type="submit"
-                  // disabled={isSubmitting}
-                >
-                  Student Bulk Upload
-                </Button>
-              </Grid>
-              <Grid item xs={6} p={"7px"}>
-                <Button
-                  color="secondary"
-                  variant="outlined"
-                  size="large"
-                  fullWidth
-                  type="button"
-                  onClick={handleSvgClose}
-                >
-                  Cancel
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid> */}
+         
         </Box>
       </Modal>
       <ToastComponent />

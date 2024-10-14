@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   Avatar,
   Box, 
@@ -11,7 +11,7 @@ import {
   ListItemText
 } from '@mui/material';
 
-import { IconListCheck, IconMail, IconUser } from '@tabler/icons-react';
+import { IconUser } from '@tabler/icons-react';
 import ProfileImg from 'src/assets/images/profile/user-1.jpg';
 import SweetAlertComponent from '../../../components/sweetAlert/SweetAlertComponent';
 

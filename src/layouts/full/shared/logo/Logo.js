@@ -1,9 +1,6 @@
 import { Link } from "react-router-dom";
-import { ReactComponent as LogoDark1 } from "src/assets/images/logos/dark1-logo.svg";
 import dareLogo from "src/assets/images/dareLogo.png";
-
 import { styled } from "@mui/material";
-
 const LinkStyled = styled(Link)(() => ({
   height: "70px",
   width: "180px",
@@ -19,12 +16,10 @@ const Logo = () => {
       style={{
         display: "flex",
         alignItems: "center",
-        justifyContent:'center'
+        justifyContent: "center",
       }}
     >
-      {/* <LogoDark1 /> */}
-    <img src={dareLogo} alt="data"/>
-      {/* <dareLogo /> */}
+      <img src={dareLogo} alt="data" />
     </LinkStyled>
   );
 };

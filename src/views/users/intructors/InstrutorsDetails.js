@@ -19,7 +19,7 @@ import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 import React, { useEffect, useState } from "react";
 import PurchaseCredit from "./PurchaseCredit";
 import TransferCredit from "./TransferCredit";
-import { useLocation, useNavigate, useParams } from "react-router";
+import {  useNavigate, useParams } from "react-router";
 import { head, upperFirst } from "lodash";
 import { getData } from "../../../services/services";
 import Api from "../../../services/constant";
@@ -29,32 +29,10 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 function InstructorPreview() {
   //all constants
-  // const location = useLocation();
   const navigate = useNavigate()
   const { showToast, ToastComponent } = useCustomToast();
   const { id } = useParams()
-  // const userId = location?.state?.userId;
   const userId = id;
-  const sessionData = [
-    {
-      sessionName: "Judy Room",
-      sessionCode: "F042J",
-      workbook: "Elementary English",
-      instructor: "Instructor Dashboard",
-    },
-    {
-      sessionName: "BT 220",
-      sessionCode: "5ZLY9",
-      workbook: "Elementary English",
-      instructor: "Instructor Dashboard",
-    },
-    {
-      sessionName: "Homeschool AE",
-      sessionCode: "285U0",
-      workbook: "Elementary English",
-      instructor: "Instructor Dashboard",
-    },
-  ];
   const styleModel = {
     position: "absolute",
     top: "50%",
@@ -75,41 +53,6 @@ function InstructorPreview() {
     { id: "instructor", numeric: false, label: "Instructor" },
     { id: "action", numeric: false, label: "Instructor Action" },
   ];
-  const mockInstructorDetails = {
-    status: 200,
-    data: {
-      userDetails: [
-        {
-          _id: "uSapZTb0YW",
-          userRole: "Instructor",
-          firstName: "Jennifer",
-          lastName: "Smith",
-          username: "smithjenni",
-          email: "jenismith@yopmail.com",
-          accountApproved: false,
-          isIntialized: false,
-          street_1: "1228 Ratone Street",
-          street_2: "Noida",
-          city: "Manhattan",
-          state: "KS",
-          country: "US",
-          _postal_code: "66502",
-          mobileNumber: "6623887013",
-          isArchive: false,
-          organization: "New",
-          _created_at: "2024-09-21T08:12:24.986Z",
-          _updated_at: "2024-09-21T08:12:24.990Z",
-          __v: 0,
-        },
-      ],
-      totalCredits: 50,
-      availableCredits: 30,
-      assignedCredits: 20,
-      usedCredits: 15,
-    },
-    success: true,
-    error: false,
-  };
   //all states
   const [activeTab, setActiveTab] = useState("purchase_credit"); // Default to 'day' tab
   const [isLoading, setIsLoading] = useState(false);
@@ -117,10 +60,6 @@ function InstructorPreview() {
   const [allCredits, setAllCredits] = useState("");
   const [isList, setIsList] = useState(false);
   const [open, setOpen] = React.useState(false);
-
-  const [specificStudentSessionList, setSpecificStudentSessionList] = useState(
-    []
-  );
 
   //all functions
   const handleChangeList = () => {
@@ -131,7 +70,6 @@ function InstructorPreview() {
     try {
       setIsLoading(true);
       const result = await getData(`${Api?.viewUser}/${userId}`);
-      // const result=mockInstructorDetails
       if (result?.success) {
         const response = result?.data
         response.usedCredits = result?.data?.usedCredits;
@@ -150,11 +88,9 @@ function InstructorPreview() {
   };
 
   const getAllCredits = async () => {
-    
     try {
       setIsLoading(true);
       const result = await getData(`${Api?.instructorDetails}/${userId}`);
-      // const result=mockInstructorDetails
       if (result?.success) {
         let response ={}
         response.usedCredits = result?.data?.usedCredits;
@@ -341,7 +277,6 @@ function InstructorPreview() {
           <Grid item xs={12} sm={12} md={8} lg={8}>
             <Card sx={{ height: "100%", padding: "8px" }}>
               <CardContent>
-                {/* Box for Credit Sections */}
                 <Box
                   display="flex"
                   flexDirection="row" // Set flex direction to row
@@ -349,7 +284,6 @@ function InstructorPreview() {
                   justifyContent="space-between" // Ensures even spacing between elements
                   flexWrap="nowrap" // Prevents the items from wrapping into a new line
                 >
-                  {/* Total Credits Section */}
                   <Box
                     display="flex"
                     flexDirection="column"
@@ -548,7 +482,6 @@ function InstructorPreview() {
           <Box mx="20px">
             <TransferCredit
               userId={userId}
-              listData={sessionData}
               tableFields={tableFields}
               headers={headers}
               isList={isList}

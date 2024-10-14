@@ -22,33 +22,13 @@ const VisuallyHiddenInput = styled("input")({
 
 function AddSvgForm({
   showToast,
-  error,
-  isEdit,
-  image,
-  isMobile,
   handleSvgClose,
   getListData,
 }) {
-  const baseStyle = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: "20px",
-    borderWidth: 2,
-    borderRadius: 10,
-    height: isMobile ? "100%" : "300px",
-    width: isMobile ? "50vw" : "auto",
-    borderColor: error ? "#ff1744" : "#eeeeee",
-    borderStyle: "dashed",
-    backgroundColor: "#224957",
-    color: error ? "#ff1744" : "#bdbdbd",
-    transition: "border .3s ease-in-out",
-    justifyContent: "center",
-  };
+ 
 
   const [selectedFiles, setSelectedFiles] = useState(null);
 
-  const [isLoading, setIsLoading] = React.useState(false);
   const onFileSelect = (event) => {
     setSelectedFiles(event.target.files); // Store selected files when user selects them
   };
@@ -58,7 +38,6 @@ function AddSvgForm({
     Array.from(selectedFiles).forEach((file) => {
       formData.append("file", file); // 'files' is the key expected by the backend
     });
-    // return
     try {
       const result = await postData(Api.bulkUplaod, formData, {
         headers: {

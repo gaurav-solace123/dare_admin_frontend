@@ -9,14 +9,11 @@ import { Input } from "@mui/material";
 function Filter({
   TitleForDropDown,
   dropDownData,
-  dropDownValue,
   handleChangeDropDown,
   userRole,
   role,
-  handleChangeSearch,
   setSearchTerm,
   searchTerm,
-  getListData,
   handleSearchTermChange, // New prop
 }) {
   const [search, setSearch] = useState(searchTerm);

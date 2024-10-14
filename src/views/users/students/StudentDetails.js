@@ -12,7 +12,7 @@ import {
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import SessionReassignMentTable from "./SessionReassignement";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Api from "../../../services/constant";
 import { getData } from "../../../services/services";
 import { head, upperFirst } from "lodash";
@@ -23,12 +23,26 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 function StudentDetails() {
   //all constant
-  const location = useLocation();
-  const navigate = useNavigate()
-  const { id } = useParams()
+  const navigate = useNavigate();
+  const { id } = useParams();
   const userId = id;
-  // const userId = location?.state?.userId;
   const { showToast, ToastComponent } = useCustomToast();
+  const tableFields = [
+    "sessionName",
+    "sessionCode",
+    "status",
+    "workbook",
+    "instructor",
+  ];
+  const headers = [
+    { id: "sessionName", numeric: false, label: "Session Name" },
+    { id: "sessionCode", numeric: false, label: "Session Code" },
+    { id: "status", numeric: false, label: "Status" },
+    { id: "workbook", numeric: false, label: "Workbook" },
+    { id: "instructor", numeric: false, label: "Instructor" },
+    { id: "action", numeric: false, label: "Instructor Action" },
+  ];
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -43,71 +57,19 @@ function StudentDetails() {
     paddingBottom: 2,
     paddingTop: 4,
   };
-  const [open, setOpen] = useState(false);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  //   const sessionData = [
-  //     {
-  //       sessionName: "Judy Room",
-  //       sessionCode: "F042J",
-  //       workbook: "Elementary English",
-  //       instructor: "Instructor Dashboard",
-  //     },
-  //     {
-  //       sessionName: "BT 220",
-  //       sessionCode: "5ZLY9",
-  //       workbook: "Elementary English",
-  //       instructor: "Instructor Dashboard",
-  //     },
-  //     {
-  //       sessionName: "Homeschool AE",
-  //       sessionCode: "285U0",
-  //       workbook: "Elementary English",
-  //       instructor: "Instructor Dashboard",
-  //     },
-  //   ];
-  const tableFields = ["sessionName", "sessionCode","status", "workbook", "instructor"];
-  const headers = [
-    { id: "sessionName", numeric: false, label: "Session Name" },
-    { id: "sessionCode", numeric: false, label: "Session Code" },
-    { id: "status", numeric: false, label: "Status" },
-    { id: "workbook", numeric: false, label: "Workbook" },
-    { id: "instructor", numeric: false, label: "Instructor" },
-    { id: "action", numeric: false, label: "Instructor Action" },
-  ];
   //all states
+  const [open, setOpen] = useState(false);
   const [studentDetails, setStudentDetails] = useState("");
   const [specificStudentSessionList, setSpecificStudentSessionList] = useState(
     []
   );
   const [isLoading, setIsLoading] = useState(false);
-  const [sessionList, setSessionList] = useState([]);
 
   //all functions
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  const getSessionList = async () => {
-    try {
-      setIsLoading(true);
-      const result = await getData(Api?.sessionList);
-
-      if (result?.success) {
-        const response = result?.data?.sessions;
-        // setStudentDetails(response);
-        const updatedResponse = response.map((item) => ({
-          label: `${item.activationCode}`,
-          value: item?._id,
-        }));
-        setSessionList(updatedResponse);
-        setIsLoading(false);
-      } else {
-        setIsLoading(false);
-      }
-    } catch (error) {
-      setIsLoading(false);
-      console.error(error);
-    }
-  };
   const viewData = async () => {
     try {
       setIsLoading(true);
@@ -128,89 +90,11 @@ function StudentDetails() {
 
   const getSingleStudentSessionList = async () => {
     try {
-      // 
+      //
       setIsLoading(true);
       const result = await getData(
         `${Api?.studentSessionReassign}?userId=${userId}`
       );
-      // const result = {
-      //   status: 200,
-      //   message: "Successfully retrieved user credit purchase details",
-      //   data: [
-      //     {
-      //       WorkbookSessionDetails: {
-      //         _id: "4QrQMRlJzw",
-      //         name: "Whitney",
-      //         activationCode: "ljdfu",
-      //       },
-      //       InstructorDetails: {
-      //         _id: "mO5cXhWDB3",
-      //         firstName: "David",
-      //         lastName: "Tetreau",
-      //         username: "dtetreau",
-      //       },
-      //       StudentDetails: {
-      //         _id: "8vAxZsbWzk",
-      //         username: "student",
-      //         firstName: "Student",
-      //         lastName: "Demo",
-      //         email: "student@daremobile.com",
-      //       },
-      //       WorkbookDetails: {
-      //         _id: "wGmQH6ECYV",
-      //         name: "Elementary English",
-      //       },
-      //     },
-      //     {
-      //       WorkbookSessionDetails: {
-      //         name: "Pico Rivera, Magee, Mrs. Smith",
-      //         activationCode: "suok6",
-      //       },
-      //       InstructorDetails: {
-      //         _id: "v7bRqpvg78",
-      //         username: "instructor",
-      //         firstName: "John",
-      //         lastName: "Salas",
-      //       },
-      //       StudentDetails: {
-      //         _id: "8vAxZsbWzk",
-      //         username: "student",
-      //         firstName: "Student",
-      //         lastName: "Demo",
-      //         email: "student@daremobile.com",
-      //       },
-      //       WorkbookDetails: {
-      //         _id: "XiqoxdFOKX",
-      //         name: "Elementary Spanish",
-      //       },
-      //     },
-      //     {
-      //       WorkbookSessionDetails: {
-      //         name: "Fundraising grade 5-6",
-      //         activationCode: "zz9wh",
-      //       },
-      //       InstructorDetails: {
-      //         _id: "tVgBUEfX1U",
-      //         firstName: "Liam",
-      //         lastName: "Raredon",
-      //         username: "mail92",
-      //       },
-      //       StudentDetails: {
-      //         _id: "8vAxZsbWzk",
-      //         username: "student",
-      //         firstName: "Student",
-      //         lastName: "Demo",
-      //         email: "student@daremobile.com",
-      //       },
-      //       WorkbookDetails: {
-      //         _id: "wGmQH7ECYV",
-      //         name: "Middle School English",
-      //       },
-      //     },
-      //   ],
-      //   success: true,
-      //   error: false,
-      // };
 
       if (result?.success) {
         const response = result?.data;
@@ -219,7 +103,9 @@ function StudentDetails() {
             sessionName: item?.WorkbookSessionDetails?.name,
             workbookSessionId: item?.WorkbookSessionDetails?._id,
             sessionCode: item?.WorkbookSessionDetails?.activationCode,
-            status: item?.WorkbookSessionDetails?.isArchive?'Inactive':"Active",
+            status: item?.WorkbookSessionDetails?.isArchive
+              ? "Inactive"
+              : "Active",
             workbook: item?.WorkbookDetails?.name,
             instructor: `${item?.InstructorDetails?.firstName} ${item?.InstructorDetails?.lastName}`,
           }));
@@ -235,6 +121,7 @@ function StudentDetails() {
     }
   };
 
+  //all useEffect
   useEffect(() => {
     viewData();
     getSingleStudentSessionList();
@@ -295,9 +182,6 @@ function StudentDetails() {
             </Box>
             <Grid container mt={1} spacing={1}>
               <Grid item xs={12} sm={12} md={12} lg={12}>
-                {/* <Typography variant="h6" component="h6" mb={2}>
-						Student Details
-					</Typography> */}
                 <Card>
                   <CardContent>
                     <Box display="flex" gap="15px">

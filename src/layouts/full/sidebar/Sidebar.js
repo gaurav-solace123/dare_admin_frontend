@@ -1,9 +1,7 @@
-import { useMediaQuery, Box, Drawer, Typography } from '@mui/material';
+import { useMediaQuery, Box, Drawer } from '@mui/material';
 import SidebarItems from './SidebarItems';
-import { Upgrade } from './Updrade';
 import { Sidebar, Logo } from 'react-mui-sidebar';
 import logo from '../../../assets/images/dareLogo.png'
-import { margin, width } from '@mui/system';
 
 const MSidebar = (props) => {
 

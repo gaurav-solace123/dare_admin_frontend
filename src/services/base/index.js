@@ -1,9 +1,5 @@
 import axios from "axios";
-// Importing config from a JSON file
 import config from "../../config/config.json";
-// import { getSession } from "next-auth/react";
-// import useSession from "@/src/hooks/useSession";
-// import Cookies from "js-cookie";
 import commonFunc from "../../utils/common";
 
 const serviceConfig = {
@@ -11,7 +7,6 @@ const serviceConfig = {
 };
 
 const getServiceInstance = (baseURL) => {
-  // If not in mock mode, create a regular Axios instance
   const serviceInstance = axios.create({
     ...serviceConfig,
     ...{

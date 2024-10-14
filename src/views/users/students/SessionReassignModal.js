@@ -1,4 +1,4 @@
-import { Box, Button, Grid, IconButton, Modal, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React, { useEffect } from "react";
 import { useState } from "react";
@@ -80,14 +80,7 @@ function NewSessionAssignModal({  cancel,userId,getSingleStudentSessionList,show
       </Typography>
 
       <Formik
-        initialValues={{
-          firstName: "",
-        }}
-        // validationSchema={validationSchema}
-        // onSubmit={onSubmit}
-        // innerRef={formikRef}
       >
-        {({ touched, errors, isSubmitting, values, handleChange }) => (
           <Form>
             <Grid item xs={12} p={"7px"} mb={"20px"} mt='10px'>
               <Typography
@@ -96,8 +89,7 @@ function NewSessionAssignModal({  cancel,userId,getSingleStudentSessionList,show
                 component="label"
                 htmlFor="userRole"
               >
-                Select session to assign with
-                <span style={{ color: "red" }}>*</span>
+                Select session to assign with<span style={{ color: "red" }}>*</span>
               </Typography>
 
               <Field
@@ -142,7 +134,6 @@ function NewSessionAssignModal({  cancel,userId,getSingleStudentSessionList,show
               </Grid>
             </Grid>
           </Form>
-        )}
       </Formik>
     </>
   );

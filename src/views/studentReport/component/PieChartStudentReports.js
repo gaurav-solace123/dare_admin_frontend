@@ -15,7 +15,6 @@ export default function PieChartStudentReports({
 	size = sizes,
 	sx,
 }) {
-	const [datas, setDatas] = React.useState([]);
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // For small screens
 

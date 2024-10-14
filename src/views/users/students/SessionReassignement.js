@@ -1,4 +1,3 @@
-import { styled } from "@mui/material/styles";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -6,7 +5,6 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Typography from "@mui/material/Typography";
@@ -15,16 +13,12 @@ import Tooltip from "@mui/material/Tooltip";
 import { visuallyHidden } from "@mui/utils";
 // import { getData } from '../../services/services';
 // import Api from '../../services/constant';
-import EditIcon from "@mui/icons-material/Edit";
-import InputBase from "@mui/material/InputBase";
-import { Modal, TextField, Button, IconButton, Grid } from "@mui/material";
+import { Modal, Button, IconButton, Grid } from "@mui/material";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import CustomSelect from "../../../components/forms/theme-elements/CustomSelectField";
 import ReactSelect from "../../../components/forms/theme-elements/ReactSelect";
-import { getData, patchData, postData } from "../../../services/services";
+import { getData, patchData } from "../../../services/services";
 import Api from "../../../services/constant";
 import { useState } from "react";
-import useCustomToast from "../../../hooks/CustomToastHook";
 function SessionReassignMentTable({
   children,
   role,
@@ -66,11 +60,7 @@ function SessionReassignMentTable({
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  // const [searchTerm,setSearchTerm]=useState('')
-  // const [userRole,setUserRole]=useState('')
-  // const [listData, setListData] = useState([])
   const [isLoading, setIsLoading] = useState(false);
-  const [totalCount, setTotalCount] = useState("");
   const sessionData = [
     {
       sessionCode: "F042J",
@@ -218,23 +208,9 @@ function SessionReassignMentTable({
     setOrderBy(property);
   };
 
-  // const handleChangePage = (event, newPage) => {
-
-  //   setPage(page + newPage);
-  // };
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage + 1); // Adjust for 1-indexed page state
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(page);
-  };
+  
   const visibleRows = React.useMemo(() => {
     return listData;
-    //   return stableSort(listData, getComparator(order, orderBy)).slice(
-    //   page  * rowsPerPage,
-    //   page * rowsPerPage + rowsPerPage,
-    // )
   }, [order, orderBy, page, rowsPerPage, row, listData]);
   React.useEffect(() => {
     setRow(listData);

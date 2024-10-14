@@ -22,13 +22,6 @@ const Menuitems = [
     icon: IconUserPlus,
     href: '/users',
   },
-  
-  // {
-  //   id: uniqueId(),
-  //   title: 'Middle Student Report',
-  //   icon: IconUserPlus,
-  //   href: '/middleStudentReport',
-  // },
 
   {
     navlabel: true,

@@ -14,11 +14,10 @@ import {
 } from "@mui/material";
 import { getData } from "../../../services/services";
 import Api from "../../../services/constant";
-import dayjs from "dayjs";
 import Loader from "../../../components/Loader";
 import commonFunc from "../../../utils/common";
 
-function TransferCredit({ userId,isList }) {
+function TransferCredit({ userId, isList }) {
   //all states
   const [transferDetails, setTransferDetails] = useState([]);
   const [pagination, setPagination] = useState({
@@ -31,23 +30,20 @@ function TransferCredit({ userId,isList }) {
   const [orderBy, setOrderBy] = useState("creditTransfers._created_at");
   const [isLoading, setIsLoading] = useState(false);
 
-  const getTransferDetails = async (
-   
-  ) => {
+  const getTransferDetails = async () => {
     const { page, limit } = pagination;
-    const newPage=parseInt(page)
-    const newLimit=parseInt(limit)
+    const newPage = parseInt(page);
+    const newLimit = parseInt(limit);
     setIsLoading(true);
     try {
       const searchQuery = `?page=${newPage}&limit=${newLimit}&sortBy=creditTransfers._created_at&sortOrder=${order}`;
 
-        const result = await getData(
-          `${Api?.transferCreditInstructor}/${userId}${searchQuery}`);
-      // const result = mockTransferDetails;
+      const result = await getData(
+        `${Api?.transferCreditInstructor}/${userId}${searchQuery}`
+      );
       if (result?.success) {
         const response = result.data;
-        if(response.transfers[0]?.numCredits){
-
+        if (response.transfers[0]?.numCredits) {
           setTransferDetails(response.transfers);
           setPagination({
             page: response.transferPagination?.page,
@@ -64,13 +60,10 @@ function TransferCredit({ userId,isList }) {
     }
   };
 
- 
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-   
   };
 
   const handleChangePage = (event, newPage) => {
@@ -81,7 +74,7 @@ function TransferCredit({ userId,isList }) {
     const newLimit = parseInt(event.target.value, 10);
     setPagination({ ...pagination, limit: newLimit });
   };
-//all useMemo
+  //all useMemo
   const visibleRows = React.useMemo(() => {
     return transferDetails;
   }, [order, orderBy, pagination.page, pagination.limit, transferDetails]);
@@ -89,112 +82,108 @@ function TransferCredit({ userId,isList }) {
   //all useEffect
   useEffect(() => {
     getTransferDetails();
-  }, [isList,order,pagination.page,
-    pagination.limit,]);
+  }, [isList, order, pagination.page, pagination.limit]);
   return (
     <>
-      
-      {isLoading?<Loader/>:<Box sx={{ width: "100%", marginTop: "30px" }}>
-        <Paper sx={{ width: "100%", mb: 2 }}>
-          <TableContainer sx={{ borderRadius: "3px" }}>
-            <Table>
-              <TableHead
-                style={{
-                  backgroundColor: "#d9edf7",
-                  borderRadius: "0 0 10px 2",
-                }}
-              >
-                <TableRow>
-                  <TableCell align="center">
-                    <TableSortLabel
-                      active={orderBy === "_created_at"}
-                      direction={orderBy === "_created_at" ? order : "asc"}
-                      onClick={(event) => handleRequestSort(event, "_created_at")}
-                    >
-                      <Typography variant="tableHead">
-                        Transferred Date
-                      </Typography>
-                    </TableSortLabel>
-                  </TableCell>
-                  <TableCell align="center">
-                    {/* <TableSortLabel
-                      active={orderBy === "username"}
-                      direction={orderBy === "username" ? order : "asc"}
-                      onClick={(event) => handleRequestSort(event, "username")}
-                    > */}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Box sx={{ width: "100%", marginTop: "30px" }}>
+          <Paper sx={{ width: "100%", mb: 2 }}>
+            <TableContainer sx={{ borderRadius: "3px" }}>
+              <Table>
+                <TableHead
+                  style={{
+                    backgroundColor: "#d9edf7",
+                    borderRadius: "0 0 10px 2",
+                  }}
+                >
+                  <TableRow>
+                    <TableCell align="center">
+                      <TableSortLabel
+                        active={orderBy === "_created_at"}
+                        direction={orderBy === "_created_at" ? order : "asc"}
+                        onClick={(event) =>
+                          handleRequestSort(event, "_created_at")
+                        }
+                      >
+                        <Typography variant="tableHead">
+                          Transferred Date
+                        </Typography>
+                      </TableSortLabel>
+                    </TableCell>
+                    <TableCell align="center">
                       <Typography variant="tableHead">
                         Transferred to
                       </Typography>
-                    {/* </TableSortLabel> */}
-                  </TableCell>
-                  <TableCell align="center">
-                    {/* <TableSortLabel
-                      active={orderBy === "numCredits"}
-                      direction={orderBy === "numCredits" ? order : "asc"}
-                      onClick={(event) =>
-                        handleRequestSort(event, "numCredits")
-                      }
-                    > */}
+                    </TableCell>
+                    <TableCell align="center">
                       <Typography variant="tableHead">
                         #Credits Transferred
                       </Typography>
-                    {/* </TableSortLabel> */}
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-
-              <TableBody>
-                {visibleRows.map((detail, index) => (
-                  <TableRow key={index}>
-                    <TableCell
-                      align="center"
-                      sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
-                    >
-                      <Typography variant="tableText">
-                        {commonFunc.dateFormatWithLocale(detail?.createdAt)}
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
-                    >
-                      <Typography variant="tableText">
-                        {detail?.destinationUser?.username}
-                      </Typography>
-                    </TableCell>
-
-                    <TableCell
-                      align="center"
-                      sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
-                    >
-                      <Typography variant="tableText">
-                        {detail?.numCredits}
-                      </Typography>
                     </TableCell>
                   </TableRow>
-                ))}
+                </TableHead>
 
-                {visibleRows.length === 0 && (
-                  <TableRow>
-                    <TableCell colSpan={4} align="center">
-                      <Typography>No Transfer details available</Typography>
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 50]}
-            component="div"
-            count={pagination.totalDocuments}
-            rowsPerPage={pagination.limit}
-            page={pagination.page - 1}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Paper>
-      </Box>}
+                <TableBody>
+                  {visibleRows.map((detail) => (
+                    <TableRow key={detail?.createdAt}>
+                      <TableCell
+                        align="center"
+                        sx={{
+                          borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                        }}
+                      >
+                        <Typography variant="tableText">
+                          {commonFunc.dateFormatWithLocale(detail?.createdAt)}
+                        </Typography>
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        sx={{
+                          borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                        }}
+                      >
+                        <Typography variant="tableText">
+                          {detail?.destinationUser?.username}
+                        </Typography>
+                      </TableCell>
+
+                      <TableCell
+                        align="center"
+                        sx={{
+                          borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                        }}
+                      >
+                        <Typography variant="tableText">
+                          {detail?.numCredits}
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+
+                  {visibleRows.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={4} align="center">
+                        <Typography>No Transfer details available</Typography>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 50]}
+              component="div"
+              count={pagination.totalDocuments}
+              rowsPerPage={pagination.limit}
+              page={pagination.page - 1}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Paper>
+        </Box>
+      )}
     </>
   );
 }

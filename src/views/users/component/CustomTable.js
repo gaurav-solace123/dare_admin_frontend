@@ -13,11 +13,10 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Tooltip from "@mui/material/Tooltip";
 import { visuallyHidden } from "@mui/utils";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import Filter from "./Filter";
 import { Visibility } from "@mui/icons-material";
 import Api from "../../../services/constant";
 import { getData } from "src/services/services";
@@ -36,15 +35,11 @@ function CustomTable({
   setUserId,
   AddSvg,
   totalCount,
-  setTotalCountgetListData,
+  
   rowsPerPage,
   page,
-  userRole,
   searchTerm,
-  setUserRole,
-  setSearchTerm,
   orderBy,
-  getListData,
   order,
   setOrder,
   setOrderBy,
@@ -87,11 +82,11 @@ function CustomTable({
               sortDirection={orderBy === headCell.id ? order : false}
             >
               {headCell.label == "Phone" ? (
-                <>
+                
                   <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
                     {headCell.label}
                   </Typography>
-                </>
+                
               ) : (
                 <TableSortLabel
                   active={orderBy === headCell.id}

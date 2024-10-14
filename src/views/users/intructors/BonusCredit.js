@@ -16,7 +16,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 function BonusCredit({ showToast, cancel, userId,handleChangeList,getAllCredits }) {
-  const costPerCredit = 1.59;
   const [isLoading, setIsLoading] = useState(false);
 
   const initialValues = {
@@ -47,7 +46,6 @@ function BonusCredit({ showToast, cancel, userId,handleChangeList,getAllCredits 
   
   
   const onSubmit = async (values, { setSubmitting }) => {
-    const totalCost = values.credits * costPerCredit;
 
     const payload = {
       credits: parseInt(values.credits),

@@ -130,8 +130,8 @@ function PurchaseCredit({ userId, isList }) {
                 </TableHead>
 
                 <TableBody>
-                  {visibleRows.map((detail, index) => (
-                    <TableRow key={index}>
+                  {visibleRows.map((detail) => (
+                    <TableRow key={detail?.createdAt}>
                       <TableCell
                         align="center"
                         sx={{
