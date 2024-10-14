@@ -19,6 +19,8 @@ export default function PieChartStudentReports({
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // For small screens
 
+	const getIsMobile=()=>isMobile ? 250 : 450
+	const getIsMobile2=()=> isMobile ? 140 : 300
 	return (
 		<Box position={"relative"}>
 		<Grid
@@ -31,10 +33,10 @@ export default function PieChartStudentReports({
 				{data && data.every((item) => item.value === 0) ? (
 					<Box
 						sx={{
-							height: isMobile ? 250 : 250,
-							width: isMobile ? 250 : 250,
-							height: 450, 
-							width: 450,  
+							height: getIsMobile(),
+							width: getIsMobile(),
+							// height: 450, 
+							// width: 450,  
 							display: "flex",
 							justifyContent: "center",
 							alignItems: "center",
@@ -43,10 +45,10 @@ export default function PieChartStudentReports({
 					>
 						<Box
 							sx={{
-								height: isMobile ? 140 : 150,
-								width: isMobile ? 140 : 150,
-								height:300,
-								width:300,
+								height: getIsMobile2(),
+							width: getIsMobile2(),
+								// height:300,
+								// width:300,
 								borderRadius: "50%",
 								border: "1.5px solid #0055a4",
 								display: "flex",

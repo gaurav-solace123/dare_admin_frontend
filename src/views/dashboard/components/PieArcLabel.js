@@ -37,8 +37,8 @@ export default function PieArcLabel({ data = [], size = sizes, sx }) {
               >
                 <Box
                   sx={{
-                    height: isMobile ? 140 : 150,
-                    width: isMobile ? 140 : 150,
+                    // height: isMobile ? 140 : 150,
+                    // width: isMobile ? 140 : 150,
                     height: 300,
                     width: 300,
                     borderRadius: "50%",

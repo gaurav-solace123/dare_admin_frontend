@@ -16,6 +16,7 @@ import { getData } from "../../../services/services";
 import Api from "../../../services/constant";
 import dayjs from "dayjs";
 import Loader from "../../../components/Loader";
+import commonFunc from "../../../utils/common";
 
 function TransferCredit({ userId,isList }) {
   //all states
@@ -27,7 +28,7 @@ function TransferCredit({ userId,isList }) {
     totalDocuments: 0,
   });
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("createdAt");
+  const [orderBy, setOrderBy] = useState("creditTransfers._created_at");
   const [isLoading, setIsLoading] = useState(false);
 
   const getTransferDetails = async (
@@ -38,7 +39,7 @@ function TransferCredit({ userId,isList }) {
     const newLimit=parseInt(limit)
     setIsLoading(true);
     try {
-      const searchQuery = `?page=${newPage}&limit=${newLimit}&sortBy=${orderBy} &sortOrder=${order}`;
+      const searchQuery = `?page=${newPage}&limit=${newLimit}&sortBy=creditTransfers._created_at&sortOrder=${order}`;
 
         const result = await getData(
           `${Api?.transferCreditInstructor}/${userId}${searchQuery}`);
@@ -106,9 +107,9 @@ function TransferCredit({ userId,isList }) {
                 <TableRow>
                   <TableCell align="center">
                     <TableSortLabel
-                      active={orderBy === "createdAt"}
-                      direction={orderBy === "createdAt" ? order : "asc"}
-                      onClick={(event) => handleRequestSort(event, "createdAt")}
+                      active={orderBy === "_created_at"}
+                      direction={orderBy === "_created_at" ? order : "asc"}
+                      onClick={(event) => handleRequestSort(event, "_created_at")}
                     >
                       <Typography variant="tableHead">
                         Transferred Date
@@ -116,28 +117,28 @@ function TransferCredit({ userId,isList }) {
                     </TableSortLabel>
                   </TableCell>
                   <TableCell align="center">
-                    <TableSortLabel
+                    {/* <TableSortLabel
                       active={orderBy === "username"}
                       direction={orderBy === "username" ? order : "asc"}
                       onClick={(event) => handleRequestSort(event, "username")}
-                    >
+                    > */}
                       <Typography variant="tableHead">
                         Transferred to
                       </Typography>
-                    </TableSortLabel>
+                    {/* </TableSortLabel> */}
                   </TableCell>
                   <TableCell align="center">
-                    <TableSortLabel
+                    {/* <TableSortLabel
                       active={orderBy === "numCredits"}
                       direction={orderBy === "numCredits" ? order : "asc"}
                       onClick={(event) =>
                         handleRequestSort(event, "numCredits")
                       }
-                    >
+                    > */}
                       <Typography variant="tableHead">
                         #Credits Transferred
                       </Typography>
-                    </TableSortLabel>
+                    {/* </TableSortLabel> */}
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -150,7 +151,7 @@ function TransferCredit({ userId,isList }) {
                       sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}
                     >
                       <Typography variant="tableText">
-                        {dayjs(detail?.createdAt).format("DD/MM/YYYY")}
+                        {commonFunc.dateFormatWithLocale(detail?.createdAt)}
                       </Typography>
                     </TableCell>
                     <TableCell

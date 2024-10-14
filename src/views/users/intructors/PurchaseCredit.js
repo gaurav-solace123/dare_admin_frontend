@@ -140,7 +140,7 @@ function PurchaseCredit({ userId, isList }) {
                         }}
                       >
                         <Typography variant="tableText">
-                          {dayjs(detail.createdAt).format("DD/MM/YYYY")}
+                        {commonFunc.dateFormatWithLocale(detail?.createdAt)}
                         </Typography>
                       </TableCell>
                       <TableCell

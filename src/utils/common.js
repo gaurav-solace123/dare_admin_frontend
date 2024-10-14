@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import dayjs from "dayjs";
 import { saveAs } from 'file-saver';
 const commonFunc = {
   setEncodedValue: (key, value) => {
@@ -21,6 +22,13 @@ const commonFunc = {
   formatWithLocale: (date, formatStr) => {
     if(date){
       return format(date, formatStr);
+    }else{
+      return ""
+    }
+  },
+  dateFormatWithLocale: (date) => {
+    if(date){
+      return dayjs(date).format('MMMM DD, YYYY');
     }else{
       return ""
     }

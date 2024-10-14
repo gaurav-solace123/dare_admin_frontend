@@ -92,10 +92,11 @@ function InstructorReport() {
       const result = await getData(`${Api.instructorReport}${searchQuery}`);
       
       if (result.success) {
+        
         const response = result.data.results;
         const tempData = response.map((item) => ({
           instructorName: item.userDetails.displayName,
-          date: dayjs(item.purchaseDetails.createdAt).format("DD-MM-YYYY"),
+          date: commonFunc.dateFormatWithLocale(item?.purchaseDetails?.createdAt),
           activityType: startCase(lowerCase(item.purchaseDetails.type)),
           creditsPurchased: commonFunc.formatNumberWithCommas(item.purchaseDetails.numCredits),
           creditsTransferredIn: commonFunc.formatNumberWithCommas(item.incomingTransfers?.numCredits) ?? "-",
