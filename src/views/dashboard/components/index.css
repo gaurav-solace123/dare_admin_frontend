@@ -4,10 +4,11 @@
     
     .css-o5ropr-MuiPieArcLabel-root {
         fill: #ffffffe0 !important;
-        text-anchor: middle;
-        dominant-baseline: middle;
+        text-anchor: start;
+        dominant-baseline: start;
         pointer-events: none;
-        font-weight: 900;
+        font-weight: 500;
         /* font-size: x-large; */
         font-weight: bold;
+        margin-bottom: 30px;
     }

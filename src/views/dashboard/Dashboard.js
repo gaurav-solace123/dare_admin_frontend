@@ -39,9 +39,21 @@ const Dashboard = () => {
   const getCreditsActivatedByLevel = async () => {
     try {
       setIsLoading(true);
-      const result = await getData(
-        `${Api?.creditsActivatedByLevel}?timeFunnel=${creditActivatedType}`
-      );
+      const result={
+        "status": 200,
+        "message": "Successfully retrieved credit consumed",
+        "data": {
+            "elementary": 36,
+            "middleSchool": 1,
+            "elementaryPercentage": 97.2972972972973,
+            "middleSchoolPercentage": 1
+        },
+        "success": true,
+        "error": false
+    }
+      // const result = await getData(
+      //   `${Api?.creditsActivatedByLevel}?timeFunnel=${creditActivatedType}`
+      // );
       if (result?.success) {
         const response = result?.data;
         const temp = [

@@ -93,20 +93,11 @@ function StudentReport() {
       setIsLoading(false);
     }
   };
-  const data = [
-    { value: 25, label: " English Registered Students", percentage: 20 },
-    { value: 33, label: " Spanish Registered Students", percentage: 50 },
-    // { value: 25, label: 'Elementary Portuguese Workbook Stude' },
-    { value: 17, label: "French Registered Students", percentage: 90 },
-  ];
-  const data2 = [
-    { value: 25, label: " English Registered Students", percentage: 20 },
-  ];
 
   useEffect(() => {
     getReports("Elementary");
     getReports("Middle School");
-  }, [selectedDate, startDate, endDate]);
+  }, [selectedDate, startDate, endDate,filter]);
   return (
     <PageContainer title="Students Report">
       {/* <Typography variant="h2">Elementary Student Report</Typography> */}

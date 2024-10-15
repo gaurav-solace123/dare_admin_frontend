@@ -37,7 +37,7 @@ const UnifiedDatePicker = ({
     setActiveTab(newValue);
     setFilter(newValue);
     
-    setSelectedDate(null)
+    // setSelectedDate(null)
   };
 
   const handleQuarterSelect = (quarter) => {
@@ -71,6 +71,7 @@ const UnifiedDatePicker = ({
     minDate: dayjs().subtract(20, "year"), // Limit to last 20 years
     maxDate: dayjs(), // Limit to current year or current date
     sx: { height: "auto" },
+    
   };
 
   return (

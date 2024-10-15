@@ -158,7 +158,7 @@ function InstructorReport() {
 
   useEffect(() => {
     getInstructorReport();
-  }, [startDate, endDate, selectedDate, debouncedSearchTerm, page, rowsPerPage]);
+  }, [startDate, endDate, selectedDate, debouncedSearchTerm, page, rowsPerPage,filter]);
 
   useEffect(() => {
     const hasResults = listData.some(item =>

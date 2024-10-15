@@ -33,7 +33,7 @@ const initialContent = "";
 const skeletonArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const EditContent = () => {
-  const { showToast, ToastComponent } = useCustomToast();
+  const { showToast, ToastComponent,clearToast } = useCustomToast();
 
   const [expanded, setExpanded] = useState(false);
   const [lessonId,setLessonId]=useState('')
@@ -198,6 +198,7 @@ const EditContent = () => {
     }
   };
   const handleGoBack = () => {
+    clearToast()
     if (currentLessonIndex > 0) {
       // Navigate within the current lesson subtitles
 
@@ -223,6 +224,7 @@ const EditContent = () => {
   };
 
   const handleNext = () => {
+    clearToast()
     if (currentLessonIndex < currentLessonsSubtitles.length - 1) {
       const nextLesson = currentLessonsSubtitles[currentLessonIndex + 1];
 

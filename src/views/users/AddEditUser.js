@@ -17,6 +17,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import CustomTextField from "../../components/forms/theme-elements/CustomTextField";
 import Loader from "../../components/Loader";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
   bahrainGovernorates,
   bruneiDistricts,
@@ -561,21 +562,19 @@ const AddEditUser = ({
                                 disabled
                                 InputProps={{
                                   endAdornment: (
-                                    <IconButton
-                                      edge="end"
-                                      color="primary"
-                                      onClick={() => {
-                                        navigator.clipboard.writeText(
-                                          "daretogo"
-                                        );
+                                    <CopyToClipboard
+                                      text="daretogo"
+                                      onCopy={() => {
                                         cancel();
                                         showToast(
                                           "Password copied to clipboard!"
                                         );
                                       }}
                                     >
-                                      <ContentCopyIcon />
-                                    </IconButton>
+                                      <IconButton edge="end" color="primary">
+                                        <ContentCopyIcon />
+                                      </IconButton>
+                                    </CopyToClipboard>
                                   ),
                                 }}
                               />

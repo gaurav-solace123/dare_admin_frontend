@@ -81,7 +81,7 @@ function CustomTable({
               align="left"
               sortDirection={orderBy === headCell.id ? order : false}
             >
-              {headCell.label == "Phone" ? (
+              {headCell.label == "Phone"||headCell.label == "Actions" ? (
                 
                   <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
                     {headCell.label}
