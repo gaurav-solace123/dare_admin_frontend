@@ -71,6 +71,11 @@ const UnifiedDatePicker = ({
     minDate: dayjs().subtract(20, "year"), // Limit to last 20 years
     maxDate: dayjs(), // Limit to current year or current date
     sx: { height: "auto" },
+    slotProps:{
+      textField: {
+          readOnly: true,
+      },
+  },
     
   };
 
@@ -103,6 +108,11 @@ const UnifiedDatePicker = ({
                     }}
                     maxDate={endDate || dayjs()} // Restrict end date if selected
                     sx={{ mr: 2 }}
+                    slotProps={{
+                      textField: {
+                          readOnly: true,
+                      },
+                  }}
                   />
 
                   <DatePicker
@@ -112,6 +122,11 @@ const UnifiedDatePicker = ({
                     minDate={startDate || dayjs().subtract(20, "year")} // Restrict start date if selected
                     maxDate={dayjs()} // Maximum date is today or current date
                     sx={{ ml: 2 }}
+                    slotProps={{
+                      textField: {
+                          readOnly: true,
+                      },
+                  }}
                   />
                 </Box>
               ) : (
