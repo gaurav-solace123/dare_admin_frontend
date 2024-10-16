@@ -202,7 +202,7 @@ function InstructorReportTable({
             </Table>
           </TableContainer>
           <TablePagination
-            rowsPerPageOptions={[10, 25, 50]}
+            rowsPerPageOptions={[50, 100, 150]}
             component="div"
             count={totalCount}
             rowsPerPage={rowsPerPage}
