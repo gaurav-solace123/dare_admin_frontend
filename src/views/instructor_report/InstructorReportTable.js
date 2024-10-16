@@ -9,6 +9,8 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
+import Skeleton from "@mui/material/Skeleton"; // import Skeleton
+import { TableSortLabel } from "@mui/material";
 
 function InstructorReportTable({
   listData = [],
@@ -18,9 +20,11 @@ function InstructorReportTable({
   setPage,
   rowsPerPage,
   setRowsPerPage,
+  order,
+  setOrder,
+  isLoading, // Add loading prop
 }) {
   const [row, setRow] = React.useState(listData ? listData : []);
-  const [order, setOrder] = React.useState("desc");
   const [orderBy, setOrderBy] = React.useState("_created_at");
 
   const headers = [
@@ -38,18 +42,10 @@ function InstructorReportTable({
       numeric: true,
       label: "Credit Transferred out",
     },
-
     { id: "remainingCredits", numeric: true, label: "Remaining Credit" },
     { id: "transferredFrom", numeric: true, label: "Transferred from" },
     { id: "transferredTo", numeric: true, label: "Transferred To" },
   ];
-  // React.useEffect(()=>{
-  //  const pageIndex =page==0?1:page
-  //   const pagination={
-  //     page:pageIndex,rowsPerPage,searchTerm,userRole
-  //   }
-  //   // getListData(pagination)
-  // },[page,rowsPerPage])
 
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) return -1;
@@ -96,10 +92,23 @@ function InstructorReportTable({
                 sx={{ whiteSpace: "nowrap", padding: "20px" }}
                 sortDirection={orderBy === headCell.id ? order : false}
               >
-                <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
-                  <div>{firstWord}</div>
-                  <div>{remainingWords}</div>
-                </Typography>
+                {headCell?.id === "date" ? (
+                  <TableSortLabel
+                    active={orderBy === "_created_at"}
+                    direction={orderBy === "_created_at" ? order : "asc"}
+                    onClick={(event) => handleRequestSort(event, "_created_at")}
+                  >
+                    <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
+                      <div>{firstWord}</div>
+                      <div>{remainingWords}</div>
+                    </Typography>
+                  </TableSortLabel>
+                ) : (
+                  <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
+                    <div>{firstWord}</div>
+                    <div>{remainingWords}</div>
+                  </Typography>
+                )}
               </TableCell>
             );
           })}
@@ -117,16 +126,20 @@ function InstructorReportTable({
   const handleChangePage = (event, newPage) => {
     setPage(newPage + 1); // Adjust for 1-indexed page state
   };
+
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(page);
   };
+
   const visibleRows = React.useMemo(() => {
     return listData;
   }, [order, orderBy, page, rowsPerPage, row, listData]);
+
   React.useEffect(() => {
     setRow(listData);
   }, [listData, headers]);
+
   return (
     <div>
       <Box sx={{ width: "100%" }}>
@@ -139,7 +152,17 @@ function InstructorReportTable({
                 onRequestSort={handleRequestSort}
               />
               <TableBody>
-                {visibleRows?.length === 0 ? (
+                {isLoading ? (
+                  Array.from(new Array(rowsPerPage)).map((_, index) => (
+                    <TableRow key={index}>
+                      {headers.map((header, idx) => (
+                        <TableCell key={idx} align="center">
+                          <Skeleton variant="text" />
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : visibleRows?.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={9} align="center">
                       No records found
@@ -157,7 +180,6 @@ function InstructorReportTable({
                       {tableFields.map((field) => (
                         <TableCell
                           key={field}
-                          // sx={{}}
                           align="left"
                           sx={{
                             borderBottom: "1px solid rgba(224, 224, 224, 1)",

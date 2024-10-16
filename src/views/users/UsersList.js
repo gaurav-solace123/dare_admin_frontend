@@ -143,7 +143,7 @@ export default function EnhancedTable({role=''}) {
       }
     }
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       let apiPath=`${Api.listUsers}${searchQuery}`
 //       if(role=='Instructor'&&Config.isMock)
 // {

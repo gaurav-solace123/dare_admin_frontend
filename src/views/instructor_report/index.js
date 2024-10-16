@@ -49,9 +49,10 @@ function InstructorReport() {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [totalCount, setTotalCount] = useState("");
+  const [totalCount, setTotalCount] = useState(0);
   const [isExportDisabled, setIsExportDisabled] = useState(true);
 
+  const [order, setOrder] = useState("desc");
   const getFormattedDate = (date) => {
     if (!date) return dayjs().format("DD-MM-YYYY");
 
@@ -68,7 +69,7 @@ function InstructorReport() {
   };
 
   const getInstructorReport = async () => {
-    let searchQuery = `?page=${page}&limit=${rowsPerPage}`;
+    let searchQuery = `?page=${page}&limit=${rowsPerPage}&sortOrder=${order}`;
     
     if (filter === "range") {
       if (startDate) searchQuery += `&startDate=${startDate.format("YYYY-MM-DD")}`;
@@ -88,6 +89,7 @@ function InstructorReport() {
 
     try {
       setIsLoading(true);
+      setIsExportDisabled(true)
       const result = await getData(`${Api.instructorReport}${searchQuery}`);
       
       if (result.success) {
@@ -104,8 +106,11 @@ function InstructorReport() {
           transferredTo: item.creditTransfers?.destinationUser ?? "-",
           transferredFrom: item.incomingTransfers?.incomingSourceUser ?? "-",
         }));
-        
-        setTotalCount(result.data.pagination.totalDocuments);
+        const tempCount= result.data.pagination.totalDocuments
+        setTotalCount(tempCount);
+        if(tempCount>0){
+          setIsExportDisabled(false)
+        }
         setListData(tempData);
         setIsLoading(false);
       } else {
@@ -119,7 +124,7 @@ function InstructorReport() {
 
   const downLoadInstructorReport = async () => {
     try {
-      let searchQuery = `?page=${page}&limit=${rowsPerPage}`;
+      let searchQuery = `?page=${page}&limit=${rowsPerPage}&sortOrder=${order}`;
       if (filter === "range") {
         if (startDate) searchQuery += `&startDate=${startDate.format("YYYY-MM-DD")}`;
         if (endDate) searchQuery += `&endDate=${endDate.format("YYYY-MM-DD")}`;
@@ -135,11 +140,11 @@ function InstructorReport() {
       if (debouncedSearchTerm) {
         searchQuery += `&search=${debouncedSearchTerm}`;
       }
-      setIsLoading(true);
-
+      // setIsLoading(true);
+      setIsExportDisabled(true)
       const result = await getData(`${Api.instructorReportExport}${searchQuery}`);
       setIsLoading(false);
-
+      setIsExportDisabled(false)
       commonFunc.DownloadCSV(result, "Instructor Report");
     } catch (error) {
       console.error(error);
@@ -158,20 +163,14 @@ function InstructorReport() {
 
   useEffect(() => {
     getInstructorReport();
-  }, [startDate, endDate, selectedDate, debouncedSearchTerm, page, rowsPerPage,filter]);
+  }, [startDate, endDate, selectedDate, debouncedSearchTerm, page, rowsPerPage,filter,order]);
 
-  useEffect(() => {
-    const hasResults = listData.some(item =>
-      item.instructorName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
-    );
-    setIsExportDisabled(!hasResults);
-  }, [debouncedSearchTerm, listData]);
 
   return (
     <>
-      {isLoading ? (
+      {/* {isLoading ? (
         <Loader />
-      ) : (
+      ) : ( */}
         <Box
           sx={{
             border: "2px solid",
@@ -264,11 +263,14 @@ function InstructorReport() {
             setRowsPerPage={setRowsPerPage}
             listData={listData}
             totalCount={totalCount}
+            order={order}
+            setOrder={setOrder}
             tableFields={tableFields}
+            isLoading={isLoading}
             searchTerm={searchTerm} // Pass searchTerm if needed in the table
           />
         </Box>
-      )}
+      {/* // )} */}
     </>
   );
 }
