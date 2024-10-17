@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Snackbar, Alert } from "@mui/material";
 
-const useCustomToast = () => {
+const CustomToastHook = () => {
   const [toastQueue, setToastQueue] = useState([]);
   const [open, setOpen] = useState(false);
   const [currentToast, setCurrentToast] = useState(null);
@@ -60,4 +60,4 @@ const useCustomToast = () => {
   return { showToast, clearToast, ToastComponent };
 };
 
-export default useCustomToast;
+export default CustomToastHook;

@@ -1,7 +1,5 @@
 import React from 'react';
 import Select from 'react-select';
-import { Field, ErrorMessage } from 'formik';
-import { Grid, Typography } from '@mui/material';
 
 const ReactSelect = ({ options, id, label, displayEmpty, error, helperText, ...rest }) => {
   // Custom styles for react-select

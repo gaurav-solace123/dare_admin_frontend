@@ -29,7 +29,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 
-export default function EnhancedTable({role=''}) {
+export default function UsersList({role=''}) {
   const baseHeadCells = [
     { id: "firstName", numeric: false, label: "First Name" },
     { id: "lastName", numeric: false, label: "Last Name" },

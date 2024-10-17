@@ -20,7 +20,7 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-function AddSvgForm({
+function StudentBulkUpload({
   showToast,
   handleSvgClose,
   getListData,
@@ -141,4 +141,4 @@ function AddSvgForm({
   );
 }
 
-export default AddSvgForm;
+export default StudentBulkUpload;

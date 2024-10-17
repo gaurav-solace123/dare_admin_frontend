@@ -32,7 +32,7 @@ const getPasswordStrength = (password) => {
   let strength = 0;
   if (password.length >= 8) strength += 1; // At least 8 characters
   if (/[A-Z]/.test(password)) strength += 1; // Uppercase letter
-  if (/[0-9]/.test(password)) strength += 1; // Number
+  if (/\d/.test(password)) strength += 1; // Number
   if (/[^A-Za-z0-9]/.test(password)) strength += 1; // Special character
 
   if (strength <= 1) return { label: "Weak", color: "red" };

@@ -1,74 +1,77 @@
 import {
-  IconGridDots ,IconFileText , IconReport , IconLayoutDashboard, IconUsers, IconUser , IconReportAnalytics, IconUserPlus
-} from '@tabler/icons-react';
+  IconFileText,
+  IconReport,
+  IconLayoutDashboard,
+  IconUsers,
+  IconUserPlus,
+} from "@tabler/icons-react";
 
-import { uniqueId } from 'lodash';
+import { uniqueId } from "lodash";
 
 const Menuitems = [
   {
     navlabel: true,
-    subheader: 'Home',
+    subheader: "Home",
   },
 
   {
     id: uniqueId(),
-    title: 'Dashboard',
+    title: "Dashboard",
     icon: IconLayoutDashboard,
-    href: '/dashboard',
+    href: "/dashboard",
   },
   {
     id: uniqueId(),
-    title: 'Users',
+    title: "Users",
     icon: IconUserPlus,
-    href: '/users',
+    href: "/users",
   },
 
   {
     navlabel: true,
-    subheader: 'Management',
+    subheader: "Management",
   },
 
   {
     id: uniqueId(),
-    title: 'Student Management',
+    title: "Student Management",
     icon: IconUsers,
-    href: '/student-management',
+    href: "/student-management",
   },
   {
     id: uniqueId(),
-    title: 'Instructor Management',
+    title: "Instructor Management",
     icon: IconUsers,
-    href: '/instructor-management',
+    href: "/instructor-management",
   },
   {
     id: uniqueId(),
-    title: 'Facilitator Management',
+    title: "Facilitator Management",
     icon: IconUsers,
-    href: '/facilator-management',
+    href: "/facilator-management",
   },
   {
     id: uniqueId(),
-    title: 'Content Management',
-    icon: IconFileText ,
-    href: '/content-management',
+    title: "Content Management",
+    icon: IconFileText,
+    href: "/content-management",
   },
   {
     navlabel: true,
-    subheader: 'Reports',
+    subheader: "Reports",
   },
   {
     id: uniqueId(),
-    title: 'Student Report',
+    title: "Student Report",
     icon: IconReport,
-    href: '/student-report',
+    href: "/student-report",
   },
   {
     id: uniqueId(),
-    title: 'Instructor Report',
+    title: "Instructor Report",
     icon: IconReport,
-    href: '/instructor-report',
+    href: "/instructor-report",
   },
-  
 ];
 
 export default Menuitems;

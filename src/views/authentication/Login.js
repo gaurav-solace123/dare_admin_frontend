@@ -7,7 +7,7 @@ import Logo from 'src/layouts/full/shared/logo/Logo';
 import AuthLogin from './auth/AuthLogin';
 import useCustomToast from '../../hooks/CustomToastHook';
 
-const Login2 = () => {
+const Login = () => {
   const { showToast, ToastComponent } = useCustomToast();
   return (
     <PageContainer title="Login" description="this is Login page">
@@ -55,4 +55,4 @@ const Login2 = () => {
   );
 };
 
-export default Login2;
+export default Login;

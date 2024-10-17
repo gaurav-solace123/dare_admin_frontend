@@ -1,4 +1,3 @@
-import { border, borderColor, color, fontFamily, textAlign } from "@mui/system";
 
 const typography = {
 	fontFamily: "'Poppins', sans-serif;",

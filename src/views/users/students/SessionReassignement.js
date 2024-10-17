@@ -19,7 +19,7 @@ import ReactSelect from "../../../components/forms/theme-elements/ReactSelect";
 import { getData, patchData } from "../../../services/services";
 import Api from "../../../services/constant";
 import { useState } from "react";
-function SessionReassignMentTable({
+function SessionReassignement({
   children,
   role,
   Title,
@@ -60,7 +60,6 @@ function SessionReassignMentTable({
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [isLoading, setIsLoading] = useState(false);
   const sessionData = [
     {
       sessionCode: "F042J",
@@ -88,11 +87,6 @@ function SessionReassignMentTable({
       instructorName: "Michael Brown",
     },
   ];
-
-  const sessionArray = sessionData.map((item) => ({
-    label: `${item.sessionCode} ${item.sessionName}`,
-    value: item?.sessionCode,
-  }));
   const style = {
     position: "absolute",
     top: "50%",
@@ -109,7 +103,6 @@ function SessionReassignMentTable({
   };
   const getSessionList = async () => {
     try {
-      setIsLoading(true);
       const result = await getData(Api?.sessionList);
 
       if (result?.success) {
@@ -120,12 +113,8 @@ function SessionReassignMentTable({
           value: item?._id,
         }));
         setSessionList(updatedResponse);
-        setIsLoading(false);
-      } else {
-        setIsLoading(false);
-      }
+      } 
     } catch (error) {
-      setIsLoading(false);
       console.error(error);
     }
   };
@@ -133,7 +122,6 @@ function SessionReassignMentTable({
   const updateSessionCode = async () => {
     try {
       // 
-      setIsLoading(true);
       const payload = {
         newId: activationCodeId,
         oldId:currentSessionDetails?.workbookSessionId,
@@ -146,14 +134,11 @@ function SessionReassignMentTable({
         showToast(result?.message);
         getSingleStudentSessionList()
         handleClose();
-        setIsLoading(false);
       } else {
         showToast(result?.message, "error");
-        setIsLoading(false);
         handleClose();
       }
     } catch (error) {
-      setIsLoading(false);
       console.error(error);
     }
   };
@@ -513,4 +498,4 @@ function SessionReassignMentTable({
   );
 }
 
-export default SessionReassignMentTable;
+export default SessionReassignement;

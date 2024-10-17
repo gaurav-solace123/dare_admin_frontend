@@ -1,8 +1,7 @@
 import * as React from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { Box } from "@mui/system";
-import { Grid, Typography } from "@mui/material";
-import { useTheme, useMediaQuery } from "@mui/material";
+import { useTheme, useMediaQuery,Grid, Typography  } from "@mui/material";
 import commonFunc from "../../../utils/common";
 
 const sizes = {

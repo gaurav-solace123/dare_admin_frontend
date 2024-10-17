@@ -1,8 +1,8 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
-import { Select, MenuItem, FormControl, InputLabel, FormHelperText } from '@mui/material';
+import { Select, MenuItem, FormControl,  FormHelperText } from '@mui/material';
 
-const CustomSelect = styled((props) => {
+const CustomSelectField = styled((props) => {
   const { displayEmpty, id, label, options,error,helperText, ...rest } = props;
 
   return (
@@ -49,4 +49,4 @@ const CustomSelect = styled((props) => {
   },
 }));
 
-export default CustomSelect;
+export default CustomSelectField;

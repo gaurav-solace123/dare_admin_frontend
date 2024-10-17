@@ -1,4 +1,4 @@
-const Api = {
+const constant = {
     //users
     userLogin:'/auth/login',
     forgotPassword:'/auth/forgot-password',
@@ -50,4 +50,4 @@ const Api = {
 
 };
 
-export default Api;
+export default constant;

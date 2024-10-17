@@ -27,7 +27,7 @@ import useCustomToast from "../../../hooks/CustomToastHook";
 import BonusCredit from "./BonusCredit";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-function InstructorPreview() {
+function InstrutorsDetails() {
   //all constants
   const navigate = useNavigate()
   const { showToast, ToastComponent } = useCustomToast();
@@ -55,7 +55,6 @@ function InstructorPreview() {
   ];
   //all states
   const [activeTab, setActiveTab] = useState("purchase_credit"); // Default to 'day' tab
-  const [isLoading, setIsLoading] = useState(false);
   const [instructorDetails, setInstructorDetails] = useState("");
   const [allCredits, setAllCredits] = useState("");
   const [isList, setIsList] = useState(false);
@@ -68,7 +67,6 @@ function InstructorPreview() {
   const viewData = async () => {
     
     try {
-      setIsLoading(true);
       const result = await getData(`${Api?.viewUser}/${userId}`);
       if (result?.success) {
         const response = result?.data
@@ -77,19 +75,14 @@ function InstructorPreview() {
         response.availableCredits = result?.data?.availableCredits;
         response.totalCredits = result?.data?.totalCredits;
         setInstructorDetails(response);
-        setIsLoading(false);
-      } else {
-        setIsLoading(false);
-      }
+      } 
     } catch (error) {
-      setIsLoading(false);
       console.error(error);
     }
   };
 
   const getAllCredits = async () => {
     try {
-      setIsLoading(true);
       const result = await getData(`${Api?.instructorDetails}/${userId}`);
       if (result?.success) {
         let response ={}
@@ -98,12 +91,8 @@ function InstructorPreview() {
         response.availableCredits = result?.data?.availableCredits;
         response.totalCredits = result?.data?.totalCredits;
         setAllCredits(response);
-        setIsLoading(false);
-      } else {
-        setIsLoading(false);
-      }
+      } 
     } catch (error) {
-      setIsLoading(false);
       console.error(error);
     }
   };
@@ -526,4 +515,4 @@ function InstructorPreview() {
   );
 }
 
-export default InstructorPreview;
+export default InstrutorsDetails;

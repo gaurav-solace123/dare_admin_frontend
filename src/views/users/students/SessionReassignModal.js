@@ -1,20 +1,16 @@
 import { Button, Grid, Typography } from "@mui/material";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect,useState } from "react";
 import ReactSelect from "../../../components/forms/theme-elements/ReactSelect";
 import { getData, patchData } from "../../../services/services";
 import Api from "../../../services/constant";
 
-function NewSessionAssignModal({  cancel,userId,getSingleStudentSessionList,showToast}) {
+function SessionReassignModal({  cancel,userId,getSingleStudentSessionList,showToast}) {
   const [sessionList, setSessionList] = useState([]);
-
-  const [isLoading, setIsLoading] = useState(false);;
   const [activationCode, setActivationCode] = useState("")
   const [activationCodeId, setActivationCodeId] = useState("");
   const getSessionList = async () => {
     try {
-      setIsLoading(true);
       const result = await getData(Api?.sessionList);
 
       if (result?.success) {
@@ -25,12 +21,8 @@ function NewSessionAssignModal({  cancel,userId,getSingleStudentSessionList,show
           value: item?._id,
         }));
         setSessionList(updatedResponse);
-        setIsLoading(false);
-      } else {
-        setIsLoading(false);
-      }
+      } 
     } catch (error) {
-      setIsLoading(false);
       console.error(error);
     }
   };
@@ -38,7 +30,6 @@ function NewSessionAssignModal({  cancel,userId,getSingleStudentSessionList,show
   const updateSessionCode = async () => {
     try {
       // 
-      setIsLoading(true);
       const payload = {
         newId: activationCodeId,
         // oldId:currentSessionDetails?.workbookSessionId,
@@ -51,14 +42,11 @@ function NewSessionAssignModal({  cancel,userId,getSingleStudentSessionList,show
         showToast(result?.message);
         getSingleStudentSessionList()
         cancel();
-        setIsLoading(false);
       } else {
         showToast(result?.message, "error");
-        setIsLoading(false);
         cancel();
       }
     } catch (error) {
-      setIsLoading(false);
       console.error(error);
     }
   };
@@ -139,4 +127,4 @@ function NewSessionAssignModal({  cancel,userId,getSingleStudentSessionList,show
   );
 }
 
-export default NewSessionAssignModal;
+export default SessionReassignModal;

@@ -33,7 +33,7 @@ const CustomTextField = styled((props) => {
       }
     } 
     else if (typeValid === 'number') {
-      const regex = /^[0-9]*$/; // allows only digits
+      const regex = /^\d*$/; // allows only digits
       if (!regex.test(event.key)) {
         event.preventDefault();
       }

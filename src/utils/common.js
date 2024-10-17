@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import dayjs from "dayjs";
-import { saveAs } from 'file-saver';
-const commonFunc = {
+import { saveAs } from "file-saver";
+const common = {
   setEncodedValue: (key, value) => {
     const encodedValue = btoa(value);
     localStorage.setItem(key, encodedValue);
@@ -20,21 +20,21 @@ const commonFunc = {
     return [...params].join(" ");
   },
   formatWithLocale: (date, formatStr) => {
-    if(date){
+    if (date) {
       return format(date, formatStr);
-    }else{
-      return ""
+    } else {
+      return "";
     }
   },
   dateFormatWithLocale: (date) => {
-    if(date){
-      return dayjs(date).format('MMMM DD, YYYY');
-    }else{
-      return ""
+    if (date) {
+      return dayjs(date).format("MMMM DD, YYYY");
+    } else {
+      return "";
     }
   },
-   formatNumberWithCommas(number) {
-    return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  formatNumberWithCommas(number) {
+    return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   },
   getLocalImagePath: (imgName) => {
     return `/images/${imgName}`;
@@ -49,12 +49,12 @@ const commonFunc = {
   DownloadCSV(data, fileName) {
     try {
       const blob = new Blob([data], { type: "text/csv" });
-    saveAs(blob, fileName);
+      saveAs(blob, fileName);
     } catch (error) {
       console.error(`Error occurred while downloading file: ${error}`);
     }
   },
-  
+
   formatKeyName: (key) => {
     return (
       key
@@ -70,12 +70,7 @@ const commonFunc = {
     const extension = url.split(".").pop().toLowerCase();
     return imageExtensions.includes(extension);
   },
-  getFileName(url) {
-    const parts = url.split("/");
-    const fileName = parts.pop().split("#")[0].split("?")[0];
-    return fileName;
-  },
-  
+
   setCookie(name, value, days) {
     var expires = "";
     if (days) {
@@ -86,18 +81,6 @@ const commonFunc = {
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
   },
 
-  getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(";");
-    for (var i = 0; i < ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0) == " ") c = c.substring(1, c.length);
-      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null;
-  },
-
-  
   deleteCookie(name) {
     document.cookie =
       name + "=; Max-Age=0; path=/; domain=" + window.location.hostname;
@@ -120,17 +103,13 @@ const commonFunc = {
       .filter((obj) => Object.keys(obj).length > 0);
   },
 
-   generateHTMLContent : (items) => {
-    const htmlContent = `
+  generateHTMLContent: (items) => {
+    return `
       <ul>
-        ${items.map(item => `<li>${item.detailText}</li>`).join("")}
+        ${items.map((item) => `<li>${item.detailText}</li>`).join("")}
       </ul>
     `;
-
-    return htmlContent;
-  }
-  
-  
+  },
 };
 
-export default commonFunc;
+export default common;

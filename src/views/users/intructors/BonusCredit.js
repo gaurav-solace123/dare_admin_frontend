@@ -16,7 +16,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 function BonusCredit({ showToast, cancel, userId,handleChangeList,getAllCredits }) {
-  const [isLoading, setIsLoading] = useState(false);
 
   const initialValues = {
     credits: "",
@@ -55,22 +54,18 @@ function BonusCredit({ showToast, cancel, userId,handleChangeList,getAllCredits 
     };
 
     try {
-      setIsLoading(true);
       const result = await postData(Api.generateInstructorCredits, payload);
 
       if (result.success) {
         showToast(result?.message);
-        setIsLoading(false);
         cancel();
         handleChangeList()
         getAllCredits()
       } else {
-        setIsLoading(false);
         cancel();
         
       }
     } catch (error) {
-      setIsLoading(false);
       setSubmitting(false);
     }
   };
