@@ -50,8 +50,8 @@ function SessionReassignMentTable({
   const [row, setRow] = useState(listData ? listData : []);
   const [order, setOrder] = useState("desc");
   const [orderBy, setOrderBy] = useState("_created_at");
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [page] = useState(0);
+  const [rowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
   const [sessionList, setSessionList] = useState([]);
   const [activationCode, setActivationCode] = useState("");

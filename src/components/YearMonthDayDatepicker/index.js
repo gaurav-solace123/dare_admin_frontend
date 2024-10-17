@@ -20,9 +20,6 @@ const UnifiedDatePicker = ({
 }) => {
   const [activeTab, setActiveTab] = useState(filter); // Default to 'day' tab
   const [selectedQuarter, setSelectedQuarter] = useState(null);
-  // const [startDate, setStartDate] = useState(null);
-  // const [endDate, setEndDate] = useState(null);
-
   const handleDateChange = (date) => {
         setSelectedDate(date);
     if(startDate){
@@ -33,7 +30,7 @@ const UnifiedDatePicker = ({
     }
   };
 
-  const handleTabChange = (event, newValue) => {
+  const handleTabChange = (_event, newValue) => {
     setActiveTab(newValue);
     setFilter(newValue);
     
@@ -46,26 +43,37 @@ const UnifiedDatePicker = ({
     setSelectedQuarter(quarter);
     setSelectedDate(dayjs().year(year).month(startMonth)); // Set date to the beginning of the quarter
   };
+  const getDatePickerLabel = () => {
+    switch (activeTab) {
+      case "day":
+        return "Select Day";
+      case "month":
+        return "Select Month";
+      case "year":
+        return "Select Year";
+      default:
+        return "Select Quarter";
+    }
+  };
 
+  const getDatePickerViews = () => {
+    switch (activeTab) {
+      case "day":
+        return ["year", "month", "day"];
+      case "month":
+        return ["month"];
+      case "year":
+        return ["year"];
+      default:
+        return [];
+    }
+  };
   const datePickerProps = {
-    label:
-      activeTab === "day"
-        ? "Select Day"
-        : activeTab === "month"
-        ? "Select Month"
-        : activeTab === "year"
-        ? "Select Year"
-        : "Select Quarter",
+    label:getDatePickerLabel()
+      ,
     value: selectedDate,
     onChange: handleDateChange,
-    views:
-      activeTab === "day"
-        ? ["year", "month", "day"]
-        : activeTab === "month"
-        ? ["month"]
-        : activeTab === "year"
-        ? ["year"]
-        : [],
+    views:getDatePickerViews(),
     openTo:
       activeTab === "month" ? "month" : activeTab === "year" ? "year" : "day",
     minDate: dayjs().subtract(20, "year"), // Limit to last 20 years

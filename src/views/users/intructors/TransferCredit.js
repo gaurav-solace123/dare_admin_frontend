@@ -74,6 +74,9 @@ function TransferCredit({ userId, isList }) {
     const newLimit = parseInt(event.target.value, 10);
     setPagination({ ...pagination, limit: newLimit });
   };
+
+  const sortLabelDirection = orderBy === "_created_at" ? order : "asc";
+
   //all useMemo
   const visibleRows = React.useMemo(() => {
     return transferDetails;
@@ -102,7 +105,7 @@ function TransferCredit({ userId, isList }) {
                     <TableCell align="center">
                       <TableSortLabel
                         active={orderBy === "_created_at"}
-                        direction={orderBy === "_created_at" ? order : "asc"}
+                        direction={sortLabelDirection}
                         onClick={(event) =>
                           handleRequestSort(event, "_created_at")
                         }

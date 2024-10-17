@@ -8,10 +8,9 @@ import Loader from "src/components/Loader";
 import { getData } from "../../services/services";
 import Api from "../../services/constant";
 import commonFunc from "../../utils/common";
-import PageContainer from 'src/components/container/PageContainer';
+import PageContainer from "src/components/container/PageContainer";
 
 const Dashboard = () => {
-
   const creditOptions = [
     { label: "Credits this Month", value: "MONTH" },
     { label: "Credits this Quarter", value: "QUARTER" },
@@ -29,17 +28,36 @@ const Dashboard = () => {
   const [creditActivatedType, setCreditActivatedType] = useState("YEAR");
   const [sessionActivatedType, setSessionActivatedType] = useState("YEAR");
   const [totalCredit, setTotalCredit] = useState("");
+  const [subTitleTextCredit, setSubTitleTextCredit] = useState("YTD");
+  const [subTitleTextSession, setSubTitleTextSession] = useState("YTD");
   //all functions
   const onChangeSessionsActivatedByLevel = (option) => {
     setSessionActivatedType(option);
+    let subTitleText = "";
+    if (option === "YEAR") {
+      subTitleText = "YTD";
+    } else {
+      subTitleText = `of this ${option.toLowerCase()}`;
+    }
+
+    setSubTitleTextSession(subTitleText);
+  
   };
   const onChangeCreditsActivatedByLevel = (option) => {
     setCreditActivatedType(option);
+    let subTitleText = "";
+    if (option === "YEAR") {
+      subTitleText = "YTD";
+    } else {
+      subTitleText = `of this ${option.toLowerCase()}`;
+    }
+
+    setSubTitleTextCredit(subTitleText);
   };
   const getCreditsActivatedByLevel = async () => {
     try {
       setIsLoading(true);
-      
+
       const result = await getData(
         `${Api?.creditsActivatedByLevel}?timeFunnel=${creditActivatedType}`
       );
@@ -130,7 +148,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <PageContainer title='Dashboard'>
+    <PageContainer title="Dashboard">
       {isLoading ? (
         <Loader />
       ) : (
@@ -163,7 +181,9 @@ const Dashboard = () => {
                   fontSize={20}
                   fontWeight="bold"
                 >
-                  {commonFunc.formatNumberWithCommas(totalCredit?.totalAvailableCredits)}
+                  {commonFunc.formatNumberWithCommas(
+                    totalCredit?.totalAvailableCredits
+                  )}
                 </Box>
               </Box>
             </Grid>
@@ -194,7 +214,9 @@ const Dashboard = () => {
                   fontSize={20}
                   fontWeight="bold"
                 >
-                  {commonFunc.formatNumberWithCommas(totalCredit?.totalAssignedCredits)}
+                  {commonFunc.formatNumberWithCommas(
+                    totalCredit?.totalAssignedCredits
+                  )}
                 </Box>
               </Box>
             </Grid>
@@ -204,8 +226,7 @@ const Dashboard = () => {
             <Grid item xs={12} sm={6} md={6} lg={6}>
               <DigitalAdminPanel
                 title={"Credits Activated By Level"}
-                
-                subTitle={  creditActivatedType=='YEAR'? 'YTD':` of this ${creditActivatedType.toLowerCase()}`}
+                subTitle={subTitleTextCredit}
                 data={creditsActivatedByLevel}
                 options={creditOptions}
                 menuOnChange={onChangeCreditsActivatedByLevel}
@@ -214,7 +235,7 @@ const Dashboard = () => {
             <Grid item xs={12} sm={6} md={6} lg={6}>
               <DigitalAdminPanel
                 title={"Sessions Activated By Level"}
-                subTitle={sessionActivatedType=='YEAR'? 'YTD':` of this ${sessionActivatedType.toLowerCase()}`}
+                subTitle={subTitleTextSession}
                 data={sessionsActivatedByLevel}
                 options={sessionsOptions}
                 menuOnChange={onChangeSessionsActivatedByLevel}

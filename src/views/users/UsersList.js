@@ -143,13 +143,8 @@ export default function EnhancedTable({role=''}) {
       }
     }
     try {
-      // setIsLoading(true);
       let apiPath=`${Api.listUsers}${searchQuery}`
-//       if(role=='Instructor'&&Config.isMock)
-// {
-//   apiPath=`/users/instructorList`
-// }
-      const result = await getData(apiPath); //
+      const result = await getData(apiPath);
       if (result.status == 200) {
         const response = result?.data?.users;
         const tempData = response.map((item) => createData(item));

@@ -15,7 +15,6 @@ import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import Api from "../../services/constant";
 import { lowerCase, startCase } from "lodash";
 import commonFunc from "../../utils/common";
-import Loader from "../../components/Loader";
 
 function InstructorReport() {
   // Constants
@@ -140,7 +139,6 @@ function InstructorReport() {
       if (debouncedSearchTerm) {
         searchQuery += `&search=${debouncedSearchTerm}`;
       }
-      // setIsLoading(true);
       setIsExportDisabled(true)
       const result = await getData(`${Api.instructorReportExport}${searchQuery}`);
       setIsLoading(false);

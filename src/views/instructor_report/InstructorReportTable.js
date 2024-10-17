@@ -74,6 +74,7 @@ function InstructorReportTable({
     const createSortHandler = (property) => (event) => {
       onRequestSort(event, property);
     };
+    const sortLabelDirection = orderBy === "_created_at" ? order : "asc";
 
     return (
       <TableHead
@@ -95,7 +96,7 @@ function InstructorReportTable({
                 {headCell?.id === "date" ? (
                   <TableSortLabel
                     active={orderBy === "_created_at"}
-                    direction={orderBy === "_created_at" ? order : "asc"}
+                    direction={sortLabelDirection}
                     onClick={(event) => handleRequestSort(event, "_created_at")}
                   >
                     <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
@@ -132,6 +133,59 @@ function InstructorReportTable({
     setPage(page);
   };
 
+  const renderTableContent = () => {
+    if (isLoading) {
+      return Array.from(new Array(rowsPerPage)).map((_, index) => (
+        <TableRow key={index}>
+          {headers.map((_header, idx) => (
+            <TableCell key={idx} align="center">
+              <Skeleton variant="text" />
+            </TableCell>
+          ))}
+        </TableRow>
+      ));
+    }
+  
+    if (visibleRows?.length === 0) {
+      return (
+        <TableRow>
+          <TableCell colSpan={9} align="center">
+            No records found
+          </TableCell>
+        </TableRow>
+      );
+    }
+  
+    return visibleRows.map((row) => (
+      <TableRow
+        key={row._id}
+        sx={{
+          "&:last-child td, &:last-child th": { border: 0 },
+          borderBottom: "1px solid rgba(224, 224, 224, 1)",
+        }}
+      >
+        {tableFields.map((field) => (
+          <TableCell
+            key={field}
+            align="left"
+            sx={{
+              borderBottom: "1px solid rgba(224, 224, 224, 1)",
+              whiteSpace: "nowrap",
+              textAlign: "center",
+            }}
+          >
+            <Typography
+              sx={{ flex: "1 1 100%", textAlign: "center" }}
+              variant="tableText"
+            >
+              {row?.[field]}
+            </Typography>
+          </TableCell>
+        ))}
+      </TableRow>
+    ));
+  };
+
   const visibleRows = React.useMemo(() => {
     return listData;
   }, [order, orderBy, page, rowsPerPage, row, listData]);
@@ -152,52 +206,7 @@ function InstructorReportTable({
                 onRequestSort={handleRequestSort}
               />
               <TableBody>
-                {isLoading ? (
-                  Array.from(new Array(rowsPerPage)).map((_, index) => (
-                    <TableRow key={index}>
-                      {headers.map((header, idx) => (
-                        <TableCell key={idx} align="center">
-                          <Skeleton variant="text" />
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))
-                ) : visibleRows?.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={9} align="center">
-                      No records found
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  visibleRows.map((row) => (
-                    <TableRow
-                      key={row._id}
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                        borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                      }}
-                    >
-                      {tableFields.map((field) => (
-                        <TableCell
-                          key={field}
-                          align="left"
-                          sx={{
-                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                            whiteSpace: "nowrap",
-                            textAlign: "center",
-                          }}
-                        >
-                          <Typography
-                            sx={{ flex: "1 1 100%", textAlign: "center" }}
-                            variant="tableText"
-                          >
-                            {row?.[field]}
-                          </Typography>
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))
-                )}
+              {renderTableContent()}
               </TableBody>
             </Table>
           </TableContainer>
