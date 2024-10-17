@@ -205,7 +205,7 @@ const Dashboard = () => {
               <DigitalAdminPanel
                 title={"Credits Activated By Level"}
                 
-                subTitle={` of this ${creditActivatedType.toLowerCase()}`}
+                subTitle={  creditActivatedType=='YEAR'? 'YTD':` of this ${creditActivatedType.toLowerCase()}`}
                 data={creditsActivatedByLevel}
                 options={creditOptions}
                 menuOnChange={onChangeCreditsActivatedByLevel}
@@ -214,7 +214,7 @@ const Dashboard = () => {
             <Grid item xs={12} sm={6} md={6} lg={6}>
               <DigitalAdminPanel
                 title={"Sessions Activated By Level"}
-                subTitle={` of this ${sessionActivatedType.toLowerCase()}`}
+                subTitle={sessionActivatedType=='YEAR'? 'YTD':` of this ${sessionActivatedType.toLowerCase()}`}
                 data={sessionsActivatedByLevel}
                 options={sessionsOptions}
                 menuOnChange={onChangeSessionsActivatedByLevel}

@@ -20,7 +20,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
   bahrainGovernorates,
-  bruneiDistricts,
+  
   canadaProvinces,
   countries,
   mexicoStates,
@@ -132,7 +132,6 @@ const AddEditUser = ({
     US: usStates,
     Canada: canadaProvinces,
     Mexico: mexicoStates,
-    Brunei: bruneiDistricts,
     Thailand: thailandProvinces,
     Bahrain: bahrainGovernorates,
   };

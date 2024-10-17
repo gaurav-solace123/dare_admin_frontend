@@ -103,12 +103,7 @@ export const mexicoStates = [
 ];
 
 
-export const bruneiDistricts = [
-    { value: 'BM', label: 'Belait' },
-    { value: 'BP', label: 'Brunei-Muara' },
-    { value: 'TE', label: 'Temburong' },
-    { value: 'TU', label: 'Tutong' }
-];
+
 
 export const thailandProvinces = [
     { value: 'BK', label: 'Bangkok' },
@@ -192,7 +187,6 @@ export const countries =[
     { value: "US", label: "United States" },
     { value: "Canada", label: "Canada" },
     { value: "Mexico", label: "Mexico" },
-    { value: "Brunei", label: "Brunei" },
     { value: "Thailand", label: "Thailand" },
     { value: "Bahrain", label: "Bahrain" },
   ]
