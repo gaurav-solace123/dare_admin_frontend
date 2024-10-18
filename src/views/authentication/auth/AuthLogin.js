@@ -26,7 +26,7 @@ const validationSchema = Yup.object({
     .required("Password is required."),
 });
 
-const AuthLogin = ({ title, subtitle, subtext, showToast = () => { } }) => {
+const AuthLogin = ({ title, subtitle, subtext, showToast = () => {} }) => {
   //all constants
   const { ToastComponent } = useCustomToast();
   const navigate = useNavigate();
@@ -46,12 +46,11 @@ const AuthLogin = ({ title, subtitle, subtext, showToast = () => { } }) => {
       const result = await postData(Api.userLogin, userValues);
       if (result?.status === 200) {
         // Encode email and token before saving
-        commonFunc.setEncodedValue("token", result?.data?.token.replace("Bearer ", ""));
+        commonFunc.setEncodedValue(
+          "token",
+          result?.data?.token.replace("Bearer ", "")
+        );
         commonFunc.setEncodedValue("email", result?.data?.email);
-
-
-        // localStorage.setItem("token", JSON.stringify(encodedToken));
-        // localStorage.setItem("email", JSON.stringify(encodedEmail));
 
         showToast(result?.message);
         setTimeout(() => {
@@ -70,21 +69,24 @@ const AuthLogin = ({ title, subtitle, subtext, showToast = () => { } }) => {
   const togglePasswordVisibility = (setShowPassword) => {
     setShowPassword((prev) => !prev);
   };
-
+  const renderTitle = () => {
+    if (title) {
+      return (
+        <Typography fontWeight="700" variant="h2" mb={1}>
+          {title}
+        </Typography>
+      );
+    }
+    return null;
+  };
   return (
     <>
       {isLoading ? (
         <Loader />
       ) : (
         <>
-          {title ? (
-            <Typography fontWeight="700" variant="h2" mb={1}>
-              {title}
-            </Typography>
-          ) : null}
-
+          {renderTitle()}
           {subtext}
-
           <Formik
             initialValues={{
               email: "",

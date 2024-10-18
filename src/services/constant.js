@@ -15,7 +15,7 @@ const constant = {
     bulkSampleFile:"/upload/sample-csv",
     // Student Report
     studentReports:'/users/student-report-chart',
-    studentExport:'/users/export-student',
+    studentExport:'/users/export-users',
     //Students sessions
     studentSessionReassign:'/users/student-session-reasign-list',
     sessionList:'/users/session-list',

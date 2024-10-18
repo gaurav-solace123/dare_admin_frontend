@@ -11,14 +11,16 @@ const sizes = {
 
 export default function PieChartStudentReports({
 	data = [],
-	size = sizes,
-	sx,
+	_size = sizes,
+	_sx,
 }) {
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // For small screens
 
 	const getIsMobile=()=>isMobile ? 250 : 450
 	const getIsMobile2=()=> isMobile ? 140 : 300
+	const heightValue = isMobile ? 300 : 450;
+
 	return (
 		<Box position={"relative"}>
 		<Grid
@@ -86,7 +88,7 @@ export default function PieChartStudentReports({
 								},
 							},
 						]}
-						height={isMobile ? 300 : 450}
+						height={heightValue}
 						width={450}
 						slotProps={{ legend: { hidden: true } }}
 						sx={{ transform: 'translate(11%, 0)' }}

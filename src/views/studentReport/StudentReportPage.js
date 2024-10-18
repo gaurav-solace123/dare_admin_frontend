@@ -9,6 +9,16 @@ const StudentReportPage = ({
   footer,
   middlecontent,
 }) => {
+
+  let subtitleElement = null;
+
+if (subtitle) {
+    subtitleElement = (
+        <Typography variant="subtitle2" color="textSecondary">
+            {subtitle}
+        </Typography>
+    );
+}
   return (
     <>
       <Box >
@@ -23,13 +33,7 @@ const StudentReportPage = ({
               mb={3}
             >
               <Box>
-                {subtitle ? (
-                  <Typography variant="subtitle2" color="textSecondary">
-                    {subtitle}
-                  </Typography>
-                ) : (
-                  ""
-                )}
+                {subtitleElement}
               </Box>
             </Stack>
           ) : null}

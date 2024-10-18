@@ -24,7 +24,7 @@ function InstructorReportTable({
   setOrder,
   isLoading, // Add loading prop
 }) {
-  const [row, setRow] = React.useState(listData ? listData : []);
+  const [rows, setRow] = React.useState(listData ? listData : []);
   const [orderBy, setOrderBy] = React.useState("_created_at");
 
   const headers = [
@@ -47,66 +47,57 @@ function InstructorReportTable({
     { id: "transferredTo", numeric: true, label: "Transferred To" },
   ];
 
- 
-
-  
-
-  
-
-  function EnhancedTableHead(props) {
-    const { order, orderBy } = props;
-    
-    const sortLabelDirection = orderBy === "_created_at" ? order : "asc";
+  function EnhancedTableHead({ order: tableOrder, orderBy: tableOrderBy }) {
+    const sortLabelDirection = tableOrderBy === "_created_at" ? tableOrder : "asc";
 
     return (
-      <TableHead
-        style={{ backgroundColor: "#d9edf7", borderRadius: "0 0 10px 2" }}
-      >
-        <TableRow>
-          {headers.map((headCell) => {
-            const words = headCell.label.split(" ");
-            const firstWord = words[0];
-            const remainingWords = words.slice(1).join(" ");
+        <TableHead style={{ backgroundColor: "#d9edf7", borderRadius: "0 0 10px 2" }}>
+            <TableRow>
+                {headers.map((headCell) => {
+                    const words = headCell.label.split(" ");
+                    const firstWord = words[0];
+                    const remainingWords = words.slice(1).join(" ");
 
-            return (
-              <TableCell
-                key={headCell.id}
-                align="center"
-                sx={{ whiteSpace: "nowrap", padding: "20px" }}
-                sortDirection={orderBy === headCell.id ? order : false}
-              >
-                {headCell?.id === "date" ? (
-                  <TableSortLabel
-                    active={orderBy === "_created_at"}
-                    direction={sortLabelDirection}
-                    onClick={(event) => handleRequestSort(event, "_created_at")}
-                  >
-                    <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
-                      <div>{firstWord}</div>
-                      <div>{remainingWords}</div>
-                    </Typography>
-                  </TableSortLabel>
-                ) : (
-                  <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
-                    <div>{firstWord}</div>
-                    <div>{remainingWords}</div>
-                  </Typography>
-                )}
-              </TableCell>
-            );
-          })}
-        </TableRow>
-      </TableHead>
+                    return (
+                        <TableCell
+                            key={headCell.id}
+                            align="center"
+                            sx={{ whiteSpace: "nowrap", padding: "20px" }}
+                            sortDirection={tableOrderBy === headCell.id ? tableOrder : false}
+                        >
+                            {headCell?.id === "date" ? (
+                                <TableSortLabel
+                                    active={tableOrderBy === "_created_at"}
+                                    direction={sortLabelDirection}
+                                    onClick={(event) => handleRequestSort(event, "_created_at")}
+                                >
+                                    <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
+                                        <div>{firstWord}</div>
+                                        <div>{remainingWords}</div>
+                                    </Typography>
+                                </TableSortLabel>
+                            ) : (
+                                <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
+                                    <div>{firstWord}</div>
+                                    <div>{remainingWords}</div>
+                                </Typography>
+                            )}
+                        </TableCell>
+                    );
+                })}
+            </TableRow>
+        </TableHead>
     );
-  }
+}
 
-  const handleRequestSort = (event, property) => {
+
+  const handleRequestSort = (_event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (_event, newPage) => {
     setPage(newPage + 1); // Adjust for 1-indexed page state
   };
 
@@ -127,7 +118,7 @@ function InstructorReportTable({
         </TableRow>
       ));
     }
-  
+
     if (visibleRows?.length === 0) {
       return (
         <TableRow>
@@ -137,7 +128,7 @@ function InstructorReportTable({
         </TableRow>
       );
     }
-  
+
     return visibleRows.map((row) => (
       <TableRow
         key={row._id}
@@ -170,7 +161,7 @@ function InstructorReportTable({
 
   const visibleRows = React.useMemo(() => {
     return listData;
-  }, [order, orderBy, page, rowsPerPage, row, listData]);
+  }, [order, orderBy, page, rowsPerPage, rows, listData]);
 
   React.useEffect(() => {
     setRow(listData);
@@ -187,9 +178,7 @@ function InstructorReportTable({
                 orderBy={orderBy}
                 onRequestSort={handleRequestSort}
               />
-              <TableBody>
-              {renderTableContent()}
-              </TableBody>
+              <TableBody>{renderTableContent()}</TableBody>
             </Table>
           </TableContainer>
           <TablePagination

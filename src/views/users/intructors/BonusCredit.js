@@ -8,15 +8,20 @@ import {
   Typography,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import React, { useState } from "react";
+import React from "react";
 import CustomTextField from "../../../components/forms/theme-elements/CustomTextField";
 import { postData } from "../../../services/services";
 import Api from "../../../services/constant";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-function BonusCredit({ showToast, cancel, userId,handleChangeList,getAllCredits }) {
-
+function BonusCredit({
+  showToast,
+  cancel,
+  userId,
+  handleChangeList,
+  getAllCredits,
+}) {
   const initialValues = {
     credits: "",
     creditType: "CHECK", // default to Purchase Credit
@@ -42,10 +47,8 @@ function BonusCredit({ showToast, cancel, userId,handleChangeList,getAllCredits 
       ),
     creditType: Yup.string().required("Please select a credit type"),
   });
-  
-  
-  const onSubmit = async (values, { setSubmitting }) => {
 
+  const onSubmit = async (values, { setSubmitting }) => {
     const payload = {
       credits: parseInt(values.credits),
       instructorId: userId,
@@ -59,11 +62,10 @@ function BonusCredit({ showToast, cancel, userId,handleChangeList,getAllCredits 
       if (result.success) {
         showToast(result?.message);
         cancel();
-        handleChangeList()
-        getAllCredits()
+        handleChangeList();
+        getAllCredits();
       } else {
         cancel();
-        
       }
     } catch (error) {
       setSubmitting(false);
@@ -170,9 +172,7 @@ function BonusCredit({ showToast, cancel, userId,handleChangeList,getAllCredits 
                     size="large"
                     fullWidth
                     type="submit"
-                    disabled={
-                    values.credits== ''
-                    }
+                    disabled={values.credits == ""}
                   >
                     Submit
                   </Button>

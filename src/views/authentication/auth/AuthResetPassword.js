@@ -76,7 +76,16 @@ const AuthResetPassword = ({ title, subtitle, subtext, showToast }) => {
       setIsLoading(false);
     }
   };
-
+  const getPasswordStrengthValue = (strengthLabel) => {
+    switch (strengthLabel) {
+      case "Weak":
+        return 33;
+      case "Moderate":
+        return 66;
+      default:
+        return 100;
+    }
+  };
   return (
     <>
       {isLoading ? (
@@ -142,20 +151,14 @@ const AuthResetPassword = ({ title, subtitle, subtext, showToast }) => {
                       {values.newPassword && (
                         <Box mt={1}>
                           <LinearProgress
-                            variant="determinate"
-                            value={
-                              passwordStrength.label === "Weak"
-                                ? 33
-                                : passwordStrength.label === "Moderate"
-                                ? 66
-                                : 100
-                            }
-                            sx={{
-                              height: 8,
-                              borderRadius: 2,
-                              backgroundColor: "#f1f1f1",
-                            }}
-                          />
+  variant="determinate"
+  value={getPasswordStrengthValue(passwordStrength.label)}
+  sx={{
+    height: 8,
+    borderRadius: 2,
+    backgroundColor: "#f1f1f1",
+  }}
+/>
                           <Typography
                             mt={1}
                             style={{ color: passwordStrength.color }}

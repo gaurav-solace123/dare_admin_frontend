@@ -42,10 +42,6 @@ const common = {
   getLocationIcons: (imgName) => {
     return `/assets/images/pin_big/${imgName}`;
   },
-  getPriceRoundOf: (param) => {
-    return param;
-    // return param.toLocaleString('en-IN', { maximumFractionDigits: 2, currency: 'INR' });
-  },
   DownloadCSV(data, fileName) {
     try {
       const blob = new Blob([data], { type: "text/csv" });

@@ -35,7 +35,7 @@ function CustomTable({
   setUserId,
   AddSvg,
   totalCount,
-  
+
   rowsPerPage,
   page,
   searchTerm,
@@ -81,12 +81,10 @@ function CustomTable({
               align="left"
               sortDirection={orderBy === headCell.id ? order : false}
             >
-              {headCell.label == "Phone"||headCell.label == "Actions" ? (
-                
-                  <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
-                    {headCell.label}
-                  </Typography>
-                
+              {headCell.label == "Phone" || headCell.label == "Actions" ? (
+                <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
+                  {headCell.label}
+                </Typography>
               ) : (
                 <TableSortLabel
                   active={orderBy === headCell.id}
@@ -117,14 +115,14 @@ function CustomTable({
     const [isDisabled, setIsDisabled] = React.useState(false);
 
     const [isLoading, setIsLoading] = React.useState(false);
-    const downLoadSampleCSVFile = async () => {
+    const downLoadCSVFile = async () => {
       setIsDisabled(true);
       setIsLoading(true);
 
       try {
-        let searchQuery = `?search=${searchTerm}`;
+        let searchQuery = `?userRole=${role}&search=${searchTerm}`;
         const result = await getData(`${Api.studentExport}${searchQuery}`);
-        commonFunc.DownloadCSV(result, "Student Details");
+        commonFunc.DownloadCSV(result, role||'Users');
       } catch (error) {
         console.error(error);
       } finally {
@@ -186,23 +184,23 @@ function CustomTable({
                   </Typography>
                 </Button>
               </Tooltip>
-              {role === "Student" && (
-                <Tooltip title="Download students details">
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    size="large"
-                    type="button"
-                    disabled={isExportDisabled || isDisabled} // Button disabled condition
-                    onClick={downLoadSampleCSVFile}
-                  >
-                    <Typography sx={{ flex: "1 1 100%" }} variant="h6">
-                      Export
-                    </Typography>
-                    <FileDownloadIcon />
-                  </Button>
-                </Tooltip>
-              )}
+              {/* {role === "Student" && ( */}
+              <Tooltip title={`Download ${role||'Users'} details`}>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  size="large"
+                  type="button"
+                  disabled={isExportDisabled || isDisabled} // Button disabled condition
+                  onClick={downLoadCSVFile}
+                >
+                  <Typography sx={{ flex: "1 1 100%" }} variant="h6">
+                    Export
+                  </Typography>
+                  <FileDownloadIcon />
+                </Button>
+              </Tooltip>
+              {/* )} */}
             </Box>
           </Toolbar>
         )}

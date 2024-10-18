@@ -1,13 +1,18 @@
 import { Button, Grid, Typography } from "@mui/material";
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import React, { useEffect,useState } from "react";
+import { Field, Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
 import ReactSelect from "../../../components/forms/theme-elements/ReactSelect";
 import { getData, patchData } from "../../../services/services";
 import Api from "../../../services/constant";
 
-function SessionReassignModal({  cancel,userId,getSingleStudentSessionList,showToast}) {
+function SessionReassignModal({
+  cancel,
+  userId,
+  getSingleStudentSessionList,
+  showToast,
+}) {
   const [sessionList, setSessionList] = useState([]);
-  const [activationCode, setActivationCode] = useState("")
+  const [activationCode, setActivationCode] = useState("");
   const [activationCodeId, setActivationCodeId] = useState("");
   const getSessionList = async () => {
     try {
@@ -21,7 +26,7 @@ function SessionReassignModal({  cancel,userId,getSingleStudentSessionList,showT
           value: item?._id,
         }));
         setSessionList(updatedResponse);
-      } 
+      }
     } catch (error) {
       console.error(error);
     }
@@ -29,18 +34,17 @@ function SessionReassignModal({  cancel,userId,getSingleStudentSessionList,showT
 
   const updateSessionCode = async () => {
     try {
-      // 
+      //
       const payload = {
         newId: activationCodeId,
         // oldId:currentSessionDetails?.workbookSessionId,
-        studentId :userId,
-        
+        studentId: userId,
       };
       const result = await patchData(Api?.reAssignSession, payload);
 
       if (result?.success) {
         showToast(result?.message);
-        getSingleStudentSessionList()
+        getSingleStudentSessionList();
         cancel();
       } else {
         showToast(result?.message, "error");
@@ -50,9 +54,9 @@ function SessionReassignModal({  cancel,userId,getSingleStudentSessionList,showT
       console.error(error);
     }
   };
-  useEffect(()=>{
-    getSessionList()
-  },[])
+  useEffect(() => {
+    getSessionList();
+  }, []);
   return (
     <>
       <Typography
@@ -67,61 +71,60 @@ function SessionReassignModal({  cancel,userId,getSingleStudentSessionList,showT
         Assign Session
       </Typography>
 
-      <Formik
-      >
-          <Form>
-            <Grid item xs={12} p={"7px"} mb={"20px"} mt='10px'>
-              <Typography
-                variant="subtitle1"
-                fontWeight={600}
-                component="label"
-                htmlFor="userRole"
-              >
-                Select session to assign with<span style={{ color: "red" }}>*</span>
-              </Typography>
+      <Formik>
+        <Form>
+          <Grid item xs={12} p={"7px"} mb={"20px"} mt="10px">
+            <Typography
+              variant="subtitle1"
+              fontWeight={600}
+              component="label"
+              htmlFor="userRole"
+            >
+              Select session to assign with
+              <span style={{ color: "red" }}>*</span>
+            </Typography>
 
-              <Field
-                as={ReactSelect}
-                id="userRole"
-                name="userRole"
-                label="Select your Session"
-                displayEmpty
-                options={sessionList}
-                onChange={(option) => {
-                  setActivationCode(option?.label || "");
-                  setActivationCodeId(option?.value || "");
-                }}
-                helperText={<ErrorMessage name="userRole" />}
-              />
+            <Field
+              as={ReactSelect}
+              id="userRole"
+              name="userRole"
+              label="Select your Session"
+              displayEmpty
+              options={sessionList}
+              onChange={(option) => {
+                setActivationCode(option?.label || "");
+                setActivationCodeId(option?.value || "");
+              }}
+            />
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={6} p={"7px"}>
+              <Button
+                color="secondary"
+                variant="outlined"
+                size="large"
+                fullWidth
+                type="button"
+                onClick={cancel}
+              >
+                Cancel
+              </Button>
             </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={6} p={"7px"}>
-                <Button
-                  color="secondary"
-                  variant="outlined"
-                  size="large"
-                  fullWidth
-                  type="button"
-                  onClick={cancel}
-                >
-                  Cancel
-                </Button>
-              </Grid>
-              <Grid item xs={6} p={"7px"}>
-                <Button
-                  color="primary"
-                  variant="contained"
-                  size="large"
-                  fullWidth
-                  type="submit"
-                  onClick={updateSessionCode}
-                  disabled={activationCode == ""}
-                >
-                  Assign
-                </Button>
-              </Grid>
+            <Grid item xs={6} p={"7px"}>
+              <Button
+                color="primary"
+                variant="contained"
+                size="large"
+                fullWidth
+                type="submit"
+                onClick={updateSessionCode}
+                disabled={activationCode == ""}
+              >
+                Assign
+              </Button>
             </Grid>
-          </Form>
+          </Grid>
+        </Form>
       </Formik>
     </>
   );

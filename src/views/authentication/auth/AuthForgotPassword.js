@@ -45,17 +45,26 @@ const AuthForgotPassword = ({ title, subtitle, subtext, showToast }) => {
       setIsLoading(false);
     }
   };
+
+
+  const renderTitle = () => {
+    if (title) {
+      return (
+        <Typography fontWeight="700" variant="h2" mb={1}>
+          {title}
+        </Typography>
+      );
+    }
+    return null;
+  };
   return (
     <>
       {isLoading ? (
         <Loader />
       ) : (
         <>
-          {title ? (
-            <Typography fontWeight="700" variant="h2" mb={1}>
-              {title}
-            </Typography>
-          ) : null}
+          
+    {renderTitle()}
 
           {subtext}
 

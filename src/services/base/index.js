@@ -1,5 +1,5 @@
 import axios from "axios";
-import config from "../../config/config.json";
+import configs from "../../config/config.json";
 import commonFunc from "../../utils/common";
 
 const serviceConfig = {
@@ -53,6 +53,6 @@ const getServiceInstance = (baseURL) => {
 
 // Assuming BASE_URL is imported from somewhere else
 // You might need to adjust this depending on your project structure
-export const serviceV1 = getServiceInstance(config.backend.baseurl);
+export const serviceV1 = getServiceInstance(configs.backend.baseurl);
 
 export default serviceV1;

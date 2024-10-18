@@ -9,9 +9,10 @@ const sizes = {
   height: 200,
 };
 
-export default function PieArcLabel({ data = [], size = sizes, sx }) {
+export default function PieArcLabel({ data = [], _size = sizes, _sx }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); 
+  const heightValue = isMobile ? 300 : 450;
 
   return (
     <Box position={"relative"}>
@@ -105,7 +106,7 @@ export default function PieArcLabel({ data = [], size = sizes, sx }) {
                       },
                     },
                   ]}
-                  height={isMobile ? 300 : 450}
+                  height={heightValue}
                   width={450}
                   slotProps={{ legend: { hidden: true } }}
                   sx={{ transform: "translate(11%, 0)" }}

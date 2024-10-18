@@ -60,8 +60,11 @@ function StudentReport() {
     } else {
       const date = getFormattedDate(selectedDate);
       searchQuery += `&${filter}=${date}`;
+        if (filter === "month") {
+          const year = selectedDate.format("YYYY");
+          searchQuery += `&year=${year}`;
+        }
     }
-    // let searchQuery = `?schoolType=${type}&${filter}=${date}`;
     try {
       setIsLoading(true);
       const result = await getData(`${Api.studentReports}${searchQuery}`); //
@@ -100,7 +103,6 @@ function StudentReport() {
   }, [selectedDate, startDate, endDate,filter]);
   return (
     <PageContainer title="Students Report">
-      {/* <Typography variant="h2">Elementary Student Report</Typography> */}
       {isLoading ? (
         <Loader />
       ) : (

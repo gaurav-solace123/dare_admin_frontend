@@ -1,10 +1,10 @@
 import React from 'react';
 import Select from 'react-select';
 
-const ReactSelect = ({ options, id, label, displayEmpty, error, helperText, ...rest }) => {
+const ReactSelect = ({ options, id, label, displayEmpty, error, ...rest }) => {
   // Custom styles for react-select
   const customStyles = {
-    control: (provided, state) => ({
+    control: (provided, _state) => ({
       ...provided,
       borderColor: error ? 'red' : provided.borderColor,
     }),

@@ -18,12 +18,18 @@ const CustomToastHook = () => {
     setOpen(false);
   };
 
-  const showToast = (title, severity = "success", description, duration = 3000) => {
+  const showToast = (title, severity, description, duration) => {
     setToastQueue((prevQueue) => [
       ...prevQueue,
-      { title, description, severity, duration }
+      { 
+        title, 
+        description, 
+        severity: severity ?? "success",  // Use nullish coalescing to apply default if severity is undefined or null
+        duration: duration ?? 3000        // Use default value if duration is undefined or null
+      }
     ]);
   };
+  
 
   // Function to clear the current toast
   const clearToast = () => {
@@ -32,6 +38,28 @@ const CustomToastHook = () => {
     setCurrentToast(null); // Clear the current toast
   };
 
+  const getBackgroundColor = (severity) => {
+    switch (severity) {
+      case "success":
+        return "#DEF2D6";
+      case "error":
+        return "#ECC8C5";
+      default:
+        return "blue";
+    }
+  };
+  
+  const getTextColor = (severity) => {
+    switch (severity) {
+      case "success":
+        return "#5A7052";
+      case "error":
+        return "#B32F2D";
+      default:
+        return "white";
+    }
+  };
+  
   const ToastComponent = () => (
     currentToast && (
       <Snackbar
@@ -45,9 +73,9 @@ const CustomToastHook = () => {
           sx={{
             width: '100%',
             height: '100%',
-            backgroundColor: currentToast.severity === "success" ? "#DEF2D6" : currentToast.severity === "error" ? "#ECC8C5" : "blue",
-            color: currentToast.severity === "success" ? "#5A7052" : currentToast.severity === "error" ? "#B32F2D" : "white",
-            '& .MuiAlert-icon': { color: currentToast.severity === "success" ? "#5A7052" : currentToast.severity === "error" ? "#B32F2D" : "white" }
+            backgroundColor: getBackgroundColor(currentToast.severity),
+            color: getTextColor(currentToast.severity),
+            '& .MuiAlert-icon': { color: getTextColor(currentToast.severity) }
           }}
         >
           <strong>{currentToast.title}</strong>
@@ -56,8 +84,8 @@ const CustomToastHook = () => {
       </Snackbar>
     )
   );
-
+  
   return { showToast, clearToast, ToastComponent };
-};
+}  
 
 export default CustomToastHook;

@@ -20,7 +20,6 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
   bahrainGovernorates,
-  
   canadaProvinces,
   countries,
   mexicoStates,
@@ -55,14 +54,14 @@ const AddEditUser = ({
     password: Yup.string()
       .min(8, "Password should be at least 8 characters.")
       .when("_id", {
-        is: (userId) => !userId, // Check if userId is not present
+        is: (isUserId) => !isUserId, // Check if userId is not present
         then: (schema) => schema.required("Password is required."),
         otherwise: (schema) => schema.notRequired(), // Optional if userId is present
       }),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), null], "Passwords must match.")
       .when("_id", {
-        is: (userId) => !userId,
+        is: (isUserId) => !isUserId,
         then: (schema) => schema.required("Confirm Password is required."),
         otherwise: (schema) => schema.notRequired(),
       }),
@@ -72,12 +71,17 @@ const AddEditUser = ({
       "Mobile number must be exactly 10 digits.",
       function (value) {
         const { userRole } = this.parent;
-        if (userRole === "Instructor" && value) {
-          return value && value.length >= 10; // Ensure organization has at least 3 characters for 'Instructor'
+
+        if (userRole === "Instructor") {
+          // Check if value exists and is exactly 10 digits long
+          return value && value.length === 10;
         }
+
+        // If userRole is not "Instructor", no validation required
         return true;
       }
     ),
+
     organization: Yup.string()
       .test(
         "organization-required-for-instructor",
@@ -106,23 +110,28 @@ const AddEditUser = ({
       function (value) {
         const { country } = this.parent;
 
+        // Initialize error message to empty
+        let errorMessage = "";
+
+        // Validate based on country
         if (country === "US" && value) {
-          return usPostalCodeRegex.test(value)
-            ? true
-            : this.createError({
-                message:
-                  "Please enter a valid US postal code (e.g., 12345 or 12345-6789).",
-              });
+          if (!usPostalCodeRegex.test(value)) {
+            errorMessage =
+              "Please enter a valid US postal code (e.g., 12345 or 12345-6789).";
+          }
+        } else if (country === "Canada" && value) {
+          if (!canadaPostalCodeRegex.test(value)) {
+            errorMessage =
+              "Please enter a valid Canadian postal code (e.g., A1A 1A1).";
+          }
         }
-        if (country === "Canada" && value) {
-          return canadaPostalCodeRegex.test(value)
-            ? true
-            : this.createError({
-                message:
-                  "Please enter a valid Canadian postal code (e.g., A1A 1A1).",
-              });
+
+        // Always return a consistent type: true for valid or createError for invalid
+        if (errorMessage) {
+          return this.createError({ message: errorMessage });
         }
-        return true; // If no value or country is neither US nor Canada, pass the test
+
+        return true;
       }
     ),
   });
@@ -198,7 +207,6 @@ const AddEditUser = ({
 
   const viewData = async () => {
     try {
-      // setIsLoading(true);
       const result = await getData(`${Api?.viewUser}/${userId}`);
 
       if (result?.success) {
@@ -265,12 +273,9 @@ const AddEditUser = ({
       const payload = {
         userId,
       };
-      // setIsLoading(true);
       const result = await postData(Api?.generatePassword, payload);
 
       if (result?.status == 200) {
-        // showToast(result?.message);
-        // showToast(result?.message);
         setSuccessMsg(result?.message);
         setIsGenerate(false);
         setIsShowGeneratedPassword(true);
@@ -289,7 +294,6 @@ const AddEditUser = ({
       userRole: values?.userRole,
     };
     if (!userId) {
-      // payload._id=userId;
       payload.username = values?.username;
     }
     if (values?.password) {
@@ -329,7 +333,6 @@ const AddEditUser = ({
         : postData(`${Api?.createUser}`, payload));
 
       if (result?.success) {
-        //   showToast("Success", result?.message, "success");
         showToast(result?.message);
         cancel();
         setIsLoading(false);
@@ -357,19 +360,30 @@ const AddEditUser = ({
     if (userId) viewData();
     else clearData();
   }, [userId]);
+
+  const roleText = role || "User";
+  const titleText = userId ? `Edit ${roleText}` : `Add ${roleText}`;
+  let titleElement = null;
+  if (title) {
+    titleElement = (
+      <Typography fontWeight="700" variant="h2" mb={1}>
+        {titleText}
+      </Typography>
+    );
+  }
+
+  const buttonText =
+    formikRef?.current?.values?.userRole === "Instructor" || isIntructerEdit
+      ? "Back"
+      : "Cancel";
+
   return (
     <>
       {isLoading ? (
         <Loader />
       ) : (
         <>
-          {title ? (
-            <Typography fontWeight="700" variant="h2" mb={1}>
-              {userId
-                ? `Edit ${role ? role : "User"}`
-                : `Add ${role ? role : "User"}`}
-            </Typography>
-          ) : null}
+          {titleElement}
 
           {subtext}
 
@@ -919,19 +933,13 @@ const AddEditUser = ({
                             fullWidth
                             type="button"
                             onClick={() => {
-                              // Handle cancel
-
                               formikRef?.current?.values?.userRole ==
                                 "Instructor" || isIntructerEdit
                                 ? onBack()
                                 : cancel();
-                              // navigate('/users');
                             }}
                           >
-                            {formikRef?.current?.values?.userRole ==
-                              "Instructor" || isIntructerEdit
-                              ? "Back"
-                              : " Cancel"}
+                            {buttonText}
                           </Button>
                         </Grid>
                         <Grid item xs={6} p={"7px"}>

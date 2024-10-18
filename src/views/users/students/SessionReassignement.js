@@ -11,10 +11,8 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Tooltip from "@mui/material/Tooltip";
 import { visuallyHidden } from "@mui/utils";
-// import { getData } from '../../services/services';
-// import Api from '../../services/constant';
 import { Modal, Button, IconButton, Grid } from "@mui/material";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import {  Field, Form, Formik } from "formik";
 import ReactSelect from "../../../components/forms/theme-elements/ReactSelect";
 import { getData, patchData } from "../../../services/services";
 import Api from "../../../services/constant";
@@ -60,33 +58,6 @@ function SessionReassignement({
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const sessionData = [
-    {
-      sessionCode: "F042J",
-      sessionName: "Judy Room",
-      instructorName: "John Doe",
-    },
-    {
-      sessionCode: "5ZLY9",
-      sessionName: "BT 220",
-      instructorName: "Jane Smith",
-    },
-    {
-      sessionCode: "285U0",
-      sessionName: "Homeschool AE",
-      instructorName: "Mark Johnson",
-    },
-    {
-      sessionCode: "A34KL",
-      sessionName: "Virtual Class 101",
-      instructorName: "Emily Davis",
-    },
-    {
-      sessionCode: "7YU53",
-      sessionName: "Lab Room 3",
-      instructorName: "Michael Brown",
-    },
-  ];
   const style = {
     position: "absolute",
     top: "50%",
@@ -458,7 +429,7 @@ function SessionReassignement({
                       setActivationCode(option?.label || "");
                       setActivationCodeId(option?.value || "");
                     }}
-                    helperText={<ErrorMessage name="userRole" />}
+                    
                   />
                 </Grid>
                 <Grid container spacing={2}>

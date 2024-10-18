@@ -20,7 +20,6 @@ import { Editor } from "react-draft-wysiwyg";
 
 import PageContainer from "src/components/container/PageContainer";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-// import draftToHtml from "draftjs-to-html";
 import CustomSelect from "../../components/forms/theme-elements/CustomSelectField";
 import Api from "../../services/constant";
 import { getData, patchData } from "../../services/services";
@@ -70,7 +69,6 @@ const EditContent = () => {
     );
   };
   const handleTitleChange = (event) => {
-    // setTitle(event.target.value);
     setCurrentLessonDetails({
       ...currentLessonDetails,
       lessonTitle: event.target.value,
@@ -131,7 +129,7 @@ const EditContent = () => {
       updateContent(savedDetails);
     }
   };
-  const handleChange = (panel) => (event, isExpanded) => {
+  const handleChange = (panel) => (_event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
@@ -149,17 +147,17 @@ const EditContent = () => {
           title: item?.name,
         }));
 
-        const updatedTempDataArray = tempData?.map((tempData, tempIndex) => {
+        const updatedTempDataArray = tempData?.map((temp, _tempIndex) => {
          
           const filteredItems = result?.data?.modules
-            .filter((mod) => mod._p_lesson === `Lesson$${tempData.lessonId}`) // Filter by lessonId
+            .filter((mod) => mod._p_lesson === `Lesson$${temp.lessonId}`) // Filter by lessonId
             .map((mod) => ({
               objectId: mod._id,
               name: mod.name,
             }));
 
           return {
-            ...tempData,
+            ...temp,
             items: filteredItems, // Replace items with filtered array of objectId and name
           };
         });
@@ -257,7 +255,6 @@ const EditContent = () => {
 
       if (result?.success) {
         showToast(result?.message);
-        // fetchData();
         getCMSDetails()
         setIsLoading(false);
       } else {
@@ -270,22 +267,77 @@ const EditContent = () => {
     }
   };
   useEffect(() => {
-    // fetchData();
     getCMSDetails()
   }, [workbookId]);
   useEffect(() => {
     getListData();
   }, []);
+
+  const renderLessons = () => {
+    let content;
+  
+    if (lessonsData.length > 0) {
+      content = lessonsData.map((lesson, lessonIndex) => (
+        <Accordion
+          key={lesson.id}
+          expanded={expanded === lesson.id || lesson?.id === currentLessonDetails?.lessonName}
+          onChange={handleChange(lesson.id)}
+        >
+          <AccordionSummary
+            expandIcon={expanded === lesson.id || lesson?.id === currentLessonDetails?.lessonName ? "-" : "+"}
+            aria-controls={`${lesson.id}-content`}
+            id={`${lesson.id}-header`}
+          >
+            <Typography variant="h6">{lesson.title}</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            {lesson.items.map((item, index) => (
+              <Typography
+                component="div"
+                key={index}
+                style={{
+                  marginLeft: 5,
+                  marginBottom: 10,
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  setCurrentLessonsSubtitles(lesson.items);
+                  handleChangeLessons(item, lesson.title);
+                  setCurrentLessonIndex(index);
+                  setRootLessonIndex(lessonIndex);
+                  setLessonId(lesson?.lessonId);
+                }}
+              >
+                {`${lessonIndex + 1}.${index + 1} ${item?.name}`}
+              </Typography>
+            ))}
+          </AccordionDetails>
+        </Accordion>
+      ));
+    } else {
+      content = skeletonArray.map((skeletonIndex) => (
+        <Accordion key={skeletonIndex}>
+          <AccordionSummary>
+            <Skeleton variant="text" width="80%" height={40} />
+          </AccordionSummary>
+          <AccordionDetails>
+            <Skeleton variant="text" width="90%" />
+            <Skeleton variant="text" width="90%" />
+          </AccordionDetails>
+        </Accordion>
+      ));
+    }
+  
+    return <Box>{content}</Box>;
+  };
+  
+  
   return (
     <PageContainer title="Content Management">
       {isLoading ? (
         <Loader />
       ) : (
         <>
-          {/* {currentLessonDetails?.lessonName&&
-         <Typography variant="h6" textAlign={'center'}>
-                  {currentLessonDetails?.lessonName}
-                </Typography>} */}
 
           <Grid container spacing={2} padding={2}>
             {/* Left Side: Content Box */}
@@ -303,61 +355,7 @@ const EditContent = () => {
                 />
               </Box>
 
-              {lessonsData.length > 0 ? (
-                lessonsData.map((lesson, lessonIndex) => (
-                  <Accordion
-                    key={lesson.id}
-                    expanded={expanded === lesson.id||lesson?.id==currentLessonDetails?.lessonName}
-                    onChange={handleChange(lesson.id)}
-                  >
-                    <AccordionSummary
-                      expandIcon={expanded === lesson.id ||lesson?.id==currentLessonDetails?.lessonName? "-" : "+"}
-                      aria-controls={`${lesson.id}-content`}
-                      id={`${lesson.id}-header`}
-                    >
-                      <Typography variant="h6">{lesson.title}</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      {lesson.items.map((item, index) => (
-                        <Typography
-                          component="div"
-                          key={index}
-                          style={{
-                            marginLeft: 5,
-                            marginBottom: 10,
-                            cursor: "pointer",
-                          }}
-                          onClick={() => {
-                            setCurrentLessonsSubtitles(lesson.items);
-                            handleChangeLessons(item, lesson.title);
-                            setCurrentLessonIndex(index);
-                            setRootLessonIndex(lessonIndex);
-                            
-                            setLessonId(lesson?.lessonId)
-                          }}
-                        >
-                          {`${lessonIndex + 1}.${index + 1} ${item?.name}`}
-                        </Typography>
-                      ))}
-                    </AccordionDetails>
-                  </Accordion>
-                ))
-              ) : (
-                // Skeleton loader to fill the blank space
-                <Box>
-                  {skeletonArray.map((skeletonIndex) => (
-                    <Accordion key={skeletonIndex}>
-                      <AccordionSummary>
-                        <Skeleton variant="text" width="80%" height={40} />
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <Skeleton variant="text" width="90%" />
-                        <Skeleton variant="text" width="90%" />
-                      </AccordionDetails>
-                    </Accordion>
-                  ))}
-                </Box>
-              )}
+              {renderLessons()}
             </Grid>
             {/* Right Side: Content Box */}
 

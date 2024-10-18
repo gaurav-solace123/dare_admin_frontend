@@ -1,14 +1,10 @@
 import React, { lazy, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-// import Table from '@mui/material/Table';
 import {
   IconButton,
   Modal,
   Typography,
 } from "@mui/material";
-// import CustomTable from './component/CustomTable';
-// import AddEditUser from './AddEditUser';
-// const Login = Loadable(lazy(() => import('../views/authentication/Login')));
 import Loadable from "../../layouts/full/shared/loadable/Loadable";
 import StudentBulkUpload from "./component/StudentBulkUpload";
 import { getData } from "../../services/services";
@@ -16,18 +12,10 @@ import Api from "../../services/constant";
 import Loader from "../../components/Loader";
 import useCustomToast from "../../hooks/CustomToastHook";
 import Filter from "./component/Filter";
-// import DownloadForOfflineSharpIcon from '@mui/icons-material/DownloadForOfflineSharp';
 
 import PageContainer from 'src/components/container/PageContainer';
 const CustomTable = Loadable(lazy(() => import("./component/CustomTable")));
 const AddEditUser = Loadable(lazy(() => import("./AddEditUser")));
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) return -1;
-  if (b[orderBy] > a[orderBy]) return 1;
-  return 0;
-}
-
 
 export default function UsersList({role=''}) {
   const baseHeadCells = [
@@ -111,12 +99,12 @@ export default function UsersList({role=''}) {
     _id,
     firstName,
     lastName,
-    userRole,
+    userRole: uRole, // Rename 'userRole' to 'uRole' within this function
     mobileNumber,
     email,
     username,
   }) {
-    return { _id, firstName,lastName, userRole, mobileNumber, email, username };
+    return { _id, firstName, lastName, userRole: uRole, mobileNumber, email, username };
   }
   const getListData = async (
     
@@ -211,18 +199,7 @@ export default function UsersList({role=''}) {
               {`${role?role:'User'}s`}
             </Typography>
           </Box>
-          {/* <InputBase
-        sx={{
-          border: "1px solid grey", // Adds a border to all sides
-          paddingX: "5px", // Padding inside the input
-          paddingY: "2px",
-          borderRadius: "4px", // Optional: Adds rounded corners
-          width:"50%"
-        }}
-        value={searchTerm}
-                    onChange={(e)=>setSearchTerm(e?.target?.value)}
-        placeholder="Search"
-      /> */}
+          
           <CustomTable
           isLoader={isLoading}
             Title={""}

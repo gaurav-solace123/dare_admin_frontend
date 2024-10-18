@@ -17,14 +17,12 @@ export const getData = async (apiName, data) => {
 };
 
 // Example usage in a component or module
-export const postData = async (apiName, postData) => {
+export const postData = async (apiName, data) => {
   try {
     if (Config.isMock) {
-      // let resp = await import(`../mock${apiName}.json`);
-
       return await serviceV1.post(
         `${Config.base_url}${apiName}.json`,
-        postData
+        data
       );
       // Return a Promise that resolves with the mock response
     } else {
@@ -32,7 +30,7 @@ export const postData = async (apiName, postData) => {
 
       return await serviceV1.post(
         `${Config.backend.baseurl}${apiName}`,
-        postData
+        data
       );
       // Handle the response
     }
