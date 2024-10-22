@@ -12,7 +12,6 @@ import Api from "../../services/constant";
 import Loader from "../../components/Loader";
 import useCustomToast from "../../hooks/CustomToastHook";
 import Filter from "./component/Filter";
-
 import PageContainer from 'src/components/container/PageContainer';
 const CustomTable = Loadable(lazy(() => import("./component/CustomTable")));
 const AddEditUser = Loadable(lazy(() => import("./AddEditUser")));
@@ -25,7 +24,7 @@ export default function UsersList({role=''}) {
     { id: "username", numeric: true, label: "Username" },
     { id: "actions", numeric: true, label: "Actions" },
   ];
-
+  const pageTitle = role ? `${role} Management` : 'Users';
   const [order, setOrder] = React.useState("desc");
   const [orderBy, setOrderBy] = React.useState("_created_at");
   const [page, setPage] = React.useState(1);
@@ -165,7 +164,7 @@ export default function UsersList({role=''}) {
   return (
     <>
     {isLoading?<Loader/>:
-    <PageContainer title={role?`${role} Management`:'Users'}>
+    <PageContainer title={pageTitle}>
       {
         <Box
           sx={{
@@ -203,7 +202,7 @@ export default function UsersList({role=''}) {
           <CustomTable
           isLoader={isLoading}
             Title={""}
-            role={role}
+            role={userRole}
             totalCount={totalCount}
             setTotalCount={setTotalCount}
             headers={headCells}
