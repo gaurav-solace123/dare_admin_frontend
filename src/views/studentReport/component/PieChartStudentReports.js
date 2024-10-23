@@ -1,5 +1,5 @@
 import * as React from "react";
-import { PieChart } from "@mui/x-charts/PieChart";
+import { PieChart ,pieArcLabelClasses} from "@mui/x-charts/PieChart";
 import { Box } from "@mui/system";
 import { useTheme, useMediaQuery,Grid, Typography  } from "@mui/material";
 import commonFunc from "../../../utils/common";
@@ -78,8 +78,10 @@ export default function PieChartStudentReports({
 						series={[
 							{
 								arcLabel: (item) =>
-									item?.percentage > 0 ? `${item.percentage} %` : "",
+									item?.percentage > 0 ? `${item.percentage}%` : "",
 								data: data,
+								arcLabelMinAngle: 10,
+								arcLabelRadius: '70%',
 								highlightScope: { fade: "global", highlight: "item" },
 								faded: {
 									innerRadius: 30,
@@ -91,7 +93,13 @@ export default function PieChartStudentReports({
 						height={heightValue}
 						width={450}
 						slotProps={{ legend: { hidden: true } }}
-						sx={{ transform: 'translate(11%, 0)' }}
+						sx={{
+							transform: "translate(11%, 0)",
+							[`& .${pieArcLabelClasses.root}`]: {
+							  fontWeight: 'bold',
+							  fill: '#ffffffe0 '
+							},
+						  }}
 					/>
 				)}
 			</Grid>
