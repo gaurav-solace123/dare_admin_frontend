@@ -35,7 +35,7 @@ function CustomTable({
   setUserId,
   AddSvg,
   totalCount,
-
+  userRole,
   rowsPerPage,
   page,
   searchTerm,
@@ -120,9 +120,9 @@ function CustomTable({
       setIsLoading(true);
 
       try {
-        let searchQuery = `?userRole=${role}&search=${searchTerm}`;
+        let searchQuery = `?userRole=${userRole}&search=${searchTerm}`;
         const result = await getData(`${Api.studentExport}${searchQuery}`);
-        commonFunc.DownloadCSV(result, role||'Users');
+        commonFunc.DownloadCSV(result, userRole||'Users');
       } catch (error) {
         console.error(error);
       } finally {

@@ -202,7 +202,7 @@ export default function UsersList({role=''}) {
           <CustomTable
           isLoader={isLoading}
             Title={""}
-            role={userRole}
+            role={role}
             totalCount={totalCount}
             setTotalCount={setTotalCount}
             headers={headCells}

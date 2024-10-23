@@ -199,9 +199,7 @@ const EditContent = () => {
     clearToast()
     if (currentLessonIndex > 0) {
       // Navigate within the current lesson subtitles
-
       const tempSubtitles=lessonsData.find((item)=>item?.lessonId===lessonId)
-      
       const prevLesson = tempSubtitles?.items[currentLessonIndex - 1];
       setCurrentLessonIndex(currentLessonIndex - 1);
       handleChangeLessons(prevLesson);
