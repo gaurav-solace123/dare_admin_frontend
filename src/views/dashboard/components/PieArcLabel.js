@@ -95,7 +95,7 @@ export default function PieArcLabel({ data = [], _size = sizes, _sx }) {
                   series={[
                     {
                       arcLabel: (item) =>
-                        item?.value ? ` ${item.percentage} %` : "",
+                        item?.value ? `${item.percentage} %` : "",
                       arcLabelProps: { style: { fontWeight: "bold" } },
                       data: data,
                       highlightScope: { fade: "global", highlight: "item" },
