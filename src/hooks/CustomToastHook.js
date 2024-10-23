@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback,useRef } from "react";
 import { Snackbar, Alert } from "@mui/material";
 
-const CustomToastHook = () => {
+const useCustomToast = () => {
   const [toastQueue, setToastQueue] = useState([]);
   const [open, setOpen] = useState(false);
   const [currentToast, setCurrentToast] = useState(null);
+  const snackbarRef = useRef(null);
 
   useEffect(() => {
     if (toastQueue.length > 0 && !open) {
@@ -14,29 +15,27 @@ const CustomToastHook = () => {
     }
   }, [toastQueue, open]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setOpen(false);
-  };
+  }, []);
 
-  const showToast = (title, severity, description, duration) => {
+  const showToast = useCallback((title, severity, description, duration) => {
     setToastQueue((prevQueue) => [
       ...prevQueue,
       { 
         title, 
         description, 
-        severity: severity ?? "success",  // Use nullish coalescing to apply default if severity is undefined or null
-        duration: duration ?? 3000        // Use default value if duration is undefined or null
+        severity: severity ?? "success",
+        duration: duration ?? 3000
       }
     ]);
-  };
-  
+  }, []);
 
-  // Function to clear the current toast
-  const clearToast = () => {
-    setToastQueue([]); // Clear the toast queue
-    setOpen(false);    // Close the current toast
-    setCurrentToast(null); // Clear the current toast
-  };
+  const clearToast = useCallback(() => {
+    setToastQueue([]);
+    setOpen(false);
+    setCurrentToast(null);
+  }, []);
 
   const getBackgroundColor = (severity) => {
     switch (severity) {
@@ -48,7 +47,7 @@ const CustomToastHook = () => {
         return "blue";
     }
   };
-  
+
   const getTextColor = (severity) => {
     switch (severity) {
       case "success":
@@ -59,13 +58,36 @@ const CustomToastHook = () => {
         return "white";
     }
   };
-  
-  const ToastComponent = () => (
+
+
+
+  const handleClickOutside = useCallback((event) => {
+    if (snackbarRef.current && !snackbarRef.current.contains(event.target)) {
+      handleClose();
+    }
+  }, [handleClose]);
+
+  useEffect(() => {
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open, handleClickOutside]);
+
+
+
+  const ToastComponent = React.memo(() => (
     currentToast && (
       <Snackbar
         open={open}
         autoHideDuration={currentToast.duration}
         onClose={handleClose}
+        ref={snackbarRef} 
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <Alert
@@ -83,9 +105,9 @@ const CustomToastHook = () => {
         </Alert>
       </Snackbar>
     )
-  );
-  
-  return { showToast, clearToast, ToastComponent };
-}  
+  ));
 
-export default CustomToastHook;
+  return { showToast, clearToast, ToastComponent };
+};
+
+export default useCustomToast;
