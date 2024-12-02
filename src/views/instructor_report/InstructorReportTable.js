@@ -65,23 +65,11 @@ function InstructorReportTable({
                             sx={{ whiteSpace: "nowrap", padding: "20px" }}
                             sortDirection={tableOrderBy === headCell.id ? tableOrder : false}
                         >
-                            {headCell?.id === "date" ? (
-                                <TableSortLabel
-                                    active={tableOrderBy === "_created_at"}
-                                    direction={sortLabelDirection}
-                                    onClick={(event) => handleRequestSort(event, "_created_at")}
-                                >
-                                    <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
-                                        <div>{firstWord}</div>
-                                        <div>{remainingWords}</div>
-                                    </Typography>
-                                </TableSortLabel>
-                            ) : (
                                 <Typography sx={{ flex: "1 1 100%" }} variant="tableHead">
                                     <div>{firstWord}</div>
                                     <div>{remainingWords}</div>
                                 </Typography>
-                            )}
+                           
                         </TableCell>
                     );
                 })}

@@ -92,20 +92,20 @@ function InstructorReport() {
       const result = await getData(`${Api.instructorReport}${searchQuery}`);
       
       if (result.success) {
-        
-        const response = result.data.results;
+        // debugger
+        const response = result.data.data;
         const tempData = response.map((item) => ({
-          instructorName: item.userDetails.displayName,
-          date: commonFunc.dateFormatWithLocale(item?.purchaseDetails?.createdAt),
-          activityType: startCase(lowerCase(item.purchaseDetails.type)),
-          creditsPurchased: commonFunc.formatNumberWithCommas(item.purchaseDetails.numCredits),
-          creditsTransferredIn: commonFunc.formatNumberWithCommas(item.incomingTransfers?.numCredits) ?? "-",
-          creditsTransferredOut: commonFunc.formatNumberWithCommas(item.creditTransfers?.numCredits) ?? "-",
-          remainingCredits: commonFunc.formatNumberWithCommas(item.availableCredits),
-          transferredTo: item.creditTransfers?.destinationUser ?? "-",
-          transferredFrom: item.incomingTransfers?.incomingSourceUser ?? "-",
+          instructorName: item?.instructorName,
+          date: commonFunc.dateFormatWithLocale(item?.date),
+          activityType: startCase(lowerCase(item.ativityType)),
+          creditsPurchased: commonFunc.formatNumberWithCommas(item.creditPurchased),
+          creditsTransferredIn: commonFunc.formatNumberWithCommas(item.creditTransferredIn) ?? "-",
+          creditsTransferredOut: commonFunc.formatNumberWithCommas(item.creditTransferredOut) ?? "-",
+          remainingCredits: commonFunc.formatNumberWithCommas(item.remainingCredit),
+          transferredTo: item.transferredToFrom ?? "-",
+          transferredFrom: item.instructorName ?? "-",
         }));
-        const tempCount= result.data.pagination.totalDocuments
+        const tempCount= result.data.totalItems
         setTotalCount(tempCount);
         if(tempCount>0){
           setIsExportDisabled(false)
