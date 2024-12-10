@@ -72,7 +72,7 @@ const AddEditUser = ({
       function (value) {
         const { userRole } = this.parent;
 
-        if (userRole === "Instructor") {
+        if (userRole === "Instructor"&&value) {
           // Check if value exists and is exactly 10 digits long
           return value && value.length === 10;
         }
@@ -301,27 +301,27 @@ const AddEditUser = ({
     }
 
     if (values?.userRole == "Instructor") {
-      if (values?.street_2) {
+     
         payload.street_2 = values?.street_2 || "";
-      }
-      if (values?.street_1) {
+     
+    
         payload.street_1 = values?.street_1 || "";
-      }
-      if (values?.mobileNumber) {
+      
+     
         payload.mobileNumber = values?.mobileNumber || "";
-      }
-      if (values?._postal_code) {
+      
+      
         payload._postal_code = values?._postal_code || "";
-      }
-      if (values?.state) {
+      
+   
         payload.state = values?.state || "";
-      }
+      
       if (values?.organization) {
         payload.organization = values?.organization || "";
       }
-      if (values?.city) {
+     
         payload.city = values?.city || "";
-      }
+     
       if (values?.country) {
         payload.country = values?.country || "";
       }
@@ -559,6 +559,8 @@ const AddEditUser = ({
                             </Button>
                           </Grid>
                         )}
+
+                        
                         {isShowGeneratePassword && (
                           <>
                             <Grid item xs={6} p={"7px"}>
@@ -578,10 +580,11 @@ const AddEditUser = ({
                                     <CopyToClipboard
                                       text="daretogo"
                                       onCopy={() => {
-                                        cancel();
-                                        showToast(
-                                          "Password copied to clipboard!"
-                                        );
+                                        // cancel();
+                                        // showToast(
+                                        //   "Password copied to clipboard!"
+                                        // );
+                                        setSuccessMsg("Password copied to clipboard!")
                                       }}
                                     >
                                       <IconButton edge="end" color="primary">
