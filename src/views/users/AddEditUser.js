@@ -536,7 +536,7 @@ const AddEditUser = ({
                           </Grid>
                         )}
 
-                        {userId && isGenerate && (
+                        {userId && isGenerate&&!isShowGeneratePassword && (
                           <Grid
                             item
                             xs={6}
