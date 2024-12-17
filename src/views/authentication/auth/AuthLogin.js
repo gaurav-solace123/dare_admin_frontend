@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Box,
   Typography,
@@ -31,9 +31,13 @@ const AuthLogin = ({ title, subtitle, subtext, showToast = () => {} }) => {
   const { ToastComponent } = useCustomToast();
   const navigate = useNavigate();
 
+  const formikRef = useRef(null);
   //states
   const [isLoading, setIsLoading] = React.useState(false);
-
+const [initialValues,setInitialValues]=useState({
+  email: "",
+  password: "",
+})
   const [showNewPassword, setShowNewPassword] = useState(false);
   //all functions
   const onSubmit = async (values) => {
@@ -59,7 +63,8 @@ const AuthLogin = ({ title, subtitle, subtext, showToast = () => {} }) => {
         }, 500);
       } else {
         setIsLoading(false);
-        showToast(result?.message, "error");
+        setInitialValues(userValues)
+        showToast(result?.message, "error");        
       }
     } catch (error) {
       console.error(error);
@@ -88,12 +93,11 @@ const AuthLogin = ({ title, subtitle, subtext, showToast = () => {} }) => {
           {renderTitle()}
           {subtext}
           <Formik
-            initialValues={{
-              email: "",
-              password: "",
-            }}
+            initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
+            
+            innerRef={formikRef}
           >
             {({ touched, errors, isSubmitting }) => (
               <Form>

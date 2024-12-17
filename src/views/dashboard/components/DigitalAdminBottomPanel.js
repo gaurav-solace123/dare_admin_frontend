@@ -12,8 +12,11 @@ import commonFunc from "../../../utils/common";
 import Api from "../../../services/constant";
 import { getData } from "../../../services/services";
 import Loader from "../../../components/Loader";
+import useCustomToast from "../../../hooks/CustomToastHook";
 
 function DigitalAdminBottomPanel() {
+
+  const { showToast, ToastComponent } = useCustomToast();
   const [selectedDate, setSelectedDate] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isChecked, setIsChecked] = useState(true);
@@ -32,7 +35,11 @@ function DigitalAdminBottomPanel() {
       }
       setIsLoading(true);
       const result = await getData(`${searchQuery}`);
-      commonFunc.DownloadCSV(result, fileName);
+      if(!result){
+
+        showToast('No data available to display at the moment.', "error");
+      }
+     else commonFunc.DownloadCSV(result, fileName);
     } catch (error) {
     } finally {
       setIsLoading(false);
@@ -202,6 +209,8 @@ function DigitalAdminBottomPanel() {
           </Grid>
         </DashboardCard>
       )}
+      
+      <ToastComponent />
     </>
   );
 }
