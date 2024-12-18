@@ -41,7 +41,10 @@ const AddEditUser = ({
   //constants
 
   const usPostalCodeRegex = /^\d{5}(?:[-\s]\d{4})?$/; // US postal code format (e.g., 12345 or 12345-6789)
-  const canadaPostalCodeRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; // Canada postal code format (e.g., A1A 1A1)
+const canadaPostalCodeRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/; // Canadian postal code format (e.g., A1A 1A1)
+const mexicoPostalCodeRegex = /^\d{5}$/; // Mexico postal code format (e.g., 12345)
+const thailandPostalCodeRegex = /^\d{5}$/; // Thailand postal code format (e.g., 12345)
+const bahrainPostalCodeRegex = /^\d{3,4}$/; // Bahrain postal code format (e.g., 123 or 1234)
 
   // Validation schema using Yup
   const validationSchema = Yup.object().shape({
@@ -105,35 +108,45 @@ const AddEditUser = ({
           return true;
         }
       ),
-    _postal_code: Yup.string().test(
-      "_postal_code-validation",
-      function (value) {
-        const { country } = this.parent;
-
-        // Initialize error message to empty
-        let errorMessage = "";
-
-        // Validate based on country
-        if (country === "US" && value) {
-          if (!usPostalCodeRegex.test(value)) {
-            errorMessage =
-              "Please enter a valid US postal code (e.g., 12345 or 12345-6789).";
+      _postal_code: Yup.string().test(
+        "_postal_code-validation",
+        function (value) {
+          const { country } = this.parent;
+      
+          // Initialize error message to empty
+          let errorMessage = "";
+      
+          // Validate based on country
+          if (country === "US" && value) {
+            if (!usPostalCodeRegex.test(value)) {
+              errorMessage = "Please enter a valid US postal code (e.g., 12345 or 12345-6789).";
+            }
+          } else if (country === "Canada" && value) {
+            if (!canadaPostalCodeRegex.test(value)) {
+              errorMessage = "Please enter a valid Canadian postal code (e.g., A1A 1A1).";
+            }
+          } else if (country === "Mexico" && value) {
+            if (!mexicoPostalCodeRegex.test(value)) {
+              errorMessage = "Please enter a valid Mexican postal code (e.g., 12345).";
+            }
+          } else if (country === "Thailand" && value) {
+            if (!thailandPostalCodeRegex.test(value)) {
+              errorMessage = "Please enter a valid Thai postal code (e.g., 12345).";
+            }
+          } else if (country === "Bahrain" && value) {
+            if (!bahrainPostalCodeRegex.test(value)) {
+              errorMessage = "Please enter a valid Bahraini postal code (e.g., 123 or 1234).";
+            }
           }
-        } else if (country === "Canada" && value) {
-          if (!canadaPostalCodeRegex.test(value)) {
-            errorMessage =
-              "Please enter a valid Canadian postal code (e.g., A1A 1A1).";
+      
+          // Always return a consistent type: true for valid or createError for invalid
+          if (errorMessage) {
+            return this.createError({ message: errorMessage });
           }
+      
+          return true;
         }
-
-        // Always return a consistent type: true for valid or createError for invalid
-        if (errorMessage) {
-          return this.createError({ message: errorMessage });
-        }
-
-        return true;
-      }
-    ),
+      )
   });
 
   const { ToastComponent } = useCustomToast();
