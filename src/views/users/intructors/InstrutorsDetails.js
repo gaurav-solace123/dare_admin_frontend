@@ -237,7 +237,7 @@ function InstrutorsDetails() {
                       !instructorDetails?.city &&
                       !instructorDetails?.state &&
                       !instructorDetails?.country &&
-                      !instructorDetails?._postal_code ? (
+                      !instructorDetails?.postal_code ? (
                         "-"
                       ) : (
                         <>
@@ -253,8 +253,8 @@ function InstrutorsDetails() {
                             `, ${instructorDetails.state}`}
                           {instructorDetails?.country &&
                             `, ${instructorDetails.country}`}
-                          {instructorDetails?._postal_code &&
-                            ` - ${instructorDetails._postal_code}`}
+                          {instructorDetails?.postal_code &&
+                            ` - ${instructorDetails.postal_code}`}
                         </>
                       )}
                     </Typography>

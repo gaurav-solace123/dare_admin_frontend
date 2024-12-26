@@ -108,8 +108,8 @@ const bahrainPostalCodeRegex = /^\d{3,4}$/; // Bahrain postal code format (e.g.,
           return true;
         }
       ),
-      _postal_code: Yup.string().test(
-        "_postal_code-validation",
+      postal_code: Yup.string().test(
+        "postal_code-validation",
         function (value) {
           const { country } = this.parent;
       
@@ -244,7 +244,7 @@ const bahrainPostalCodeRegex = /^\d{3,4}$/; // Bahrain postal code format (e.g.,
             "country",
             "city",
             "state",
-            "_postal_code",
+            "postal_code",
             "street_1",
             "street_2",
           ];
@@ -324,7 +324,7 @@ const bahrainPostalCodeRegex = /^\d{3,4}$/; // Bahrain postal code format (e.g.,
         payload.mobileNumber = values?.mobileNumber || "";
       
       
-        payload._postal_code = values?._postal_code || "";
+        payload.postal_code = values?.postal_code || "";
       
    
         payload.state = values?.state || "";
@@ -412,7 +412,7 @@ const bahrainPostalCodeRegex = /^\d{3,4}$/; // Bahrain postal code format (e.g.,
               _id: userId ?? "",
               organization: "",
               mobileNumber: "",
-              _postal_code: "",
+              postal_code: "",
               country: "US",
             }}
             validationSchema={validationSchema}
@@ -843,23 +843,23 @@ const bahrainPostalCodeRegex = /^\d{3,4}$/; // Bahrain postal code format (e.g.,
                             variant="subtitle1"
                             fontWeight={600}
                             component="label"
-                            htmlFor="_postal_code"
+                            htmlFor="postal_code"
                           >
                             Postal code{" "}
                           </Typography>
                           <Field
                             as={CustomTextField}
-                            id="_postal_code"
-                            name="_postal_code"
+                            id="postal_code"
+                            name="postal_code"
                             variant="outlined"
                             fullWidth
                             isPostalCode
                             length={7}
                             error={
-                              touched._postal_code &&
-                              Boolean(errors._postal_code)
+                              touched.postal_code &&
+                              Boolean(errors.postal_code)
                             }
-                            helperText={<ErrorMessage name="_postal_code" />}
+                            helperText={<ErrorMessage name="postal_code" />}
                           />
                         </Grid>
                         <Grid item xs={6} p={"7px"}>
