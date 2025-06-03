@@ -1,7 +1,7 @@
 {
     "isMock": false,
-    "base_url":"http://localhost:5173/mock",
+    "base_url": "http://localhost:5173/mock",
     "backend": {
-        "baseurl": "http://35.87.9.8:3001/v1"
+        "baseurl": "http://admin-api.dareremote.org/v1"
     }
-}                                                                                                            
+}
