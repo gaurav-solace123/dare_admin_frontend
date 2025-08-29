@@ -4,10 +4,13 @@ reviews:
   enable: true
   on:
     pull_request: true   # Run reviews on PRs
-    push: false          # (optional) disable reviews on push
+    push: false          # Disable reviews on push
   comments:
     inline: true         # Adds inline comments on PR changes
     summary: true        # Adds a summary review comment
+  branches:
+    include:
+      - "*"              # Allow reviews on all branches (wildcard)
 
 rules:
   complexity: warn       # Warn if functions/classes are too complex
