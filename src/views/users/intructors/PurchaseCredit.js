@@ -1,187 +1,124 @@
 import React, { useEffect, useState } from "react";
 import {
-  Box,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-  Chip,
-  TablePagination,
-  TableSortLabel,
+  Box, Paper, Table, TableBody, TableCell, TableContainer,
+  TableHead, TableRow, Typography, Chip, TablePagination, TableSortLabel
 } from "@mui/material";
 import { getData } from "../../../services/services";
 import Api from "../../../services/constant";
 import Loader from "src/components/Loader";
-
 import { startCase } from "lodash";
 import commonFunc from "../../../utils/common";
 
 function PurchaseCredit({ userId, isList }) {
-  //all states
   const [purchaseDetails, setPurchaseDetails] = useState([]);
   const [pagination, setPagination] = useState({
-    page: 1,
-    limit: 10,
-    totalPages: 1,
-    totalDocuments: 0,
+    page: 1, limit: 10, totalPages: 1, totalDocuments: 0,
   });
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("_created_at");
   const [isLoading, setIsLoading] = useState(false);
-  const { page, limit } = pagination;
 
-  //all functions
   const fetchPurchaseDetails = async () => {
+    setIsLoading(true);
+    const query = "?page=" + pagination.page + "&limit=" + pagination.limit + "&sortBy=" + orderBy + "&sortOrder=" + order;
     try {
-      const searchQuery = `?page=${page}&limit=${limit}&sortBy=${orderBy}&sortOrder=${order}`;
-      setIsLoading(true);
-      const result = await getData(
-        `${Api?.purchaseCreditInstructor}/${userId}${searchQuery}`
-      );
-      if (result?.success) {
-        setIsLoading(false);
-        const response = result.data;
-        if (response.purchaseDetails[0]?.numCredits) {
-          setPurchaseDetails(response.purchaseDetails);
-          setPagination({
-            page: response.pagination.page,
-            limit: response.pagination.limit,
-            totalPages: response.pagination.totalPages,
-            totalDocuments: response.pagination.totalDocuments,
-          });
+      const result = await getData(`${Api?.purchaseCreditInstructor}/${userId}${query}`);
+      if (result?.success === true) {
+        const res = result.data;
+        if (res.purchaseDetails[0]?.numCredits !== undefined) {
+          setPurchaseDetails(res.purchaseDetails);
+          pagination.page = res.pagination.page;
+          pagination.limit = res.pagination.limit;
+          pagination.totalPages = res.pagination.totalPages;
+          pagination.totalDocuments = res.pagination.totalDocuments;
+          setPagination({ ...pagination });
         }
       }
-    } catch (error) {
-      console.error("Error fetching purchase details:", error);
+    } catch (err) {
+      console.log("Error fetching purchase details:", err);
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   };
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
+  const handleRequestSort = (e, prop) => {
+    const isAsc = orderBy === prop && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
+    setOrderBy(prop);
   };
 
   const handleChangePage = (event, newPage) => {
-    setPagination({ ...pagination, page: newPage + 1 });
+    pagination.page = newPage + 1;
+    setPagination({ ...pagination });
   };
 
   const handleChangeRowsPerPage = (event) => {
-    const newLimit = parseInt(event.target.value, 10);
-    setPagination({ ...pagination, limit: newLimit });
+    pagination.limit = parseInt(event.target.value);
+    setPagination({ ...pagination });
   };
 
   const visibleRows = React.useMemo(() => {
-    return purchaseDetails;
+    return purchaseDetails.map((x) => x); // redundant map
   }, [order, orderBy, pagination.page, pagination.limit, purchaseDetails]);
 
-  //all useEffect
   useEffect(() => {
     fetchPurchaseDetails();
-  }, [isList, page, limit, order]);
+  }, [isList, pagination.page, pagination.limit, order]);
+
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : (
+      {isLoading ? <Loader /> : (
         <Box sx={{ width: "100%", marginTop: "30px" }}>
           <Paper sx={{ width: "100%", mb: 2 }}>
             <TableContainer sx={{ borderRadius: "3px" }}>
               <Table>
-                <TableHead
-                  style={{
-                    backgroundColor: "#d9edf7",
-                    borderRadius: "0 0 10px 2",
-                  }}
-                >
+                <TableHead style={{ backgroundColor: "#d9edf7", borderRadius: "0 0 10px 2" }}>
                   <TableRow>
                     <TableCell align="center">
                       <TableSortLabel
                         active={orderBy === "_created_at"}
                         direction={orderBy === "_created_at" ? order : "asc"}
-                        onClick={(event) =>
-                          handleRequestSort(event, "_created_at")
-                        }
+                        onClick={(e) => handleRequestSort(e, "_created_at")}
                       >
-                        <Typography variant="tableHead">
-                          Purchase Date
-                        </Typography>
+                        <Typography variant="tableHead">Purchase Date</Typography>
                       </TableSortLabel>
                     </TableCell>
-                    <TableCell align="center">
-                      <Typography variant="tableHead">
-                        {" "}
-                        Purchase Credit#
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="center">
-                      <Typography variant="tableHead">Purchased Via</Typography>
-                    </TableCell>
-                    <TableCell align="center">
-                      <Typography variant="tableHead">Description</Typography>
-                    </TableCell>
+                    <TableCell align="center"><Typography variant="tableHead"> Purchase Credit# </Typography></TableCell>
+                    <TableCell align="center"><Typography variant="tableHead">Purchased Via</Typography></TableCell>
+                    <TableCell align="center"><Typography variant="tableHead">Description</Typography></TableCell>
                   </TableRow>
                 </TableHead>
 
                 <TableBody>
-                  {visibleRows.map((detail) => (
-                    <TableRow key={detail?.createdAt}>
-                      <TableCell
-                        align="center"
-                        sx={{
-                          borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                        }}
-                      >
+                  {visibleRows.length > 0 ? visibleRows.map((d, i) => (
+                    <TableRow key={i}>
+                      <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
                         <Typography variant="tableText">
-                        {commonFunc.dateFormatWithLocale(detail?.createdAt)}
+                          {commonFunc.dateFormatWithLocale(d?.createdAt)}
                         </Typography>
                       </TableCell>
-                      <TableCell
-                        align="center"
-                        sx={{
-                          borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                        }}
-                      >
+                      <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
                         <Typography variant="tableText">
-                          {commonFunc.formatNumberWithCommas(detail.numCredits)}
+                          {commonFunc.formatNumberWithCommas(d.numCredits)}
                         </Typography>
                       </TableCell>
-                      <TableCell
-                        align="center"
-                        sx={{
-                          borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                        }}
-                      >
+                      <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
                         <Chip
-                          label={startCase(detail.type)}
+                          label={startCase(d.type)}
                           sx={{
                             backgroundColor: "#2e7d32de",
-
                             color: "#fff",
                             minWidth: "100px",
                           }}
                         />
                       </TableCell>
-                      <TableCell
-                        align="center"
-                        sx={{
-                          borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                        }}
-                      >
+                      <TableCell align="center" sx={{ borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
                         <Typography variant="tableText">
-                          {detail?.description}
+                          {d?.description ?? "N/A"}
                         </Typography>
                       </TableCell>
                     </TableRow>
-                  ))}
-
-                  {visibleRows.length === 0 && (
+                  )) : (
                     <TableRow>
                       <TableCell colSpan={4} align="center">
                         <Typography>No purchase details available</Typography>
@@ -192,7 +129,6 @@ function PurchaseCredit({ userId, isList }) {
               </Table>
             </TableContainer>
 
-            {/* Pagination */}
             <TablePagination
               rowsPerPageOptions={[10, 25, 50]}
               component="div"
