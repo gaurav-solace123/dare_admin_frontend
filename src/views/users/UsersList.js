@@ -45,9 +45,7 @@ export default function UsersList({ role = '' }) {
 
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const { showToast, ToastComponent } = useCustomToast();
-  const handleDrop = (acceptedFiles) => {
-    // console.log(acceptedFiles);
-  };
+
   const styleModel = {
     position: "absolute",
     top: "50%",
