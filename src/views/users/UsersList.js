@@ -16,7 +16,7 @@ import PageContainer from 'src/components/container/PageContainer';
 const CustomTable = Loadable(lazy(() => import("./component/CustomTable")));
 const AddEditUser = Loadable(lazy(() => import("./AddEditUser")));
 
-export default function UsersList({role=''}) {
+export default function UsersList({ role = '' }) {
   const baseHeadCells = [
     { id: "firstName", numeric: false, label: "First Name" },
     { id: "lastName", numeric: false, label: "Last Name" },
@@ -46,7 +46,7 @@ export default function UsersList({role=''}) {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const { showToast, ToastComponent } = useCustomToast();
   const handleDrop = (acceptedFiles) => {
-    console.log(acceptedFiles);
+    // console.log(acceptedFiles);
   };
   const styleModel = {
     position: "absolute",
@@ -106,7 +106,7 @@ export default function UsersList({role=''}) {
     return { _id, firstName, lastName, userRole: uRole, mobileNumber, email, username };
   }
   const getListData = async (
-    
+
   ) => {
 
     let filters = {
@@ -130,7 +130,7 @@ export default function UsersList({role=''}) {
       }
     }
     try {
-      let apiPath=`${Api.listUsers}${searchQuery}`
+      let apiPath = `${Api.listUsers}${searchQuery}`
       const result = await getData(apiPath);
       if (result.status == 200) {
         const response = result?.data?.users;
@@ -160,162 +160,162 @@ export default function UsersList({role=''}) {
   }, [searchTerm]);
   useEffect(() => {
     getListData();
-  }, [page, rowsPerPage, userRole,order,orderBy,debouncedSearchTerm,role]);
+  }, [page, rowsPerPage, userRole, order, orderBy, debouncedSearchTerm, role]);
   return (
     <>
-    {isLoading?<Loader/>:
-    <PageContainer title={pageTitle}>
-      {
-        <Box
-          sx={{
-            border: "2px solid",
-            color: "#0055a4",
-            padding: 2,
-            position: "relative",
-            borderRadius: 2,
-          }}
-        >
-           
-          <Box
-            sx={{
-              position: "absolute",
-              top: "-12px", // Adjust this to make the text overlap more or less with the border
-              left: "16px",
-              backgroundColor: "#fff",
-              padding: "0 8px",
-              display: "inline-block",
-              // color: 'red', // To match the border color
-              fontSize: "24px",
-              fontWeight: "bold",
-            }}
-          >
-            <Typography
-              variant="h7"
-              fontWeight={600}
-              component="label"
-              htmlFor="mailingAddress"
+      {isLoading ? <Loader /> :
+        <PageContainer title={pageTitle}>
+          {
+            <Box
+              sx={{
+                border: "2px solid",
+                color: "#0055a4",
+                padding: 2,
+                position: "relative",
+                borderRadius: 2,
+              }}
             >
-              {`${role?role:'User'}s`}
-            </Typography>
-          </Box>
-          
-          <CustomTable
-          isLoader={isLoading}
-            Title={""}
-            role={role}
-            totalCount={totalCount}
-            setTotalCount={setTotalCount}
-            headers={headCells}
-            setUserRole={setUserRole}
-            setSearchTerm={setSearchTerm}
-            userRole={userRole}
-            searchTerm={searchTerm}
-            orderBy={orderBy}
-            order={order}
-            setOrder={setOrder}
-            setOrderBy={setOrderBy}
-            listData={listData}
-            rowsPerPage={rowsPerPage}
-            setPage={setPage}
-            setRowsPerPage={setRowsPerPage}
-            page={page}
-            setUserId={setUserId}
-            onAddClick={() => {
-              handleOpen();
-              setUserId("");
-            }}
-            AddSvg={() => {
-              handleSvgOpen();
-            }}
-            getListData={getListData}
-          >
-                <Filter
-           TitleForDropDown={"Role"}
-           getListData={getListData}
-           dropDownData={dropDownData}
-           handleChangeSearch={(e)=>setSearchTerm(e)}
-           handleChangeDropDown={(e)=>setUserRole(e.target?.value)}
-           setSearchTerm={setSearchTerm}
-            searchTerm={searchTerm}
-           userRole={userRole}
-          // setUserRole={setUserRole}
-           role={role}
-        />
-            </CustomTable>
-        </Box>
-      }
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={styleModel}>
-          <IconButton
-            aria-label="close"
-            onClick={handleClose}
-            sx={{
-              position: "absolute",
-              top: 8,
-              right: 8,
-              color: "#0055a4", // Default color
-              "&:hover": {
-                color: "red", // Change color to green on hover
-              },
-            }}
-          >
-            {/* <CloseIcon /> */}X
-          </IconButton>
-          <AddEditUser
-            cancel={() => handleClose()}
-            userId={userId}
-            getListData={getListData}
-            showToast={showToast}
-            role={role}
-          />
-        </Box>
-      </Modal>
-      <Modal
-        open={openSvgForm}
-        onClose={handleSvgClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={styleModelBulkUploade}>
-          <IconButton
-            aria-label="close"
-            onClick={handleSvgClose}
-            sx={{
-              position: "absolute",
-              top: 8,
-              right: 8,
-              color: "#0055a4", // Default color
-              "&:hover": {
-                color: "red", // Change color to green on hover
-              },
-            }}
-          >
-            {/* <CloseIcon /> */}X
-          </IconButton>
-          <Typography fontWeight="700" variant="h2" mb={1}>
-            {"Student Bulk Upload"}
-          </Typography>
 
-          {/* <DownloadForOfflineSharpIcon/> */}
-          <StudentBulkUpload
-            onDrop={handleDrop}
-            accept="image/svg+xml"
-            userId={userId}
-            handleSvgClose={handleSvgClose}
-            showToast={showToast}
-            getListData={getListData}
-          />
-         
-        </Box>
-      </Modal>
-      <ToastComponent />
-    </PageContainer>
-    }
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "-12px", // Adjust this to make the text overlap more or less with the border
+                  left: "16px",
+                  backgroundColor: "#fff",
+                  padding: "0 8px",
+                  display: "inline-block",
+                  // color: 'red', // To match the border color
+                  fontSize: "24px",
+                  fontWeight: "bold",
+                }}
+              >
+                <Typography
+                  variant="h7"
+                  fontWeight={600}
+                  component="label"
+                  htmlFor="mailingAddress"
+                >
+                  {`${role ? role : 'User'}s`}
+                </Typography>
+              </Box>
+
+              <CustomTable
+                isLoader={isLoading}
+                Title={""}
+                role={role}
+                totalCount={totalCount}
+                setTotalCount={setTotalCount}
+                headers={headCells}
+                setUserRole={setUserRole}
+                setSearchTerm={setSearchTerm}
+                userRole={userRole}
+                searchTerm={searchTerm}
+                orderBy={orderBy}
+                order={order}
+                setOrder={setOrder}
+                setOrderBy={setOrderBy}
+                listData={listData}
+                rowsPerPage={rowsPerPage}
+                setPage={setPage}
+                setRowsPerPage={setRowsPerPage}
+                page={page}
+                setUserId={setUserId}
+                onAddClick={() => {
+                  handleOpen();
+                  setUserId("");
+                }}
+                AddSvg={() => {
+                  handleSvgOpen();
+                }}
+                getListData={getListData}
+              >
+                <Filter
+                  TitleForDropDown={"Role"}
+                  getListData={getListData}
+                  dropDownData={dropDownData}
+                  handleChangeSearch={(e) => setSearchTerm(e)}
+                  handleChangeDropDown={(e) => setUserRole(e.target?.value)}
+                  setSearchTerm={setSearchTerm}
+                  searchTerm={searchTerm}
+                  userRole={userRole}
+                  // setUserRole={setUserRole}
+                  role={role}
+                />
+              </CustomTable>
+            </Box>
+          }
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={styleModel}>
+              <IconButton
+                aria-label="close"
+                onClick={handleClose}
+                sx={{
+                  position: "absolute",
+                  top: 8,
+                  right: 8,
+                  color: "#0055a4", // Default color
+                  "&:hover": {
+                    color: "red", // Change color to green on hover
+                  },
+                }}
+              >
+                {/* <CloseIcon /> */}X
+              </IconButton>
+              <AddEditUser
+                cancel={() => handleClose()}
+                userId={userId}
+                getListData={getListData}
+                showToast={showToast}
+                role={role}
+              />
+            </Box>
+          </Modal>
+          <Modal
+            open={openSvgForm}
+            onClose={handleSvgClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={styleModelBulkUploade}>
+              <IconButton
+                aria-label="close"
+                onClick={handleSvgClose}
+                sx={{
+                  position: "absolute",
+                  top: 8,
+                  right: 8,
+                  color: "#0055a4", // Default color
+                  "&:hover": {
+                    color: "red", // Change color to green on hover
+                  },
+                }}
+              >
+                {/* <CloseIcon /> */}X
+              </IconButton>
+              <Typography fontWeight="700" variant="h2" mb={1}>
+                {"Student Bulk Upload"}
+              </Typography>
+
+              {/* <DownloadForOfflineSharpIcon/> */}
+              <StudentBulkUpload
+                onDrop={handleDrop}
+                accept="image/svg+xml"
+                userId={userId}
+                handleSvgClose={handleSvgClose}
+                showToast={showToast}
+                getListData={getListData}
+              />
+
+            </Box>
+          </Modal>
+          <ToastComponent />
+        </PageContainer>
+      }
     </>
   );
 }
