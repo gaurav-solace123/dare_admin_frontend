@@ -1,0 +1,16 @@
+version: 1
+
+reviews:
+  enable: true
+  on:
+    pull_request: true   # Run reviews on PRs
+    push: false          # (optional) disable reviews on push
+  comments:
+    inline: true         # Adds inline comments on PR changes
+    summary: true        # Adds a summary review comment
+
+rules:
+  complexity: warn       # Warn if functions/classes are too complex
+  duplication: warn      # Warn on duplicate code
+  style: suggest         # Suggest improvements for style/formatting
+  security: error        # Mark security issues as errors
