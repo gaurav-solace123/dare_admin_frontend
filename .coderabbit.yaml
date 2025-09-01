@@ -25,3 +25,5 @@ rules:
   style: error
   security: error
 
+# 👇 This makes CodeRabbit mark the check as failed if any issues are found
+fail_on_issues: true
