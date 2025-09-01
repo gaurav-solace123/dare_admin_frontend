@@ -20,7 +20,8 @@ reviews:
       - "*"
 
 rules:
-  complexity: warn
-  duplication: warn
-  style: suggest
+  complexity: error
+  duplication: error
+  style: warn
   security: error
+
