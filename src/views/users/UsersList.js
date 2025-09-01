@@ -78,7 +78,7 @@ export default function UsersList({ role = '' }) {
   ];
   const getHeadCells = () => {
     let updatedHeadCells = [...baseHeadCells]; // Clone the baseHeadCells array
-
+    console.log('fixes')
     // Add "userRole" if role is empty
     if (role === '') {
       updatedHeadCells.splice(2, 0, { id: "userRole", numeric: false, label: "Role" });

@@ -24,3 +24,4 @@ rules:
   duplication: error
   style: warn
   security: error
+
