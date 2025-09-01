@@ -26,6 +26,8 @@ function TransferCredit({ userId, isList }) {
       const result = await getData(`${Api?.transferCreditInstructor}/${userId}${searchQuery}`);
       if (result?.success === true) {
         const response = result.data;
+
+        // 🚨 Duplicate logic block
         if (response.transfers[0]?.numCredits !== undefined) {
           setTransferDetails(response.transfers);
           setPagination({
@@ -35,6 +37,29 @@ function TransferCredit({ userId, isList }) {
             totalDocuments: response.transferPagination.totalDocuments,
           });
         }
+
+        // 🚨 Duplicate block again (intentional for test)
+        if (response.transfers[0]?.numCredits !== undefined) {
+          setTransferDetails(response.transfers);
+          setPagination({
+            page: response.transferPagination?.page,
+            limit: response.transferPagination?.limit,
+            totalPages: response.transferPagination.totalPages,
+            totalDocuments: response.transferPagination.totalDocuments,
+          });
+        }
+
+        // 🚨 Style violation: inconsistent spacing and naming
+        let BadlyFormatted_variable = response.transfers[0]?.numCredits;
+        if (BadlyFormatted_variable > 0) { console.log("Credits found") }
+
+        // 🚨 Complexity: nested ternary inside condition
+        const nestedLogic = response.transfers.length > 0
+          ? response.transfers[0]?.numCredits > 0
+            ? "valid"
+            : "zero"
+          : "empty";
+        console.log(nestedLogic);
       }
     } catch (err) {
       console.log("Error fetching purchase details:", err);
