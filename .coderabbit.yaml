@@ -3,24 +3,24 @@ version: 1
 reviews:
   enable: true
   auto_review:
-    ignore_usernames: []               # Ensures your PRs aren't skipped
-    labels: ["!wip", "!draft"]         # Skips PRs with these labels
-    title_keywords: ["!wip", "!draft"] # Skips PRs with these keywords in title
+    ignore_usernames: []
+    labels: ["!wip", "!draft"]
+    title_keywords: ["!wip", "!draft"]
     base_branches:
       include:
-        - "*"                          # Allows reviews on all base branches
+        - "*"  # Allow reviews on all base branches
   on:
-    pull_request: true                 # Run reviews on PRs
-    push: false                        # Disable reviews on push
+    pull_request: true
+    push: false
   comments:
-    inline: true                       # Adds inline comments on PR changes
-    summary: true                      # Adds a summary review comment
+    inline: true
+    summary: true
   branches:
     include:
-      - "*"                            # Allow reviews on all branches (wildcard)
+      - "*"
 
 rules:
-  complexity: warn                     # Warn if functions/classes are too complex
-  duplication: warn                    # Warn on duplicate code
-  style: suggest                       # Suggest improvements for style/formatting
-  security: error                      # Mark security issues as errors
+  complexity: warn
+  duplication: warn
+  style: suggest
+  security: error
