@@ -22,5 +22,6 @@ reviews:
 rules:
   complexity: error
   duplication: error
-  style: warn
+  style: error
   security: error
+
