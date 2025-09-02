@@ -25,5 +25,6 @@ rules:
   style: error
   security: error
 
+# 👇 Correct way to fail checks on issues
 fail:
-  on: [error]   # 👈 This replaces fail_on_issues
+  on: [error]
