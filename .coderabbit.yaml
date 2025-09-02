@@ -8,7 +8,7 @@ reviews:
     title_keywords: ["!wip", "!draft"]
     base_branches:
       include:
-        - "*"  # Allow reviews on all base branches
+        - "*"
   on:
     pull_request: true
     push: false
@@ -25,5 +25,5 @@ rules:
   style: error
   security: error
 
-# 👇 This makes CodeRabbit mark the check as failed if any issues are found
-fail_on_issues: true
+fail:
+  on: [error]   # 👈 This replaces fail_on_issues
