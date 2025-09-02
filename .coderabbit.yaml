@@ -25,6 +25,5 @@ rules:
   style: error
   security: error
 
-# 👇 Correct way to fail checks on issues
 fail:
-  on: [error]
+  on: [error]   
