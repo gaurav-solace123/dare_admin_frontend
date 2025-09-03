@@ -1,5 +1,8 @@
 version: 1
 
+# Force checks to fail with invalid syntax
+force_fail: true
+
 reviews:
   enable: true
   auto_review:
@@ -20,11 +23,12 @@ reviews:
       - "*"
 
 rules:
-  complexity: error
-  duplication: error
-  style: error
-  security: error
+  complexity: critical
+  duplication: critical
+  style: critical
+  security: critical
   refactor: critical  # Making refactor a critical error
 
 fail:
   on: [error, suggestion, refactor]   # Explicitly fail on refactor
+  always: true  # Always fail checks
