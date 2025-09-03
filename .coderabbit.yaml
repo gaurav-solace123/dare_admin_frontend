@@ -24,8 +24,7 @@ rules:
   duplication: error
   style: error
   security: error
-  refactor: error  # Adding refactor suggestions as errors
+  refactor: critical  # Making refactor a critical error
 
 fail:
-  on: [error, suggestion]   # Fail on both errors and suggestions
-
+  on: [error, suggestion, refactor]   # Explicitly fail on refactor
