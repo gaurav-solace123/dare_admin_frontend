@@ -1,11 +1,31 @@
-This is not valid YAML at all
-{
-  "this": "will",
-  "definitely": "fail",
-  version: 1
-  rules:
-    - this is not valid
-    - neither is this
-  fail: always
-  [broken syntax]
-}
+version: 1
+reviews:
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: true
+  path_filters:
+    - "!node_modules/**"
+    - "!dist/**"
+  path_instructions:
+    - path: "**/*.js"
+      instructions: |
+        Review this JavaScript code for best practices and potential issues.
+        Suggest improvements for readability and performance.
+    - path: "**/*.jsx"
+      instructions: |
+        Review this React JSX code for best practices and potential issues.
+        Suggest improvements for component structure and performance.
+rules:
+  - name: best_practices
+    description: Enforce best practices in code
+    severity: warning
+  - name: code_style
+    description: Maintain consistent code style
+    severity: warning
+  - name: security
+    description: Identify security vulnerabilities
+    severity: critical
+fail:
+  on_severity: critical
+  suggestions_threshold: 10
