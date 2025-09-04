@@ -1,34 +1,11 @@
-version: 1
-
-# Force checks to fail with invalid syntax
-force_fail: true
-
-reviews:
-  enable: true
-  auto_review:
-    ignore_usernames: []
-    labels: ["!wip", "!draft"]
-    title_keywords: ["!wip", "!draft"]
-    base_branches:
-      include:
-        - "*"
-  on:
-    pull_request: true
-    push: false
-  comments:
-    inline: true
-    summary: true
-  branches:
-    include:
-      - "*"
-
-rules:
-  complexity: critical
-  duplication: critical
-  style: critical
-  security: critical
-  refactor: critical  # Making refactor a critical error
-
-fail:
-  on: [error, suggestion, refactor]   # Explicitly fail on refactor
-  always: true  # Always fail checks
+This is not valid YAML at all
+{
+  "this": "will",
+  "definitely": "fail",
+  version: 1
+  rules:
+    - this is not valid
+    - neither is this
+  fail: always
+  [broken syntax]
+}
